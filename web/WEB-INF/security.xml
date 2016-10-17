@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+<beans:bean id="adminSuccessHandler" class="com.jubination.backend.DefaultAuthenticationSuccessHandler"/>
+<beans:bean id="adminFailureHandler" class="com.jubination.backend.DefaultAuthenticationFailureHandler"/>
+<beans:bean id="csrfSecurityRequestMatcher" class="com.jubination.backend.CsrfSecurityRequestMatcher"/>
+
+
+  
+  <http pattern="/admin/**" auto-config='true' use-expressions="true" authentication-manager-ref="adminManager"> 
+      <intercept-url pattern="/admin/j_spring_security_check" access="permitAll"/>
+      <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"  />
+    <form-login login-page="/adminlogin" login-processing-url="/admin/j_spring_security_check" default-target-url="/admin"  />
+     <logout  delete-cookies="JSESSIONID" logout-success-url="/adminlogin" />
+     
+    <remember-me  key="JREMEMBER" services-ref="remembermeServicesAdmin"/>
+ </http>
+
+<authentication-manager id="adminManager">
+      <authentication-provider user-service-ref="adminLoginService" >   
+          <password-encoder hash="md5">  
+          </password-encoder>   
+      </authentication-provider>
+  </authentication-manager>
+ 
+
+ 
+ 
+
+ 
+
+
+ 
+     <beans:bean id="remembermeServicesAdmin"
+            class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+        
+        <beans:constructor-arg value="JREMEMBER"/>
+       
+        <beans:constructor-arg ref="adminLoginService"/>
+       
+        <beans:constructor-arg ref="tokenRepository"/>
+    </beans:bean>
+ 
+       
+    
+    <beans:bean id="tokenRepository" class="com.jubination.backend.IpAwarePersistentTokenRepository">
+        <beans:constructor-arg>
+            <beans:bean class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+                <beans:property name="dataSource" ref="dataSource"/>
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>  
+    
+    
+    
+    
+
+<beans:bean id="tokenRepositoryCleaner"
+                class="com.jubination.backend.JdbcTokenRepositoryCleaner">
+            <beans:constructor-arg ref="jdbcTemplate"/>
+            <beans:constructor-arg value="600000"/>
+    </beans:bean>
+    
+    
+    <task:scheduled-tasks>
+        <task:scheduled ref="tokenRepositoryCleaner"
+                method="run"
+                fixed-delay="600000"/>
+    </task:scheduled-tasks>
+    
+    
+    
+
+</beans:beans>

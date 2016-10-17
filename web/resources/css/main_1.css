@@ -1,0 +1,12 @@
+.wrapper {
+  positions: relative;
+     background-color: #000000;
+   
+}
+#my_trigons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+}

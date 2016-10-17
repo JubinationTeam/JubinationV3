@@ -1,0 +1,40 @@
+package com.jubination.test;
+
+
+
+
+
+import com.jubination.model.dao.AdminDAOImpl;
+import com.jubination.model.dao.CallAPIMessageDAOImpl;
+import com.jubination.model.dao.MessageDAOImpl;
+import com.jubination.model.dao.ReportDAOImpl;
+import com.jubination.model.pojo.Admin;
+import com.jubination.model.util.HibernateUtil;
+
+
+/**
+ *
+ * @author Welcome
+ */
+public class AdvancedTest {
+   
+    public static void main(String[] args) {
+       
+        MessageDAOImpl mdao = new MessageDAOImpl();
+        AdminDAOImpl adao = new AdminDAOImpl();
+         CallAPIMessageDAOImpl callDao =new CallAPIMessageDAOImpl();
+        ReportDAOImpl reportDao =new ReportDAOImpl();
+        mdao.setSessionFactory(HibernateUtil.getSessionFactory());
+        adao.setSessionFactory(HibernateUtil.getSessionFactory());
+        callDao.setSessionFactory(HibernateUtil.getSessionFactory());
+        reportDao.setSessionFactory(HibernateUtil.getSessionFactory());
+       // adao.buildEntity(new Admin("support@jubination.com","abcdef","ROLE_ADMINISTRATOR","Support",0,"Administrator"));
+//            
+
+        
+        
+     
+        
+        
+    }
+}

@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+img, object, embed, video {
+	max-width: 100%;
+}
+
+.ie6 img {
+	width:100%;
+}
+
+
+#googleviewmap{
+    min-width: 200px;
+    min-height: 200px;
+}
+
+
+
+@media screen and (min-width: 640px) {
+ #googleviewmap{
+    min-width: 250px;
+    min-height: 150px;
+}
+}
+
+@media screen and (min-width: 992px) {
+
+#googleviewmap{
+    min-width: 550px;
+    min-height: 250px;
+}
+}
+

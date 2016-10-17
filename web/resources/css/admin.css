@@ -1,0 +1,49 @@
+@charset "utf-8";
+@import url(//fonts.googleapis.com/css?family=Raleway:400,200,100,500,600,700,800,900);
+@import url(//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900);
+
+*{
+    
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+    transform: none !important;
+    -webkit-transfrom: none !important;
+
+    
+}
+
+
+body {
+    height: 100%;
+  text-align: center;
+  
+    color: #3c763d;
+     background-color: #b0bac1;
+ /*   background-image: url("images/telephone.png");*/ 
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+
+
+}
+.glass {
+    
+    background-color: rgba(255,255,255,0.2);
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    border: #0077b3 1px;
+    border-style:solid ;
+    margin-top: 10%;
+    max-width:500px;
+    border-radius: 10px
+  
+}

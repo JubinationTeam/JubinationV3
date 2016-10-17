@@ -1,0 +1,201 @@
+@charset "utf-8";
+/* CSS Document */
+body {background:#fff;font-family: 'Open Sans', sans-serif;padding: 0;margin: 0;}
+.header {width:900px;margin:25px auto 0;}
+.container_fluid {width:900px;margin:0 auto;}
+.logo {float:left;width:200px;}
+.healthmanager {float:right;width:200px;}
+.healthmanager select { width: 100%; padding: 0px; border: 2px solid rgb(0, 174, 255);}
+.healthmanager option { padding:6px;}
+.container {width:900px;margin:0 auto;}
+.patient_bgicon {background:url(../images/patient_ring.png) no-repeat;height: 280px;width: 280px;margin: 0 auto;background-size: 100%;
+position: relative;padding: 10px;}
+.patient_desc {margin-top:100px;margin-bottom: 34px;}
+.patient_img{margin:0 auto;width: 72%;border-radius: 50%;overflow: hidden;padding: 0px 0 0 0px;position: absolute;left: 26px;top: 23px;}
+.patient_img img {width:100%;}
+.name_patient {position:absolute;left:-140px;top:-45px;}
+.name_patient p, .lab_patient p, .lab_collected p, .lab_collec_timing p {margin:0;color:#5C5C5C;}
+.name_patient p strong, .lab_patient p strong, .lab_collected p strong, .lab_collec_timing p strong {font-style:italic;}
+.lab_patient {position:absolute;right:-243px;top:-45px;}
+.lab_collected {position:absolute;right: -177px;bottom: 103px;} 
+.lab_collec_timing {position:absolute;right: 92px;bottom: -28px;} 
+.profile {float:left;width: 230px;}
+.profile p{margin:0;}
+.menu_bx {margin-top:27px;}
+.menu {float:right;width:600px;}
+.menu ul {padding:0;list-style:none;margin:0;}
+.menu ul li{display:inline-block;width:32.5%;text-align:center;}
+.menu ul li a{text-decoration:none;color:#000;font-style:italic;font-weight:bold;padding-bottom:5px;border-bottom:3px solid #cacaca;}
+.menu ul li.active a{border-bottom:3px solid #ff9c00;}
+.appears_bx {width:900px;float:right;border-top:1px solid #ccc;margin-top:30px;min-height:5px;}
+.appears_bx ul {float:right;width:550px;list-style:none;padding:0;margin:0;}
+.appears_bx ul li {display:inline-block;padding-right:10px;}
+.appears_bx ul li a{color:#fff;padding:2px 5px;text-decoration:none;}
+.clearfix {clear:both;}
+.appear_norm a{background:#ff9c00;}
+.appear_atten a{background:#959595;}
+.bx_lipid {margin-top:25px;}
+.imglipid {float:left;width:196px;}
+.lipid_txt {float:right;width:77%;} 
+.lipid_txt h3 {margin:0;}
+.text_reportul {width:100%;}
+.text_reportul ul{width:100%;padding:0;margin:0;list-style:none;}
+.text_reportul ul li{width:32%;display:inline-block;margin-bottom: 0px;float: left;min-height: 205px;margin-right: 1%;}
+.text_reportul h4, .text_reportul p {margin:0;}
+.text_reportul p { font-size: 12px;}
+.whats_3box {width:100%;}
+.whats_3box ul{width:100%;list-style:none;padding:0;margin:0;}
+.whats_3box ul li{width:33%;display:inline-block;}
+.whats_img {float:left;width:38%;}
+.whats_txt {float:right;width:60%;}
+.whats_img img { width: 100%;}
+
+.border-bottom_blue {border-bottom:3px solid #00b4dc;}
+.border-bottom_gray {border-bottom:3px solid #959595;}
+.border-bottom_lightgray {border-bottom:3px solid #d7d7d7;}
+
+.appear_norm a.bgblue { background: #00b4dc;}
+.appear_norm a.bggray { background: #959595;}
+.appear_norm a.bglightgray { background: #d7d7d7;}
+
+.value_choles .ui-btn-active {background-color: #ffa913 !important;border-color: #ffa913;text-shadow: 0 0px 0 #ffa913 !important;}
+
+.percen_bx {margin-top:10px;border-right: 2px solid #686868;border-left: 2px solid #686868;padding:7px 10px;box-sizing: border-box;}
+.values_first {width:25%;margin-right:1%;float:left;border-radius:3px 0 0 3px;}
+.values_middle {width:48%;background:#F2A200;float:left}
+.values_last {width:25%;float:right;border-radius:0 3px 3px 0;}
+.values_first, .values_last {background:#9b9b9b;}
+.values_first, .values_middle, .values_last {min-height:10px;}
+
+.values_first_25 {width:25%;}
+.values_middle_48 {width:48%;}
+.values_last_25 {width:25%;}
+
+.values_first_48 {width:48%;}
+.values_middle_25 {width:25%;}
+.values_last_25 {width:25%;}
+
+.values_first_25 {width:25%;}
+.values_last_48 {width:48%;}
+
+.values_first_30 {width:30%;}
+.values_middle_38 {width:38%;}
+.values_last_30 {width:30%;}
+
+.values_first_20 {width:20%;}
+.values_middle_58 {width:58%;}
+.values_last_20 {width:20%;}
+
+.values_first_10 {width:10%;}
+.values_middle_78 {width:78%;}
+.values_last_10 {width:10%;}
+
+.bx_values {background:#00b4dc;width:140px;height:90px;border-radius:10px;color:#fff;text-align:center;position:relative;margin: 10px 0 19px 29%;padding-top: 20px;box-sizing: border-box;}
+.bx_values_min {margin: 10px 0 19px 0%;}
+.bx_values_max {margin: 10px 0 19px 52%;}
+
+.bx_values h2, .bx_values p{margin:0;}
+.bx_values h2 {font-size:18px;font-weight:normal;}
+.bx_values p{font-size:12px;font-weight: 100;}
+.value_arrow {position: absolute; bottom: -21px;left: 38%;}
+.hla_bx {width: 120px;height: 120px;border-radius:50%;background:#00b4dc;text-align:center;box-sizing: border-box;padding: 16% 20px 0;margin: 16% 0 0 31%;}
+.hla_bx p {color: rgb(0, 0, 0); background: rgb(255, 255, 255) none repeat scroll 0% 0%;  font-size: 17px;margin: 0px; padding: 2px;}
+
+.bx_hemoglobin .value_arrow { -ms-transform: rotate(-91deg); }/* IE 9 */
+.bx_hemoglobin .value_arrow {-webkit-transform: rotate(-91deg); }/* Safari */
+.bx_hemoglobin .value_arrow {transform: rotate(-91deg); }/* Standard syntax */
+.bx_hemoglobin .value_arrow {bottom: 33px;right: -83px;}
+.bx_hemoglobin { margin: 30px 0 1px 0%;float: left;width:112px;}
+
+.bx_hemoglobin_min { margin: 0px 0 1px 0%;float: left;width:112px;}
+.bx_hemoglobin_max { margin: 70px 0 1px 0%;float: left;width:112px;}
+.hemoglobin_bx {float: left;width: 15px;margin-left: 12px;}
+.female_bx{width:15px;border-top:2px solid #000;border-bottom:2px solid #000;padding:2px;box-sizing:border-box;position:relative;}
+.txt_female_min, .txt_female_max {position:absolute;right:-20px;}
+.txt_female_min {position:absolute;top:41px;}
+.txt_female_max {position:absolute;bottom:42px;}
+
+.txt_female_min p, .txt_female_max p {margin:0px;}
+
+.hemoglobin_first {border-radius:3px 3px 0 0;}
+.hemoglobin_last {border-radius: 0 0 3px 3px;}
+.hemoglobin_first, .hemoglobin_last{background:#9b9b9b;height: 40px;;}
+.hemoglobin_middle {background:#F2A200;height:50px;}
+.hemoglobin_first, .hemoglobin_last, .hemoglobin_middle {width:10px;}
+.value_hemoglobin {margin-top:5px;}
+
+.hemoglobin_first_60px, .hemoglobin_last_60px {height:50px;}
+.hemoglobin_middle_60px{height:40px;}
+.out_malebx {float:left;width:15px;}
+.redhla_bx {width:120px;height:120px;background:#00b4dc;;border-radius:50%;text-align:center;color:#fff;box-sizing:border-box;padding-top: 40px;margin: 26px auto 0;}
+
+.margin_top_0px {margin-top:0px;}
+.text_reportul h4 {font-size:13px;}
+.whats_txt p{margin:0;font-size:12px;}
+.title_testreport h3{margin:0px 0 3px;}
+.pull_right {float:right;}
+.box_female {width: 50%;margin: 0 auto;float: left;}
+.box_male {float:left;width:49%;}
+
+.male_bx .hemoglobin_middle { background: #E4E4E4;margin: 2px 0;}
+.page_end {min-height:55px;}
+.lipid_gap {min-height:670px;}
+.arthritis_gap {min-height:450px;}
+.completeblood_gap {min-height:180px;}
+
+.values_middle, .values_last {position:relative;}
+.values_minimize {left:-10px;}
+.values_maximize {right:-10px;}
+.values_minimize, .values_maximize {bottom:-17px;position:absolute;}
+.values_minimize p, .values_maximize p{margin:0px;color:#000;}
+
+.values_first {position:relative;}
+.txt_minimize {left:10%;}
+.txt_middle {left:20%;}
+.txt_maximize {left:10%;}
+.txt_minimize, .txt_middle, .txt_maximize {position:absolute;bottom:-35px;}
+.txt_minimize p, .txt_minimize h3, .txt_middle p, .txt_middle h3, .txt_maximize p, .txt_maximize h3 {margin:0;color:#000;}
+.txt_minimize h3, .values_middle h3, .values_last h3 {font-size:14px;font-weight: normal;color: #333;}
+
+.value_choles_anti .values_first {background: #F2A200;}
+.value_choles_anti .values_middle {background: #CFCFCF;}
+
+.value_choles_strepto .values_first_strepto{width:49%;background: #F2A200;}
+.value_choles_strepto .values_last_strepto{width:50%;background: #9b9b9b;float:right;}
+.txt_first_strepto, .txt_last_strepto {position:absolute;bottom: -21px;left: 37%;}
+.txt_first_strepto p, .txt_last_strepto p{margin:0; }
+
+.male_bx .hemoglobin_yellow {background: #F2A200;margin: 2px 0;}
+.male_bx_novalue {margin: 0 auto 0 33px;width: 117px;float: none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

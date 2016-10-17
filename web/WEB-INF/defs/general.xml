@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+ 
+
+
+  <definition name="admincallinterface" template="/WEB-INF/jsp/admincallinterface.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+   <definition name="admincallcustom" template="/WEB-INF/jsp/admincallcustom.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  <definition name="admincallrecords" template="/WEB-INF/jsp/admincallrecords.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+    <definition name="admincallupdates" template="/WEB-INF/jsp/admincallupdates.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  <definition name="admincallnotification" template="/WEB-INF/jsp/admincallnotification.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+    <definition name="admincallsettings" template="/WEB-INF/jsp/admincallsettings.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+ <definition name="adminmail" template="/WEB-INF/jsp/adminmsg.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  <definition name="adminsentmail" template="/WEB-INF/jsp/adminsentmsg.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  <definition name="adminhr" template="/WEB-INF/jsp/adminhumanresource.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  
+  <definition name="adminlogin" template="/WEB-INF/jsp/adminlogin.jsp"/>
+  <definition name="adminsettings" template="/WEB-INF/jsp/adminsettings.jsp">
+          <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>     
+  </definition>
+  <definition name="adminpage" template="/WEB-INF/jsp/adminpage.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+  </definition>
+   <definition name="reportView" template="/WEB-INF/jsp/report.jsp">
+        <put-attribute name="start" value="/WEB-INF/layout/reportstart.jsp"/>
+         <put-attribute name="footer" value="/WEB-INF/layout/reportfooter.jsp"/>
+  </definition> 
+  <definition name="reportTransform" template="/WEB-INF/jsp/reporttransform.jsp">
+        <put-attribute name="start" value="/WEB-INF/layout/reportstarttransform.jsp"/>
+         <put-attribute name="footer" value="/WEB-INF/layout/reportfootertransform.jsp"/>
+  </definition> 
+ </tiles-definitions>
+ 
