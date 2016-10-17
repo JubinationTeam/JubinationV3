@@ -68,7 +68,7 @@ public class CallBox {
                     @Scheduled(fixedRate=2500)
                     void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
                                             Long startTime=System.currentTimeMillis();
-                                            if(!eCallHandler.isFlag1()&&!eCallHandler.isFlag2()&&!numbers.isEmpty()&&sids.size()<getExecutives()){
+                                            if(!numbers.isEmpty()&&sids.size()<getExecutives()){
                                                                     String callerId=numbers.peek();
                                                                     if(numbers.isEmpty()){
                                                                                     flag=false;
@@ -171,7 +171,7 @@ public class CallBox {
                     @Scheduled(fixedDelay=3000)
                     void checkCalledCustomers() throws IOException, JAXBException{
                                         Long startTime=System.currentTimeMillis();
-                                        if((!eCallHandler.isFlag1()&&!eCallHandler.isFlag2()&&isCheckFlag())||sids.size()>=getExecutives()){
+                                        if(isCheckFlag()||sids.size()>=getExecutives()){
                                                             String sid=null;
                                                             String responseText="NA";
                                                             Document doc=null;
