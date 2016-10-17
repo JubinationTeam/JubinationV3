@@ -243,28 +243,28 @@ public class CallWorkerSlave3Leftover {
                                         ).start();
     }
      private void sendEmailToFailCall(String email){
-            new EmailService(email,"Your pending health checkup",
-                                          "Hi,<br/>" +
-                                                "<br/>" +
-                                                "Greetings from Jubination!<br/>" +
-                                                "<br/>" +
-                                                "It's great to have you as a part of Jubination family!<br/>" +
-                                                "<br/>" +
-                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
-                                                "<br/>" +
-                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
-                                                "<br/>" +
-                                                "<br/>" +
-                                                "Look forward to hearing from you soon. <br/>" +
-                                                "<br/>" +
-                                                "<br/>" +
-                                                "Wish you a happy & healthy day!<br/>" +
-                                                "<br/>" +
-                                                "<br/>" +
-                                                "Regards,<br/>" +
-                                                "Reshma<br/>" +
-                                                "Customer Happiness Manager<br/>" +
-                                                "02233835916 ").start();
+//            new EmailService(email,"Your pending health checkup",
+//                                          "Hi,<br/>" +
+//                                                "<br/>" +
+//                                                "Greetings from Jubination!<br/>" +
+//                                                "<br/>" +
+//                                                "It's great to have you as a part of Jubination family!<br/>" +
+//                                                "<br/>" +
+//                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
+//                                                "<br/>" +
+//                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
+//                                                "<br/>" +
+//                                                "<br/>" +
+//                                                "Look forward to hearing from you soon. <br/>" +
+//                                                "<br/>" +
+//                                                "<br/>" +
+//                                                "Wish you a happy & healthy day!<br/>" +
+//                                                "<br/>" +
+//                                                "<br/>" +
+//                                                "Regards,<br/>" +
+//                                                "Reshma<br/>" +
+//                                                "Customer Happiness Manager<br/>" +
+//                                                "02233835916 ").start();
      }
 
        
