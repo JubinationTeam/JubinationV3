@@ -1,6 +1,5 @@
 package com.jubination.backend.call;
 
-
 import com.jubination.model.pojo.Call;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
@@ -73,6 +72,10 @@ public class CallBox {
                                                                     if(numbers.isEmpty()){
                                                                                     flag=false;
                                                                                 }
+                                                                    
+                                                                    
+                                                                    
+                                                                    
                                                                     String responseText="NA";
                                                                     Document doc=null;
                                                                     System.out.println("Stage 1:"+numbers.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
