@@ -165,8 +165,16 @@ public class CallWorkerSlave1 {
                                     lead.setCount(lead.getCount()-1);
                                     if(lead.getCount()==0){
                                        lead.setPending(false);
-                                    }
                                     lead.setNotification(false);
+                                       List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                            for(Lead l:leadList){
+                                                            
+                                                            l.setNotification(false);
+                                                            l.setPending(false);
+                                                            l.setCount(0);
+                                                            service.updateLeadOnly(l);
+                                            }
+                                    }
                                     
                                     client.setOvernight(false);
                                     

@@ -83,9 +83,9 @@
                    <label>Lead Id</label>
                    <input type="text" class="form-control" placeholder="Lead Id" name="id" readonly="true" value="${lead.leadId}"/>
                      <label>Follow up left</label>
-                   <input type="text" class="form-control" placeholder="Count" name="id" readonly="true" value="${lead.count}"/>
+                   <input type="text" class="form-control" placeholder="Count" name="count" readonly="true" value="${lead.count}"/>
                     <label>Phone number</label>
-                   <input type="text" class="form-control" placeholder="Number" name="id" readonly="true" value="${lead.client.phoneNumber}"/>
+                   <input type="text" class="form-control" placeholder="Number" name="number" readonly="true" value="${lead.client.phoneNumber}"/>
                    <label>Name</label>
                     <input type="text" class="form-control" placeholder="Name" name="name" value="${lead.client.name}"/>
                   <label>Email</label>

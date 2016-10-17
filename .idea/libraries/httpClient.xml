@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="httpClient">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/httpcore-4.4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/fluent-hc-4.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/httpclient-win-4.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/jna-4.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/jna-platform-4.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/httpmime-4.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/httpclient-4.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpClient/httpclient-cache-4.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

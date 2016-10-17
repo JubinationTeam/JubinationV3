@@ -125,7 +125,16 @@ public class CallWorkerSlave3Leftover {
                                                                                                                                    lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
                                                                                                                                 }
                                                                                                                                      client.getLead().get(client.getLead().size()-1).setPending(false);
+                                                                                                                                     client.getLead().get(client.getLead().size()-1).setNotification(false);
                                                                                                                                     client.getLead().get(client.getLead().size()-1).setCount(0);
+                                                                                                                                    List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                                                                                                    for(Lead l:leadList){
+                                                                                                                                                    
+                                                                                                                                                    l.setNotification(false);
+                                                                                                                                                     l.setPending(false);
+                                                                                                                                                    l.setCount(0);
+                                                                                                                                                    service.updateLeadOnly(l);
+                                                                                                                                    }
                                                                                                                 }
                                                                                                                 else{
                                                                                                                         lead.setLeadStatus(call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
@@ -172,7 +181,16 @@ public class CallWorkerSlave3Leftover {
                                                                                                     client=service.getClientDetailsWithList(client);
                                                                                                     if(callUpdated.getTrackStatus().contains("spoke to us")){
                                                                                                         client.getLead().get(client.getLead().size()-1).setPending(false);
+                                                                                                        client.getLead().get(client.getLead().size()-1).setNotification(false);
                                                                                                         client.getLead().get(client.getLead().size()-1).setCount(0);
+                                                                                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                                                                                for(Lead l:leadList){
+                                                                                                                                
+                                                                                                                                l.setNotification(false);
+                                                                                                                                 l.setPending(false);
+                                                                                                                                l.setCount(0);
+                                                                                                                                service.updateLeadOnly(l);
+                                                                                                                }
                                                                                                     }
                                                                                                     service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdated);
                                                                                                     callUpdated.setLead(client.getLead().get(client.getLead().size()-1));

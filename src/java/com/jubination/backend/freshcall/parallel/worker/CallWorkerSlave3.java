@@ -118,6 +118,14 @@ public class CallWorkerSlave3 {
                                                         if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
                                                             client.getLead().get(client.getLead().size()-1).setPending(false);
                                                             client.getLead().get(client.getLead().size()-1).setCount(0);
+                                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                            for(Lead l:leadList){
+                                                                            
+                                                                            l.setNotification(false);
+                                                                            l.setPending(false);
+                                                                            l.setCount(0);
+                                                                            service.updateLeadOnly(l);
+                                                            }
                                                         }
                                                         service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdatedFromList);
                                                         callUpdatedFromList.setLead(client.getLead().get(client.getLead().size()-1));
@@ -218,9 +226,16 @@ public class CallWorkerSlave3 {
 
                                            }
                                                 client.getLead().get(client.getLead().size()-1).setPending(false);
+                                                client.getLead().get(client.getLead().size()-1).setNotification(false);
                                                client.getLead().get(client.getLead().size()-1).setCount(0);
-
-                                                   service.updateLeadOnly(lead);
+                                               List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                    for(Lead l:leadList){
+                                                                    
+                                                                    l.setNotification(false);
+                                                                    l.setPending(false);
+                                                                    l.setCount(0);
+                                                                    service.updateLeadOnly(l);
+                                                    }
 
                                                 call.setLead(client.getLead().get(client.getLead().size()-1));
                                                 service.updateCallAPIMessage(call);

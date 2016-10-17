@@ -311,6 +311,12 @@ public void buildCallAPIMessage(Call call){
         return list;
     }
 
+    public List<Lead> getDuplicateLeads(String number) {
+        List<Lead> list = null;
+        list= (List<Lead>) clientDao.fetchInnerEntities("Number",number);
+        return list;
+    }
+    
     public Lead getClientDetails(String leadId) {
         Lead lead=new Lead();
         lead.setLeadId(leadId);

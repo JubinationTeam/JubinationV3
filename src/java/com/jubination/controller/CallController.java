@@ -893,7 +893,7 @@ CallBox callHandler;
                                     String city =request.getParameter("city");
                                     String pincode =request.getParameter("pincode");
                                     String leadStatus =request.getParameter("leadStatus");
-
+                                    String number =request.getParameter("number");
                                     if(id!=null){
                                             if(!id.isEmpty()){
                                                                             Lead lead=null;
@@ -907,11 +907,20 @@ CallBox callHandler;
                                                                                                          if(leadStatus!=null){
                                                                                                              if(!leadStatus.isEmpty()){
                                                                                                                  lead.setLeadStatus(leadStatus);
-                                                                                                                 if(leadStatus.equals("Lead sent to Thyrocare")){
-                                                                                                                      lead.setBooked(true);
-                                                                                                                      lead.setNotification(false);
-                                                                                                                      lead.setCount(0);
-                                                                                                                 }
+                                                                                                                            if(leadStatus.equals("Lead sent to Thyrocare")){
+                                                                                                                                
+                                                                                                                                    List<Lead> leadList=callMaintain.getDuplicateLeads(number);
+                                                                                                                                    for(Lead l:leadList){
+                                                                                                                                                    l.setBooked(true);
+                                                                                                                                                    l.setNotification(false);
+                                                                                                                                                    l.setPending(false);
+                                                                                                                                                    l.setCount(0);
+                                                                                                                                                    callMaintain.updateLeadOnly(l);
+                                                                                                                                    }
+                                                                                                                                    lead.setBooked(true);
+                                                                                                                                    lead.setNotification(false);
+                                                                                                                                    lead.setCount(0);
+                                                                                                                            }
                                                                                                                  
                                                                                                              }
                                                                                                         }

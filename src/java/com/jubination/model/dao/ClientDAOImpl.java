@@ -92,6 +92,12 @@ private Session session=null;
         
              }
          }
+         else if(param.equals("Number")){
+             session = getSessionFactory().getCurrentSession();
+            list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
+                   add(Restrictions.eq("c.phoneNumber", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+        
+         }
          return (T) list;
     }
      
