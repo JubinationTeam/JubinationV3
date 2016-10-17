@@ -245,6 +245,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                               lead.getCall().size();
                           }
                       }
+                      
 
                 break;
                     
