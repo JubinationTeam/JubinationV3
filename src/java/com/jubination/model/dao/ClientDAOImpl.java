@@ -239,12 +239,6 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                       criteria.add(Restrictions.like("c.DateUpdated", dateUpdated, MatchMode.START));
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                       list= criteria.list();
-                      for(Client client:list){
-                          client.getLead().size();
-                          for(Lead lead:client.getLead()){
-                              lead.getCall().size();
-                          }
-                      }
                       
 
                 break;
