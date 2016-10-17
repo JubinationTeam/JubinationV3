@@ -240,6 +240,13 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                       list= criteria.list();
                       
+                      for(Client client:list){
+                          client.getLead().size();
+                          for(Lead lead:client.getLead()){
+                              lead.getCall().size();
+                          }
+                      }
+                      
 
                 break;
                     

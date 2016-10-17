@@ -79,7 +79,7 @@ public class CallBox {
                                                                     
                                                                     String responseText="NA";
                                                                     Document doc=null;
-                                                                    System.out.println("Stage 1:"+numbers.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
+                                                                    //System.out.println("Stage 1:"+numbers.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
                                                                     if(callerId!=null){
                                                                                             CloseableHttpResponse response=null;
                                                                                             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -102,7 +102,7 @@ public class CallBox {
                                                                                                                         UrlEncodedFormEntity uEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
                                                                                                                         httpPost.setEntity(uEntity);
                                                                                                                         response = httpclient.execute(httpPost);
-                                                                                                                        System.out.println("Stage 1:Number sent to exotel");
+                                                                                                                        //System.out.println("Stage 1:Number sent to exotel");
                                                                                                                         HttpEntity entity = response.getEntity();
 
                                                                                                                         responseText = EntityUtils.toString(entity, "UTF-8");
@@ -125,11 +125,11 @@ public class CallBox {
                                                                     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                                                                     ExotelMessage eMessage = (ExotelMessage) jaxbUnmarshaller.unmarshal(doc);
                                                                     Call message=null;
-                                                                    System.out.println("Stage 1:Got xml message");
+                                                                    //System.out.println("Stage 1:Got xml message");
                                                                     if(eMessage!=null){
-                                                                                            System.out.println("Stage 1:xml message not null");
+                                                                                            //System.out.println("Stage 1:xml message not null");
                                                                                             if(eMessage.getSuccessMessage()!=null){
-                                                                                                                System.out.println("Stage 1:xml message success");
+                                                                                                                //System.out.println("Stage 1:xml message success");
                                                                                                                 message=eMessage.getSuccessMessage();
                                                                                                                 message.setTrackStatus("Call request sent");
                                                                                                                 message.setMessage("Stage 1 Calling");
@@ -138,25 +138,25 @@ public class CallBox {
                                                                                                                 sids.offer(message.getSid());
                                                                                              }
                                                                                             else if (eMessage.getFailureMessage()!=null){
-                                                                                                               System.out.println("Stage 1:xml message failed");
+                                                                                                               //System.out.println("Stage 1:xml message failed");
                                                                                                                 message=eMessage.getFailureMessage();
                                                                                                                 message.setCallTo(callerId);
                                                                                                                 message.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                                                                                                                 message.setTrackStatus(message.getMessage());
                                                                                             }
                                                                                             else{
-                                                                                                                System.out.println("Stage 1:xml message unknown error");
+                                                                                                                //System.out.println("Stage 1:xml message unknown error");
                                                                                                                 message.setCallTo(callerId);
                                                                                                                 message.setTrackStatus("Unknown Error");
                                                                                                                 message.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                                                                                             }
                                                                     }
-                                                                    System.out.println("Stage 1:adding message to database");
+                                                                    //System.out.println("Stage 1:adding message to database");
                                                                     //saving call details
                                                                     callMaintain.addCallAPIMessage(message);
                                                                                             //removing number
                                                                                             numbers.pop();
-                                                                                            System.out.println("Stage 1:Number out of queue");
+                                                                                            //System.out.println("Stage 1:Number out of queue");
                                                                     flag=!numbers.isEmpty();
                                                                     if(!flag){
                                                                         //initiate call status update after call are over
@@ -165,7 +165,7 @@ public class CallBox {
                                                                     Long endTime=System.currentTimeMillis();
                                             Long timeTaken=endTime-startTime;
                                             float tt=timeTaken/1000;
-                                            System.out.println("Time Taken "+tt+" seconds");
+                                            //System.out.println("Time Taken "+tt+" seconds");
                                             }
                                             
                     }
@@ -179,7 +179,7 @@ public class CallBox {
                                                             String sid=null;
                                                             String responseText="NA";
                                                             Document doc=null;
-                                                            System.out.println("Stage 2:"+sids.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
+                                                            //System.out.println("Stage 2:"+sids.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
                                                                                 //fetching all the sid values
                                                                                 sid=sids.peek();
                                                                                 if(sids.isEmpty()){
@@ -195,7 +195,7 @@ public class CallBox {
                                                                          CloseableHttpClient httpclient = HttpClients.createDefault();
                                                                          HttpGet httpGet = new HttpGet("https://jubination:ce5e307d58d8ec07c8d8456e42ed171ff8322fd0@twilix.exotel.in/v1/Accounts/jubination/Calls/"+sid);
                                                                          response = httpclient.execute(httpGet);
-                                                                         System.out.println("Stage 2:Sid sent to exotel");
+                                                                         //System.out.println("Stage 2:Sid sent to exotel");
                                                                          HttpEntity entity = response.getEntity();
                                                                          responseText = EntityUtils.toString(entity, "UTF-8");
                                                                          builder = factory.newDocumentBuilder();
@@ -216,30 +216,30 @@ public class CallBox {
                                                              Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                                                              ExotelMessage eMessage = (ExotelMessage) jaxbUnmarshaller.unmarshal(doc);
                                                              Call message=null;
-                                                             System.out.println("Stage 2:Got xml message");
+                                                             //System.out.println("Stage 2:Got xml message");
                                                              if(eMessage!=null){
-                                                                            System.out.println("Stage 2:xml message not null");
+                                                                            //System.out.println("Stage 2:xml message not null");
                                                                             if(eMessage.getSuccessMessage()!=null){
                                                                                             message=eMessage.getSuccessMessage();
-                                                                                            System.out.println("Stage 2:xml message success "+message.getStatus()+message);
+                                                                                            //System.out.println("Stage 2:xml message success "+message.getStatus()+message);
                                                                                             if(message.getStatus().contains("queued")||message.getStatus().contains("ringing")||message.getStatus().contains("in-progress")){
                                                                                                                         count++;
-                                                                                                                        System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
+                                                                                                                        //System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
                                                                                             }
                                                                                             else {
                                                                                                                         Call storedMessage=callMaintain.getCallRecordBySid(message.getSid());
                                                                                                                         if(storedMessage!=null){
-                                                                                                                                                System.out.println("Stage 2:sid of the number was present already");
+                                                                                                                                                //System.out.println("Stage 2:sid of the number was present already");
                                                                                                                                                  message.setOrderId(storedMessage.getOrderId());
                                                                                                                                                  message.setMessage("Stage 2 Tracking");
                                                                                                                                                 //updating call details
                                                                                                                                                 if(!storedMessage.getMessage().equals("Stage 3 Tracking")){
-                                                                                                                                                                            System.out.println("Stage 2:stage 3 not updated yet");
+                                                                                                                                                                            //System.out.println("Stage 2:stage 3 not updated yet");
                                                                                                                                                                             message.setCallTo(storedMessage.getCallTo());
                                                                                                                                                                             callMaintain.updateCallAPIMessage(message);
                                                                                                                                                   }
                                                                                                                                                   else{
-                                                                                                                                                                            System.out.println("Stage 2:stage 3 updated already");
+                                                                                                                                                                            //System.out.println("Stage 2:stage 3 updated already");
                                                                                                                                                                             storedMessage.setStatus(message.getStatus());
                                                                                                                                                                             storedMessage.setCallType(message.getCallType());
                                                                                                                                                                             storedMessage.setRecordingUrl(message.getRecordingUrl());
@@ -249,10 +249,10 @@ public class CallBox {
                                                                                                                                                  //removing all the sid values
                                                                                                                                                 sids.poll();
                                                                                                                                                 count=0;
-                                                                                                                                                System.out.println("Stage 2:Sid out of queue");
+                                                                                                                                                //System.out.println("Stage 2:Sid out of queue");
                                                                                             }
                                                                                             if(count>=300){
-                                                                                                                        System.out.println("Stage 2:Time out. sid out of queue. Trying for next sid");
+                                                                                                                        //System.out.println("Stage 2:Time out. sid out of queue. Trying for next sid");
                                                                                                                         sids.poll();
                                                                                                                         count=0;
                                                                                             }
@@ -264,7 +264,7 @@ public class CallBox {
                                                               Long endTime=System.currentTimeMillis();
                                             Long timeTaken=endTime-startTime;
                                             float tt= timeTaken/1000;
-                                            System.out.println("Time Taken "+tt+" seconds");
+                                            //System.out.println("Time Taken "+tt+" seconds");
                                         }
                                                                  
                   
@@ -284,9 +284,9 @@ public class CallBox {
                                                                     List<Call> callList=callMaintain.getCallBySid(callUpdated.getSid());
                                                                     if(callList!=null&&!callList.isEmpty()){
                                                                                         Call  call=callList.get(0);
-                                                                                          System.out.println("Stage 3:"+stageThreeUpdates.size()+"left. Update service started");
+                                                                                          //System.out.println("Stage 3:"+stageThreeUpdates.size()+"left. Update service started");
                                                                                          if(call!=null){
-                                                                                                             System.out.println("Stage 3:Call message present in database already and not null");
+                                                                                                             //System.out.println("Stage 3:Call message present in database already and not null");
                                                                                                              call.setMessage("Stage 3 Tracking");
                                                                                                              call.setStatus("completed");
                                                                                                              call.setDailCallDuration(callUpdated.getDailCallDuration());
@@ -297,23 +297,23 @@ public class CallBox {
                                                                                                              call.setRecordingUrl(callUpdated.getRecordingUrl());
                                                                                                              call.setStartTime(callUpdated.getStartTime());
                                                                                                              call.setDirection(callUpdated.getDirection());
-                                                                                                             System.out.println("Stage 3:Updating database properties");
+                                                                                                             //System.out.println("Stage 3:Updating database properties");
                                                                                                              callMaintain.updateCallAPIMessage(call);
                                                                                                              synchronized(this){
                                                                                                                                //removing all the call values
                                                                                                                                 stageThreeUpdates.pop();
-                                                                                                                                System.out.println("Stage 3:Call Message out of queue");
+                                                                                                                                //System.out.println("Stage 3:Call Message out of queue");
                                                                                                             }
                                                                                          }
                                                                     }
                                                                     else{
-                                                                                            System.out.println("Stage 3:Call message not present in database");
+                                                                                            //System.out.println("Stage 3:Call message not present in database");
                                                                                             callUpdated.setMessage("Incoming Tracking");
                                                                                             callMaintain.buildCallAPIMessage(callUpdated);
                                                                                             //removing all the call values
                                                                                              stageThreeUpdates.pop();
-                                                                                             System.out.println("Stage 3:Call Message out of queue");
-                                                                                            System.out.println("Stage 3:Built new CallMessage");
+                                                                                             //System.out.println("Stage 3:Call Message out of queue");
+                                                                                            //System.out.println("Stage 3:Built new CallMessage");
                                                                     }
                                                         }
                                                         if(stageThreeUpdates.isEmpty()){
@@ -322,7 +322,7 @@ public class CallBox {
                                                               Long endTime=System.currentTimeMillis();
                                             Long timeTaken=endTime-startTime;
                                             float tt= timeTaken/1000;
-                                            System.out.println("Time Taken "+tt+" seconds");
+                                            //System.out.println("Time Taken "+tt+" seconds");
                                         }
                                                             
                   
