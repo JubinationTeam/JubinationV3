@@ -336,6 +336,7 @@ public void buildCallAPIMessage(Call call){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
         String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\web\\admin\\data.xls";
+         String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\build\\web\\admin\\data.xls";
             boolean flag=false;
             
 		try {
@@ -389,6 +390,9 @@ public void buildCallAPIMessage(Call call){
 		
 			out = new FileOutputStream(new File(excelOutputFilePath));
 			workbook.write(out);
+                                                            
+                                                            out = new FileOutputStream(new File(excelOutputBuildFilePath));
+			workbook.write(out);
                                  
                                                            flag=true;
 			System.out.println("Excel written successfully..");
@@ -424,6 +428,7 @@ public void buildCallAPIMessage(Call call){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
         String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\web\\admin\\client.xls";
+        String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\build\\web\\admin\\client.xls";
             boolean flag=false;
             
 		try {
@@ -638,7 +643,9 @@ public void buildCallAPIMessage(Call call){
 		
 			out = new FileOutputStream(new File(excelOutputFilePath));
 			workbook.write(out);
-                                 
+                                                            
+                                                            out = new FileOutputStream(new File(excelOutputBuildFilePath));
+			workbook.write(out);
                                                            flag=true;
 			System.out.println("Excel written successfully..");
 			
