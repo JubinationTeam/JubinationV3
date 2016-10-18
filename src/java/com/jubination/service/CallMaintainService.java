@@ -335,8 +335,8 @@ public void buildCallAPIMessage(Call call){
     public boolean createCallExcel(List<Call> list){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
-        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\web\\admin\\data.xls";
-         String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\build\\web\\admin\\data.xls";
+        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\data.xls";
+         String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\data.xls";
             boolean flag=false;
             
 		try {
@@ -427,8 +427,8 @@ public void buildCallAPIMessage(Call call){
     public boolean createClientExcel(String date){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
-        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\web\\admin\\client.xls";
-        String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\Jubination\\build\\web\\admin\\client.xls";
+        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\client.xls";
+        String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\client.xls";
             boolean flag=false;
             
 		try {
