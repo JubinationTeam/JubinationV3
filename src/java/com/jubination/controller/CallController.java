@@ -1099,7 +1099,7 @@ CallBox callHandler;
           if(client!=null){
                 if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                  //         if(callMaintain.buildBackupClient(client)!=null&&callMaintain.readBackupClient(client.getTempLeadDetails()).getTempLeadDetails()==null){
-                 client.setStage1(true);
+                 
                    if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){         
                  operator.getNumbers().offer(client);
                           operator.setFreshFlag(true);          

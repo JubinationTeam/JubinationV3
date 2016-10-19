@@ -73,11 +73,7 @@ public class Client {
  @Column(name="temp_lead_details")
  String tempLeadDetails;
  
- @Column(name="stage1")
-  boolean stage1;
  
-  @Column(name="stage2")
-  boolean stage2;
  
   @JsonManagedReference 
  @OneToMany(mappedBy="client")
@@ -246,21 +242,7 @@ public class Client {
         this.priority = priority;
     }
 
-    public boolean isStage1() {
-        return stage1;
-    }
-
-    public void setStage1(boolean stage1) {
-        this.stage1 = stage1;
-    }
-
-    public boolean isStage2() {
-        return stage2;
-    }
-
-    public void setStage2(boolean stage2) {
-        this.stage2 = stage2;
-    }
+    
  
  
  

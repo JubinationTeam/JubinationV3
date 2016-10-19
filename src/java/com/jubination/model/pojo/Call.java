@@ -81,10 +81,7 @@ public class Call {
     private String Digits;
     @Column(name="dail_whom_number")
     private String DialWhomNumber;
-   
-     @Column(name="stage3")
-  boolean stage3;
-     
+  
      @Column(name="date_to_call")
     private String DateToCall;
      @JsonBackReference
@@ -317,13 +314,7 @@ public class Call {
         this.DateToCall = DateToCall;
     }
 
-    public boolean isStage3() {
-        return stage3;
-    }
-
-    public void setStage3(boolean stage3) {
-        this.stage3 = stage3;
-    }
+  
 
     
     

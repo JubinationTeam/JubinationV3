@@ -69,8 +69,6 @@ public class TempClient {
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
- @Column(name="stage1")
-  boolean stage1;
 
     public TempClient() {
     }
@@ -237,13 +235,6 @@ public class TempClient {
         this.pubId = pubId;
     }
 
-    public boolean isStage1() {
-        return stage1;
-    }
-
-    public void setStage1(boolean stage1) {
-        this.stage1 = stage1;
-    }
 
    
  
