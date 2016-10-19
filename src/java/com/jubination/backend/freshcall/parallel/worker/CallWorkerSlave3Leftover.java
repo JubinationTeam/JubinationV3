@@ -8,9 +8,11 @@ package com.jubination.backend.freshcall.parallel.worker;
 import com.jubination.backend.EmailService;
 import com.jubination.backend.call.CallBox;
 import com.jubination.backend.freshcall.parallel.master.CallManager;
+import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
+import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,10 +30,14 @@ import org.springframework.stereotype.Component;
 public class CallWorkerSlave3Leftover {
        @Autowired
      private  CallMaintainService service;
+       @Autowired
+     private  AdminMaintainService adminService;
     @Autowired
      private  CallManager manager;
     @Autowired
           private   CallBox callBox;
+    
+    private String settings;
       void work() {
           
                             if(manager.getClientStage1().isEmpty()&&manager.getClientStage2().isEmpty()){
@@ -228,6 +234,7 @@ public class CallWorkerSlave3Leftover {
             }
       
        private void sendEmailNotUpdated(String email,String number,String exec) {
+           AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Spoke But Not Updated",
                                           "Hi,<br/>" +
                                                 "<br/>"+
@@ -240,9 +247,10 @@ public class CallWorkerSlave3Leftover {
                                                    "Regards,"+
                                                   "<br/>"+
                                                   "Jubination"
-                                        ).start();
+                                        ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
     }
      private void sendEmailToFailCall(String email){
+           AdminSettings adminSettings = adminService.readSettings(settings);
 //            new EmailService(email,"Your pending health checkup",
 //                                          "Hi,<br/>" +
 //                                                "<br/>" +
@@ -264,7 +272,7 @@ public class CallWorkerSlave3Leftover {
 //                                                "Regards,<br/>" +
 //                                                "Reshma<br/>" +
 //                                                "Customer Happiness Manager<br/>" +
-//                                                "02233835916 ").start();
+//                                                "02233835916 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
      }
 
        

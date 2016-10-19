@@ -7,6 +7,7 @@
 package com.jubination.model.dao;
 
 import com.jubination.model.pojo.Admin;
+import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.MailMessage;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -49,7 +50,55 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
         return (T) admin;
 
     }
+    
+     
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Object buildSettingsEntity(Object entity) {
+         AdminSettings adminSettings = (AdminSettings) entity;
+         session = getSessionFactory().getCurrentSession();
+            session.save(adminSettings);
+            adminSettings = (AdminSettings) session.get(AdminSettings.class, adminSettings.getId());
+        
+        return (T) adminSettings;
 
+    }
+    
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public Object readSettingsProperty(Object paramId) {
+        AdminSettings adminSettings=null;
+             session = getSessionFactory().getCurrentSession();
+            
+            adminSettings=(AdminSettings) session.get(AdminSettings.class, (String) paramId);
+            
+        
+            return (T) adminSettings;
+        
+    }
+    
+@Transactional(propagation = Propagation.REQUIRED)
+    public boolean updateSettingsProperty(Object entity) {
+         boolean flag=false;
+        AdminSettings adminSettings=(AdminSettings) entity;
+             session = getSessionFactory().getCurrentSession();
+             session.merge(adminSettings);
+            return flag;
+        
+    }
+    
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean deleteSettingsEntity(Object entity) {
+             boolean flag=false;
+        AdminSettings adminSettings = (AdminSettings) entity;
+             session = getSessionFactory().getCurrentSession();
+            
+            adminSettings = (AdminSettings) session.get(AdminSettings.class, adminSettings.getId());
+            
+            session.delete(adminSettings);
+            flag=true;
+        
+        adminSettings=null;
+        return flag;
+    }
 
     @Override
     public boolean addPropertyList(Object entity, Object property, String listType) {
@@ -57,6 +106,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
     }
 
     @Override
+@Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object readProperty(Object paramId) {
         Admin admin=null;
              session = getSessionFactory().getCurrentSession();
@@ -70,6 +120,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
 
    
     @Override
+@Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object readPropertyList(Object entity,String listType){
         Admin admin =(Admin) entity;
         List list=null;
@@ -119,6 +170,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
         return (T) list;
     }
     @Override
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean updateProperty(Object entity, Object paramVal, String paramType) {
          boolean flag=false;
         Admin admin=(Admin) entity;
@@ -246,6 +298,10 @@ public List fetchEntities(String paramVal) {
 
     @Override
     public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public AdminSettings buildSettingsProperty(AdminSettings settings) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

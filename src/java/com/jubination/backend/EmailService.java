@@ -25,11 +25,23 @@ public class EmailService  extends Thread{
     private String mailContent;
     private String mailSubject;
     private String emailId;
-
-    public EmailService(String emailId,String mailSubject, String mailContent) {
+    private final String myUsername;
+    private final String myPassword;
+    private String auth;
+    private String starttls; 
+    private String host;
+    private String port;
+    
+    public EmailService(String emailId,String mailSubject, String mailContent,final String myUsername, final String myPassword, String auth, String starttls, String host, String port) {
         this.mailContent = mailContent;
         this.mailSubject = mailSubject;
         this.emailId = emailId;
+        this.myUsername=myUsername;
+        this.myPassword=myPassword;
+        this.auth=auth;
+        this.starttls=starttls;
+        this.host=host;
+        this.port=port;
     }
     
     
@@ -56,13 +68,11 @@ public class EmailService  extends Thread{
     
    
     public void sendOrder(String adminEmailId){
-        final String myUsername = "support@jubination.com";
-        final String myPassword = "support_jubination_12345";
         Properties prop = new Properties();
-        prop.put("mail.smtp.auth","true");
-        prop.put("mail.smtp.starttls.enable","true");
-        prop.put("mail.smtp.host","smtp.gmail.com");
-        prop.put("mail.smtp.port","587");
+        prop.put("mail.smtp.auth",auth);//true
+        prop.put("mail.smtp.starttls.enable",starttls);//true
+        prop.put("mail.smtp.host",host);//smtp.gmail.com
+        prop.put("mail.smtp.port",port);//587
         
         Session session = Session.getInstance(prop, new javax.mail.Authenticator(){
             @Override

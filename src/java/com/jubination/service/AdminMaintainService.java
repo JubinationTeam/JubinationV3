@@ -6,29 +6,15 @@
 
 package com.jubination.service;
 
-import com.jubination.backend.call.CallBox;
-import com.jubination.backend.EmailService;
+
 import com.jubination.backend.LoginInfoService;
 import com.jubination.model.dao.AdminDAOImpl;
-import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.MessageDAOImpl;
 import com.jubination.model.pojo.Admin;
-import com.jubination.model.pojo.Call;
+import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.MailMessage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +32,8 @@ AdminDAOImpl adao;
 @Autowired 
 MessageDAOImpl mdao;
 
+String settings ="settings";
+
     public Admin checkPresence(Admin admin){
        admin = (Admin) adao.readProperty(admin.getUsername());
        return admin;
@@ -60,7 +48,7 @@ MessageDAOImpl mdao;
             passcode=r.nextInt(9)*1000+r.nextInt(9)*100+r.nextInt(9)*10+r.nextInt(9);
             Md5PasswordEncoder encoder = new Md5PasswordEncoder();
             String pass=encoder.encodePassword(passcode.toString(), null).toString();
-           
+           AdminSettings adminSettings=readSettings(settings);
             new LoginInfoService("Welcome to Jubination!!",
                     "Hi, "
                     + "<br/>"
@@ -74,7 +62,7 @@ MessageDAOImpl mdao;
                     + "<br/>"
                     + "<br/>"
                     + "Regards,<br/>Jubination Support",
-                    "admin",username).start();
+                    "admin",username,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
              System.err.println(pass);
             passcode=null;
             encoder=null;
@@ -131,5 +119,17 @@ MessageDAOImpl mdao;
     return (List<MailMessage>) adao.readPropertyList(admin, "Sent");
     }
 
+    
+    public AdminSettings readSettings(String settingsName){
+        return (AdminSettings) adao.readSettingsProperty(settingsName);
+    }
+    
+    public boolean setSettings(AdminSettings settings){
+        return adao.updateSettingsProperty(settings);
+    }
+    public AdminSettings  buildSettings(AdminSettings settings){
+        return (AdminSettings) adao.buildSettingsEntity(settings);
+    }
+    
 
 }

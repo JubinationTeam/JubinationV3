@@ -29,6 +29,8 @@ public class AdminLoginService implements UserDetailsService {
     @Autowired
     private AdminDAOImpl adminDAO;   
     private Admin domainUser;
+    
+    
  
     @Override
     public UserDetails loadUserByUsername(String login)throws UsernameNotFoundException, DataAccessException {

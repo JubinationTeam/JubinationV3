@@ -16,7 +16,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -29,12 +28,24 @@ public class LoginInfoService extends Thread{
     private String mailSubject;
     private String entityType;
     private Object entity;
+    private final String myUsername;
+    private final String myPassword;
+    private String auth;
+    private String starttls; 
+    private String host;
+    private String port;
 
-    public LoginInfoService(String mailSubject, String mailContent,  String entityType, Object entity) {
+    public LoginInfoService(String mailSubject, String mailContent,  String entityType, Object entity,final String myUsername, final String myPassword, String auth, String starttls, String host, String port) {
         this.mailContent = mailContent;
         this.mailSubject = mailSubject;
         this.entityType = entityType;
         this.entity = entity;
+        this.myUsername=myUsername;
+        this.myPassword=myPassword;
+        this.auth=auth;
+        this.starttls=starttls;
+        this.host=host;
+        this.port=port;
     }
     
     
@@ -64,13 +75,11 @@ public class LoginInfoService extends Thread{
     
     
     public void authenticate(String adminEmailId){
-        final String myUsername = "support@jubination.com";
-        final String myPassword = "support_jubination_12345";
         Properties prop = new Properties();
-        prop.put("mail.smtp.auth","true");
-        prop.put("mail.smtp.starttls.enable","true");
-        prop.put("mail.smtp.host","smtp.gmail.com");
-        prop.put("mail.smtp.port","587");
+        prop.put("mail.smtp.auth",auth);
+        prop.put("mail.smtp.starttls.enable",starttls);
+        prop.put("mail.smtp.host",host);
+        prop.put("mail.smtp.port",port);
         
         Session session = Session.getInstance(prop, new javax.mail.Authenticator(){
             @Override

@@ -31,5 +31,6 @@
  <mapping class="com.jubination.model.pojo.DataAnalytics"/>
 
  <mapping class="com.jubination.model.pojo.Lead"/>
+    <mapping class="com.jubination.model.pojo.AdminSettings"/>
   </session-factory>
 </hibernate-configuration>

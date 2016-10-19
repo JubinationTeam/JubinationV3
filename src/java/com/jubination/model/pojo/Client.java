@@ -72,6 +72,13 @@ public class Client {
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
+ 
+ @Column(name="stage1")
+  boolean stage1;
+ 
+  @Column(name="stage2")
+  boolean stage2;
+ 
   @JsonManagedReference 
  @OneToMany(mappedBy="client")
       @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
@@ -237,6 +244,22 @@ public class Client {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public boolean isStage1() {
+        return stage1;
+    }
+
+    public void setStage1(boolean stage1) {
+        this.stage1 = stage1;
+    }
+
+    public boolean isStage2() {
+        return stage2;
+    }
+
+    public void setStage2(boolean stage2) {
+        this.stage2 = stage2;
     }
  
  
