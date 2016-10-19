@@ -245,26 +245,7 @@
                  </c:if>
               <hr/>
            </div>
-                <br/>
-               <br/>
-                <c:if test="${(empty mails)}"> 
-               <p>No emails yet</p>
-                </c:if>
-                <c:if test="${(not empty mails)}">
-                 <c:forEach items="${mails}" var="entity">
-                     <div class="row well span3" >
-                        <c:if test="${not empty entity.sender.username}"/>
-                        <h4>From : <c:out value="${entity.sender.name}" />(<c:out value="${entity.sender.username}" />)</h4><br/>
-                          <c:if test="${not empty entity.subject}"/>
-                          <h4>Subject : <c:out value="${entity.subject}" /></h4><br/>
-                          <c:if test="${not empty entity.body}"/>
-                          <c:out value="${entity.body}" /></h5>
-                         
-                     </div>
-                 </c:forEach>
-                
-                </c:if>
-               
+         
            
            
            
