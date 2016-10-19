@@ -7,10 +7,12 @@ package com.jubination.service;
 
 import com.jubination.backend.EmailService;
 import com.jubination.backend.call.CallBox;
+import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.pojo.Admin;
+import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.DataAnalytics;
@@ -50,13 +52,16 @@ CallAPIMessageDAOImpl callDao;
             ClientDAOImpl clientDao;
     @Autowired
             DataAnalyticsDAOImpl daDao;
-     
+     @Autowired 
+AdminDAOImpl adao;
 
-
+  
+ private String settings="settings";
 
     
  public void sendEmailUpdate() {
           
+           AdminSettings adminSettings=(AdminSettings) adao.readSettingsProperty(settings);
             new EmailService("disha@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -66,7 +71,7 @@ CallAPIMessageDAOImpl callDao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support").start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
             new EmailService("trupti@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -76,7 +81,7 @@ CallAPIMessageDAOImpl callDao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support").start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
             new EmailService("souvik@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -86,7 +91,7 @@ CallAPIMessageDAOImpl callDao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support").start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
               new EmailService("subhadeep@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -96,7 +101,7 @@ CallAPIMessageDAOImpl callDao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support").start();  
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
     }
  
  public boolean addClientCall(Client client,Lead lead,Call message){

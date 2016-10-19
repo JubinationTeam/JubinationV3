@@ -6,14 +6,12 @@
 package com.jubination.controller;
 
 import com.jubination.backend.call.CallBox;
-import com.jubination.backend.call.CallBoxIntegrated;
 import com.jubination.backend.freshcall.parallel.master.CallOperator;
 import com.jubination.backend.freshcall.parallel.master.CallManager;
 import com.jubination.model.pojo.Admin;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
-import com.jubination.model.pojo.TempClient;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
@@ -171,23 +169,31 @@ CallBox callHandler;
             return model;
 }
     
-//    @RequestMapping(value="/admin/callsettings/set/count")
-//    public ModelAndView callSettingsSetCount(HttpServletRequest request, Principal principal) throws IOException {
-//       
-//        ModelAndView model= new ModelAndView("admincallsettings");
-//        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-//        operator.setCount(Integer.parseInt(request.getParameter("count")));
-//           model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-//        model.addObject("followUpCount", operator.getCount());
-//        model.addObject("followNoon", operator.isNoonFlag());
-//        model.addObject("followAfternoon", operator.isAfternoonFlag());
-//        
-//            return model;
-//       
-//        
-//    }
+    @RequestMapping(value="/admin/callsettings/set/count")
+    public ModelAndView callSettingsSetCount(HttpServletRequest request, Principal principal) throws IOException {
+       
+        ModelAndView model= new ModelAndView("admincallsettings");
+        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+        operator.setCount(Integer.parseInt(request.getParameter("count")));
+           model.addObject("sFlag1", eCallHandler.getStatus());
+        model.addObject("sCount1", eCallHandler.getClientStage1().size());
+        model.addObject("sCount2", eCallHandler.getClientStage2().size());
+        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
+          model.addObject("sCountCC1", callHandler.getNumbers().size());
+        model.addObject("sCountCC2", callHandler.getSids().size());
+        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
+        
+        model.addObject("followUpCount", operator.getCount());
+        model.addObject("followNoon", operator.isNoonFlag());
+        model.addObject("followAfternoon", operator.isAfternoonFlag());
+       model.addObject("followMorn", operator.isMornFlag());
+        model.addObject("followLunch", operator.isLunchFlag());
+        model.addObject("followEvening", operator.isEveningFlag());
+        
+            return model;
+       
+        
+    }
        @RequestMapping(value="/admin/callsettings/stage1/on")
     public ModelAndView callSettingsSwitchOnStage1(HttpServletRequest request, Principal principal) throws IOException {
        
@@ -195,8 +201,6 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.setStatus(true);
        model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -220,10 +224,7 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-//        eCallHandler.setStage2(true);
            model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -247,10 +248,7 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-//        eCallHandler.setStage3(true);
          model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -276,8 +274,6 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.setStatus(false);
          model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -301,10 +297,7 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-//        eCallHandler.setStage2(false);
           model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -328,10 +321,7 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-//        eCallHandler.setStage3(false);
           model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -356,10 +346,7 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getClientStage1().clear();
-//        eCallHandler.setFlag1(false);
         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -384,10 +371,7 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getClientStage2().clear();
-//        eCallHandler.setFlag2(false);
         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -412,8 +396,6 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getStageThreeUpdates().clear();
          model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -448,8 +430,6 @@ CallBox callHandler;
         callHandler.getNumbers().clear();
         callHandler.setFlag(false);
         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -476,8 +456,6 @@ CallBox callHandler;
         callHandler.getSids().clear();
         callHandler.setCheckFlag(false);
         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -502,8 +480,6 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         callHandler.getStageThreeUpdates().clear();
          model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
         model.addObject("sCount1", eCallHandler.getClientStage1().size());
         model.addObject("sCount2", eCallHandler.getClientStage2().size());
         model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
@@ -1123,7 +1099,8 @@ CallBox callHandler;
           if(client!=null){
                 if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                  //         if(callMaintain.buildBackupClient(client)!=null&&callMaintain.readBackupClient(client.getTempLeadDetails()).getTempLeadDetails()==null){
-                   if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){             
+                 client.setStage1(true);
+                   if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){         
                  operator.getNumbers().offer(client);
                           operator.setFreshFlag(true);          
                                         return new ResponseEntity(HttpStatus.OK);
