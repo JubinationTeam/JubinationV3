@@ -50,7 +50,7 @@ CallManager eCallHandler;
                     private final String freshCall="*/3 * 10-19 * * *";
                     private final String dumpOvernight="*/3 * 20-23,0-8 * * *";
                     private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 30 * * * *";
+                    private final String missedCallCheck="0 30 10-19 * * *";
                     
                     
                     
