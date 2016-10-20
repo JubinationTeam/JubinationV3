@@ -181,6 +181,7 @@ public class CallWorkerSlave1 {
                                     if(service.addClientCall(client,lead,message)){
                                         
                                         if(passOn){
+                                                                                    service.unmarkBackupClient(client);
                                                                                      client.getLead().get(client.getLead().size()-1).getCall().add(message);
                                                                                      
                                                                                      manager.getClientStage2().offer(client);

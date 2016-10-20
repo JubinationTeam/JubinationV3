@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Repository;
 @Table(name="admin_settings"
     ,catalog="jubination"
 )
-public class AdminSettings {
+public class AdminSettings implements Serializable {
         @Id
     private String id;
         
@@ -40,7 +41,10 @@ public class AdminSettings {
     
     @Column(name="port")
         String port;
-
+    @Column(name="ref_code_thyrocare")
+    String refCodeThyrocare;
+    @Column(name="api_key_thyrocare")
+    String apiKeyThyrocare;
     public String getId() {
         return id;
     }
@@ -96,6 +100,22 @@ public class AdminSettings {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    public String getRefCodeThyrocare() {
+        return refCodeThyrocare;
+    }
+
+    public void setRefCodeThyrocare(String refCodeThyrocare) {
+        this.refCodeThyrocare = refCodeThyrocare;
+    }
+
+    public String getApiKeyThyrocare() {
+        return apiKeyThyrocare;
+    }
+
+    public void setApiKeyThyrocare(String apiKeyThyrocare) {
+        this.apiKeyThyrocare = apiKeyThyrocare;
     }
         
         

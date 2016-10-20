@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ import org.hibernate.annotations.NotFoundAction;
     ,catalog="jubination"
 )
 
-public class Lead {
+public class Lead implements Serializable {
     @Id
     String leadId;
     @JsonBackReference
@@ -50,12 +51,47 @@ public class Lead {
     private String comments;
     @Column(name="lead_status")
     private String leadStatus;
+    
+    @Column(name="hardcopy")
+    private String hardcopy;
+    @Column(name="order_id")
+    private String orderId;
+    @Column(name="product")
+    private String product;
+    @Column(name="service_type")
+    private String serviceType;
+    @Column(name="order_by")
+    private String orderBy;
+    @Column(name="appointment_date")
+    private String appointmentDate;
+    @Column(name="appointment_time")
+    private String appointmentTime;
+    @Column(name="ben_count")
+    private Integer benCount;
+    
+    @Column(name="report_code")
+    private String reportCode;
+    @Column(name="rate")
+    private String rate;
+    @Column(name="commision")
+    private String commision;
+    @Column(name="pay_type")
+    private String payType;
+    @Column(name="handling_charges")
+    private String handlingCharges;
+    
+    
       @JsonManagedReference 
          @OneToMany(mappedBy="lead")
       @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
       @NotFound(action=NotFoundAction.IGNORE)
         private List<Call> call= new ArrayList<>();
       
+      @JsonManagedReference 
+         @OneToMany(mappedBy="lead")
+      @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
+      @NotFound(action=NotFoundAction.IGNORE)
+        private List<Beneficiaries> beneficiaries= new ArrayList<>();
       @OneToOne
       private Admin admin;
 
@@ -152,6 +188,118 @@ public class Lead {
 
     public void setLeadStatus(String leadStatus) {
         this.leadStatus = leadStatus;
+    }
+
+    public String getHardcopy() {
+        return hardcopy;
+    }
+
+    public void setHardcopy(String hardcopy) {
+        this.hardcopy = hardcopy;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public Integer getBenCount() {
+        return benCount;
+    }
+
+    public void setBenCount(Integer benCount) {
+        this.benCount = benCount;
+    }
+
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
+
+    public String getCommision() {
+        return commision;
+    }
+
+    public void setCommision(String commision) {
+        this.commision = commision;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public String getHandlingCharges() {
+        return handlingCharges;
+    }
+
+    public void setHandlingCharges(String handlingCharges) {
+        this.handlingCharges = handlingCharges;
+    }
+
+    public List<Beneficiaries> getBeneficiaries() {
+        return beneficiaries;
+    }
+
+    public void setBeneficiaries(List<Beneficiaries> beneficiaries) {
+        this.beneficiaries = beneficiaries;
     }
 
 

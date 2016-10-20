@@ -32,5 +32,7 @@
 
  <mapping class="com.jubination.model.pojo.Lead"/>
     <mapping class="com.jubination.model.pojo.AdminSettings"/>
+    
+    <mapping class="com.jubination.model.pojo.Beneficiaries"/>
   </session-factory>
 </hibernate-configuration>

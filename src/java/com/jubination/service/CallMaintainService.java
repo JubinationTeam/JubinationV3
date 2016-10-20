@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -113,42 +114,36 @@ AdminDAOImpl adao;
         lead.setClient(client);       
         message.setLead(lead);
   
-     if(storedClient==null){
-                System.out.println("Client not present");
-               if(updateLeadOfClient(addClient(client), lead)){
-                    if(addCallAPIMessage(message)!=null){
-                        if(updateSavedCallOfLead(lead, message)!=null){
-                            return true;
-                        }
-                      }
-                }
-               
-             return false;
-     }
-     else{
-                System.out.println("Client present");
-              client.setClientId(storedClient.getClientId());
-             if(client.getAddress()!=null&&storedClient.getAddress()!=null){
-                     if(client.getAddress().length()<storedClient.getAddress().length()){
-                         client.setAddress(storedClient.getAddress());
-                     }
-                     }
-                     if(client.getAddress()==null&&storedClient.getAddress()!=null){
-                         client.setAddress(storedClient.getAddress());
-                     }
-              if(updateLeadOfClient(client, lead)){
-                  
-                    if(addCallAPIMessage(message)!=null){
-
-                        if(updateSavedCallOfLead(lead, message)!=null){
-
-                            return true;
-                        }
-                      }
-                }
-               
-             return false;
-     }
+            if(storedClient==null){
+                       System.out.println("Client not present");
+                      if(updateLeadOfClient(addClient(client), lead)){
+                           if(addCallAPIMessage(message)!=null){
+                               if(updateSavedCallOfLead(lead, message)!=null){
+                                   return true;
+                               }
+                             }
+                       }
+            }
+            else{
+                       System.out.println("Client present");
+                     client.setClientId(storedClient.getClientId());
+                    if(client.getAddress()!=null&&storedClient.getAddress()!=null){
+                            if(client.getAddress().length()<storedClient.getAddress().length()){
+                                client.setAddress(storedClient.getAddress());
+                            }
+                            }
+                            if(client.getAddress()==null&&storedClient.getAddress()!=null){
+                                client.setAddress(storedClient.getAddress());
+                            }
+                     if(updateLeadOfClient(client, lead)){
+                           if(addCallAPIMessage(message)!=null){
+                               if(updateSavedCallOfLead(lead, message)!=null){
+                                   return true;
+                               }
+                             }
+                       }
+            }
+       return false;
  }
  
  public List<Client> getClientDump(String date){
@@ -156,7 +151,7 @@ AdminDAOImpl adao;
  }
    public TempClient buildBackupClient(Client client){
        
-        return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments()));
+        return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"pending"));
     }
    public TempClient readBackupClient(String leadId){
        List<TempClient> list=clientDao.readBackupEntity(leadId);
@@ -167,6 +162,36 @@ AdminDAOImpl adao;
        }
        return new TempClient();
    }
+   
+    public boolean updateBackupClient(TempClient client){
+       return clientDao.updateBackupEntity(client);
+     
+   }
+   
+   public Boolean checkIfClientPresent(String leadId){
+       List<TempClient> list=clientDao.readBackupEntityByNumberToday(leadId);
+       if(list!=null&&list.isEmpty()){
+           return true;
+       }
+       return false;
+   }
+   
+   public boolean unmarkBackupClient(Client client){
+       TempClient tempClient=readBackupClient(client.getTempLeadDetails());
+       tempClient.setCallStatus(null);
+       return updateBackupClient(tempClient);
+   }
+   
+    public List<Client> getMarkedClients(){
+        List<TempClient> tempClientList = clientDao.readClientWithStatus("pending");
+        List<Client> clientList = new ArrayList<>();
+        for(TempClient tempClient:tempClientList){
+            Client client = new Client(tempClient.getName(), tempClient.getCampaignName(), tempClient.getAge(), tempClient.getGender(), tempClient.getEmailId(), tempClient.getPhoneNumber(), tempClient.getAddress(), tempClient.getCity(), tempClient.getPincode(), tempClient.getDateCreation(), tempClient.getDateUpdated(), false, tempClient.getTempLeadDetails(), tempClient.getIpAddress(), tempClient.getInitialComments());
+            clientList.add(client);
+        }
+        return clientList;
+   }
+   
    public Client getClientDetailsWithList(Client client){
        return (Client) clientDao.readEntityLists(client);
    }

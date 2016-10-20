@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @Table(name="barcode"
     ,catalog="jubination"
 )
-public class Barcode {
+public class Barcode implements Serializable {
     @Id
       @GeneratedValue(strategy=GenerationType.AUTO)
     private long orderId;

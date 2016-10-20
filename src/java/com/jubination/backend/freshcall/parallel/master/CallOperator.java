@@ -47,9 +47,10 @@ CallManager eCallHandler;
                     private boolean dumpRetriever=true;
                     private int count=5;
                     
-                    private final String freshCall="*/3 * 10-18 * * *";
-                    private final String dumpOvernight="*/3 * 19-23,0-8 * * *";
+                    private final String freshCall="*/3 * 10-19 * * *";
+                    private final String dumpOvernight="*/3 * 20-23,0-8 * * *";
                     private final String retreiveDump="0 5 9 * * *";
+                    private final String missedCallCheck="0 30 * * * *";
                     
                     
                     
@@ -138,7 +139,7 @@ CallManager eCallHandler;
                     @Scheduled(cron = freshCall)//9am to 7pm do calling
                     void freshCustomerCall(){
                         if(isFreshFlag()||!numbers.isEmpty()){
-                            System.out.println("In 10-18 fresh calling");
+                            System.out.println("In 10-17 fresh calling");
                                         while(!numbers.isEmpty()){
                                                         List<Lead> leadList = new ArrayList<>();
                                                         leadList.add(new Lead(numbers.peek().getTempLeadDetails()));
@@ -152,6 +153,19 @@ CallManager eCallHandler;
                                         setFreshFlag(false);
                         }
                     }
+                    
+                    @Async
+                    @Scheduled(cron = missedCallCheck)//9am to 7pm do calling
+                    void missedCustomerCall(){
+                            System.out.println("miss call check");
+                          
+                            for(Client client:service.getMarkedClients()){
+                                    getNumbers().offer(client);
+                            }
+                            setFreshFlag(true);     
+                    }
+                    
+                    
                     @Async
                     @Scheduled(cron = dumpOvernight)//7pm to 8am save temp daa
                     void freshCustomerCallSave(){

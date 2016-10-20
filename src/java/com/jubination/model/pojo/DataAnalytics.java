@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @Table(name="data_analytics"
     ,catalog="jubination"
 )
-public class DataAnalytics {
+public class DataAnalytics implements Serializable {
     @Id
 @GeneratedValue(strategy=GenerationType.AUTO) 
  long id;

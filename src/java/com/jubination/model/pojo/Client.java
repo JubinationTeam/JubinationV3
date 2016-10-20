@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ import org.hibernate.annotations.NotFoundAction;
     ,catalog="jubination"
 )
 
-public class Client {
+public class Client implements Serializable {
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO) 
  long clientId;
@@ -72,12 +73,29 @@ public class Client {
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
+
+    public Client() {
+    }
+
  
- @Column(name="stage1")
-  boolean stage1;
  
-  @Column(name="stage2")
-  boolean stage2;
+    public Client(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments) {
+       this.name=name;
+        this.emailId = emailId;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.pincode = pincode;
+        this.dateCreation = dateCreation;
+        this.dateUpdated = dateUpdated;
+        this.overnight = overnight;
+        this.tempLeadDetails = tempLeadDetails;
+        this.campaignName=campaignName;
+        this.age=age;
+        this.gender=gender;
+        this.ipAddress=ipAddress;
+        this.initialComments=initialComments;
+    }
  
   @JsonManagedReference 
  @OneToMany(mappedBy="client")
@@ -246,23 +264,7 @@ public class Client {
         this.priority = priority;
     }
 
-    public boolean isStage1() {
-        return stage1;
-    }
-
-    public void setStage1(boolean stage1) {
-        this.stage1 = stage1;
-    }
-
-    public boolean isStage2() {
-        return stage2;
-    }
-
-    public void setStage2(boolean stage2) {
-        this.stage2 = stage2;
-    }
- 
- 
+   
  
  
 }

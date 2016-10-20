@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ import org.hibernate.annotations.NotFoundAction;
     ,catalog="jubination"
 )
 
-public class TempClient {
+public class TempClient implements Serializable {
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO) 
  long clientId;
@@ -64,18 +65,17 @@ public class TempClient {
   String source;
   @Column(name="pub_id")
   String pubId;
-  
+  @Column(name="call_status")
+String callStatus;
   @Column(name="overnight")
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
- @Column(name="stage1")
-  boolean stage1;
 
     public TempClient() {
     }
 
-    public TempClient(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments) {
+    public TempClient(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments,String callStatus) {
        this.name=name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
@@ -91,6 +91,7 @@ public class TempClient {
         this.gender=gender;
         this.ipAddress=ipAddress;
         this.initialComments=initialComments;
+        this.callStatus=callStatus;
     }
 
     public long getClientId() {
@@ -237,15 +238,15 @@ public class TempClient {
         this.pubId = pubId;
     }
 
-    public boolean isStage1() {
-        return stage1;
+    public String getCallStatus() {
+        return callStatus;
     }
 
-    public void setStage1(boolean stage1) {
-        this.stage1 = stage1;
+    public void setCallStatus(String callStatus) {
+        this.callStatus = callStatus;
     }
 
    
- 
- 
+
+    
 }

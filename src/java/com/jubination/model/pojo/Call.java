@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 )
 
 @XmlRootElement(name="Call")
-public class Call {
+public class Call implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long orderId;
