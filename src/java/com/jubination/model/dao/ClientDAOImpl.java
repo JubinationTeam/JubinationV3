@@ -90,7 +90,7 @@ private Session session=null;
       public List<TempClient> readClientWithStatus(String param) {
                     session = getSessionFactory().getCurrentSession();
                     Criteria criteria = session.createCriteria(TempClient.class);
-                                            criteria.add(Restrictions.eq("client.callStatus", param));
+                                            criteria.add(Restrictions.eq("callStatus", param));
                                              criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                                           List<TempClient>  list = criteria.list();
                                           return list;
