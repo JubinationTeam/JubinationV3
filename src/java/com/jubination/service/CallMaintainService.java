@@ -7,6 +7,7 @@ package com.jubination.service;
 
 import com.jubination.backend.EmailService;
 import com.jubination.backend.call.CallBox;
+import com.jubination.backend.freshcall.parallel.master.CallOperator;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
@@ -55,7 +56,8 @@ CallAPIMessageDAOImpl callDao;
             DataAnalyticsDAOImpl daDao;
      @Autowired 
 AdminDAOImpl adao;
-
+    @Autowired
+    CallOperator operator;
   
  private String settings="settings";
 
@@ -150,9 +152,14 @@ AdminDAOImpl adao;
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
    public TempClient buildBackupClient(Client client){
-       
+       if(!checkIfClientPresent(client.getTempLeadDetails())){
+           operator.getNumbers().offer(client);
+           operator.setFreshFlag(true);    
         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"pending"));
-    }
+       }
+         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),null));
+      
+       }
    public TempClient readBackupClient(String leadId){
        List<TempClient> list=clientDao.readBackupEntity(leadId);
        if(list!=null){

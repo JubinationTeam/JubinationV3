@@ -1097,13 +1097,11 @@ CallBox callHandler;
     @RequestMapping(value="/API/freshCall/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity freshCalls(@RequestBody Client client,HttpServletRequest request) throws IOException{
             if(client!=null){
+                
                         if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                          //         if(callMaintain.buildBackupClient(client)!=null&&callMaintain.readBackupClient(client.getTempLeadDetails()).getTempLeadDetails()==null){
                                                             if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
-                                                                                if(!callMaintain.checkIfClientPresent(client.getTempLeadDetails())){
-                                                                                                    operator.getNumbers().offer(client);
-                                                                                                    operator.setFreshFlag(true);          
-                                                                                }
+                                                                                
                                                                                  return new ResponseEntity(HttpStatus.OK);
                                                                    }
                                                             else{
