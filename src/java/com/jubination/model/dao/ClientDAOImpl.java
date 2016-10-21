@@ -70,12 +70,10 @@ private Session session=null;
       
        @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
       public List<TempClient> readBackupEntityByNumberToday(String number) {
-                 List<TempClient> list=null;
+                 
                       session = getSessionFactory().getCurrentSession();
-                      Criteria criteria = session.createCriteria(TempClient.class, "client");
-                      criteria.add(Restrictions.and(Restrictions.eq("client.phoneNumber", number),Restrictions.ilike("client.dateCreation",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START )));
-                      list=criteria.list();
-                     return list;
+                      return session.createCriteria(TempClient.class).add(Restrictions.and(Restrictions.eq("phoneNumber", number),Restrictions.ilike("dateCreation",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START ))) .list();
+                    
     }
       
       @Transactional(propagation = Propagation.REQUIRED)  

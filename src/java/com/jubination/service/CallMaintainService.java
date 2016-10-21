@@ -152,7 +152,7 @@ AdminDAOImpl adao;
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
    public TempClient buildBackupClient(Client client){
-       if(!checkIfClientPresent(client.getTempLeadDetails())){
+       if(!checkIfClientPresent(client.getPhoneNumber())){
            operator.getNumbers().offer(client);
            operator.setFreshFlag(true);    
         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"pending"));
@@ -175,9 +175,13 @@ AdminDAOImpl adao;
      
    }
    
-   public Boolean checkIfClientPresent(String leadId){
-       List<TempClient> list=clientDao.readBackupEntityByNumberToday(leadId);
+   public Boolean checkIfClientPresent(String number){
+       List<TempClient> list=clientDao.readBackupEntityByNumberToday(number);
+       
+       System.out.println("in check up"+number);
        if(list!=null&&!list.isEmpty()){
+           
+       System.out.println("present");
            return true;
        }
        return false;
