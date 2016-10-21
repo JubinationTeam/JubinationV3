@@ -159,11 +159,14 @@ CallManager eCallHandler;
                     @Scheduled(cron = missedCallCheck)//9am to 7pm do calling
                     void missedCustomerCall(){
                             System.out.println("miss call check");
-                          
+                        if(numbers.isEmpty()){
+                            
+                            System.out.println("miss call check started");
                             for(Client client:service.getMarkedClients()){
                                     getNumbers().offer(client);
                             }
                             setFreshFlag(true);     
+                        }
                     }
                     
                     
