@@ -73,7 +73,7 @@ private Session session=null;
                  List<TempClient> list=null;
                       session = getSessionFactory().getCurrentSession();
                       Criteria criteria = session.createCriteria(TempClient.class, "client");
-                      criteria.add(Restrictions.and(Restrictions.eq("client.phoneNumber", number),Restrictions.ilike("client.phoneNumber",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START )));
+                      criteria.add(Restrictions.and(Restrictions.eq("client.phoneNumber", number),Restrictions.ilike("client.dateCreation",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START )));
                       list=criteria.list();
                      return list;
     }

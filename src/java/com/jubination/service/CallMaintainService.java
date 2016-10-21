@@ -177,7 +177,7 @@ AdminDAOImpl adao;
    
    public Boolean checkIfClientPresent(String leadId){
        List<TempClient> list=clientDao.readBackupEntityByNumberToday(leadId);
-       if(list!=null&&list.isEmpty()){
+       if(list!=null&&!list.isEmpty()){
            return true;
        }
        return false;
