@@ -157,7 +157,7 @@ AdminDAOImpl adao;
            operator.setFreshFlag(true);    
         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"pending"));
        }
-         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),null));
+         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"duplicate"));
       
        }
    public TempClient readBackupClient(String leadId){
