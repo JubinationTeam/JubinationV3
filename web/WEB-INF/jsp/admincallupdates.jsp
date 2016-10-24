@@ -73,7 +73,24 @@
                                     <input type="text" class="form-control" placeholder="Lead Id" name="leadId"/><br/>
                                <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff" >Submit</button>
                                 </form>
+                                    <br/><br/>
+                                     <form action="${pageContext.request.contextPath}/admin/callupdates/phone" method="GET" class="form-signin-heading" >
+                                    <input type="text" class="form-control" placeholder="Phone Numbers" name="phone_numbers"/><br/>
+                                  
+                                 <c:if test="${clients==null}">   
+                               <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff" >Submit</button>
+                                 </c:if>
+                                </form>
+                                      <c:if test="${not empty clients}">
+                                        <c:forEach items="${clients}" var="client">
+                                            <c:forEach items="${client.lead}" var="lead">
+                                                   <a href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${lead.leadId}" class="btn btn-sm" style="background-color:#0081c2;color:#ffffff" >${lead.leadId}</a>&nbsp;
+                                            </c:forEach>
+                                        </c:forEach>
                                     <br/>
+                                    </c:if>
+                                    <br/>
+                                    
                </div>
                <div class="col-sm-4 col-xs-push-2" style="background-color: rgba(50,50,50,0.1);border-radius: 10px;margin-left: 50px">
                    <br/>
@@ -100,7 +117,20 @@
                    <input type="text" class="form-control" placeholder="Pincode" name="pincode" value="${lead.client.pincode}"/>
                    <label>City</label>
                    <input type="text" class="form-control" placeholder="City" name="city" value="${lead.client.city}"/>
+                   <label><b>Beta Version - dont use the following</b></label><br/>
+                   <label>Hardcopy</label>
+                   <input type="text" class="form-control" placeholder="Hardcopy" name="hardcopy" value="${lead.hardcopy}"/>
+                   <label>Appointment Date</label>
+                   <input type="text" class="form-control" placeholder="Appointment Date" name="appt_date" value="${lead.appointmentDate}"/>
+                   <label>Appointment Time</label>
+                   <input type="text" class="form-control" placeholder="Appointment Time" name="appt_time" value="${lead.appointmentTime}"/>
+                 <%--  <label>Beneficiary Details</label>
                    
+                  
+                   <input type="text" class="form-control" placeholder="Beneficiary 0" name="ben0" value="${lead.beneficiaries[0].name}-${lead.beneficiaries[0].gender}-${lead.beneficiaries[0].age}"/>
+                   
+                   --%>
+                   <label><b>------------------------------------</b></label>
                    <br/>
                    <label>Lead Status</label>
                    <input type="text" class="form-control" placeholder="Status"  readonly="true"  value="${lead.leadStatus}"/>

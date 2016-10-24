@@ -14,6 +14,7 @@ import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.pojo.Admin;
 import com.jubination.model.pojo.AdminSettings;
+import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.DataAnalytics;
@@ -151,15 +152,45 @@ AdminDAOImpl adao;
  public List<Client> getClientDump(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
+ 
    public TempClient buildBackupClient(Client client){
-       if(!checkIfClientPresent(client.getPhoneNumber())){
-           operator.getNumbers().offer(client);
-           operator.setFreshFlag(true);    
-        return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"pending"));
+            Lead lead=new Lead();
+            String beneficiaries="";
+            if(client.getLead()!=null&&!client.getLead().isEmpty()){
+                 lead=client.getLead().get(0);
+                 lead.setLeadId(client.getTempLeadDetails());
+                 lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
+                 lead.setOrderId("JUBI0000"+lead.getLeadId());
+                 lead.setOrderBy(client.getName());
+                 if(lead.getBeneficiaries().isEmpty()){
+                     Beneficiaries ben = new Beneficiaries();
+                     ben.setAge(client.getAge());
+                     ben.setGender(client.getGender());
+                     ben.setName(client.getName());
+                     beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
+                 }
+                 else{
+                          for(Beneficiaries bens:lead.getBeneficiaries()){
+                                       beneficiaries+=bens.getName()+"-"+bens.getGender()+"-"+bens.getAge()+"|";
+                          }
+                 }
+
+            }
+            TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
+
+            if(!checkIfClientPresent(client.getPhoneNumber())){
+                            operator.getNumbers().offer(client);
+                            operator.setFreshFlag(true);  
+                            tempClient.setCallStatus("pending");
+                      }
+            else{
+
+                             tempClient.setCallStatus("duplicate");
+            }
+        return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
-         return (TempClient) clientDao.buildBackupEntity(new TempClient(client.getName(),client.getCampaignName(),client.getAge(),client.getGender(),client.getEmailId(),client.getPhoneNumber(),client.getAddress(),client.getCity(),client.getPincode(),client.getDateCreation(),client.getDateUpdated(),client.isOvernight(),client.getTempLeadDetails(),client.getIpAddress(),client.getInitialComments(),"duplicate"));
-      
-       }
+   
+   
    public TempClient readBackupClient(String leadId){
        List<TempClient> list=clientDao.readBackupEntity(leadId);
        if(list!=null){
@@ -198,6 +229,40 @@ AdminDAOImpl adao;
         List<Client> clientList = new ArrayList<>();
         for(TempClient tempClient:tempClientList){
             Client client = new Client(tempClient.getName(), tempClient.getCampaignName(), tempClient.getAge(), tempClient.getGender(), tempClient.getEmailId(), tempClient.getPhoneNumber(), tempClient.getAddress(), tempClient.getCity(), tempClient.getPincode(), tempClient.getDateCreation(), tempClient.getDateUpdated(), false, tempClient.getTempLeadDetails(), tempClient.getIpAddress(), tempClient.getInitialComments());
+            Lead lead = new Lead();
+            lead.setLeadId(tempClient.getTempLeadDetails());
+            lead.setAppointmentDate(tempClient.getAppointmentDate());
+            lead.setAppointmentTime(tempClient.getAppointmentTime());
+            lead.setBenCount(tempClient.getBenCount());
+            lead.setMargin(tempClient.getMargin());
+            lead.setPasson(tempClient.getPasson());
+            lead.setHandlingCharges(tempClient.getHandlingCharges());
+            lead.setHardcopy(tempClient.getHardcopy());
+            lead.setOrderBy(tempClient.getOrderId());
+            lead.setPayType(tempClient.getPayType());
+            lead.setProduct(lead.getProduct());
+            lead.setRate(lead.getReportCode());
+            lead.setServiceType(lead.getServiceType());
+            if(tempClient.getBeneficiaries()!=null&&tempClient.getBeneficiaries().contains("|")&&!tempClient.getBeneficiaries().isEmpty()){
+                        String[] benDetailsList=tempClient.getBeneficiaries().split("|");
+                        for(String benDetails:benDetailsList){
+                            if(!benDetails.isEmpty()){
+                                    Beneficiaries ben= new Beneficiaries();
+                                    String[] benBifurcation= benDetails.split("-");
+                                    ben.setName(benBifurcation[0]);
+                                    ben.setGender(benBifurcation[1]);
+                                    ben.setAge(benBifurcation[2]);
+                                    lead.getBeneficiaries().add(ben);
+                            }
+                        }
+            }
+            else{
+                Beneficiaries ben= new Beneficiaries();
+                            ben.setName(tempClient.getName());
+                            ben.setGender(tempClient.getGender());
+                            ben.setAge(tempClient.getAge());
+                            lead.getBeneficiaries().add(ben);
+            }
             clientList.add(client);
         }
         return clientList;

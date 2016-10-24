@@ -30,6 +30,14 @@
       <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
       
   </definition>
+   <definition name="adminproductdisplay" template="/WEB-INF/jsp/adminproductdisplay.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
+  <definition name="admincampaigndisplay" template="/WEB-INF/jsp/admincampaigndisplay.jsp">
+      <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
+      
+  </definition>
  <definition name="adminmail" template="/WEB-INF/jsp/adminmsg.jsp">
       <put-attribute name="navigation" value="/WEB-INF/layout/adminlayout.jsp"/>
       

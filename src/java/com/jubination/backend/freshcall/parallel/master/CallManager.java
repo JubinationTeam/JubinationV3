@@ -36,6 +36,7 @@ public class CallManager {
                         private ConcurrentLinkedQueue<Client> tempClient= new ConcurrentLinkedQueue<>();
                         private Stack<Client> realTimeClient= new Stack<>();
                         private List<Call> message= new ArrayList<>();
+                        boolean stageThreeFlag=true;
                         
                       
 
@@ -43,15 +44,21 @@ public class CallManager {
                     @Scheduled(fixedRate=time)
                     void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
                                      if(getStatus()&&!getClientStage1().empty()){
+                                         stageThreeFlag=true;
                                          if(executives>tempClient.size()&&executives>workerPool.getActiveCount()){
                                              
                                          System.out.println(workerPool.getActiveCount()+" Active count for normal operation");
                                                 workerPool.startTask();
                                          }
                                      }
-                                     else if(!getStageThreeUpdates().isEmpty()){
+                                     else if(!getStageThreeUpdates().isEmpty()&&stageThreeFlag){
                                          System.out.println(workerPool.getActiveCount()+" Active count for stage 3 updates");
                                                 workerPool.startTask();
+                                                stageThreeFlag=false;
+                                     }
+                                     else{
+                                         stageThreeFlag=true;
+                                         
                                      }
                     }
 

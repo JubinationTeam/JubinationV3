@@ -57,8 +57,6 @@ public class CallBox {
                     private String callerId;
                    
                     
-                    @Autowired
-                    private CallBoxIntegrated eCallHandler; 
 
                     @Autowired
                     AdminMaintainService adminMaintain;

@@ -34,5 +34,11 @@
     <mapping class="com.jubination.model.pojo.AdminSettings"/>
     
     <mapping class="com.jubination.model.pojo.Beneficiaries"/>
+    <mapping class="com.jubination.model.pojo.Campaigns"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.ProductList"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Childs"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Master"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Rate"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.TestEntity"/>
   </session-factory>
 </hibernate-configuration>

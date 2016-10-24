@@ -73,6 +73,12 @@ public class Client implements Serializable {
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
+ 
+  @JsonManagedReference 
+ @OneToMany(mappedBy="client")
+      @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
+      @NotFound(action=NotFoundAction.IGNORE)
+        private List<Lead> lead= new ArrayList<>();
 
     public Client() {
     }
@@ -96,12 +102,6 @@ public class Client implements Serializable {
         this.ipAddress=ipAddress;
         this.initialComments=initialComments;
     }
- 
-  @JsonManagedReference 
- @OneToMany(mappedBy="client")
-      @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
-      @NotFound(action=NotFoundAction.IGNORE)
-        private List<Lead> lead= new ArrayList<>();
 
     public long getClientId() {
         return clientId;

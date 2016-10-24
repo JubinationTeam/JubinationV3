@@ -21,68 +21,80 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="description" content="">
             <meta name="author" content="Souvik Das">
-            <title>Please sign in</title>
+            <title>Campaign Display</title>
             
-            <link href="<c:url value="/resources/css/images/logo.jpg" />" rel="shortcut icon">
+               <link type="text/css" href="<c:url value="/resources/css/jquery-ui-1.10.4.css" />" rel="stylesheet">
             
-             <link type="text/css" href="<c:url value="/resources/css/jquery-ui-1.10.4.css" />" rel="stylesheet">
-              <link type="text/css" href="<c:url value="/resources/css/admin.css" />" rel="stylesheet">
              <link type="text/css" href="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />" rel="stylesheet">
           <script async type="text/javascript" src="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" />"></script>
-          
+            
             <link type="text/css" href="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" />" rel="stylesheet">            
             
          
              <script  type="text/javascript" src="<c:url value="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"/>"></script>
           
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
             
             
-            
-            <script type="text/javascript" src="<c:url value="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js" />"></script>
+            <script async type="text/javascript" src="<c:url value="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js" />"></script>
            
-           <%--  
+            <%--
            
            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
            <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
            <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
+            --%>
             
            
            
-          
+           <%--
             <script type="text/javascript" src="<c:url value="/resources/js/doc.js" />"></script> 
             <script type="text/javascript" src="<c:url value="/resources/js/respond.js" />"></script>
                  --%>
-       
-           
+            
+           <link type="text/css" href="<c:url value="/resources/css/dashboard.css" />" rel="stylesheet">
+                                    <script src="<c:url value="/resources/js/dashboard.js" />" type="text/javascript"></script>
             
     </head>
     <body>
-        <br/><br/>
-        <div class="container">
-            <div class="container glass" >
-          
-                <form id="admin-login-form" class="form-signin" action="${pageContext.request.contextPath}/admin/j_spring_security_check" method="post" name="f" >                                                               
-        <h2 class="form-signin-heading" ><span style="color:#0081c2"class="glyphicon glyphicon-flash"></span>&nbsp;Call Bot V3</h2>
-        <input type="text" class="form-control" name='j_username' placeholder="User Id" required autofocus>
-        <input type="password" class="form-control" name='j_password'  placeholder="Password" required>
-        <label class="checkbox" >
-          <input type="checkbox" value="remember-me" name="_spring_security_remember_me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-block" style="background-color:#0081c2;color:#ffffff" type="submit">Sign in</button>
-      </form>
-          <br/>
-        <p style="color:#9b9b9b"><span  class="glyphicon glyphicon-flash"></span>Faster  - <span class="glyphicon glyphicon-leaf"></span>Lightweight  - <span  class="glyphicon glyphicon-cog"></span>Deca-Core</p>
-        <br/>
-            </div>
-    </div> <!-- /container -->
-       
-    <br/><center>
-        <h2>Beta Stage V3.5 - Might face issues. Report immediately</h2>
-        <h2>Developments in process</h2>
-            <h3>- Direct booking from LMS</h3>
-            <h3>- Campaign Creation</h3>    
-            <h3>- Missed appointment calling</h3>
-            <h3>- Report sync with LMS</h3>
-            </center>
+        <tiles:insertAttribute name="navigation"/>
+        
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+             <div class="row" >
+                <h3  style="margin-left: 50px">Thyrocare Campaigns</h3>
+                <c:if test="${not empty products}">
+               <div class="col-sm-12 table-responsive">
+                  
+                   <table  class="table table-bordered table-striped">
+                       
+                           <thead>
+                           <th>Name</th>
+                           <th>Products</th>
+                           <th>Rate</th>
+                           <th>Handling charges</th>
+                           <th>Service Type</th>
+                           <th>Report Code</th>
+                           </thead>
+                           <tbody>
+                     <c:forEach items="${campaign}" var="campaign">
+                       <tr>
+                           
+                            <td>${campaign.name}</td>
+                             <td>${campaign.products}</td>
+                            <td>${campaign.rate}</td>
+                             <td>${campaign.hc}</td>
+                              <td>${campaign.serviceType}</td>
+                               <td>${campaign.reportCode}</td>
+                       </tr>
+                    </c:forEach>  
+                        </tbody>
+                        </table>
+               </div>
+                </c:if>
+                    <hr/>
+             </div>
+        </div>
+    </div>
+</div>
     </body>
 </html>

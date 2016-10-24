@@ -9,6 +9,7 @@ import com.jubination.backend.call.CallBox;
 import com.jubination.backend.freshcall.parallel.master.CallOperator;
 import com.jubination.backend.freshcall.parallel.master.CallManager;
 import com.jubination.model.pojo.Admin;
+import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
@@ -790,18 +791,7 @@ CallBox callHandler;
             
             return model;
 }
-     @RequestMapping(value="/admin/callupdates")
-    public ModelAndView callUpdates(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallupdates");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        
-                                      
-        
-           return model;
-       
-        
-    }
+  
     
     @RequestMapping(value="/admin/callrecords")
     public ModelAndView callRecords(HttpServletRequest request, Principal principal) throws IOException {
@@ -816,23 +806,7 @@ CallBox callHandler;
        
         
     }
-     @RequestMapping(value="/admin/callupdates/values")
-    public ModelAndView callUpdateValues(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallupdates");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        if(request.getParameter("leadId")!=null&&!request.getParameter("leadId").isEmpty()){
-        model.addObject("lead",callMaintain.getClientDetails(request.getParameter("leadId")));
-        
-    }
-        model.addObject("message", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        
-                                      
-        
-           return model;
-       
-        
-    }
+     
     
    
       @RequestMapping(value="/admin/setExecs/auto")
@@ -852,119 +826,7 @@ CallBox callHandler;
        
         
     }
-     @RequestMapping(value="/admin/callupdates/update")
-    public ModelAndView updateClient(HttpServletRequest request, Principal principal) throws IOException {
-                                    ModelAndView model= new ModelAndView("admincallupdates");
-                                    Admin admin=adminMaintain.checkPresence(new Admin(principal.getName()));
-                                    model.addObject("admin",admin);
-                                    String id=request.getParameter("id");
-                                    String comment=request.getParameter("comment");
-                                    String initialComment=request.getParameter("initialComment");
-                                    String booked =request.getParameter("booked");
-                                    String email =request.getParameter("email");
-                                    String date =request.getParameter("date");
-                                    String address=request.getParameter("address");
-                                    String age =request.getParameter("age");
-                                    String gender =request.getParameter("gender");
-                                    String city =request.getParameter("city");
-                                    String pincode =request.getParameter("pincode");
-                                    String leadStatus =request.getParameter("leadStatus");
-                                    String number =request.getParameter("number");
-                                    if(id!=null){
-                                            if(!id.isEmpty()){
-                                                                            Lead lead=null;
-                                                                            lead = new Lead();
-                                                                            lead.setLeadId(id);
-                                                                            lead=callMaintain.readLead(lead);
-                                                                            if(lead!=null){
-                                                                                                        Client client=lead.getClient();
-                                                                                                        lead.setAdmin(admin);
-                                                                                                           lead.setNotification(false);
-                                                                                                         if(leadStatus!=null){
-                                                                                                             if(!leadStatus.isEmpty()){
-                                                                                                                 lead.setLeadStatus(leadStatus);
-                                                                                                                            if(leadStatus.equals("Lead sent to Thyrocare")){
-                                                                                                                                
-                                                                                                                                    List<Lead> leadList=callMaintain.getDuplicateLeads(number);
-                                                                                                                                    for(Lead l:leadList){
-                                                                                                                                                    l.setBooked(true);
-                                                                                                                                                    l.setNotification(false);
-                                                                                                                                                    l.setPending(false);
-                                                                                                                                                    l.setCount(0);
-                                                                                                                                                    callMaintain.updateLeadOnly(l);
-                                                                                                                                    }
-                                                                                                                                    lead.setBooked(true);
-                                                                                                                                    lead.setNotification(false);
-                                                                                                                                    lead.setCount(0);
-                                                                                                                            }
-                                                                                                                 
-                                                                                                             }
-                                                                                                        }
-                                                                                                       if(leadStatus!=null){ 
-                                                                                                        if(leadStatus.contains("Follow")&&date!=null){
-                                                                                                            if(!date.isEmpty()){
-                                                                                                                lead.setNotification(true);
-                                                                                                                lead.setFollowUpDate(date);
-                                                                                                            }
-                                                                                                        }
-                                                                                                       }
-                                                                                                        if(comment!=null){
-                                                                                                            if(!comment.isEmpty()){
-                                                                                                                    lead.setComments(comment);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(address!=null){
-                                                                                                            address=address.trim();
-                                                                                                            if(!address.isEmpty()){
-                                                                                                                client.setAddress(address);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(age!=null){
-                                                                                                            age=age.trim();
-                                                                                                            if(!age.isEmpty()){
-                                                                                                                client.setAge(age);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(email!=null){
-                                                                                                            email=email.trim();
-                                                                                                            if(!email.isEmpty()){
-                                                                                                                client.setEmailId(email);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(gender!=null){
-                                                                                                            gender=gender.trim();
-                                                                                                            if(!gender.isEmpty()){
-                                                                                                                client.setGender(gender);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(city!=null){
-                                                                                                            city=city.trim();
-                                                                                                            if(!city.isEmpty()){
-                                                                                                                client.setCity(city);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(pincode!=null){
-                                                                                                            pincode=pincode.trim();
-                                                                                                            if(!pincode.isEmpty()){
-                                                                                                                client.setPincode(pincode);
-                                                                                                            }
-                                                                                                        }  
-                                                                                                        if(initialComment!=null){
-                                                                                                            if(!initialComment.isEmpty()){
-                                                                                                                client.setInitialComments(initialComment);
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if(callMaintain.updateClientOnly(client)&&callMaintain.updateLeadOnly(lead)){
-                                                                                                                model.addObject("message", "Updated Database");
-                                                                                                                return model;
-                                                                                                            }
-                                                                                                }
-                                                                    }
-                                          }
-                                    
-           model.addObject("message", "Not Updated");
-           return model;
-    }
+     
     @RequestMapping(value="/admin/callrecords/get")
     public ModelAndView getCallRecords(HttpServletRequest request, Principal principal) throws IOException {
        
@@ -1099,14 +961,15 @@ CallBox callHandler;
             if(client!=null){
                 
                         if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
-                         //         if(callMaintain.buildBackupClient(client)!=null&&callMaintain.readBackupClient(client.getTempLeadDetails()).getTempLeadDetails()==null){
-                                                            if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
+                                    try{
+                                                        if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
                                                                                 
                                                                                  return new ResponseEntity(HttpStatus.OK);
                                                                    }
-                                                            else{
-                                                                                return new ResponseEntity(HttpStatus.BAD_REQUEST);
-                                                            }
+                                    }
+                                    catch(Exception e){
+                                                        e.printStackTrace();
+                                    }
 
                         }
             }
@@ -1121,8 +984,12 @@ CallBox callHandler;
            for(Lead l:c.getLead()){
                l.setClient(null);
                l.setAdmin(null);
+               
                for(Call call:l.getCall()){
                    call.setLead(null);
+               }
+               for(Beneficiaries ben:l.getBeneficiaries()){
+                   ben.setLead(null);
                }
            }
         }

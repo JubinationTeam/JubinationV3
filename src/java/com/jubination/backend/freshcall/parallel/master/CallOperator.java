@@ -6,10 +6,6 @@
 package com.jubination.backend.freshcall.parallel.master;
 
 import com.jubination.backend.call.CallBox;
-import com.jubination.backend.freshcall.*;
-import com.jubination.backend.freshcall.parallel.master.CallManager;
-import com.jubination.backend.freshcall.*;
-import com.jubination.backend.freshcall.*;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
@@ -47,10 +43,10 @@ CallManager eCallHandler;
                     private boolean dumpRetriever=true;
                     private int count=5;
                     
-                    private final String freshCall="*/3 * 10-19 * * *";
-                    private final String dumpOvernight="*/3 * 20-23,0-8 * * *";
+                    private final String  dumpOvernight="*/3 * 10-19 * * *";
+                    private final String freshCall="*/3 * 20-23,0-8 * * *";
                     private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 30 10-19 * * *";
+                    private final String missedCallCheck="0 30 20-23,0-8 * * *";
                     
                     
                     
@@ -139,13 +135,14 @@ CallManager eCallHandler;
                     @Async
                     @Scheduled(cron = freshCall)//9am to 7pm do calling
                     void freshCustomerCall(){
-                        if(isFreshFlag()||!numbers.isEmpty()){
+                        if(isFreshFlag()||!numbers.isEmpty()&&eCallHandler.getStatus()){
                             System.out.println("In 10-17 fresh calling");
                                         while(!numbers.isEmpty()){
-                                                        List<Lead> leadList = new ArrayList<>();
-                                                        leadList.add(new Lead(numbers.peek().getTempLeadDetails()));
-                                                        numbers.peek().setLead(leadList);
-                                                        
+                                                        if(!(numbers.peek().getLead()!=null&&!numbers.peek().getLead().isEmpty())){
+                                                                List<Lead> leadList = new ArrayList<>();
+                                                                leadList.add(new Lead(numbers.peek().getTempLeadDetails()));
+                                                                numbers.peek().setLead(leadList);
+                                                        }
                                                         numbers.peek().getLead().get(0).setCount(count);
                                                         numbers.peek().getLead().get(0).setPending(true);
                                                         numbers.peek().setPriority(5);
@@ -155,25 +152,12 @@ CallManager eCallHandler;
                         }
                     }
                     
-                    @Async
-                    @Scheduled(cron = missedCallCheck)//9am to 7pm do calling
-                    void missedCustomerCall(){
-                            System.out.println("miss call check");
-                        if(numbers.isEmpty()){
-                            
-                            System.out.println("miss call check started");
-                            for(Client client:service.getMarkedClients()){
-                                    getNumbers().offer(client);
-                            }
-                            setFreshFlag(true);     
-                        }
-                    }
-                    
+                   
                     
                     @Async
                     @Scheduled(cron = dumpOvernight)//7pm to 8am save temp daa
                     void freshCustomerCallSave(){
-                        if(isFreshFlag()||!numbers.isEmpty()){
+                        if(isFreshFlag()||!numbers.isEmpty()&&eCallHandler.getStatus()){
                             System.out.println("In 19-9 overnight save dump");
                             while(!numbers.isEmpty()){
                                                             numbers.peek().setOvernight(true);
@@ -189,15 +173,32 @@ CallManager eCallHandler;
                     void updateCustomerData(){
                    System.out.println("Retreiving overnight dump");
                                      for(Client client:service.getAllTemporaryClients()){
-                                                        List<Lead> leadList = new ArrayList<>();
-                                                        leadList.add(new Lead(client.getTempLeadDetails()));
-                                                        client.setLead(leadList);
+                                                         if(!(client.getLead()!=null&&!client.getLead().isEmpty())){
+                                                                List<Lead> leadList = new ArrayList<>();
+                                                                leadList.add(new Lead(client.getTempLeadDetails()));
+                                                                client.setLead(leadList);
+                                                        }
                                                         client.getLead().get(0).setCount(count);
                                                         client.getLead().get(0).setPending(true);
+                                                        client.setPriority(5);
                                                         eCallHandler.getClientStage1().push(client);
                                      }
                                      
                         
+                    }
+                    
+                     @Async
+                    @Scheduled(cron = missedCallCheck)//9am to 7pm do calling
+                    void missedCustomerCall(){
+                            System.out.println("miss call check");
+                        if(numbers.isEmpty()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()){
+                            
+                            System.out.println("miss call check started");
+                            for(Client client:service.getMarkedClients()){
+                                    getNumbers().offer(client);
+                            }
+                            setFreshFlag(true);     
+                        }
                     }
                     
                     
@@ -207,14 +208,14 @@ CallManager eCallHandler;
                         if(isNoonFlag()&&eCallHandler.getStatus()){
                             System.out.println("12 o clock follow up ");
                             int count=10;
-                            while(!eCallHandler.getStageThreeUpdates().isEmpty()){
+                            while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
                                 count--;
                                 if(count==0){
                                     break;
                                 }
                             }
-                            if(eCallHandler.getStageThreeUpdates().isEmpty()){
+                            if(eCallHandler.getClientStage1().isEmpty()){
                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor12")){
                                                              client.setPriority(4);
                                                              eCallHandler.getClientStage1().push(client);
@@ -228,14 +229,14 @@ CallManager eCallHandler;
                         if(isAfternoonFlag()&&eCallHandler.getStatus()){
                             System.out.println("4 pm follow up ");
                              int count=10;
-                            while(!eCallHandler.getStageThreeUpdates().isEmpty()){
+                            while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
                                 count--;
                                 if(count==0){
                                     break;
                                 }
                             }
-                            if(eCallHandler.getStageThreeUpdates().isEmpty()){
+                            if(eCallHandler.getClientStage1().isEmpty()){
                             for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
                                         client.setPriority(4);                
                                         eCallHandler.getClientStage1().push(client);
@@ -251,15 +252,15 @@ CallManager eCallHandler;
                         if(isMornFlag()&&eCallHandler.getStatus()){
                             System.out.println("11 o clock follow up ");
                             int count=10;
-                            while(!eCallHandler.getStageThreeUpdates().isEmpty()){
+                            while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
                                 count--;
                                 if(count==0){
                                     break;
                                 }
                             }
-                            if(eCallHandler.getStageThreeUpdates().isEmpty()){
-                           for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor11")){
+                            if(eCallHandler.getClientStage1().isEmpty()){
+                           for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor12")){
                                client.setPriority(4);         
                                eCallHandler.getClientStage1().push(client);
                            }
@@ -272,15 +273,15 @@ CallManager eCallHandler;
                         if(isLunchFlag()&&eCallHandler.getStatus()){
                             System.out.println("3 pm follow up ");
                              int count=10;
-                            while(!eCallHandler.getStageThreeUpdates().isEmpty()){
+                            while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
                                 count--;
                                 if(count==0){
                                     break;
                                 }
                             }
-                            if(eCallHandler.getStageThreeUpdates().isEmpty()){
-                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor3")){
+                            if(eCallHandler.getClientStage1().isEmpty()){
+                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
                             client.setPriority(4);
                                 eCallHandler.getClientStage1().push(client);
                            }
@@ -295,15 +296,15 @@ CallManager eCallHandler;
                         if(isEveningFlag()&&eCallHandler.getStatus()){
                             System.out.println("6 pm follow up ");
                             int count=10;
-                            while(!eCallHandler.getStageThreeUpdates().isEmpty()){
+                            while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
                                 count--;
                                 if(count==0){
                                     break;
                                 }
                             }
-                            if(eCallHandler.getStageThreeUpdates().isEmpty()){
-                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor6")){
+                            if(eCallHandler.getClientStage1().isEmpty()){
+                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
                                 client.setPriority(4); 
                                 eCallHandler.getClientStage1().push(client);
                            }

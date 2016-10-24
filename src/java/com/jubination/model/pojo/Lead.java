@@ -54,27 +54,31 @@ public class Lead implements Serializable {
     
     @Column(name="hardcopy")
     private String hardcopy;
-    @Column(name="order_id")
-    private String orderId;
-    @Column(name="product")
-    private String product;
-    @Column(name="service_type")
-    private String serviceType;
-    @Column(name="order_by")
-    private String orderBy;
     @Column(name="appointment_date")
     private String appointmentDate;
     @Column(name="appointment_time")
     private String appointmentTime;
+    
+    
+    @Column(name="order_id")
+    private String orderId;
+    @Column(name="order_by")
+    private String orderBy;
     @Column(name="ben_count")
     private Integer benCount;
     
+    @Column(name="product")
+    private String product;
+    @Column(name="service_type")
+    private String serviceType;
     @Column(name="report_code")
     private String reportCode;
     @Column(name="rate")
     private String rate;
-    @Column(name="commision")
-    private String commision;
+    @Column(name="margin")
+    private String margin;
+    @Column(name="passon")
+    private String passon;
     @Column(name="pay_type")
     private String payType;
     @Column(name="handling_charges")
@@ -270,13 +274,15 @@ public class Lead implements Serializable {
         this.rate = rate;
     }
 
-    public String getCommision() {
-        return commision;
+    public String getMargin() {
+        return margin;
     }
 
-    public void setCommision(String commision) {
-        this.commision = commision;
+    public void setMargin(String margin) {
+        this.margin = margin;
     }
+
+  
 
     public String getPayType() {
         return payType;
@@ -300,6 +306,14 @@ public class Lead implements Serializable {
 
     public void setBeneficiaries(List<Beneficiaries> beneficiaries) {
         this.beneficiaries = beneficiaries;
+    }
+
+    public String getPasson() {
+        return passon;
+    }
+
+    public void setPasson(String passon) {
+        this.passon = passon;
     }
 
 

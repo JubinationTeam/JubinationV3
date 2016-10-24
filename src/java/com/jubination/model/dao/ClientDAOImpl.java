@@ -241,6 +241,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                       criteria = session.createCriteria(Client.class);
                       criteria.add(Restrictions.like("phoneNumber", number,MatchMode.ANYWHERE));
                       list= criteria.list();
+                      for(Client client :list){
+                          client.getLead().size();
+                      }
 
                 break;
                  case "Name":
@@ -275,6 +278,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                           client.getLead().size();
                           for(Lead lead:client.getLead()){
                               lead.getCall().size();
+                              lead.getBeneficiaries().size();
                           }
                       }
                       

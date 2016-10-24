@@ -1,0 +1,1631 @@
+{
+  
+  "B2B_MASTERS": null,
+  
+  "MASTERS": {
+    
+                        "OFFER": [{
+                                                                          "Additional_Tests": "Y",
+                                                                          "New": null,
+                                                                          "ben_max": "10",
+                                                                          "ben_min": "1",
+                                                                          "ben_multiple": "1",
+                                                                          "childs": [{
+                                                                                                            "code": "P225 ",
+                                                                                                            "group_name": "SUBSET",
+                                                                                                            "name": "AAROGYAM 1.0",
+                                                                                                            "type": "POP"
+                                                                                                }],
+                                                                            "code": "PROJ1007131",
+                                                                            "disease_group": null,
+                                                                            "edta": null,
+                                                                            "fasting": "NF",
+                                                                            "fluoride": null,
+                                                                            "group_name": null,
+                                                                            "hc": "200",
+                                                                            "image_location": null,
+                                                                            "image_master": [],
+                                                                            "margin": "136",
+                                                                            "name": "DSA--WELLNESS M",
+                                                                            "normal_val": null,
+                                                                            "pay_type": "POSTPAID",
+                                                                            "rate": {
+                                                                                                            "b2b": null,
+                                                                                                            "b2c": "1000",
+                                                                                                            "id": "PROJ1007131",
+                                                                                                            "offer_rate": "500",
+                                                                                                            "pay_amt": null
+                                                                             },
+                                                                            "serum": null,
+                                                                            "specimen_type": null,
+                                                                            "test_count": "33",
+                                                                            "testnames": "MINI AAROGYAM",
+                                                                            "type": "OFFER",
+                                                                            "units": null,
+                                                                            "urine": null,
+                                                                            "valid_to": "3/31/2017 12:00:00 AM",
+                                                                            "volume": null
+                                     },
+                                         {
+        "Additional_Tests": "Y",
+        "New": null,
+        "ben_max": "10",
+        "ben_min": "1",
+        "ben_multiple": "1",
+        "childs": [
+          {
+            "code": "P175 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.1",
+            "type": "POP"
+          },
+          {
+            "code": "P179",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.2",
+            "type": "POP"
+          },
+          {
+            "code": "P180 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.3",
+            "type": "POP"
+          },
+          {
+            "code": "P201",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.7",
+            "type": "POP"
+          },
+          {
+            "code": "P207",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.4",
+            "type": "POP"
+          },
+          {
+            "code": "P208",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.6",
+            "type": "POP"
+          },
+          {
+            "code": "P225 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.0",
+            "type": "POP"
+          },
+          {
+            "code": "P001 ",
+            "group_name": "SUBSET",
+            "name": "T3-T4-TSH",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P035 ",
+            "group_name": "SUBSET",
+            "name": "LIPID PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P037 ",
+            "group_name": "SUBSET",
+            "name": "LIVER FUNCTION TESTS",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P039 ",
+            "group_name": "SUBSET",
+            "name": "IRON DEFICIENCY PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P074 ",
+            "group_name": "SUBSET",
+            "name": "KIDPRO",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P157",
+            "group_name": "SUBSET",
+            "name": "ANAEMIA PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P162",
+            "group_name": "SUBSET",
+            "name": "COMPLETE CARDIAC PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P163 ",
+            "group_name": "SUBSET",
+            "name": "VITAMIN PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P178 ",
+            "group_name": "SUBSET",
+            "name": "CARDIAC RISK MARKERS",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P187 ",
+            "group_name": "SUBSET",
+            "name": "HEMOGRAM - 6 PART (DIFF)",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P196 ",
+            "group_name": "SUBSET",
+            "name": "BLOOD ELEMENT ANALYSIS PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P331 ",
+            "group_name": "SUBSET",
+            "name": "CARDIAC A PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "ACCP",
+            "group_name": "ARTHRITIS",
+            "name": "ANTI CCP (ACCP)",
+            "type": "TEST"
+          },
+          {
+            "code": "ANA",
+            "group_name": "ARTHRITIS",
+            "name": "ANTI NUCLEAR ANTIBODIES (ANA)",
+            "type": "TEST"
+          },
+          {
+            "code": "APB/",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APO B / APO A1 RATIO (Apo B/A1)",
+            "type": "TEST"
+          },
+          {
+            "code": "APOA",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APOLIPOPROTEIN - A1 (APO-A1)",
+            "type": "TEST"
+          },
+          {
+            "code": "APOB",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APOLIPOPROTEIN - B (APO-B)",
+            "type": "TEST"
+          },
+          {
+            "code": "HOMO",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "HOMOCYSTEINE",
+            "type": "TEST"
+          },
+          {
+            "code": "HSCRP",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "HIGH SENSITIVITY C-REACTIVE PROTEIN (hs-CRP)",
+            "type": "TEST"
+          },
+          {
+            "code": "LPA",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "LIPOPROTEIN (A) [LP(A)]",
+            "type": "TEST"
+          },
+          {
+            "code": "ABAS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "BASOPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "AEOS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "EOSINOPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "ALYM",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "LYMPHOCYTES - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "AMON",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MONOCYTES - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "ANEU",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NEUTROPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "BASO",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "BASOPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "EOS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "EOSINOPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "HB",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "HEMOGLOBIN",
+            "type": "TEST"
+          },
+          {
+            "code": "IG",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "IMMATURE GRANULOCYTES(IG)",
+            "type": "TEST"
+          },
+          {
+            "code": "IG%",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "IMMATURE GRANULOCYTE PERCENTAGE(IG%)",
+            "type": "TEST"
+          },
+          {
+            "code": "LEUC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "TOTAL LEUCOCYTES COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "LYMPH",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "LYMPHOCYTE PERCENTAGE",
+            "type": "TEST"
+          },
+          {
+            "code": "MCH",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORPUSCULAR HEMOGLOBIN(MCH)",
+            "type": "TEST"
+          },
+          {
+            "code": "MCHC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORP.HEMO.CONC(MCHC)",
+            "type": "TEST"
+          },
+          {
+            "code": "MCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORPUSCULAR VOLUME(MCV)",
+            "type": "TEST"
+          },
+          {
+            "code": "MONO",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MONOCYTES",
+            "type": "TEST"
+          },
+          {
+            "code": "MPV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN PLATELET VOLUME(MPV)",
+            "type": "TEST"
+          },
+          {
+            "code": "NEUT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NEUTROPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "NRBC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NUCLEATED RED BLOOD CELLS",
+            "type": "TEST"
+          },
+          {
+            "code": "NRBC%",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NUCLEATED RED BLOOD CELLS %",
+            "type": "TEST"
+          },
+          {
+            "code": "PCT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELETCRIT(PCT)",
+            "type": "TEST"
+          },
+          {
+            "code": "PCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "HEMATOCRIT(PCV)",
+            "type": "TEST"
+          },
+          {
+            "code": "PDW",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET DISTRIBUTION WIDTH(PDW)",
+            "type": "TEST"
+          },
+          {
+            "code": "PLCR",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET TO LARGE CELL RATIO(PLCR)",
+            "type": "TEST"
+          },
+          {
+            "code": "PLT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "RBC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "TOTAL RBC",
+            "type": "TEST"
+          },
+          {
+            "code": "RDCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "RED CELL DISTRIBUTION WIDTH (RDW-CV)",
+            "type": "TEST"
+          },
+          {
+            "code": "RDWSD",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "RED CELL DISTRIBUTION WIDTH - SD(RDW-SD)",
+            "type": "TEST"
+          },
+          {
+            "code": "ABG",
+            "group_name": "DIABETES",
+            "name": "AVERAGE BLOOD GLUCOSE (ABG)",
+            "type": "TEST"
+          },
+          {
+            "code": "HBA",
+            "group_name": "DIABETES",
+            "name": "HbA1c",
+            "type": "TEST"
+          },
+          {
+            "code": "CHL",
+            "group_name": "ELECTROLYTES",
+            "name": "CHLORIDE",
+            "type": "TEST"
+          },
+          {
+            "code": "SOD",
+            "group_name": "ELECTROLYTES",
+            "name": "SODIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "PRL",
+            "group_name": "INFERTILITY",
+            "name": "PROLACTIN (PRL)",
+            "type": "TEST"
+          },
+          {
+            "code": "%TSA",
+            "group_name": "IRON DEFICIENCY",
+            "name": "% TRANSFERRIN SATURATION",
+            "type": "TEST"
+          },
+          {
+            "code": "FERR",
+            "group_name": "IRON DEFICIENCY",
+            "name": "FERRITIN",
+            "type": "TEST"
+          },
+          {
+            "code": "IRON",
+            "group_name": "IRON DEFICIENCY",
+            "name": "IRON",
+            "type": "TEST"
+          },
+          {
+            "code": "TIBC",
+            "group_name": "IRON DEFICIENCY",
+            "name": "TOTAL IRON BINDING CAPACITY (TIBC)",
+            "type": "TEST"
+          },
+          {
+            "code": "CHOL",
+            "group_name": "LIPID",
+            "name": "TOTAL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "HCHO",
+            "group_name": "LIPID",
+            "name": "HDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL",
+            "group_name": "LIPID",
+            "name": "LDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL/",
+            "group_name": "LIPID",
+            "name": "LDL / HDL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "NHDL",
+            "group_name": "LIPID",
+            "name": "NON-HDL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "TC/H",
+            "group_name": "LIPID",
+            "name": "TC/ HDL CHOLESTEROL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "TRIG",
+            "group_name": "LIPID",
+            "name": "TRIGLYCERIDES",
+            "type": "TEST"
+          },
+          {
+            "code": "VLDL",
+            "group_name": "LIPID",
+            "name": "VLDL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "A/GR",
+            "group_name": "LIVER",
+            "name": "SERUM ALBUMIN/GLOBULIN RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "ALKP",
+            "group_name": "LIVER",
+            "name": "ALKALINE PHOSPHATASE",
+            "type": "TEST"
+          },
+          {
+            "code": "BILD",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN -DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "BILI",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN (INDIRECT)",
+            "type": "TEST"
+          },
+          {
+            "code": "BILT",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "GGT",
+            "group_name": "LIVER",
+            "name": "GAMMA GLUTAMYL TRANSFERASE (GGT)",
+            "type": "TEST"
+          },
+          {
+            "code": "PROT",
+            "group_name": "LIVER",
+            "name": "PROTEIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "SALB",
+            "group_name": "LIVER",
+            "name": "ALBUMIN - SERUM",
+            "type": "TEST"
+          },
+          {
+            "code": "SEGB",
+            "group_name": "LIVER",
+            "name": "SERUM GLOBULIN",
+            "type": "TEST"
+          },
+          {
+            "code": "SGOT",
+            "group_name": "LIVER",
+            "name": "ASPARTATE AMINOTRANSFERASE (SGOT )",
+            "type": "TEST"
+          },
+          {
+            "code": "SGPT",
+            "group_name": "LIVER",
+            "name": "ALANINE TRANSAMINASE (SGPT)",
+            "type": "TEST"
+          },
+          {
+            "code": "B/CR",
+            "group_name": "RENAL",
+            "name": "BUN / Sr.CREATININE RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "BUN",
+            "group_name": "RENAL",
+            "name": "BLOOD UREA NITROGEN (BUN)",
+            "type": "TEST"
+          },
+          {
+            "code": "CALC",
+            "group_name": "RENAL",
+            "name": "CALCIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "SCRE",
+            "group_name": "RENAL",
+            "name": "CREATININE - SERUM",
+            "type": "TEST"
+          },
+          {
+            "code": "URIC",
+            "group_name": "RENAL",
+            "name": "URIC ACID",
+            "type": "TEST"
+          },
+          {
+            "code": "TEST",
+            "group_name": "TESTOSTERONE",
+            "name": "TESTOSTERONE",
+            "type": "TEST"
+          },
+          {
+            "code": "T3",
+            "group_name": "THYROID",
+            "name": "TOTAL TRIIODOTHYRONINE (T3)",
+            "type": "TEST"
+          },
+          {
+            "code": "T4",
+            "group_name": "THYROID",
+            "name": "TOTAL THYROXINE (T4)",
+            "type": "TEST"
+          },
+          {
+            "code": "TSH",
+            "group_name": "THYROID",
+            "name": "THYROID STIMULATING HORMONE (TSH)",
+            "type": "TEST"
+          },
+          {
+            "code": "BTEAS",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "ARSENIC",
+            "type": "TEST"
+          },
+          {
+            "code": "BTEBA",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "BARIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "BTECD",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "CADMIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "BTECO",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "COBALT",
+            "type": "TEST"
+          },
+          {
+            "code": "BTECR",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "CHROMIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "BTECS",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "CAESIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "BTEHG",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "MERCURY",
+            "type": "TEST"
+          },
+          {
+            "code": "BTEPB",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "LEAD",
+            "type": "TEST"
+          },
+          {
+            "code": "BTESE",
+            "group_name": "TOXIC ELEMENTS",
+            "name": "SELENIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "FOLI",
+            "group_name": "VITAMIN",
+            "name": "FOLIC ACID",
+            "type": "TEST"
+          },
+          {
+            "code": "VITB",
+            "group_name": "VITAMIN",
+            "name": "VITAMIN B-12",
+            "type": "TEST"
+          },
+          {
+            "code": "VITDC",
+            "group_name": "VITAMIN",
+            "name": "25-OH VITAMIN D (TOTAL)",
+            "type": "TEST"
+          },
+          {
+            "code": "AMYL",
+            "group_name": "WELLNESS",
+            "name": "AMYLASE",
+            "type": "TEST"
+          },
+          {
+            "code": "LASE",
+            "group_name": "WELLNESS",
+            "name": "LIPASE",
+            "type": "TEST"
+          }
+        ],
+        "code": "PROJ1006254",
+        "disease_group": null,
+        "edta": null,
+        "fasting": "CF",
+        "fluoride": null,
+        "group_name": null,
+        "hc": "3000",
+        "image_location": null,
+        "image_master": [],
+        "margin": "1999",
+        "name": "SPECIAL PACKAGE FOR WOMEN",
+        "normal_val": null,
+        "pay_type": "POSTPAID",
+        "rate": {
+          "b2b": null,
+          "b2c": "17150",
+          "id": "PROJ1006254",
+          "offer_rate": "6999",
+          "pay_amt": null
+        },
+        "serum": null,
+        "specimen_type": null,
+        "test_count": "87",
+        "testnames": "AAROGYAM STREE",
+        "type": "OFFER",
+        "units": null,
+        "urine": null,
+        "valid_to": "12/31/2016 12:00:00 AM",
+        "volume": null
+      }
+                        ],
+    "POP": [
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [
+          {
+            "code": "P175 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.1",
+            "type": "POP"
+          },
+          {
+            "code": "P179",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.2",
+            "type": "POP"
+          },
+          {
+            "code": "P180 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.3",
+            "type": "POP"
+          },
+          {
+            "code": "P207",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.4",
+            "type": "POP"
+          },
+          {
+            "code": "P225 ",
+            "group_name": "SUBSET",
+            "name": "AAROGYAM 1.0",
+            "type": "POP"
+          },
+          {
+            "code": "P001 ",
+            "group_name": "SUBSET",
+            "name": "T3-T4-TSH",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P035 ",
+            "group_name": "SUBSET",
+            "name": "LIPID PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P037 ",
+            "group_name": "SUBSET",
+            "name": "LIVER FUNCTION TESTS",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P039 ",
+            "group_name": "SUBSET",
+            "name": "IRON DEFICIENCY PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P074 ",
+            "group_name": "SUBSET",
+            "name": "KIDPRO",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P157",
+            "group_name": "SUBSET",
+            "name": "ANAEMIA PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P162",
+            "group_name": "SUBSET",
+            "name": "COMPLETE CARDIAC PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P163 ",
+            "group_name": "SUBSET",
+            "name": "VITAMIN PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P178 ",
+            "group_name": "SUBSET",
+            "name": "CARDIAC RISK MARKERS",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P187 ",
+            "group_name": "SUBSET",
+            "name": "HEMOGRAM - 6 PART (DIFF)",
+            "type": "PROFILE"
+          },
+          {
+            "code": "P331 ",
+            "group_name": "SUBSET",
+            "name": "CARDIAC A PROFILE",
+            "type": "PROFILE"
+          },
+          {
+            "code": "ACCP",
+            "group_name": "ARTHRITIS",
+            "name": "ANTI CCP (ACCP)",
+            "type": "TEST"
+          },
+          {
+            "code": "ANA",
+            "group_name": "ARTHRITIS",
+            "name": "ANTI NUCLEAR ANTIBODIES (ANA)",
+            "type": "TEST"
+          },
+          {
+            "code": "APB/",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APO B / APO A1 RATIO (Apo B/A1)",
+            "type": "TEST"
+          },
+          {
+            "code": "APOA",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APOLIPOPROTEIN - A1 (APO-A1)",
+            "type": "TEST"
+          },
+          {
+            "code": "APOB",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "APOLIPOPROTEIN - B (APO-B)",
+            "type": "TEST"
+          },
+          {
+            "code": "HOMO",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "HOMOCYSTEINE",
+            "type": "TEST"
+          },
+          {
+            "code": "HSCRP",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "HIGH SENSITIVITY C-REACTIVE PROTEIN (hs-CRP)",
+            "type": "TEST"
+          },
+          {
+            "code": "LPA",
+            "group_name": "CARDIAC RISK MARKERS",
+            "name": "LIPOPROTEIN (A) [LP(A)]",
+            "type": "TEST"
+          },
+          {
+            "code": "ABAS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "BASOPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "AEOS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "EOSINOPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "ALYM",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "LYMPHOCYTES - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "AMON",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MONOCYTES - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "ANEU",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NEUTROPHILS - ABSOLUTE COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "BASO",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "BASOPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "EOS",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "EOSINOPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "HB",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "HEMOGLOBIN",
+            "type": "TEST"
+          },
+          {
+            "code": "IG",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "IMMATURE GRANULOCYTES(IG)",
+            "type": "TEST"
+          },
+          {
+            "code": "IG%",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "IMMATURE GRANULOCYTE PERCENTAGE(IG%)",
+            "type": "TEST"
+          },
+          {
+            "code": "LEUC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "TOTAL LEUCOCYTES COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "LYMPH",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "LYMPHOCYTE PERCENTAGE",
+            "type": "TEST"
+          },
+          {
+            "code": "MCH",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORPUSCULAR HEMOGLOBIN(MCH)",
+            "type": "TEST"
+          },
+          {
+            "code": "MCHC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORP.HEMO.CONC(MCHC)",
+            "type": "TEST"
+          },
+          {
+            "code": "MCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN CORPUSCULAR VOLUME(MCV)",
+            "type": "TEST"
+          },
+          {
+            "code": "MONO",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MONOCYTES",
+            "type": "TEST"
+          },
+          {
+            "code": "MPV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "MEAN PLATELET VOLUME(MPV)",
+            "type": "TEST"
+          },
+          {
+            "code": "NEUT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NEUTROPHILS",
+            "type": "TEST"
+          },
+          {
+            "code": "NRBC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NUCLEATED RED BLOOD CELLS",
+            "type": "TEST"
+          },
+          {
+            "code": "NRBC%",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "NUCLEATED RED BLOOD CELLS %",
+            "type": "TEST"
+          },
+          {
+            "code": "PCT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELETCRIT(PCT)",
+            "type": "TEST"
+          },
+          {
+            "code": "PCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "HEMATOCRIT(PCV)",
+            "type": "TEST"
+          },
+          {
+            "code": "PDW",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET DISTRIBUTION WIDTH(PDW)",
+            "type": "TEST"
+          },
+          {
+            "code": "PLCR",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET TO LARGE CELL RATIO(PLCR)",
+            "type": "TEST"
+          },
+          {
+            "code": "PLT",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "PLATELET COUNT",
+            "type": "TEST"
+          },
+          {
+            "code": "RBC",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "TOTAL RBC",
+            "type": "TEST"
+          },
+          {
+            "code": "RDCV",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "RED CELL DISTRIBUTION WIDTH (RDW-CV)",
+            "type": "TEST"
+          },
+          {
+            "code": "RDWSD",
+            "group_name": "COMPLETE HEMOGRAM",
+            "name": "RED CELL DISTRIBUTION WIDTH - SD(RDW-SD)",
+            "type": "TEST"
+          },
+          {
+            "code": "ABG",
+            "group_name": "DIABETES",
+            "name": "AVERAGE BLOOD GLUCOSE (ABG)",
+            "type": "TEST"
+          },
+          {
+            "code": "HBA",
+            "group_name": "DIABETES",
+            "name": "HbA1c",
+            "type": "TEST"
+          },
+          {
+            "code": "CHL",
+            "group_name": "ELECTROLYTES",
+            "name": "CHLORIDE",
+            "type": "TEST"
+          },
+          {
+            "code": "SOD",
+            "group_name": "ELECTROLYTES",
+            "name": "SODIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "%TSA",
+            "group_name": "IRON DEFICIENCY",
+            "name": "% TRANSFERRIN SATURATION",
+            "type": "TEST"
+          },
+          {
+            "code": "FERR",
+            "group_name": "IRON DEFICIENCY",
+            "name": "FERRITIN",
+            "type": "TEST"
+          },
+          {
+            "code": "IRON",
+            "group_name": "IRON DEFICIENCY",
+            "name": "IRON",
+            "type": "TEST"
+          },
+          {
+            "code": "TIBC",
+            "group_name": "IRON DEFICIENCY",
+            "name": "TOTAL IRON BINDING CAPACITY (TIBC)",
+            "type": "TEST"
+          },
+          {
+            "code": "CHOL",
+            "group_name": "LIPID",
+            "name": "TOTAL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "HCHO",
+            "group_name": "LIPID",
+            "name": "HDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL",
+            "group_name": "LIPID",
+            "name": "LDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL/",
+            "group_name": "LIPID",
+            "name": "LDL / HDL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "NHDL",
+            "group_name": "LIPID",
+            "name": "NON-HDL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "TC/H",
+            "group_name": "LIPID",
+            "name": "TC/ HDL CHOLESTEROL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "TRIG",
+            "group_name": "LIPID",
+            "name": "TRIGLYCERIDES",
+            "type": "TEST"
+          },
+          {
+            "code": "VLDL",
+            "group_name": "LIPID",
+            "name": "VLDL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "A/GR",
+            "group_name": "LIVER",
+            "name": "SERUM ALBUMIN/GLOBULIN RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "ALKP",
+            "group_name": "LIVER",
+            "name": "ALKALINE PHOSPHATASE",
+            "type": "TEST"
+          },
+          {
+            "code": "BILD",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN -DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "BILI",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN (INDIRECT)",
+            "type": "TEST"
+          },
+          {
+            "code": "BILT",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "GGT",
+            "group_name": "LIVER",
+            "name": "GAMMA GLUTAMYL TRANSFERASE (GGT)",
+            "type": "TEST"
+          },
+          {
+            "code": "PROT",
+            "group_name": "LIVER",
+            "name": "PROTEIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "SALB",
+            "group_name": "LIVER",
+            "name": "ALBUMIN - SERUM",
+            "type": "TEST"
+          },
+          {
+            "code": "SEGB",
+            "group_name": "LIVER",
+            "name": "SERUM GLOBULIN",
+            "type": "TEST"
+          },
+          {
+            "code": "SGOT",
+            "group_name": "LIVER",
+            "name": "ASPARTATE AMINOTRANSFERASE (SGOT )",
+            "type": "TEST"
+          },
+          {
+            "code": "SGPT",
+            "group_name": "LIVER",
+            "name": "ALANINE TRANSAMINASE (SGPT)",
+            "type": "TEST"
+          },
+          {
+            "code": "AMYL",
+            "group_name": "PANCREATIC ",
+            "name": "AMYLASE",
+            "type": "TEST"
+          },
+          {
+            "code": "LASE",
+            "group_name": "PANCREATIC ",
+            "name": "LIPASE",
+            "type": "TEST"
+          },
+          {
+            "code": "B/CR",
+            "group_name": "RENAL",
+            "name": "BUN / Sr.CREATININE RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "BUN",
+            "group_name": "RENAL",
+            "name": "BLOOD UREA NITROGEN (BUN)",
+            "type": "TEST"
+          },
+          {
+            "code": "CALC",
+            "group_name": "RENAL",
+            "name": "CALCIUM",
+            "type": "TEST"
+          },
+          {
+            "code": "SCRE",
+            "group_name": "RENAL",
+            "name": "CREATININE - SERUM",
+            "type": "TEST"
+          },
+          {
+            "code": "URIC",
+            "group_name": "RENAL",
+            "name": "URIC ACID",
+            "type": "TEST"
+          },
+          {
+            "code": "TEST",
+            "group_name": "TESTOSTERONE",
+            "name": "TESTOSTERONE",
+            "type": "TEST"
+          },
+          {
+            "code": "T3",
+            "group_name": "THYROID",
+            "name": "TOTAL TRIIODOTHYRONINE (T3)",
+            "type": "TEST"
+          },
+          {
+            "code": "T4",
+            "group_name": "THYROID",
+            "name": "TOTAL THYROXINE (T4)",
+            "type": "TEST"
+          },
+          {
+            "code": "TSH",
+            "group_name": "THYROID",
+            "name": "THYROID STIMULATING HORMONE (TSH)",
+            "type": "TEST"
+          },
+          {
+            "code": "FOLI",
+            "group_name": "VITAMIN",
+            "name": "FOLIC ACID",
+            "type": "TEST"
+          },
+          {
+            "code": "VITB",
+            "group_name": "VITAMIN",
+            "name": "VITAMIN B-12",
+            "type": "TEST"
+          },
+          {
+            "code": "VITDC",
+            "group_name": "VITAMIN",
+            "name": "25-OH VITAMIN D (TOTAL)",
+            "type": "TEST"
+          }
+        ],
+        "code": "P208",
+        "disease_group": "WELLNESS",
+        "edta": "HEMOGRAM - 6 PART (DIFF),HBA",
+        "fasting": "CF",
+        "fluoride": null,
+        "group_name": null,
+        "hc": "300",
+        "image_location": null,
+        "image_master": [],
+        "margin": "500",
+        "name": "AAROGYAM 1.6",
+        "normal_val": null,
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "2525",
+          "id": "P208",
+          "offer_rate": null,
+          "pay_amt": "1895"
+        },
+        "serum": "AAROGYAM 1.6",
+        "specimen_type": "SEBL",
+        "test_count": "77",
+        "testnames": null,
+        "type": "POP",
+        "units": null,
+        "urine": null,
+        "valid_to": null,
+        "volume": null
+      }
+    ],
+    "PROFILE": [
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [
+          {
+            "code": "CHOL",
+            "group_name": "LIPID",
+            "name": "TOTAL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "HCHO",
+            "group_name": "LIPID",
+            "name": "HDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL",
+            "group_name": "LIPID",
+            "name": "LDL CHOLESTEROL - DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "LDL/",
+            "group_name": "LIPID",
+            "name": "LDL / HDL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "NHDL",
+            "group_name": "LIPID",
+            "name": "NON-HDL CHOLESTEROL",
+            "type": "TEST"
+          },
+          {
+            "code": "TC/H",
+            "group_name": "LIPID",
+            "name": "TC/ HDL CHOLESTEROL RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "TRIG",
+            "group_name": "LIPID",
+            "name": "TRIGLYCERIDES",
+            "type": "TEST"
+          },
+          {
+            "code": "VLDL",
+            "group_name": "LIPID",
+            "name": "VLDL CHOLESTEROL",
+            "type": "TEST"
+          }
+        ],
+        "code": "P035",
+        "disease_group": "",
+        "edta": "",
+        "fasting": "CF",
+        "fluoride": null,
+        "group_name": null,
+        "hc": "300",
+        "image_location": null,
+        "image_master": [],
+        "margin": "100",
+        "name": "LIPID PROFILE",
+        "normal_val": null,
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "210",
+          "id": "P035",
+          "offer_rate": null,
+          "pay_amt": "155"
+        },
+        "serum": "",
+        "specimen_type": "SERUM",
+        "test_count": "8",
+        "testnames": null,
+        "type": "PROFILE",
+        "units": null,
+        "urine": null,
+        "valid_to": null,
+        "volume": null
+      },
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [
+          {
+            "code": "A/GR",
+            "group_name": "LIVER",
+            "name": "SERUM ALBUMIN/GLOBULIN RATIO",
+            "type": "TEST"
+          },
+          {
+            "code": "ALKP",
+            "group_name": "LIVER",
+            "name": "ALKALINE PHOSPHATASE",
+            "type": "TEST"
+          },
+          {
+            "code": "BILD",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN -DIRECT",
+            "type": "TEST"
+          },
+          {
+            "code": "BILI",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN (INDIRECT)",
+            "type": "TEST"
+          },
+          {
+            "code": "BILT",
+            "group_name": "LIVER",
+            "name": "BILIRUBIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "GGT",
+            "group_name": "LIVER",
+            "name": "GAMMA GLUTAMYL TRANSFERASE (GGT)",
+            "type": "TEST"
+          },
+          {
+            "code": "PROT",
+            "group_name": "LIVER",
+            "name": "PROTEIN - TOTAL",
+            "type": "TEST"
+          },
+          {
+            "code": "SALB",
+            "group_name": "LIVER",
+            "name": "ALBUMIN - SERUM",
+            "type": "TEST"
+          },
+          {
+            "code": "SEGB",
+            "group_name": "LIVER",
+            "name": "SERUM GLOBULIN",
+            "type": "TEST"
+          },
+          {
+            "code": "SGOT",
+            "group_name": "LIVER",
+            "name": "ASPARTATE AMINOTRANSFERASE (SGOT )",
+            "type": "TEST"
+          },
+          {
+            "code": "SGPT",
+            "group_name": "LIVER",
+            "name": "ALANINE TRANSAMINASE (SGPT)",
+            "type": "TEST"
+          }
+        ],
+        "code": "P037",
+        "disease_group": "",
+        "edta": "",
+        "fasting": "CF",
+        "fluoride": null,
+        "group_name": null,
+        "hc": "300",
+        "image_location": null,
+        "image_master": [],
+        "margin": "100",
+        "name": "LIVER FUNCTION TESTS",
+        "normal_val": null,
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "330",
+          "id": "P037",
+          "offer_rate": null,
+          "pay_amt": "245"
+        },
+        "serum": "",
+        "specimen_type": "SERUM",
+        "test_count": "11",
+        "testnames": null,
+        "type": "PROFILE",
+        "units": null,
+        "urine": null,
+        "valid_to": null,
+        "volume": null
+      }
+    ],
+    "TESTS": [
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [],
+        "code": "TSH",
+        "disease_group": "THYROID,PREGNANCY,INFERTILITY",
+        "edta": null,
+        "fasting": "NF",
+        "fluoride": null,
+        "group_name": "THYROID",
+        "hc": "200",
+        "image_location": null,
+        "image_master": null,
+        "margin": "50",
+        "name": "THYROID STIMULATING HORMONE (TSH)",
+        "normal_val": "0.30 - 5.5",
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "95",
+          "id": "TSH",
+          "offer_rate": null,
+          "pay_amt": "70"
+        },
+        "serum": null,
+        "specimen_type": "SERUM",
+        "test_count": null,
+        "testnames": null,
+        "type": "TEST",
+        "units": "µIU/ml",
+        "urine": null,
+        "valid_to": null,
+        "volume": "1ml"
+      },
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [],
+        "code": "T4",
+        "disease_group": "THYROID,INFERTILITY",
+        "edta": null,
+        "fasting": "NF",
+        "fluoride": null,
+        "group_name": "THYROID",
+        "hc": "200",
+        "image_location": null,
+        "image_master": null,
+        "margin": "50",
+        "name": "TOTAL THYROXINE (T4)",
+        "normal_val": "4.5 - 12.0",
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "95",
+          "id": "T4",
+          "offer_rate": null,
+          "pay_amt": "70"
+        },
+        "serum": null,
+        "specimen_type": "SERUM",
+        "test_count": null,
+        "testnames": null,
+        "type": "TEST",
+        "units": "µg/dl",
+        "urine": null,
+        "valid_to": null,
+        "volume": "1ml"
+      },
+      {
+        "Additional_Tests": null,
+        "New": "N",
+        "ben_max": null,
+        "ben_min": null,
+        "ben_multiple": null,
+        "childs": [],
+        "code": "T3",
+        "disease_group": "THYROID,INFERTILITY",
+        "edta": null,
+        "fasting": "NF",
+        "fluoride": null,
+        "group_name": "THYROID",
+        "hc": "200",
+        "image_location": null,
+        "image_master": null,
+        "margin": "50",
+        "name": "TOTAL TRIIODOTHYRONINE (T3)",
+        "normal_val": "60 - 200",
+        "pay_type": null,
+        "rate": {
+          "b2b": null,
+          "b2c": "95",
+          "id": "T3",
+          "offer_rate": null,
+          "pay_amt": "70"
+        },
+        "serum": null,
+        "specimen_type": "SERUM",
+        "test_count": null,
+        "testnames": null,
+        "type": "TEST",
+        "units": "ng/dl",
+        "urine": null,
+        "valid_to": null,
+        "volume": "1ml"
+      }
+    ]
+  },
+  "RESPONSE": "SUCCESS",
+  "RES_ID": "RES0000",
+  "USER_TYPE": "DSA"
+}

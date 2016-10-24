@@ -71,28 +71,78 @@ String callStatus;
  boolean overnight;
  @Column(name="temp_lead_details")
  String tempLeadDetails;
+     @Column(name="hardcopy")
+    private String hardcopy;
+    @Column(name="order_id")
+    private String orderId;
+    @Column(name="product")
+    private String product;
+    @Column(name="service_type")
+    private String serviceType;
+    @Column(name="order_by")
+    private String orderBy;
+    @Column(name="appointment_date")
+    private String appointmentDate;
+    @Column(name="appointment_time")
+    private String appointmentTime;
+    @Column(name="ben_count")
+    private Integer benCount;
+    
+    @Column(name="report_code")
+    private String reportCode;
+    @Column(name="rate")
+    private String rate;
+    @Column(name="margin")
+    private String margin;
+    @Column(name="passon")
+    private String passon;
+    @Column(name="pay_type")
+    private String payType;
+    @Column(name="handling_charges")
+    private String handlingCharges;
+     @Column(name="beneficiaries")
+    private String beneficiaries;
 
     public TempClient() {
     }
 
-    public TempClient(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments,String callStatus) {
-       this.name=name;
+    public TempClient(String emailId, String name, String campaignName, String age, String gender, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, String ipAddress, String initialComments, String source, String pubId, String callStatus, boolean overnight, String tempLeadDetails, String hardcopy, String orderId, String product, String serviceType, String orderBy, String appointmentDate, String appointmentTime, Integer benCount, String reportCode, String rate, String margin, String passon,String payType, String handlingCharges,String beneficiaries) {
         this.emailId = emailId;
+        this.name = name;
+        this.campaignName = campaignName;
+        this.age = age;
+        this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.city = city;
         this.pincode = pincode;
         this.dateCreation = dateCreation;
         this.dateUpdated = dateUpdated;
+        this.ipAddress = ipAddress;
+        this.initialComments = initialComments;
+        this.source = source;
+        this.pubId = pubId;
+        this.callStatus = callStatus;
         this.overnight = overnight;
         this.tempLeadDetails = tempLeadDetails;
-        this.campaignName=campaignName;
-        this.age=age;
-        this.gender=gender;
-        this.ipAddress=ipAddress;
-        this.initialComments=initialComments;
-        this.callStatus=callStatus;
+        this.hardcopy = hardcopy;
+        this.orderId = orderId;
+        this.product = product;
+        this.serviceType = serviceType;
+        this.orderBy = orderBy;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
+        this.benCount = benCount;
+        this.reportCode = reportCode;
+        this.rate = rate;
+        this.margin = margin;
+        this.passon=passon;
+        this.payType = payType;
+        this.handlingCharges = handlingCharges;
+        this.beneficiaries=beneficiaries;
     }
+
+    
 
     public long getClientId() {
         return clientId;
@@ -244,6 +294,128 @@ String callStatus;
 
     public void setCallStatus(String callStatus) {
         this.callStatus = callStatus;
+    }
+
+    public String getHardcopy() {
+        return hardcopy;
+    }
+
+    public void setHardcopy(String hardcopy) {
+        this.hardcopy = hardcopy;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public Integer getBenCount() {
+        return benCount;
+    }
+
+    public void setBenCount(Integer benCount) {
+        this.benCount = benCount;
+    }
+
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
+
+    public String getMargin() {
+        return margin;
+    }
+
+    public void setMargin(String margin) {
+        this.margin = margin;
+    }
+
+    public String getPasson() {
+        return passon;
+    }
+
+    public void setPasson(String passon) {
+        this.passon = passon;
+    }
+
+   
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public String getHandlingCharges() {
+        return handlingCharges;
+    }
+
+    public void setHandlingCharges(String handlingCharges) {
+        this.handlingCharges = handlingCharges;
+    }
+
+    public String getBeneficiaries() {
+        return beneficiaries;
+    }
+
+    public void setBeneficiaries(String beneficiaries) {
+        this.beneficiaries = beneficiaries;
     }
 
    

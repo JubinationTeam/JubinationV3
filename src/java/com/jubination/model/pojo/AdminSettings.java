@@ -43,6 +43,8 @@ public class AdminSettings implements Serializable {
         String port;
     @Column(name="ref_code_thyrocare")
     String refCodeThyrocare;
+     @Column(name="pass_thyrocare")
+    String passThyrocare;
     @Column(name="api_key_thyrocare")
     String apiKeyThyrocare;
     public String getId() {
@@ -116,6 +118,14 @@ public class AdminSettings implements Serializable {
 
     public void setApiKeyThyrocare(String apiKeyThyrocare) {
         this.apiKeyThyrocare = apiKeyThyrocare;
+    }
+
+    public String getPassThyrocare() {
+        return passThyrocare;
+    }
+
+    public void setPassThyrocare(String passThyrocare) {
+        this.passThyrocare = passThyrocare;
     }
         
         

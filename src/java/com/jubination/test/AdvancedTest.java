@@ -10,7 +10,6 @@ import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.dao.MessageDAOImpl;
 import com.jubination.model.dao.ReportDAOImpl;
-import com.jubination.model.pojo.Admin;
 import com.jubination.model.util.HibernateUtil;
 
 
