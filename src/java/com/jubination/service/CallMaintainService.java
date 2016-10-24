@@ -167,7 +167,9 @@ AdminDAOImpl adao;
                      ben.setAge(client.getAge());
                      ben.setGender(client.getGender());
                      ben.setName(client.getName());
-                     beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
+                     if(client.getGender()!=null&&client.getAge()!=null){
+                        beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
+                     }
                  }
                  else{
                           for(Beneficiaries bens:lead.getBeneficiaries()){
@@ -250,10 +252,12 @@ AdminDAOImpl adao;
                                     if(!benDetails.isEmpty()){
                                             Beneficiaries ben= new Beneficiaries();
                                             String[] benBifurcation= benDetails.split("-");
-                                            ben.setName(benBifurcation[0]);
-                                            ben.setGender(benBifurcation[1]);
-                                            ben.setAge(benBifurcation[2]);
-                                            lead.getBeneficiaries().add(ben);
+                                            if(benBifurcation.length==3){
+                                                ben.setName(benBifurcation[0]);
+                                                ben.setGender(benBifurcation[1]);
+                                                ben.setAge(benBifurcation[2]);
+                                                lead.getBeneficiaries().add(ben);
+                                            }
                                     }
                                 }
                         }
