@@ -245,15 +245,17 @@ AdminDAOImpl adao;
             lead.setServiceType(lead.getServiceType());
             if(tempClient.getBeneficiaries()!=null&&tempClient.getBeneficiaries().contains("|")&&!tempClient.getBeneficiaries().isEmpty()){
                         String[] benDetailsList=tempClient.getBeneficiaries().split("|");
-                        for(String benDetails:benDetailsList){
-                            if(!benDetails.isEmpty()){
-                                    Beneficiaries ben= new Beneficiaries();
-                                    String[] benBifurcation= benDetails.split("-");
-                                    ben.setName(benBifurcation[0]);
-                                    ben.setGender(benBifurcation[1]);
-                                    ben.setAge(benBifurcation[2]);
-                                    lead.getBeneficiaries().add(ben);
-                            }
+                        if(benDetailsList!=null&&benDetailsList.length>0){
+                                for(String benDetails:benDetailsList){
+                                    if(!benDetails.isEmpty()){
+                                            Beneficiaries ben= new Beneficiaries();
+                                            String[] benBifurcation= benDetails.split("-");
+                                            ben.setName(benBifurcation[0]);
+                                            ben.setGender(benBifurcation[1]);
+                                            ben.setAge(benBifurcation[2]);
+                                            lead.getBeneficiaries().add(ben);
+                                    }
+                                }
                         }
             }
             else{
