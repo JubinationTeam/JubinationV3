@@ -35,8 +35,11 @@ private Session session=null;
     public Object buildEntity(Object entity) {
          Report report=(Report) entity;
             session = getSessionFactory().getCurrentSession();
-            session.saveOrUpdate(report);
-            report = (Report) session.get(Report.class, report.getReportId());
+            Report reportTemp = (Report) session.get(Report.class, report.getReportId());
+            if(reportTemp!=null){
+                session.delete(reportTemp);
+            }
+            session.save(report);
         
         return (T) report;
     }
