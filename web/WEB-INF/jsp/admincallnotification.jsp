@@ -69,53 +69,35 @@
                        
                            <thead>
                            <th>ID</th>
-                           <th>Name</th>
-                           <th>Age</th>
-                           <th>Gender</th>
-                           <th>Campaign Name</th>
-                           <th>Source</th>
-                           <th>Initial Comments</th>
+                           <th>Customer Details</th>
+                           <th>Campaign Name & Source</th>
                            <th>Email id</th>
                            <th>Number</th>
                            <th>Address</th>
-                           <th>City</th>
-                            <th>Pincode</th>
                             <th>Comments</th>
-                            <th>Follow up Date</th>
-                            <th>Booked</th>
                             <th>Executive</th>
-                            <th>Pending</th>
-                            <th>Notification</th>
                             <th>Follow ups left</th>
-                            
+                            <th>Date</th>
+                            <th>Follow up Date</th>
                             <th>Booking Manually</th>
                             <th>Disapproved</th>
                            </thead>
                            <tbody>
                    <c:forEach items="${lead}" var="lead">
                        <tr>
-                            <td>${lead.leadId}</td>
-                           <td>${lead.client.name}</td> 
-                           <td>${lead.client.age}</td>
-                           <td>${lead.client.gender}</td>
-                           <td>${lead.client.campaignName}</td>
-                           <td>${lead.client.source}</td>
-                           <td>${lead.client.initialComments}</td>
+                            <td><a class="btn btn-small"  style="background-color:#0081c2;color:#ffffff" href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${lead.leadId}"  target="_blank">${lead.leadId}</a></td>
+                           <td>${lead.client.name}, ${lead.client.age}, ${lead.client.gender}</td>
+                           <td>${lead.client.campaignName} - ${lead.client.source}</td>
                            <td>${lead.client.emailId}</td>
                            <td>${lead.client.phoneNumber}</td>
-                           <td>${lead.client.address}</td>
-                           <td>${lead.client.city}</td>
-                           <td>${lead.client.pincode}</td>
-                           <td>${lead.comments}</td>
-                           <td>${lead.followUpDate}</td>
-                           <td>${lead.booked}</td>
+                           <td>${lead.client.address},${lead.client.city} - ${lead.client.pincode}</td>
+                           <td>${lead.client.initialComments},${lead.comments}</td>
                            <td>${lead.admin.name}</td>
-                           <td>${lead.pending}</td>
-                           <td>${lead.notification}</td>
                            <td>${lead.count}</td>
-                           <c:if test="${not lead.notification}">
-                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/on/${lead.leadId}"><button class="btn btn-default" type="button">Booking Done</button></a></td>
-                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/off/${lead.leadId}"><button class="btn btn-default" type="button">Disapproved</button></a></td>
+                           <td>${lead.client.dateCreation}</td>
+                           <td>${lead.followUpDate}</td>
+                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/on/${lead.leadId}"><button class="btn btn-sm" style="background-color:#0081c2;color:#ffffff" type="button">Booking Done</button></a></td>
+                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/off/${lead.leadId}"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapproved</button></a></td>
                            </c:if>
                            <c:if test="${lead.notification}">
                            <td></td><td></td>
