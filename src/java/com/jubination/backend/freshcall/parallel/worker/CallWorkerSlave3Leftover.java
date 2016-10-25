@@ -37,7 +37,7 @@ public class CallWorkerSlave3Leftover {
     @Autowired
           private   CallBox callBox;
     
-    private String settings;
+    private String settings="settings";
       void work() {
           
                             if(manager.getClientStage1().isEmpty()&&manager.getClientStage2().isEmpty()){
