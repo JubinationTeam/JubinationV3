@@ -24,6 +24,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +43,15 @@ public class PDFReportService {
   
     
      public boolean parsePDFToTextThyrocreBlood(String url,String reportId) throws IOException{
-                
-            buildReport(backend.parsePDF(url,reportId));
-            return true;
-            
+           try {
+              
+                    buildReport(backend.parsePDF(url,reportId));
+                    
+            } catch (Exception ex) {
+            Logger.getLogger(XMLReportService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
     }
      
      //CLEAN AND SAVE TO DATABASE

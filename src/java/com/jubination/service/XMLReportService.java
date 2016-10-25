@@ -34,7 +34,7 @@ public class XMLReportService {
             
            buildReport(operator.convertThyrocareReportToGeneralReport(operator.parseXML(reportUrl),reportId));
            
-        } catch (JAXBException | IOException | ParserConfigurationException | SAXException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(XMLReportService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
