@@ -70,10 +70,12 @@
                            <thead>
                            <th>Name</th>
                            <th>Products</th>
-                           <th>Rate</th>
-                           <th>Handling charges</th>
-                           <th>Service Type</th>
                            <th>Report Code</th>
+                           <th>Service Type</th>
+                           <th>HC</th>
+                           <th>Rate</th>
+                           <th>Margin</th>
+                           <th>Passon</th>
                            </thead>
                            <tbody>
                      <c:forEach items="${campaign}" var="campaign">
@@ -81,10 +83,12 @@
                            
                             <td>${campaign.name}</td>
                              <td>${campaign.products}</td>
-                            <td>${campaign.rate}</td>
-                             <td>${campaign.hc}</td>
-                              <td>${campaign.serviceType}</td>
                                <td>${campaign.reportCode}</td>
+                              <td>${campaign.serviceType}</td>
+                             <td>${campaign.hc}</td>
+                            <td>${campaign.rate}</td>
+                            <td>${campaign.margin}</td>
+                            <td>${campaign.passon}</td>
                        </tr>
                     </c:forEach>  
                         </tbody>
