@@ -62,7 +62,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
              <div class="row" >
                 <h3  style="margin-left: 50px">Thyrocare Campaigns</h3>
-                <c:if test="${not empty products}">
+                <c:if test="${not empty campaign}">
                <div class="col-sm-12 table-responsive">
                   
                    <table  class="table table-bordered table-striped">
