@@ -85,7 +85,7 @@
                            <tbody>
                    <c:forEach items="${lead}" var="lead">
                        <tr>
-                            <td><a class="btn btn-small"  style="background-color:#0081c2;color:#ffffff" href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${lead.leadId}"  target="_blank">${lead.leadId}</a></td>
+                            <td><a class="btn btn-small"  style="background-color:#515151;color:#ffffff" href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${lead.leadId}"  target="_blank">${lead.leadId}</a></td>
                            <td>${lead.client.name}, ${lead.client.age}, ${lead.client.gender}</td>
                            <td>${lead.client.campaignName} - ${lead.client.source}</td>
                            <td>${lead.client.emailId}</td>
