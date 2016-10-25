@@ -96,6 +96,7 @@
                            <td>${lead.count}</td>
                            <td>${lead.client.dateCreation}</td>
                            <td>${lead.followUpDate}</td>
+                           <c:if test="${not lead.notification}">
                            <td><a href="${pageContext.request.contextPath}/admin/callnotification/on/${lead.leadId}"><button class="btn btn-sm" style="background-color:#0081c2;color:#ffffff" type="button">Booking Done</button></a></td>
                            <td><a href="${pageContext.request.contextPath}/admin/callnotification/off/${lead.leadId}"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapproved</button></a></td>
                            </c:if>
