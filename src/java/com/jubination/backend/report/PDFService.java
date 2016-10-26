@@ -1787,27 +1787,22 @@ public class PDFService {
                                                             }
                                                            break;
                                                          case "AgeRange":     
-                                                                                            profile.setWarning(true);
                                                                                                             test.setWarning(true);
                                                                                                 test.setMeaning("MeaningNotFound");
                                                            break;
                                                          case "FemaleHormoneRange":  
-                                                                                            profile.setWarning(true);
                                                                                                             test.setWarning(true);
                                                                                                 test.setMeaning("MeaningNotFound");   
                                                            break;
                                                          case "MaleHormoneRange":     
-                                                                                            profile.setWarning(true);
                                                                                                             test.setWarning(true);
                                                                                                 test.setMeaning("MeaningNotFound");
                                                            break;
                                                          case "Exact":    
-                                                                                            profile.setWarning(true);
                                                                                                             test.setWarning(true);
                                                                                                 test.setMeaning("MeaningNotFound");
                                                            break;
                                                          default:
-                                                                                            profile.setWarning(true);
                                                                                                             test.setWarning(true);
                                                                                                  test.setMeaning("MeaningNotFound");
                                                            break;
@@ -1817,7 +1812,6 @@ public class PDFService {
                                 }
                                 catch(Exception e){
                                  e.printStackTrace();
-                                  profile.setWarning(true);
                                                 test.setWarning(true);
                                   test.setMeaning("MeaningNotFound");
                                 }
