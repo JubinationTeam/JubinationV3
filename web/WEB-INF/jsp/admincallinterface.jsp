@@ -173,6 +173,7 @@
                            <thead>
                             <th>ID</th>
                            <th>Name</th>
+                           <th>Speaking to</th>
                            <th>Age</th>
                            <th>Gender</th>
                            <th>Campaign Name</th>
@@ -180,8 +181,6 @@
                            <th>Email id</th>
                            <th>Number</th>
                            <th>Address</th>
-                           <th>City</th>
-                            <th>Pincode</th>
                             <th>Comments</th>
                            </thead>
                            <tbody>
@@ -189,15 +188,14 @@
                        <tr>
                            <td><a class="btn btn-small"  style="background-color:#0081c2;color:#ffffff" href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${client2.tempLeadDetails}"  target="_blank">${client2.tempLeadDetails}</a></td>
                            <td>${client2.name}</td>
+                           <td>${client2.realTimeData}</td>
                            <td>${client2.age}</td>
                            <td>${client2.gender}</td>
                            <td>${client2.campaignName}</td>
                            <td>${client2.source}</td>
                            <td>${client2.emailId}</td>
                            <td>${client2.phoneNumber}</td>
-                           <td>${client2.address}</td>
-                           <td>${client2.city}</td>
-                           <td>${client2.pincode}</td>
+                           <td>${client2.address} ${client2.city} ${client2.pincode}</td>
                            <td>${client2.initialComments}</td>
                            </tr>
                    </c:forEach>

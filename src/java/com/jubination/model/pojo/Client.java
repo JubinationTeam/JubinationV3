@@ -74,6 +74,9 @@ public class Client implements Serializable {
  @Column(name="temp_lead_details")
  String tempLeadDetails;
  
+ @Column(name="real_time_data")
+  String realTimeData;
+ 
   @JsonManagedReference 
  @OneToMany(mappedBy="client")
       @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
@@ -262,6 +265,14 @@ public class Client implements Serializable {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public String getRealTimeData() {
+        return realTimeData;
+    }
+
+    public void setRealTimeData(String realTimeData) {
+        this.realTimeData = realTimeData;
     }
 
    
