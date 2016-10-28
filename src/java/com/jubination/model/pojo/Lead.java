@@ -34,7 +34,6 @@ import org.hibernate.annotations.NotFoundAction;
 public class Lead implements Serializable {
     @Id
     String leadId;
-    @JsonBackReference
         @ManyToOne
     Client client;
          @Column(name="count")

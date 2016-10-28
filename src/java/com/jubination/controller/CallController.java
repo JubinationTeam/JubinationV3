@@ -11,10 +11,12 @@ import com.jubination.backend.freshcall.parallel.master.CallManager;
 import com.jubination.model.pojo.Admin;
 import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Call;
+import com.jubination.model.pojo.Campaigns;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import com.jubination.service.ProductService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class CallController {
     @Autowired
 CallMaintainService callMaintain;
+        @Autowired
+ProductService productService;
     @Autowired
     AdminMaintainService adminMaintain;
     @Autowired
@@ -134,22 +138,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-        
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+     
+            getCallSettingsParam(model);
         
         model.addObject("cs1", callHandler.isFlag());
         model.addObject("cs2", callHandler.isCheckFlag());
@@ -176,20 +166,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setCount(Integer.parseInt(request.getParameter("count")));
-           model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-       model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+           
+            getCallSettingsParam(model);
         
             return model;
        
@@ -201,20 +179,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.setStatus(true);
-       model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-       model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+
+            getCallSettingsParam(model);
         
             return model;
        
@@ -225,20 +191,8 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-           model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-       model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+           
+            getCallSettingsParam(model);
         
             return model;
        
@@ -249,20 +203,8 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-         model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-       model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+         
+            getCallSettingsParam(model);
         
             return model;
        
@@ -274,20 +216,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.setStatus(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-      model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+      
+            getCallSettingsParam(model);
         
             return model;
        
@@ -298,20 +228,8 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-          model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+          
+            getCallSettingsParam(model);
         
             return model;
        
@@ -322,20 +240,8 @@ CallBox callHandler;
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-          model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+   
+            getCallSettingsParam(model);
         
             return model;
        
@@ -347,20 +253,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getClientStage1().clear();
-        model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+     
+            getCallSettingsParam(model);
         
             return model;
        
@@ -372,20 +266,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getClientStage2().clear();
-        model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+   
+            getCallSettingsParam(model);
             return model;
        
         
@@ -396,21 +278,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.getStageThreeUpdates().clear();
-         model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
         
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+            getCallSettingsParam(model);
             return model;
        
         
@@ -430,20 +299,8 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         callHandler.getNumbers().clear();
         callHandler.setFlag(false);
-        model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+      
+            getCallSettingsParam(model);
         
             return model;
        
@@ -456,20 +313,8 @@ CallBox callHandler;
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         callHandler.getSids().clear();
         callHandler.setCheckFlag(false);
-        model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+      
+            getCallSettingsParam(model);
             return model;
        
         
@@ -480,20 +325,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         callHandler.getStageThreeUpdates().clear();
-         model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+      
+            getCallSettingsParam(model);
             return model;
        
         
@@ -518,22 +351,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setNoonFlag(true);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
         
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+            getCallSettingsParam(model);
             return model;
        
         
@@ -544,22 +363,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setNoonFlag(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+      
+            getCallSettingsParam(model);
             return model;
        
         
@@ -571,22 +376,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setAfternoonFlag(true);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-       model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+  
+            getCallSettingsParam(model);
             return model;
        
         
@@ -597,22 +388,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setAfternoonFlag(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+    
+            getCallSettingsParam(model);
             return model;
        
         
@@ -625,22 +402,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setMornFlag(true);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+   
+            getCallSettingsParam(model);
             return model;
        
         
@@ -651,22 +414,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setMornFlag(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+         
+            getCallSettingsParam(model);
             return model;
        
         
@@ -678,22 +427,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setLunchFlag(true);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+       
+            getCallSettingsParam(model);
             return model;
        
         
@@ -704,22 +439,7 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setLunchFlag(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+            getCallSettingsParam(model);
             return model;
        
         
@@ -731,22 +451,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setEveningFlag(true);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
         
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+            getCallSettingsParam(model);
             return model;
        
         
@@ -757,22 +463,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         operator.setEveningFlag(false);
-         model.addObject("sFlag1", eCallHandler.getStatus());
-//        model.addObject("sFlag2", eCallHandler.isStage2());
-//        model.addObject("sFlag3", eCallHandler.isStage3());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
         
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+            getCallSettingsParam(model);
             return model;
        
         
@@ -970,7 +662,8 @@ CallBox callHandler;
                                     try{
                                                         if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
                                                                                 
-                                                                                 return new ResponseEntity(HttpStatus.OK);
+                                                                                            return new ResponseEntity(HttpStatus.OK);
+                                                                                
                                                                    }
                                     }
                                     catch(Exception e){
@@ -1001,6 +694,24 @@ CallBox callHandler;
         }
         callMaintain.doAnalytics();
         return list;
+    }
+    private ModelAndView getCallSettingsParam(ModelAndView model){
+        
+         model.addObject("sFlag1", eCallHandler.getStatus());
+        model.addObject("sCount1", eCallHandler.getClientStage1().size());
+        model.addObject("sCount2", eCallHandler.getClientStage2().size());
+        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
+          model.addObject("sCountCC1", callHandler.getNumbers().size());
+        model.addObject("sCountCC2", callHandler.getSids().size());
+        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
+        
+        model.addObject("followUpCount", operator.getCount());
+        model.addObject("followNoon", operator.isNoonFlag());
+        model.addObject("followAfternoon", operator.isAfternoonFlag());
+        model.addObject("followMorn", operator.isMornFlag());
+        model.addObject("followLunch", operator.isLunchFlag());
+        model.addObject("followEvening", operator.isEveningFlag());
+        return model;
     }
 
 }

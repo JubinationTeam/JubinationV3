@@ -104,7 +104,9 @@ private Session session=null;
        Lead lead=(Lead) entity;
             session = getSessionFactory().getCurrentSession();
             lead = (Lead) session.get(Lead.class, lead.getLeadId());
-
+            if(lead!=null){
+                lead.getBeneficiaries().size();
+            }
         return (T) lead;
     }
    
@@ -269,8 +271,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                       
                       criteria = session.createCriteria(Client.class,"client");
                       criteria.createAlias("client.lead", "l");
-                      criteria.createAlias("l.call", "c");
-                      criteria.add(Restrictions.like("c.DateUpdated", dateUpdated, MatchMode.START));
+                      criteria.add(Restrictions.like("client.dateCreation", dateUpdated, MatchMode.START));
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                       list= criteria.list();
                       

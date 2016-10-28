@@ -12,10 +12,12 @@ import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
+import com.jubination.model.dao.ProductsDAOImpl;
 import com.jubination.model.pojo.Admin;
 import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Call;
+import com.jubination.model.pojo.Campaigns;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.DataAnalytics;
 import com.jubination.model.pojo.Lead;
@@ -55,6 +57,8 @@ CallAPIMessageDAOImpl callDao;
             ClientDAOImpl clientDao;
     @Autowired
             DataAnalyticsDAOImpl daDao;
+      @Autowired
+            ProductsDAOImpl pDao;
      @Autowired 
 AdminDAOImpl adao;
     @Autowired
@@ -154,14 +158,35 @@ AdminDAOImpl adao;
  }
  
    public TempClient buildBackupClient(Client client){
-            Lead lead=new Lead();
+            Lead lead=null;
             String beneficiaries="";
             if(client.getLead()!=null&&!client.getLead().isEmpty()){
                  lead=client.getLead().get(0);
                  lead.setLeadId(client.getTempLeadDetails());
-                 lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
+                 if(lead.getBeneficiaries()!=null){
+                        lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
+                 }
+                 else{
+                     lead.setBenCount(1);
+                 }
                  lead.setOrderId("JUBI0000"+lead.getLeadId());
                  lead.setOrderBy(client.getName());
+                 
+                 Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
+                                                                                
+                    if(camp!=null){
+                       lead.setMargin(camp.getMargin());
+                       lead.setHandlingCharges(camp.getHc());
+                       lead.setPasson(camp.getPasson());
+                       lead.setProduct(camp.getProducts());
+                       lead.setRate(camp.getRate());
+                       lead.setReportCode(camp.getReportCode());
+                       lead.setServiceType(camp.getServiceType());
+                    }
+                 
+                 
+                 
+                 
                  if(lead.getBeneficiaries().isEmpty()){
                      Beneficiaries ben = new Beneficiaries();
                      ben.setAge(client.getAge());
@@ -178,6 +203,7 @@ AdminDAOImpl adao;
                  }
 
             }
+            lead=new Lead();
             TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
 
             if(!checkIfClientPresent(client.getPhoneNumber())){
@@ -444,6 +470,9 @@ public void buildCallAPIMessage(Call call){
         return lead;
        // return readBackupClient(leadId);
     }
+    
+
+    
     public boolean createCallExcel(List<Call> list){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
@@ -789,6 +818,8 @@ public void buildCallAPIMessage(Call call){
                 }
                 return flag;	
     }
+
+   
 
     
 }

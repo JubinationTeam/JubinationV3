@@ -6,8 +6,10 @@
 package com.jubination.controller;
 
 import com.jubination.model.pojo.Admin;
+import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
+import com.jubination.model.pojo.products.thyrocare.json.ProductList;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
@@ -15,7 +17,19 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +54,6 @@ public class UpdateAndBookingController {
                                     String id=request.getParameter("id");
                                     String comment=request.getParameter("comment");
                                     String initialComment=request.getParameter("initialComment");
-                                    String booked =request.getParameter("booked");
                                     String email =request.getParameter("email");
                                     String date =request.getParameter("date");
                                     String address=request.getParameter("address");
@@ -73,7 +86,11 @@ public class UpdateAndBookingController {
                                                                                                                                                     l.setCount(0);
                                                                                                                                                     callMaintain.updateLeadOnly(l);
                                                                                                                                     }
-                                                                                                                                    lead.setBooked(true);
+                                                                                                                                    String bookingResponse=bookItThroughLMS(id);
+                                                                                                                                        model.addObject("response", bookingResponse);
+                                                                                                                                    if(bookingResponse.endsWith("Success")){
+                                                                                                                                            lead.setBooked(true);
+                                                                                                                                    }
                                                                                                                                     lead.setNotification(false);
                                                                                                                                     lead.setCount(0);
                                                                                                                             }
@@ -194,5 +211,45 @@ public class UpdateAndBookingController {
            return model;
        
         
+    }
+
+    private String bookItThroughLMS(String id){
+        String responseText="";
+        try {   
+
+                        String url="https://mypage.jubination.com/api/booking";
+                        ObjectMapper mapper = new ObjectMapper();
+
+                        //Object to JSON in String
+                        Lead lead=callMaintain.getClientDetails(id);
+                        lead.setCall(null);
+                        lead.getAdmin().setReceivedMessageList(null);
+                        lead.getAdmin().setSentMessageList(null);
+                        lead.getAdmin().setPassword(null);
+                        for(Beneficiaries ben:lead.getBeneficiaries()){
+                            ben.setLead(null);
+                        }
+                        lead.getClient().setLead(null);
+
+                        String jsonString= mapper.writeValueAsString(lead);
+
+                        HttpClient httpClient = HttpClientBuilder.create().build();
+
+                        StringEntity requestEntity = new StringEntity(
+                        jsonString,
+                        ContentType.APPLICATION_JSON);
+
+                        HttpPost postMethod = new HttpPost(url);
+                        postMethod.setEntity(requestEntity);
+
+                        HttpResponse response = httpClient.execute(postMethod);
+                        HttpEntity entity = response.getEntity();
+                        responseText = EntityUtils.toString(entity, "UTF-8");
+                    
+          } 
+         catch (Exception ex) {
+                        Logger.getLogger(UpdateAndBookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return responseText;
     }
 }
