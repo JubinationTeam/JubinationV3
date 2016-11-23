@@ -8,11 +8,8 @@ package com.jubination.model.pojo;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -30,7 +27,8 @@ public class AdminSettings implements Serializable {
         String myUsername;
     @Column(name="email_password")
         String myPassword;
-    
+    @Column(name="sendgrid_api")  
+        String sendgridApi;
     @Column(name="auth")
         String auth;
     @Column(name="starttls")
@@ -126,6 +124,14 @@ public class AdminSettings implements Serializable {
 
     public void setPassThyrocare(String passThyrocare) {
         this.passThyrocare = passThyrocare;
+    }
+
+    public String getSendgridApi() {
+        return sendgridApi;
+    }
+
+    public void setSendgridApi(String sendgridApi) {
+        this.sendgridApi = sendgridApi;
     }
         
         

@@ -270,8 +270,8 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                      session = getSessionFactory().getCurrentSession();
                       
                       criteria = session.createCriteria(Client.class,"client");
-                      criteria.createAlias("client.lead", "l");
-                      criteria.add(Restrictions.like("client.dateCreation", dateUpdated, MatchMode.START));
+                       criteria.createAlias("l.call", "c");
+                      criteria.add(Restrictions.like("c.DateUpdated", dateUpdated, MatchMode.START));
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                       list= criteria.list();
                       
@@ -299,10 +299,24 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
        
                  
                  switch (paramVal) {
-                     
-                     case "PendingAndNotifiedFor11":
+                      case "PendingAndNotified":
                                             session = getSessionFactory().getCurrentSession();
                                             Criteria criteria = session.createCriteria(Client.class);
+                                            criteria.createAlias("lead", "l");
+                                            criteria.add(Restrictions.or(Restrictions.and(Restrictions.eq("l.pending", true),Restrictions.ge("l.count", 1)),
+                                            Restrictions.and(Restrictions.eq("l.notification", true),Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())))));
+                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                                            list = criteria.list();
+                                            for(Client client:(List<Client>)list){
+                                                client.getLead().size();
+                                                for(Lead lead:client.getLead()){
+                                                    lead.getCall().size();
+                                                }
+                                            }
+                         break;
+                     case "PendingAndNotifiedFor11":
+                                            session = getSessionFactory().getCurrentSession();
+                                            criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
                                             criteria.add(Restrictions.or(Restrictions.and(Restrictions.eq("l.pending", true),Restrictions.ge("l.count", 1)),
                                             Restrictions.and(Restrictions.eq("l.notification", true),Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"-11"))));

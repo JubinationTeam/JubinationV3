@@ -8,6 +8,7 @@ package com.jubination.service;
 import com.jubination.backend.report.XMLParser;
 import com.jubination.model.dao.ReportDAOImpl;
 import com.jubination.model.pojo.Report;
+import com.jubination.model.pojo.products.thyrocare.json.ReportStatus;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,6 +55,8 @@ public class XMLReportService {
            return (Report) reportDAO.fetchEntity(new Report(reportId));
        } 
                   
-                           
+             public ReportStatus buildReportStatus(ReportStatus reportStatus){
+                 return (ReportStatus) reportDAO.buildReportStatus(reportStatus);
+             }              
     
 }

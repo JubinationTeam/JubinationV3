@@ -345,131 +345,30 @@ CallBox callHandler;
     
     
     
-     @RequestMapping(value="/admin/callsettings/followup/noon/on")
-    public ModelAndView noonFollowupOn(HttpServletRequest request, Principal principal) throws IOException {
+     @RequestMapping(value="/admin/callsettings/followup/on")
+    public ModelAndView FollowupOn(HttpServletRequest request, Principal principal) throws IOException {
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setNoonFlag(true);
+        operator.setFollowupFlag(true);
         
             getCallSettingsParam(model);
             return model;
        
         
     }    
-    @RequestMapping(value="/admin/callsettings/followup/noon/off")
+    @RequestMapping(value="/admin/callsettings/followup/off")
     public ModelAndView noonFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
        
         ModelAndView model= new ModelAndView("admincallsettings");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setNoonFlag(false);
+        operator.setFollowupFlag(false);
       
             getCallSettingsParam(model);
             return model;
        
         
     }    
-    
-    @RequestMapping(value="/admin/callsettings/followup/afternoon/on")
-    public ModelAndView afternoonFollowupOn(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setAfternoonFlag(true);
-  
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    @RequestMapping(value="/admin/callsettings/followup/afternoon/off")
-    public ModelAndView afternoonFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setAfternoonFlag(false);
-    
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    
-    
-    @RequestMapping(value="/admin/callsettings/followup/morn/on")
-    public ModelAndView mornFollowupOn(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setMornFlag(true);
-   
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    @RequestMapping(value="/admin/callsettings/followup/morn/off")
-    public ModelAndView mornFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setMornFlag(false);
-         
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    
-    @RequestMapping(value="/admin/callsettings/followup/lunch/on")
-    public ModelAndView lunchFollowupOn(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setLunchFlag(true);
-       
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    @RequestMapping(value="/admin/callsettings/followup/lunch/off")
-    public ModelAndView LunchFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setLunchFlag(false);
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    
-    @RequestMapping(value="/admin/callsettings/followup/evening/on")
-    public ModelAndView eveningFollowupOn(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setEveningFlag(true);
-        
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    @RequestMapping(value="/admin/callsettings/followup/evening/off")
-    public ModelAndView eveningFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setEveningFlag(false);
-        
-            getCallSettingsParam(model);
-            return model;
-       
-        
-    }    
-    
     
     
     
@@ -660,6 +559,8 @@ CallBox callHandler;
                 
                         if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                                     try{
+                                                        
+                                                        
                                                         if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
                                                                                 
                                                                                             return new ResponseEntity(HttpStatus.OK);
@@ -706,11 +607,7 @@ CallBox callHandler;
         model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
         
         model.addObject("followUpCount", operator.getCount());
-        model.addObject("followNoon", operator.isNoonFlag());
-        model.addObject("followAfternoon", operator.isAfternoonFlag());
-        model.addObject("followMorn", operator.isMornFlag());
-        model.addObject("followLunch", operator.isLunchFlag());
-        model.addObject("followEvening", operator.isEveningFlag());
+        model.addObject("followupFlag", operator.isFollowupFlag());
         return model;
     }
 

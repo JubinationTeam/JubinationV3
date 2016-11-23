@@ -96,6 +96,9 @@ public class CallWorkerSlave3Leftover {
                                                                                                                     
                                                                                                                 }
                                                                                                                 else if(call.getTrackStatus().contains("spoke")){
+                                                                                                                                lead.setFollowUpDate("");
+                                                                                                                                lead.setNotification(false);
+                                                                                                                                lead.setPending(false);
                                                                                                                                 if(lead==null||lead.getLeadStatus()==null){
                                                                                                                                     sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                                                                                                     sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
@@ -247,32 +250,32 @@ public class CallWorkerSlave3Leftover {
                                                    "Regards,"+
                                                   "<br/>"+
                                                   "Jubination"
-                                        ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+                                        ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
     }
      private void sendEmailToFailCall(String email){
            AdminSettings adminSettings = adminService.readSettings(settings);
-//            new EmailService(email,"Your pending health checkup",
-//                                          "Hi,<br/>" +
-//                                                "<br/>" +
-//                                                "Greetings from Jubination!<br/>" +
-//                                                "<br/>" +
-//                                                "It's great to have you as a part of Jubination family!<br/>" +
-//                                                "<br/>" +
-//                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
-//                                                "<br/>" +
-//                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Look forward to hearing from you soon. <br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Wish you a happy & healthy day!<br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Regards,<br/>" +
-//                                                "Reshma<br/>" +
-//                                                "Customer Happiness Manager<br/>" +
-//                                                "02233835916 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+            new EmailService(email,"Your pending health checkup",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "Greetings from Jubination!<br/>" +
+                                                "<br/>" +
+                                                "It's great to have you as a part of Jubination family!<br/>" +
+                                                "<br/>" +
+                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
+                                                "<br/>" +
+                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Look forward to hearing from you soon. <br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Wish you a happy & healthy day!<br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" +
+                                                "Reshma<br/>" +
+                                                "Customer Happiness Manager<br/>" +
+                                                "02233835916 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
 
        

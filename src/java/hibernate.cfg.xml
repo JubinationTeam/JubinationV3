@@ -4,7 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jubination?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://104.199.158.161/callbot?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
    <property name="hibernate.connection.password">root</property>
     <property name="hibernate.c3p0.min_size">10</property>
@@ -40,5 +40,12 @@
     <mapping class="com.jubination.model.pojo.products.thyrocare.json.Master"/>
     <mapping class="com.jubination.model.pojo.products.thyrocare.json.Rate"/>
     <mapping class="com.jubination.model.pojo.products.thyrocare.json.TestEntity"/>
+   
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.ReportStatus"/> 
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.BenMaster"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.LeadHistoryMaster"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.OrderMaster"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.TspMaster"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.json.DateDetails"/>
   </session-factory>
 </hibernate-configuration>

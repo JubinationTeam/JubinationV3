@@ -123,14 +123,31 @@
               </thead>
               <tbody>
                     <c:forEach items="${callrecords}" var="item">
-                        <c:if test="${(not empty item.recordingUrl && not empty item.lead.leadId)&&(item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
+                        <c:if test="${(not empty item.recordingUrl && not empty item.lead.leadId &&  empty item.lead.followUpDate &&
+                                      item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
                                       item.lead.leadStatus ne 'Follow up/Call back'&&
                                       item.lead.leadStatus ne 'Not interested'&&
                                       item.lead.leadStatus ne 'Not registered'&&
                                       item.lead.leadStatus ne 'Language not recognizable'&&
                                       item.lead.leadStatus ne 'No Service'&&
                                       item.lead.leadStatus ne 'Disapproved'&&
-                                      item.lead.leadStatus ne 'Customer complained')}">
+                                      item.lead.leadStatus ne 'Customer complained')||
+                                      
+                                      (not empty item.recordingUrl && not empty item.lead.leadId&& not empty item.lead.followUpDate && 
+                                      item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
+                                      item.lead.leadStatus ne 'Busy'&&
+                                      item.lead.leadStatus ne 'No Answer'&&
+                                      item.lead.leadStatus ne 'Failed'&&
+                                      item.lead.leadStatus ne 'Hanged up while greetings'&&
+                                      item.lead.leadStatus ne 'Hanged up while connecting'&&
+                                      item.lead.leadStatus ne 'Follow up/Call back'&&
+                                      item.lead.leadStatus ne 'Not interested'&&
+                                      item.lead.leadStatus ne 'Not registered'&&
+                                      item.lead.leadStatus ne 'Language not recognizable'&&
+                                      item.lead.leadStatus ne 'No Service'&&
+                                      item.lead.leadStatus ne 'Disapproved'&&
+                                      item.lead.leadStatus ne 'Customer complained')
+                              }">
                     <tr>
                         
                                         <td><a class="btn btn-small"  style="background-color:#0081c2;color:#ffffff" href="${pageContext.request.contextPath}/admin/callupdates/values?leadId=${item.lead.leadId}"  target="_blank">${item.lead.leadId}</a></td>

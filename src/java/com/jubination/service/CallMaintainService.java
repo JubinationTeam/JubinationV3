@@ -79,7 +79,7 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
             new EmailService("trupti@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -89,7 +89,7 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
             new EmailService("souvik@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -99,7 +99,7 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
               new EmailService("subhadeep@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
@@ -109,7 +109,7 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort()).start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
     }
  
  public boolean addClientCall(Client client,Lead lead,Call message){
@@ -156,54 +156,68 @@ AdminDAOImpl adao;
  public List<Client> getClientDump(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
- 
+ public List<Client> getClientDumpForDisplay(String date){
+    return (List<Client>) clientDao.getByProperty(date,"DateCreated");
+ }
    public TempClient buildBackupClient(Client client){
-            Lead lead=null;
+           
+            Lead lead=new Lead();
             String beneficiaries="";
             if(client.getLead()!=null&&!client.getLead().isEmpty()){
-                 lead=client.getLead().get(0);
-                 lead.setLeadId(client.getTempLeadDetails());
-                 if(lead.getBeneficiaries()!=null){
-                        lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
-                 }
-                 else{
-                     lead.setBenCount(1);
-                 }
-                 lead.setOrderId("JUBI0000"+lead.getLeadId());
-                 lead.setOrderBy(client.getName());
-                 
-                 Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
-                                                                                
-                    if(camp!=null){
-                       lead.setMargin(camp.getMargin());
-                       lead.setHandlingCharges(camp.getHc());
-                       lead.setPasson(camp.getPasson());
-                       lead.setProduct(camp.getProducts());
-                       lead.setRate(camp.getRate());
-                       lead.setReportCode(camp.getReportCode());
-                       lead.setServiceType(camp.getServiceType());
-                    }
-                 
-                 
-                 
-                 
-                 if(lead.getBeneficiaries().isEmpty()){
-                     Beneficiaries ben = new Beneficiaries();
-                     ben.setAge(client.getAge());
-                     ben.setGender(client.getGender());
-                     ben.setName(client.getName());
-                     if(client.getGender()!=null&&client.getAge()!=null){
-                        beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
-                     }
-                 }
-                 else{
-                          for(Beneficiaries bens:lead.getBeneficiaries()){
-                                       beneficiaries+=bens.getName()+"-"+bens.getGender()+"-"+bens.getAge()+"|";
-                          }
-                 }
+                                lead=client.getLead().get(0);
+                                lead.setLeadId(client.getTempLeadDetails());
+                                if(lead.getBeneficiaries()!=null){
+                                       lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
+                                }
+                                else{
+                                    lead.setBenCount(1);
+                                }
+                                if(lead.getBeneficiaries()==null){
+                                        lead.setBeneficiaries(new ArrayList());
+
+                                    }
+                                    int count=lead.getBeneficiaries().size();
+                                        while(count>0){
+                                            count--;
+                                            lead.getBeneficiaries().add(new Beneficiaries());
+                                        }
+                                lead.setOrderId("JUBI0000"+lead.getLeadId());
+                                lead.setOrderBy(client.getName());
+
+                                Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
+
+                                   if(camp!=null){
+                                      lead.setMargin(camp.getMargin());
+                                      lead.setHandlingCharges(camp.getHc());
+                                      lead.setPasson(camp.getPasson());
+                                      lead.setProduct(camp.getProducts());
+                                      lead.setRate(camp.getRate());
+                                      lead.setReportCode(camp.getReportCode());
+                                      lead.setServiceType(camp.getServiceType());
+                                   }
+                                int start = lead.getBeneficiaries().size();
+                                for(int i=start;i<10;i++){
+                                    lead.getBeneficiaries().add(new Beneficiaries());
+                                }
+
+
+                                if(lead.getBeneficiaries().isEmpty()){
+                                    Beneficiaries ben = new Beneficiaries();
+                                    ben.setAge(client.getAge());
+                                    ben.setGender(client.getGender());
+                                    ben.setName(client.getName());
+                                    if(client.getGender()!=null&&client.getAge()!=null){
+                                       beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
+                                    }
+                                }
+                                else{
+                                         for(Beneficiaries bens:lead.getBeneficiaries()){
+                                                      beneficiaries+=bens.getName()+"-"+bens.getGender()+"-"+bens.getAge()+"|";
+                                         }
+                                }
 
             }
-            lead=new Lead();
+            
             TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
 
             if(!checkIfClientPresent(client.getPhoneNumber())){
@@ -577,7 +591,7 @@ public void buildCallAPIMessage(Call call){
 		HSSFSheet sheet = workbook.createSheet("Client Sheet");
 		
                 
-                                        List<Client> list=getClientDump(date);
+                                        List<Client> list=getClientDumpForDisplay(date);
                 
                                           
                 

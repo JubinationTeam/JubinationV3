@@ -45,7 +45,7 @@
 <!--<context:property-placeholder location="jdbc.properties" />--> 
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />  
-        <property name="url" value="jdbc:mysql://localhost:3306/jubination?zeroDateTimeBehavior=convertToNull"/>  
+        <property name="url" value="jdbc:mysql://104.199.158.161/callbot?zeroDateTimeBehavior=convertToNull"/>  
        <property name="username" value="root" />  
         <property name="password" value="root" />
 </bean>
@@ -61,15 +61,15 @@
                 <prop key="hbm2ddl.auto">update</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
-                   <prop key="hibernate.c3p0.min_size">10</prop>
+                <prop key="hibernate.c3p0.min_size">10</prop>
                 <prop key="hibernate.c3p0.max_size">100</prop>
                 <prop key="hibernate.c3p0.acquire_increment">1</prop>
                 <prop key="hibernate.c3p0.idle_test_period">0</prop>
                 <prop key="hibernate.c3p0.max_statements">5000</prop>
                 <prop key="hibernate.c3p0.timeout">3600</prop>
-                   <prop key="hbm2ddl.auto">update</prop>
-                    <prop key="hibernate.show_sql">true</prop>
-                    <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
             </props>  
         </property>    
         

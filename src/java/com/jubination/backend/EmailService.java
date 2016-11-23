@@ -6,6 +6,8 @@
 
 package com.jubination.backend;
 
+import com.sendgrid.SendGrid;
+import com.sendgrid.SendGridException;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -31,8 +33,9 @@ public class EmailService  extends Thread{
     private String starttls; 
     private String host;
     private String port;
+    private String apiKey;
     
-    public EmailService(String emailId,String mailSubject, String mailContent,final String myUsername, final String myPassword, String auth, String starttls, String host, String port) {
+    public EmailService(String emailId,String mailSubject, String mailContent,final String myUsername, final String myPassword, String auth, String starttls, String host, String port,String apiKey) {
         this.mailContent = mailContent;
         this.mailSubject = mailSubject;
         this.emailId = emailId;
@@ -42,6 +45,7 @@ public class EmailService  extends Thread{
         this.starttls=starttls;
         this.host=host;
         this.port=port;
+        this.apiKey=apiKey;
     }
     
     
@@ -67,33 +71,18 @@ public class EmailService  extends Thread{
     }
     
    
-    public void sendOrder(String adminEmailId){
-        Properties prop = new Properties();
-        prop.put("mail.smtp.auth",auth);//true
-        prop.put("mail.smtp.starttls.enable",starttls);//true
-        prop.put("mail.smtp.host",host);//smtp.gmail.com
-        prop.put("mail.smtp.port",port);//587
+    public void sendOrder(String emailId) throws SendGridException{
         
-        Session session = Session.getInstance(prop, new javax.mail.Authenticator(){
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication(){
-               return new PasswordAuthentication(myUsername,myPassword); 
-            }
-        
-        }); 
-        
-        try{
+    SendGrid sendgrid = new SendGrid(apiKey);
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(myUsername));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adminEmailId));
-            message.setSubject(mailSubject);
-            message.setContent(mailContent,"text/html; charset=utf-8");
-            Transport.send(message);
-        }
-        catch(MessagingException e){
-            System.out.println("Error in authenticating : "+e);
-        }       
+    SendGrid.Email email = new SendGrid.Email();
+
+    email.addTo(emailId);
+    email.setFrom("support@jubination.com");
+    email.setSubject(mailSubject);
+    email.setHtml(mailContent);
+
+    SendGrid.Response response = sendgrid.send(email); 
     }
     
      

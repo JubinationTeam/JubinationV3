@@ -6,12 +6,13 @@
 package com.jubination.backend.freshcall.parallel.worker;
 
 import com.jubination.backend.EmailService;
-import com.jubination.backend.call.CallBox;
 import com.jubination.backend.call.ExotelMessage;
 import com.jubination.backend.freshcall.parallel.master.CallManager;
+import com.jubination.model.pojo.AdminSettings;
 import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
+import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
 import java.io.StringReader;
@@ -37,22 +38,26 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author MumbaiZone
- */
 @Component
 @Scope("prototype")
 public class CallWorkerSlave2 {
+         
+         @Autowired
+          private  CallMaintainService service;
+         
+         @Autowired
+          private  CallManager manager;
+
+         @Autowired
+          private CallWorkerSlave3 worker3;
+         
+         
        @Autowired
-     private  CallMaintainService service;
-    @Autowired
-     private  CallManager manager;
+     private  AdminMaintainService adminService;
+       
+    private String settings="settings";
     
-    @Autowired
-    private CallWorkerSlave3 worker3;
-    
-           void work(Client client){
+          void work(Client client){
                 //STAGE 2-----------------------GET CALL STATUS----------------------------------------------------------------//
                       int count=0;
                       
@@ -60,10 +65,7 @@ public class CallWorkerSlave2 {
                               try {
                                             String sid=null;
                                             Lead lead=null;
-
-                                           
-
-                                            //fetching all the sid values
+                                                 //fetching all the sid values
                                                 sid=tryFetchingSid(client);
                                                 if(sid!=null){
                                                     lead=client.getLead().get(client.getLead().size()-1);
@@ -165,7 +167,7 @@ public class CallWorkerSlave2 {
                                  
            }
            
-           private void processIfStage3NotUpdated(Call storedMessage, Call message, Client client){
+          private void processIfStage3NotUpdated(Call storedMessage, Call message, Client client){
                     System.out.println(Thread.currentThread().getName()+" "+"Stage 2:stage 3 not updated yet");
                         message.setCallTo(storedMessage.getCallTo());
                         //saving in database
@@ -204,8 +206,7 @@ public class CallWorkerSlave2 {
                                  service.updateCallAPIMessage(message);
            }
            
-           
-           private void processIfStage3Updated(Call storedMessage,Call message, Client client){
+          private void processIfStage3Updated(Call storedMessage,Call message, Client client){
                     System.out.println("Stage 2:stage 3 updated already");
                     storedMessage.setStatus(message.getStatus());
                     storedMessage.setCallType(message.getCallType());
@@ -244,7 +245,7 @@ public class CallWorkerSlave2 {
                     service.updateCallAPIMessage(storedMessage);
            }
            
-           private boolean tryStage3PreProcessing(String sid){
+          private boolean tryStage3PreProcessing(String sid){
                 if(worker3.work(sid)){
                                     System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 1- COMPLETED");
                                                                                                                                          
@@ -254,7 +255,7 @@ public class CallWorkerSlave2 {
                 return false;
            }
            
-           private String tryFetchingSid(Client client){
+          private String tryFetchingSid(Client client){
                String sid=null;
                  try{
                                 
@@ -276,7 +277,7 @@ public class CallWorkerSlave2 {
                  return sid;
            } 
            
-           private ExotelMessage checkStatus(String sid){
+          private ExotelMessage checkStatus(String sid){
                ExotelMessage eMessage=null;
                  String responseText="NA";
                             Document doc=null;
@@ -324,33 +325,30 @@ public class CallWorkerSlave2 {
                                     return eMessage;
            }
            
-       
-           
-           
-           
-             private void sendEmailToFailCall(String email){
-//            new EmailService(email,"Your pending health checkup",
-//                                          "Hi,<br/>" +
-//                                                "<br/>" +
-//                                                "Greetings from Jubination!<br/>" +
-//                                                "<br/>" +
-//                                                "It's great to have you as a part of Jubination family!<br/>" +
-//                                                "<br/>" +
-//                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
-//                                                "<br/>" +
-//                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Look forward to hearing from you soon. <br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Wish you a happy & healthy day!<br/>" +
-//                                                "<br/>" +
-//                                                "<br/>" +
-//                                                "Regards,<br/>" +
-//                                                "Reshma<br/>" +
-//                                                "Customer Happiness Manager<br/>" +
-//                                                "02233835916 ").start();
+          private void sendEmailToFailCall(String email){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Your pending health checkup",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "Greetings from Jubination!<br/>" +
+                                                "<br/>" +
+                                                "It's great to have you as a part of Jubination family!<br/>" +
+                                                "<br/>" +
+                                                "We received your inquiry for Thyrocare health check-up package. We have been trying to get in touch with you to fix your appointment but was unable to get through.<br/>" +
+                                                "<br/>" +
+                                                "Request you to suggest a suitable slot for a call-back or call us on 02233835916 or WhatsApp your name & email id on 9930421623 or mail us on support@jubination.com <br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Look forward to hearing from you soon. <br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Wish you a happy & healthy day!<br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" +
+                                                "Reshma<br/>" +
+                                                "Customer Happiness Manager<br/>" +
+                                                "02233835916 ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
 
 }

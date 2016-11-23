@@ -5,13 +5,14 @@
  */
 package com.jubination.controller;
 
+import com.jubination.model.pojo.products.thyrocare.json.ReportStatus;
 import com.jubination.model.pojo.Admin;
 import com.jubination.model.pojo.Beneficiaries;
 import com.jubination.model.pojo.Client;
 import com.jubination.model.pojo.Lead;
-import com.jubination.model.pojo.products.thyrocare.json.ProductList;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import com.jubination.service.XMLReportService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -31,8 +31,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -45,6 +50,8 @@ public class UpdateAndBookingController {
     AdminMaintainService adminMaintain; 
     @Autowired
     CallMaintainService callMaintain;
+    @Autowired 
+    XMLReportService reportService;
     
     @RequestMapping(value="/admin/callupdates/update")
     public ModelAndView updateClient(HttpServletRequest request, Principal principal) throws IOException {
@@ -63,6 +70,21 @@ public class UpdateAndBookingController {
                                     String pincode =request.getParameter("pincode");
                                     String leadStatus =request.getParameter("leadStatus");
                                     String number =request.getParameter("number");
+                                    String product =request.getParameter("product");
+                                    String hardcopy =request.getParameter("hardcopy");
+                                    String apptDate =request.getParameter("appt_date");
+                                    String apptTime =request.getParameter("appt_time");
+                                    String payType =request.getParameter("pay_type");
+                                    String ben0 =request.getParameter("ben_0");
+                                    String ben1 =request.getParameter("ben_1");
+                                    String ben2 =request.getParameter("ben_2");
+                                    String ben3 =request.getParameter("ben_3");
+                                    String ben4 =request.getParameter("ben_4");
+                                    String ben5 =request.getParameter("ben_5");
+                                    String ben6 =request.getParameter("ben_6");
+                                    String ben7 =request.getParameter("ben_7");
+                                    String ben8 =request.getParameter("ben_8");
+                                    String ben9 =request.getParameter("ben_9");
                                     if(id!=null){
                                             if(!id.isEmpty()){
                                                                             Lead lead=null;
@@ -105,6 +127,101 @@ public class UpdateAndBookingController {
                                                                                                             }
                                                                                                         }
                                                                                                        }
+                                                                                                       if(product!=null){
+                                                                                                            if(!product.isEmpty()){
+                                                                                                                    lead.setProduct(product);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(hardcopy!=null){
+                                                                                                            if(!hardcopy.isEmpty()){
+                                                                                                                    lead.setHardcopy(hardcopy);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(apptDate!=null){
+                                                                                                            if(!apptDate.isEmpty()){
+                                                                                                                    lead.setAppointmentDate(apptDate);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(apptTime!=null){
+                                                                                                            if(!apptTime.isEmpty()){
+                                                                                                                    lead.setAppointmentTime(apptTime);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(payType!=null){
+                                                                                                            if(!payType.isEmpty()){
+                                                                                                                    lead.setPayType(payType);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben0!=null&&ben0.contains(",")){
+                                                                                                            if(!ben0.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(0).setName(ben0.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(0).setAge(ben0.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(0).setGender(ben0.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben1!=null&&ben1.contains(",")){
+                                                                                                            if(!ben1.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(1).setName(ben1.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(1).setAge(ben1.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(1).setGender(ben1.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben2!=null&&ben2.contains(",")){
+                                                                                                            if(!ben2.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(2).setName(ben2.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(2).setAge(ben2.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(2).setGender(ben2.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben3!=null&&ben3.contains(",")){
+                                                                                                            if(!ben3.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(3).setName(ben3.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(3).setAge(ben3.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(3).setGender(ben3.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben4!=null&&ben4.contains(",")){
+                                                                                                            if(!ben4.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(4).setName(ben4.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(4).setAge(ben4.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(4).setGender(ben4.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben5!=null&&ben5.contains(",")){
+                                                                                                            if(!ben5.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(5).setName(ben5.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(5).setAge(ben5.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(5).setGender(ben5.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben6!=null&&ben6.contains(",")){
+                                                                                                            if(!ben6.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(6).setName(ben6.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(6).setAge(ben6.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(6).setGender(ben6.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben7!=null&&ben7.contains(",")){
+                                                                                                            if(!ben7.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(7).setName(ben7.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(7).setAge(ben7.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(7).setGender(ben7.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben8!=null&&ben8.contains(",")){
+                                                                                                            if(!ben8.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(8).setName(ben8.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(8).setAge(ben8.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(8).setGender(ben8.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
+                                                                                                        if(ben9!=null&&ben9.contains(",")){
+                                                                                                            if(!ben9.isEmpty()){
+                                                                                                                    lead.getBeneficiaries().get(9).setName(ben9.split(",")[0]);
+                                                                                                                    lead.getBeneficiaries().get(9).setAge(ben9.split(",")[1]);
+                                                                                                                    lead.getBeneficiaries().get(9).setGender(ben9.split(",")[2]);
+                                                                                                            }
+                                                                                                        }
                                                                                                         if(comment!=null){
                                                                                                             if(!comment.isEmpty()){
                                                                                                                     lead.setComments(comment);
@@ -252,4 +369,17 @@ public class UpdateAndBookingController {
         }
         return responseText;
     }
+    
+     @RequestMapping(value="/API/reportStatus/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
+    public ResponseEntity reportStatusEntry(@RequestBody ReportStatus reportStatus,HttpServletRequest request) throws IOException{
+            if(reportStatus!=null){
+                
+                 reportService.buildReportStatus(reportStatus);
+
+                return new ResponseEntity(HttpStatus.OK);
+            }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+    
+    
 }

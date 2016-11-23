@@ -155,66 +155,16 @@
                 <hr/>
                 <div class="row">
                     <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-2">
-                         <h3>11 am followup</h3><br/>
-                     <c:if test="${followMorn}">
+                         <h3>Followup switch</h3><br/>
+                     <c:if test="${followupFlag}">
                         <h4><b>On</b></h4>
                         
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/morn/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
+                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
                     </c:if>
-                   <c:if test="${!followMorn}">
+                   <c:if test="${!followupFlag}">
                         <h4><b>Off</b></h4>
                         
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/morn/on"><button class="btn btn-sm"   style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
-                    </c:if>
-                    </div>
-                    <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-2">
-                         <h3>12 noon followup</h3><br/>
-                    <c:if test="${followNoon}">
-                        <h4><b>On</b></h4>
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/noon/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
-                    </c:if>
-                   <c:if test="${!followNoon}">
-                        <h4><b>Off</b></h4>
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/noon/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
-                    </c:if>
-                    </div>
-                    <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-2">
-                         <h3>3 pm followup</h3><br/>
-                     <c:if test="${followLunch}">
-                        <h4><b>On</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/lunch/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
-                    </c:if>
-                   <c:if test="${!followLunch}">
-                        <h4><b>Off</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/lunch/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
-                    </c:if>
-                    </div>
-                    <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-2">
-                         <h3>4 pm followup</h3><br/>
-                     <c:if test="${followAfternoon}">
-                        <h4><b>On</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/afternoon/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
-                    </c:if>
-                   <c:if test="${!followAfternoon}">
-                        <h4><b>Off</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/afternoon/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
-                    </c:if>
-                    </div>
-                    <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-2">
-                         <h3>6 pm followup</h3><br/>
-                     <c:if test="${followEvening}">
-                        <h4><b>On</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/evening/off"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Switch off</button></a><br/><br/>
-                    </c:if>
-                   <c:if test="${!followEvening}">
-                        <h4><b>Off</b></h4>
-                        
-                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/evening/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
+                        <a href="${pageContext.request.contextPath}/admin/callsettings/followup/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
                     </c:if>
                     </div>
                     </div>

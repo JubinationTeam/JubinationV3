@@ -10,6 +10,7 @@ import com.jubination.model.pojo.Call;
 import com.jubination.model.pojo.Report;
 import com.jubination.model.pojo.Profile;
 import com.jubination.model.pojo.Test;
+import com.jubination.model.pojo.products.thyrocare.json.ReportStatus;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -42,6 +43,16 @@ private Session session=null;
             session.save(report);
         
         return (T) report;
+    }
+    
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Object buildReportStatus(Object entity) {
+         ReportStatus reportStatus=(ReportStatus) entity;
+            session = getSessionFactory().getCurrentSession();
+            session.save(reportStatus);
+            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getRES_ID());
+
+        return (T) reportStatus;
     }
 
     @Override

@@ -32,16 +32,10 @@ CallManager eCallHandler;
        private CallMaintainService service;
                     private boolean freshFlag=false;
                    
-                    private boolean mornFlag=false;
-                    private boolean noonFlag=false;
-                    
-                    private boolean lunchFlag=false;
-                    
-                    private boolean afternoonFlag=false;
-                    private boolean eveningFlag=false;
+                    private boolean followupFlag=false;
                     
                     private boolean dumpRetriever=true;
-                    private int count=5;
+                    private int count=7;
                     
                     private final String  dumpOvernight="*/3 * 20-23,0-8 * * *";
                     private final String freshCall="*/3 * 9-19 * * *";
@@ -52,14 +46,7 @@ CallManager eCallHandler;
                     
                     
                     
-                    private final String mornFollowUpCall="0 0 11 * * *";
-                    private final String noonFollowUpCall="0 0 12 * * *";
-                    
-                    private final String lunchFollowUpCall="0 0 15 * * *";
-                    
-                    private final String afernoonFollowUpCall="0 0 16 * * *";
-                    private final String eveningFollowUpCall="0 0 18 * * *";
-                    
+                    private final String followUpCall="0 0 10-19 * * *";
                     private final String calculateAnalytics="0 30 23 * * *";
                     
                      private String appIdLead="102261";
@@ -202,55 +189,11 @@ CallManager eCallHandler;
                     }
                     
                     
-                    @Async
-                    @Scheduled(cron = noonFollowUpCall)//12pm follow up call
-                    void followUpCustomerCallNoon() throws InterruptedException{
-                        if(isNoonFlag()&&eCallHandler.getStatus()){
-                            System.out.println("12 o clock follow up ");
-                            int count=10;
-                            while(!eCallHandler.getClientStage1().isEmpty()){
-                                Thread.sleep(60000);
-                                count--;
-                                if(count==0){
-                                    break;
-                                }
-                            }
-                            if(eCallHandler.getClientStage1().isEmpty()){
-                                for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor12")){
-                                                             client.setPriority(4);
-                                                             eCallHandler.getClientStage1().push(client);
-                                }
-                            }
-                        }
-                    }
-                    @Async
-                    @Scheduled(cron = afernoonFollowUpCall)//4pm follow up call
-                    void followUpCustomerCallAfternoon() throws InterruptedException{
-                        if(isAfternoonFlag()&&eCallHandler.getStatus()){
-                            System.out.println("4 pm follow up ");
-                             int count=10;
-                            while(!eCallHandler.getClientStage1().isEmpty()){
-                                Thread.sleep(60000);
-                                count--;
-                                if(count==0){
-                                    break;
-                                }
-                            }
-                            if(eCallHandler.getClientStage1().isEmpty()){
-                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
-                                        client.setPriority(4);                
-                                        eCallHandler.getClientStage1().push(client);
-                           }
-                             }
-                        }
-                        
-                    }
-                    
                      @Async
-                    @Scheduled(cron = mornFollowUpCall)//11am follow up call
+                    @Scheduled(cron = followUpCall)
                     void followUpCustomerCallMorn() throws InterruptedException{
-                        if(isMornFlag()&&eCallHandler.getStatus()){
-                            System.out.println("11 o clock follow up ");
+                        if(isFollowupFlag()&&eCallHandler.getStatus()){
+                            System.out.println("follow up ");
                             int count=10;
                             while(!eCallHandler.getClientStage1().isEmpty()){
                                 Thread.sleep(60000);
@@ -260,57 +203,12 @@ CallManager eCallHandler;
                                 }
                             }
                             if(eCallHandler.getClientStage1().isEmpty()){
-                           for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor12")){
+                           for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotified")){
                                client.setPriority(4);         
                                eCallHandler.getClientStage1().push(client);
                            }
                              }
                         }
-                    }
-                    @Async
-                    @Scheduled(cron = lunchFollowUpCall)//3pm follow up call
-                    void followUpCustomerCallLunch() throws InterruptedException{
-                        if(isLunchFlag()&&eCallHandler.getStatus()){
-                            System.out.println("3 pm follow up ");
-                             int count=10;
-                            while(!eCallHandler.getClientStage1().isEmpty()){
-                                Thread.sleep(60000);
-                                count--;
-                                if(count==0){
-                                    break;
-                                }
-                            }
-                            if(eCallHandler.getClientStage1().isEmpty()){
-                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
-                            client.setPriority(4);
-                                eCallHandler.getClientStage1().push(client);
-                           }
-                            
-                             }
-                        }
-                        
-                    }
-                     @Async
-                    @Scheduled(cron = eveningFollowUpCall)//6pm follow up call
-                    void followUpCustomerCallEvening() throws InterruptedException{
-                        if(isEveningFlag()&&eCallHandler.getStatus()){
-                            System.out.println("6 pm follow up ");
-                            int count=10;
-                            while(!eCallHandler.getClientStage1().isEmpty()){
-                                Thread.sleep(60000);
-                                count--;
-                                if(count==0){
-                                    break;
-                                }
-                            }
-                            if(eCallHandler.getClientStage1().isEmpty()){
-                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedFor4")){
-                                client.setPriority(4); 
-                                eCallHandler.getClientStage1().push(client);
-                           }
-                             }
-                        }
-                        
                     }
                     
                     
@@ -323,17 +221,6 @@ CallManager eCallHandler;
                         eCallHandler.getRealTimeInCall().clear();
                         service.doAnalytics();
                     }
-    public boolean isAfternoonFlag() {
-        synchronized(this){
-        return afternoonFlag;
-        }
-    }
-
-    public void setAfternoonFlag(boolean afternoonFlag) {
-        synchronized(this){
-        this.afternoonFlag = afternoonFlag;
-        }
-    }
 
     public boolean isFreshFlag() {
         synchronized(this){
@@ -347,18 +234,7 @@ CallManager eCallHandler;
         }
     }
 
-    public boolean isNoonFlag() {
-        synchronized(this){
-        return noonFlag;
-        }
-    }
-
-    public void setNoonFlag(boolean noonFlag) {
-        synchronized(this){
-        this.noonFlag = noonFlag;
-        }
-    }
-
+ 
     public ConcurrentLinkedQueue<Client> getNumbers() {
         return numbers;
     }
@@ -383,30 +259,15 @@ CallManager eCallHandler;
         this.count = count;
     }
 
-    public boolean isMornFlag() {
-        return mornFlag;
+    public boolean isFollowupFlag() {
+        return followupFlag;
     }
 
-    public void setMornFlag(boolean mornFlag) {
-        this.mornFlag = mornFlag;
+    public void setFollowupFlag(boolean followupFlag) {
+        this.followupFlag = followupFlag;
     }
 
-    public boolean isLunchFlag() {
-        return lunchFlag;
-    }
-
-    public void setLunchFlag(boolean lunchFlag) {
-        this.lunchFlag = lunchFlag;
-    }
-
-    public boolean isEveningFlag() {
-        return eveningFlag;
-    }
-
-    public void setEveningFlag(boolean eveningFlag) {
-        this.eveningFlag = eveningFlag;
-    }
-
+  
 
 
 
