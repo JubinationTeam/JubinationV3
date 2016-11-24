@@ -70,7 +70,7 @@ AdminDAOImpl adao;
  public void sendEmailUpdate() {
           
            AdminSettings adminSettings=(AdminSettings) adao.readSettingsProperty(settings);
-            new EmailService("disha@jubination.com","Call records updated!",
+            EmailService es1=new EmailService("disha@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
                     + "<br/>"
@@ -79,8 +79,9 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-            new EmailService("trupti@jubination.com","Call records updated!",
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
+            es1.start();
+            EmailService es2=new EmailService("trupti@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
                     + "<br/>"
@@ -89,8 +90,9 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-            new EmailService("souvik@jubination.com","Call records updated!",
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
+            es2.start();
+            EmailService es3=new EmailService("souvik@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
                     + "<br/>"
@@ -99,8 +101,9 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-              new EmailService("subhadeep@jubination.com","Call records updated!",
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
+            es3.start(); 
+            EmailService es4=new EmailService("subhadeep@jubination.com","Call records updated!",
                     "Hi, "
                     + "<br/>"
                     + "<br/>"
@@ -109,7 +112,12 @@ AdminDAOImpl adao;
                     + "check http://162.246.21.98/jubination/admin"
                     + "<br/>"
                     + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
+            es4.start();
+            es1=null;
+            es2=null;
+            es3=null;
+            es4=null;
     }
  
  public boolean addClientCall(Client client,Lead lead,Call message){
@@ -229,6 +237,8 @@ AdminDAOImpl adao;
 
                              tempClient.setCallStatus("duplicate");
             }
+            lead=null;
+            beneficiaries=null;
         return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
    
@@ -253,7 +263,7 @@ AdminDAOImpl adao;
        
        System.out.println("in check up"+number);
        if(list!=null&&!list.isEmpty()){
-           
+           list=null;
        System.out.println("present");
            return true;
        }
@@ -310,7 +320,10 @@ AdminDAOImpl adao;
                             lead.getBeneficiaries().add(ben);
             }
             clientList.add(client);
+            lead=null;
+            client=null;
         }
+        tempClientList=null;
         return clientList;
    }
    
@@ -385,6 +398,8 @@ AdminDAOImpl adao;
                      if(client.getAddress()==null&&storedClient.getAddress()!=null){
                          client.setAddress(storedClient.getAddress());
                      }
+                     storedClient=null;
+                     storedClientList=null;
                     return clientDao.updateProperty(client)!=null;
             }
      
@@ -454,6 +469,7 @@ public void buildCallAPIMessage(Call call){
         if(list.size()>0){
         return list.get(list.size()-1);
         }
+        list=null;
         return null;
     }
 
@@ -601,7 +617,7 @@ public void buildCallAPIMessage(Call call){
 		
                                         Integer index=1;
                                         data.put(index.toString(), new Object[] {
-                                                 "Lead id","Name","Number","Email","Campaign Name","Pub Id","Source","Date","City","Affiliate Status","Picked up by","Follow ups left",
+                                                 "Lead id","Name","Number","Email","Campaign Name","Pub Id","Source","Date","City","Affiliate Status","Picked up by","Follow ups left","Client comment","Lead comment","Follow up date",
                                                 "Status","Date","Status-1","Date-1"," Status-2","Date-2"," Status-3","Date-3"," Status-4","Date-4"," Status-5","Date-5"," Status-6","Date-6"," Status-7","Date-7",
                                                 " Status-8","Date-8"," Status-9","Date-9"," Status-10","Date-10"," Status-11","Date-11"," Status-12","Date-12"," Status-13","Date-13"," Status-14","Date-14"," Status-15","Date-15","","Final Status Beta"});
                                         index++;
@@ -769,14 +785,15 @@ public void buildCallAPIMessage(Call call){
                                                                 
                                             }
                                         }
-                                            data.put(index.toString(), new Object[] {lead.getLeadId(),message.getName(),message.getPhoneNumber(),message.getEmailId(),message.getCampaignName(),message.getPubId(),message.getSource(),message.getDateCreation(),message.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),
+                                            data.put(index.toString(), new Object[] {lead.getLeadId(),message.getName(),message.getPhoneNumber(),message.getEmailId(),message.getCampaignName(),message.getPubId(),message.getSource(),message.getDateCreation(),message.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),lead.getClient().getInitialComments(),lead.getComments(),lead.getFollowUpDate(),
                                                 leadDetailsArray[0],dateDetailsArray[0],leadDetailsArray[1],dateDetailsArray[1],leadDetailsArray[2],dateDetailsArray[2],leadDetailsArray[3],dateDetailsArray[3],leadDetailsArray[4],dateDetailsArray[4],leadDetailsArray[5],dateDetailsArray[5],leadDetailsArray[6],dateDetailsArray[6],leadDetailsArray[7],dateDetailsArray[7],
                                                 leadDetailsArray[8],dateDetailsArray[8],leadDetailsArray[9],dateDetailsArray[9],leadDetailsArray[10],dateDetailsArray[10],leadDetailsArray[11],dateDetailsArray[11],leadDetailsArray[12],dateDetailsArray[12],leadDetailsArray[13],dateDetailsArray[13],leadDetailsArray[14],dateDetailsArray[14],leadDetailsArray[15],dateDetailsArray[15],"",lead.getLeadStatus()});
                                                 index++;
-                                        
+                                        message=null;
                                         }
                                         
                                         
+                                     list=null;
 		Set<String> keyset = data.keySet();
 		int rownum = 0;
 		for (String key : keyset) {

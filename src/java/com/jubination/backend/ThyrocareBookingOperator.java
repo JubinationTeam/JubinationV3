@@ -35,7 +35,7 @@ public class ThyrocareBookingOperator {
     @Autowired
     AdminMaintainService admin;
     String settings = "settings";
-    private final String fetchProducts="0 15 0-23 * * *"; 
+    private final String fetchProducts="0 15 4-8 * * *"; 
     
      @Async
     @Scheduled(cron = fetchProducts)
@@ -67,6 +67,7 @@ public class ThyrocareBookingOperator {
 //                    }
 //                    count++;
 //                }
-            service.buildProductList(pl);
+           pl= service.buildProductList(pl);
+           pl=null;
     }
 }

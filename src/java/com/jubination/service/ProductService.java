@@ -70,7 +70,8 @@ AdminDAOImpl adao;
 //                    }
 //                    count++;
 //                }
-            buildProductList(pl);
+            pl=buildProductList(pl);
+            pl=null;
             return (ProductList) pdao.fetchEntity(new ProductList(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
         }
     }
