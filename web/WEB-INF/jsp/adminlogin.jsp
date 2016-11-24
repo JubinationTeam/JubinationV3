@@ -76,13 +76,14 @@
             </div>
     </div> <!-- /container -->
        
-    <br/><center>
+    <br/>
+    <!--<center>
         <h2>Beta Stage V3.5 - Might face issues. Report immediately</h2>
         <h2>Developments in process</h2>
             <h3>- Direct booking from LMS</h3>
             <h3>- Campaign Creation</h3>    
             <h3>- Missed appointment calling</h3>
             <h3>- Report sync with LMS</h3>
-            </center>
+            </center>-->
     </body>
 </html>
