@@ -136,7 +136,7 @@ CallManager eCallHandler;
                                                         eCallHandler.getClientStage1().push(numbers.poll());
                                                 }
                                         setFreshFlag(false);
-                                        numbers=null;
+                                        
                         }
                     }
                     
@@ -154,7 +154,7 @@ CallManager eCallHandler;
                                                                numbers.poll();
                                                            }
                                       } 
-                            numbers=null;
+                            
                         }
                     }
                     @Async
@@ -171,7 +171,7 @@ CallManager eCallHandler;
                                                         client.getLead().get(0).setPending(true);
                                                         client.setPriority(5);
                                                         eCallHandler.getClientStage1().push(client);
-                                                        client=null;
+                                                        
                                      }
                                      
                         
@@ -187,7 +187,7 @@ CallManager eCallHandler;
                             for(Client client:service.getMarkedClients()){
                                     getNumbers().offer(client);
                             }
-                            numbers=null;
+                            
                             setFreshFlag(true);     
                         }
                     }
@@ -210,7 +210,7 @@ CallManager eCallHandler;
                            for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotified")){
                                client.setPriority(4);         
                                eCallHandler.getClientStage1().push(client);
-                               client=null;
+                               
                            }
                              }
                         }
@@ -223,7 +223,7 @@ CallManager eCallHandler;
                         while(!numbers.isEmpty()){
                           Thread.sleep(60000);
                         }
-                        numbers=null;
+                        
                         eCallHandler.getRealTimeInCall().clear();
                         service.doAnalytics();
                     }
