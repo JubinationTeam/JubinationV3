@@ -261,7 +261,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                     session = getSessionFactory().getCurrentSession();
                       
                       criteria = session.createCriteria(Client.class);
-                      criteria.add(Restrictions.like("DateCreation", dateCreated, MatchMode.START));
+                      criteria.add(Restrictions.like("dateCreation", dateCreated, MatchMode.START));
                       list= criteria.list();
                      
                 break;
