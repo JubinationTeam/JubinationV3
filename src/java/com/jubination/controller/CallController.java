@@ -406,7 +406,8 @@ CallBox callHandler;
         ModelAndView model= new ModelAndView("adminpage");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
-        
+            List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
+            model.addObject("callrecords",list);
             model.addObject("ex",request.getParameter("ex"));
             model.addObject("message","Processed");
         
