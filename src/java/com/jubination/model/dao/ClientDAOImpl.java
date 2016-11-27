@@ -270,6 +270,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                      session = getSessionFactory().getCurrentSession();
                       
                       criteria = session.createCriteria(Client.class,"client");
+                       criteria.createAlias("client.lead", "l");
                        criteria.createAlias("l.call", "c");
                       criteria.add(Restrictions.like("c.DateUpdated", dateUpdated, MatchMode.START));
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
