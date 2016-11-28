@@ -75,7 +75,7 @@
             <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callupdates"><span style="font-size: 20px;"class="glyphicon glyphicon-upload"></span>&nbsp;Call Updates</a></li>  
             
             
-            <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callrecords/?date=<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>""><span style="font-size: 20px;"class="glyphicon glyphicon-align-left"></span>&nbsp;Call Records</a></li>  
+            <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callrecords/?date=<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>"><span style="font-size: 20px;"class="glyphicon glyphicon-align-left"></span>&nbsp;Call Records</a></li>  
             
             
             
