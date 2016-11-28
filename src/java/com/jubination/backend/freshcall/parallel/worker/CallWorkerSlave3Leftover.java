@@ -273,7 +273,7 @@ public class CallWorkerSlave3Leftover {
                                                 "<br/>" +
                                                 "<br/>" +
                                                 "Regards,<br/>" +
-                                                "Reshma<br/>" +
+                                                "Trupti<br/>" +
                                                 "Customer Happiness Manager<br/>" +
                                                 "02233835916 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }

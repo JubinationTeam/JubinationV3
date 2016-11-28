@@ -708,7 +708,7 @@
 ////                                                "<br/>" +
 ////                                                "<br/>" +
 ////                                                "Regards,<br/>" +
-////                                                "Reshma<br/>" +
+////                                                "Trupti<br/>" +
 ////                                                "Customer Happiness Manager<br/>" +
 ////                                                "02233835916 ").start();
 //     }
