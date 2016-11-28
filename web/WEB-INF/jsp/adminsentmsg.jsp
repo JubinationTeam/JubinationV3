@@ -22,6 +22,7 @@
             <meta name="description" content="">
             <meta name="author" content="Souvik Das">
             <title>Mail</title>
+             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
             
                <link type="text/css" href="<c:url value="/resources/css/jquery-ui-1.10.4.css" />" rel="stylesheet">
             

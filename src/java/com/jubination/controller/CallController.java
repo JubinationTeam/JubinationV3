@@ -388,6 +388,10 @@ CallBox callHandler;
     public ModelAndView callRecords(HttpServletRequest request, Principal principal) throws IOException {
        
         ModelAndView model= new ModelAndView("admincallrecords");
+          List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
+        if(list!=null&&!list.isEmpty()){   
+            model.addObject("callrecords",list);
+        }
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         model.addObject("message", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         

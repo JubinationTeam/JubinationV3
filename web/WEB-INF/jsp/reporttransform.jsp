@@ -17,6 +17,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title> Jubination </title>
+     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+            
     <link type="text/css" href="<c:url value="/resources/css/reportstyletransform.css"/>" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
     <!--
