@@ -632,8 +632,11 @@ public void buildCallAPIMessage(Call call){
                                             }
                                             int count=0;
                                             String caller="";
-                                            Lead lead=message.getLead().get(message.getLead().size()-1);
-                                            if(message.getLead().size()>0){
+                                            Lead lead=null;
+                                            if(message!=null&&message.getLead()!=null&&message.getLead().size()>0){
+                                                lead=message.getLead().get(message.getLead().size()-1);
+                                            }
+                                            if(message!=null&&message.getLead()!=null&&message.getLead().size()>0&&lead!=null){
                                                 if(lead.getCall().size()>0){     
                                                                 for(int i=lead.getCall().size()-1;i>=0;i--){
                                                                                 Call call=message.getLead().get(message.getLead().size()-1).getCall().get(i);
@@ -784,12 +787,13 @@ public void buildCallAPIMessage(Call call){
                                                                 }
                                                                 
                                             }
-                                        }
-                                            data.put(index.toString(), new Object[] {lead.getLeadId(),message.getName(),message.getPhoneNumber(),message.getEmailId(),message.getCampaignName(),message.getPubId(),message.getSource(),message.getDateCreation(),message.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),lead.getClient().getInitialComments(),lead.getComments(),lead.getFollowUpDate(),
+                                                data.put(index.toString(), new Object[] {lead.getLeadId(),message.getName(),message.getPhoneNumber(),message.getEmailId(),message.getCampaignName(),message.getPubId(),message.getSource(),message.getDateCreation(),message.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),lead.getClient().getInitialComments(),lead.getComments(),lead.getFollowUpDate(),
                                                 leadDetailsArray[0],dateDetailsArray[0],leadDetailsArray[1],dateDetailsArray[1],leadDetailsArray[2],dateDetailsArray[2],leadDetailsArray[3],dateDetailsArray[3],leadDetailsArray[4],dateDetailsArray[4],leadDetailsArray[5],dateDetailsArray[5],leadDetailsArray[6],dateDetailsArray[6],leadDetailsArray[7],dateDetailsArray[7],
                                                 leadDetailsArray[8],dateDetailsArray[8],leadDetailsArray[9],dateDetailsArray[9],leadDetailsArray[10],dateDetailsArray[10],leadDetailsArray[11],dateDetailsArray[11],leadDetailsArray[12],dateDetailsArray[12],leadDetailsArray[13],dateDetailsArray[13],leadDetailsArray[14],dateDetailsArray[14],leadDetailsArray[15],dateDetailsArray[15],"",lead.getLeadStatus()});
                                                 index++;
                                         message=null;
+                                        }
+                                            
                                         }
                                         
                                         
