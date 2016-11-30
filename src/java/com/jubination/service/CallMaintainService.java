@@ -641,9 +641,12 @@ public void buildCallAPIMessage(Call call){
                                                                 for(int i=lead.getCall().size()-1;i>=0;i--){
                                                                                 Call call=message.getLead().get(message.getLead().size()-1).getCall().get(i);
                                                                                 System.out.println(count+" "+i+" "+call.getDateCreated());
-                                                                                
-                                                                                
-                                                                                                            if(call.getStatus().contains("busy")){
+                                                                                ////////change to allow all lead sent to thyrocare leads///////////
+                                                                                                             if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                    affiliateDetails="Interested";
+                                                                                                            }
+                                                                                ////////////////////////
+                                                                                                             else if(call.getStatus().contains("busy")){
                                                                                                                 leadDetailsArray[count]="Busy";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated();
                                                                                                                 if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
@@ -699,12 +702,12 @@ public void buildCallAPIMessage(Call call){
                                                                                                                                        )){
                                                                                                                                                             leadDetailsArray[count]=lead.getLeadStatus();
                                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-//                                                                                                                                                                if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
+                                                                                                                                                                if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
                                                                                                                                                                     affiliateDetails="Interested";
-//                                                                                                                                                                }
-//                                                                                                                                                                else{
-//                                                                                                                                                                    affiliateDetails="WIP"; 
-//                                                                                                                                                                }
+                                                                                                                                                                }
+                                                                                                                                                                else{
+                                                                                                                                                                    affiliateDetails="WIP"; 
+                                                                                                                                                                }
                                                                                                                                                             }
                                                                                                                                                             else{
                                                                                                                                                                     affiliateDetails=lead.getLeadStatus();
