@@ -699,12 +699,12 @@ public void buildCallAPIMessage(Call call){
                                                                                                                                        )){
                                                                                                                                                             leadDetailsArray[count]=lead.getLeadStatus();
                                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-                                                                                                                                                                if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
+//                                                                                                                                                                if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
                                                                                                                                                                     affiliateDetails="Interested";
-                                                                                                                                                                }
-                                                                                                                                                                else{
-                                                                                                                                                                    affiliateDetails="WIP"; 
-                                                                                                                                                                }
+//                                                                                                                                                                }
+//                                                                                                                                                                else{
+//                                                                                                                                                                    affiliateDetails="WIP"; 
+//                                                                                                                                                                }
                                                                                                                                                             }
                                                                                                                                                             else{
                                                                                                                                                                     affiliateDetails=lead.getLeadStatus();
