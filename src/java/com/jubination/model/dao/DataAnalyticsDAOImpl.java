@@ -6,9 +6,9 @@
 
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.Admin;
-import com.jubination.model.pojo.DataAnalytics;
-import com.jubination.model.pojo.MailMessage;
+import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.pojo.crm.DataAnalytics;
+import com.jubination.model.pojo.admin.MailMessage;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;

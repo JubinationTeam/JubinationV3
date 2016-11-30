@@ -7,7 +7,7 @@
 package com.jubination.service;
 
 import com.jubination.model.dao.AdminDAOImpl;
-import com.jubination.model.pojo.Admin;
+import com.jubination.model.pojo.admin.Admin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jubination.controller;
 
-import com.jubination.backend.call.CallBox;
-import com.jubination.backend.freshcall.parallel.master.CallOperator;
-import com.jubination.backend.freshcall.parallel.master.CallManager;
-import com.jubination.model.pojo.Admin;
-import com.jubination.model.pojo.Beneficiaries;
-import com.jubination.model.pojo.Call;
-import com.jubination.model.pojo.Campaigns;
-import com.jubination.model.pojo.Client;
-import com.jubination.model.pojo.Lead;
+import com.jubination.backend.service.customcall.CallBox;
+import com.jubination.backend.service.freshcall.parallel.master.CallOperator;
+import com.jubination.backend.service.freshcall.parallel.master.CallManager;
+import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.crm.Client;
+import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import com.jubination.service.ProductService;
@@ -35,33 +29,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- *
- * @author MumbaiZone
- */
 
 @Controller
 public class CallController {
     @Autowired
-CallMaintainService callMaintain;
-        @Autowired
-ProductService productService;
+    CallMaintainService callMaintain;
+    @Autowired
+    ProductService productService;
     @Autowired
     AdminMaintainService adminMaintain;
     @Autowired
     CallOperator operator;
-      @Autowired
-CallManager eCallHandler;
-        @Autowired
-CallBox callHandler;
+    @Autowired
+    CallManager eCallHandler;
+    @Autowired
+    CallBox callHandler;
 
-        @RequestMapping(value="/admin/callcustom/call/lead",method = RequestMethod.POST)
+    @RequestMapping(value="/admin/callcustom/call/lead",method = RequestMethod.POST)
     public ModelAndView callCustomLeads(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallcustom");
-        
+            ModelAndView model= new ModelAndView("admincallcustom");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            
             if(request.getParameter("numbers")!=null){
                 operator.doLeadCall(request.getParameter("numbers"));
                 model.addObject("message", "Keep Calm and attend calls..:P");
@@ -69,16 +56,12 @@ CallBox callHandler;
             }
             model.addObject("message", "Error during call");
             return model;
-       
-        
     }
-       @RequestMapping(value="/admin/callcustom/call/cust",method = RequestMethod.POST)
+    
+    @RequestMapping(value="/admin/callcustom/call/cust",method = RequestMethod.POST)
     public ModelAndView callCustomCustomers(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallcustom");
-        
+            ModelAndView model= new ModelAndView("admincallcustom");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            
             if(request.getParameter("numbers")!=null){
                 operator.doCustCall(request.getParameter("numbers"));
                 model.addObject("message", "Keep Calm and attend calls..:P");
@@ -86,346 +69,220 @@ CallBox callHandler;
             }
             model.addObject("message", "Error during call");
             return model;
-       
-        
     }
-     @RequestMapping(value="/admin/callcustom")
+     
+    @RequestMapping(value="/admin/callcustom")
     public ModelAndView customCallInterface(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallcustom");
-                    model.addObject("ex",callHandler.getExecutives());
+            ModelAndView model= new ModelAndView("admincallcustom");
+            model.addObject("ex",callHandler.getExecutives());
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            
             return model;
-       
-        
     }
     
-     @RequestMapping(value="/admin/setExecs/custom")
+    @RequestMapping(value="/admin/setExecs/custom")
     public ModelAndView setCustomExecsCustom(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallcustom");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        callHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
-        
+            ModelAndView model= new ModelAndView("admincallcustom");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            callHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
             model.addObject("ex",request.getParameter("ex"));
             model.addObject("message","Processed");
-        
-        
-                                      
-        
-           return model;
-       
-        
+            return model;
     }
     
-     @RequestMapping(value="/admin/callinterface")
+    @RequestMapping(value="/admin/callinterface")
     public ModelAndView callInterface(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallinterface");
-        
-         model.addObject("clientStage",eCallHandler.getRealTimeInCall());
-              model.addObject("clientStage1",eCallHandler.getClientStage1());
-         model.addObject("clientStage2",eCallHandler.getClientStage2());
-           model.addObject("callStage3",eCallHandler.getStageThreeUpdates()); 
+            ModelAndView model= new ModelAndView("admincallinterface");
+            model.addObject("clientStage",eCallHandler.getRealTimeInCall());
+            model.addObject("clientStage1",eCallHandler.getClientStage1());
+            model.addObject("clientStage2",eCallHandler.getClientStage2());
+            model.addObject("callStage3",eCallHandler.getStageThreeUpdates()); 
             return model;
-       
-        
     }
-     @RequestMapping(value="/admin/callsettings")
+    @RequestMapping(value="/admin/callsettings")
     public ModelAndView callSettings(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        
+            ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-     
             getCallSettingsParam(model);
-        
-        model.addObject("cs1", callHandler.isFlag());
-        model.addObject("cs2", callHandler.isCheckFlag());
-//        model.addObject("s1", eCallHandler.isFlag1());
-//        model.addObject("s2",eCallHandler.isFlag2());
+            model.addObject("cs1", callHandler.isFlag());
+            model.addObject("cs2", callHandler.isCheckFlag());
             return model;
-       
-        
     }
     
-        @RequestMapping(value = "/admin/callanalytics/get")
-	public  ModelAndView adminLoginCheck(HttpServletRequest request,Principal principal) {
+    @RequestMapping(value = "/admin/callanalytics/get")
+    public  ModelAndView adminLoginCheck(HttpServletRequest request,Principal principal) {
             ModelAndView model= new ModelAndView("adminpage");
             model.addObject("analytics",callMaintain.readAnalytics(request.getParameter("date")));
-            
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            
             return model;
-}
+    }
     
     @RequestMapping(value="/admin/callsettings/set/count")
     public ModelAndView callSettingsSetCount(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setCount(Integer.parseInt(request.getParameter("count")));
-           
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            operator.setCount(Integer.parseInt(request.getParameter("count")));
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
-       @RequestMapping(value="/admin/callsettings/stage1/on")
+    
+    @RequestMapping(value="/admin/callsettings/stage1/on")
     public ModelAndView callSettingsSwitchOnStage1(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.setStatus(true);
-
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.setStatus(true);
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/stage2/on")
     public ModelAndView callSettingsSwitchOnStage2(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-           
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/stage3/on")
     public ModelAndView callSettingsSwitchOnStage3(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-         
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
-       @RequestMapping(value="/admin/callsettings/stage1/off")
+    
+    @RequestMapping(value="/admin/callsettings/stage1/off")
     public ModelAndView callSettingsSwitchOffStage1(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.setStatus(false);
-      
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.setStatus(false);
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+
     @RequestMapping(value="/admin/callsettings/stage2/off")
     public ModelAndView callSettingsSwitchOffStage2(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-          
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/stage3/off")
     public ModelAndView callSettingsSwitchOffStage3(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-   
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
-       @RequestMapping(value="/admin/callsettings/stage1/flush")
+    
+    @RequestMapping(value="/admin/callsettings/stage1/flush")
     public ModelAndView callSettingsFlushStage1Numbers(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.getClientStage1().clear();
-     
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.getClientStage1().clear();
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/stage2/flush")
     public ModelAndView callSettingsFlushStage2(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.getClientStage2().clear();
-   
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.getClientStage2().clear();
             getCallSettingsParam(model);
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/stage3/flush")
     public ModelAndView callSettingsFlushStage3(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.getStageThreeUpdates().clear();
-        
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.getStageThreeUpdates().clear();
             getCallSettingsParam(model);
             return model;
-       
-        
     }
-   
- 
-    
-    
-    
-    
-    
      
-       @RequestMapping(value="/admin/callsettings/cc/stage1/flush")
+    @RequestMapping(value="/admin/callsettings/cc/stage1/flush")
     public ModelAndView callSettingsFlushCCStage1Numbers(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        callHandler.getNumbers().clear();
-        callHandler.setFlag(false);
-      
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            callHandler.getNumbers().clear();
+            callHandler.setFlag(false);
             getCallSettingsParam(model);
-        
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/cc/stage2/flush")
     public ModelAndView callSettingsFlushCCStage2(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        callHandler.getSids().clear();
-        callHandler.setCheckFlag(false);
-      
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            callHandler.getSids().clear();
+            callHandler.setCheckFlag(false);
             getCallSettingsParam(model);
             return model;
-       
-        
     }
+    
     @RequestMapping(value="/admin/callsettings/cc/stage3/flush")
     public ModelAndView callSettingsFlushCCStage3(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        callHandler.getStageThreeUpdates().clear();
-      
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            callHandler.getStageThreeUpdates().clear();
             getCallSettingsParam(model);
             return model;
-       
-        
     }
    
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     @RequestMapping(value="/admin/callsettings/followup/on")
+    @RequestMapping(value="/admin/callsettings/followup/on")
     public ModelAndView FollowupOn(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setFollowupFlag(true);
-        
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            operator.setFollowupFlag(true);
             getCallSettingsParam(model);
             return model;
-       
-        
     }    
+    
     @RequestMapping(value="/admin/callsettings/followup/off")
     public ModelAndView noonFollowupOff(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallsettings");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        operator.setFollowupFlag(false);
-      
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            operator.setFollowupFlag(false);
             getCallSettingsParam(model);
             return model;
-       
-        
     }    
-    
-    
-    
     
     @RequestMapping(value="/admin/callsettings/do/analytics")
     public ModelAndView doCallAnalytics(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("adminpage");
-             callMaintain.doAnalytics();
-            
+            callMaintain.doAnalytics();
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            
             return model;
-}
-  
-    
+    }
+
     @RequestMapping(value="/admin/callrecords")
     public ModelAndView callRecords(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("admincallrecords");
-          List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
-        if(list!=null&&!list.isEmpty()){   
-            model.addObject("callrecords",list);
-        }
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        model.addObject("message", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        
-                                      
-        
-           return model;
-       
-        
+            ModelAndView model= new ModelAndView("admincallrecords");
+            List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
+            if(list!=null&&!list.isEmpty()){   
+                model.addObject("callrecords",list);
+            }
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            model.addObject("message", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            return model;
     }
-     
-    
    
-      @RequestMapping(value="/admin/setExecs/auto")
+    @RequestMapping(value="/admin/setExecs/auto")
     public ModelAndView setCustomExecsAuto(HttpServletRequest request, Principal principal) throws IOException {
-       
-        ModelAndView model= new ModelAndView("adminpage");
-        model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-        eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
+            ModelAndView model= new ModelAndView("adminpage");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
             List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
             model.addObject("callrecords",list);
             model.addObject("ex",request.getParameter("ex"));
             model.addObject("message","Processed");
-        
-        
-                                      
-        
-           return model;
-       
-        
+            return model;
     }
      
     @RequestMapping(value="/admin/callrecords/get")
     public ModelAndView getCallRecords(HttpServletRequest request, Principal principal) throws IOException {
-       
         ModelAndView model= new ModelAndView("admincallrecords");
         model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
         List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
@@ -433,75 +290,68 @@ CallBox callHandler;
             model.addObject("callrecords",list);
             model.addObject("message", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             model.addObject("excel",callMaintain.createCallExcel(list)&&callMaintain.createClientExcel(request.getParameter("date")));
-            
-            
-            
-            
-            
         }
         else{
             model.addObject("message","No such records found");
         }
             return model;
-       
-        
     }
     
     @RequestMapping(value="/admin/callnotification")
     public ModelAndView callNotifications(HttpServletRequest request, Principal principal) throws IOException {
-     ModelAndView model= new ModelAndView("admincallnotification");
-     
+            ModelAndView model= new ModelAndView("admincallnotification");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-     model.addObject("lead", callMaintain.readNotifiedLead());
-        return model;
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
     }
+    
      @RequestMapping(value="/admin/callnotification/on/{leadId}")
     public ModelAndView swichOnCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
-     ModelAndView model= new ModelAndView("admincallnotification");
-     
+            ModelAndView model= new ModelAndView("admincallnotification");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-     Lead lead = new Lead();
-     lead.setLeadId(leadId);
-     lead=callMaintain.readLead(lead);
-     lead.setNotification(false);
-     lead.setPending(false);
-     lead.setCount(0);
-     lead.setLeadStatus("Lead sent to Thyrocare");
-     callMaintain.updateLeadOnly(lead);
-     model.addObject("lead", callMaintain.readNotifiedLead());
-        return model;
+            Lead lead = new Lead();
+            lead.setLeadId(leadId);
+            lead=callMaintain.readLead(lead);
+            lead.setNotification(false);
+            lead.setPending(false);
+            lead.setCount(0);
+            lead.setLeadStatus("Lead sent to Thyrocare");
+            callMaintain.updateLeadOnly(lead);
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
     }
+    
     @RequestMapping(value="/admin/callnotification/off/{leadId}")
     public ModelAndView swichOffCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
-     ModelAndView model= new ModelAndView("admincallnotification");
-     
+            ModelAndView model= new ModelAndView("admincallnotification");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-     Lead lead = new Lead();
-     lead.setLeadId(leadId);
-     lead=callMaintain.readLead(lead);
-     lead.setNotification(false);
-     lead.setPending(false);
-     lead.setCount(0);
-     lead.setLeadStatus("Disapproved");
-     callMaintain.updateLeadOnly(lead);
-     model.addObject("lead", callMaintain.readNotifiedLead());
-        return model;
+            Lead lead = new Lead();
+            lead.setLeadId(leadId);
+            lead=callMaintain.readLead(lead);
+            lead.setNotification(false);
+            lead.setPending(false);
+            lead.setCount(0);
+            lead.setLeadStatus("Disapproved");
+            callMaintain.updateLeadOnly(lead);
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
     }
+    
     @RequestMapping(value="/exotel/{value}",method=RequestMethod.GET)
     public ResponseEntity callUpdateGet(HttpServletRequest request,@PathVariable("value") String status, Principal principal) throws IOException {
-                   System.out.println("@ Stage 3"); 
-                   Call call= new Call();
-                   call.setCallFrom(request.getParameter("From"));
-                   call.setCallTo(request.getParameter("To"));
-                   call.setSid(request.getParameter("CallSid"));
-                   call.setCallType(request.getParameter("CallType"));
-                   call.setDialCallDuration(request.getParameter("DialCallDuration"));
-                   call.setDialWhomNumber(request.getParameter("DialWhomNumber"));
-                   call.setRecordingUrl(request.getParameter("RecordingUrl"));
-                   call.setDirection(request.getParameter("Direction"));
-                   call.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        boolean flag=true;
-        System.out.println("CallUpdate by exotel"+status);
+            System.out.println("@ Stage 3"); 
+            Call call= new Call();
+            call.setCallFrom(request.getParameter("From"));
+            call.setCallTo(request.getParameter("To"));
+            call.setSid(request.getParameter("CallSid"));
+            call.setCallType(request.getParameter("CallType"));
+            call.setDialCallDuration(request.getParameter("DialCallDuration"));
+            call.setDialWhomNumber(request.getParameter("DialWhomNumber"));
+            call.setRecordingUrl(request.getParameter("RecordingUrl"));
+            call.setDirection(request.getParameter("Direction"));
+            call.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            boolean flag=true;
+            System.out.println("CallUpdate by exotel"+status);
             switch(status){
                case "1": 
                    call.setTrackStatus("Pressed 1. Customer spoke to us");
@@ -533,16 +383,15 @@ CallBox callHandler;
                case "62":
                    call.setTrackStatus("Pressed invalid number. Customer did not speak to us");
                    break;
-              case "13":
+               case "13":
                  call.setTrackStatus("Pressed pressed 1. Confirmed booking");
                    break;
-              case "agent":
+               case "agent":
                   for(Client client:eCallHandler.getClientStage2()){
                       if(request.getParameter("From").contains(client.getPhoneNumber())&&request.getParameter("Status").equals("busy")){
                           client.setRealTimeData(request.getParameter("DialWhomNumber"));
                       }
                   }
-              
                default:
                    flag=false;
                    System.out.println("Exotel details. Not an option");
@@ -550,70 +399,59 @@ CallBox callHandler;
            }
             if(flag){
                 operator.doStageThreeCall(call);
-               return new ResponseEntity(HttpStatus.OK);
+                return new ResponseEntity(HttpStatus.OK);
             }
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-       
-        
     }
     
-
     @RequestMapping(value="/API/freshCall/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity freshCalls(@RequestBody Client client,HttpServletRequest request) throws IOException{
-            if(client!=null){
-                
-                        if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
-                                    try{
-                                                        
-                                                        
-                                                        if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
-                                                                                
-                                                                                            return new ResponseEntity(HttpStatus.OK);
-                                                                                
-                                                                   }
-                                    }
-                                    catch(Exception e){
-                                                        e.printStackTrace();
-                                    }
-
+           if(client!=null){
+                if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
+                    try{
+                        if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
+                            return new ResponseEntity(HttpStatus.OK);
                         }
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
     
     @RequestMapping(value="/API/getDump/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public @ResponseBody List<Client> freshCalls(HttpServletRequest request) throws IOException{
-        System.out.println(request.getParameter("Date"));
-        List<Client> list=callMaintain.getClientDump(request.getParameter("Date"));
-        for(Client c:list){
-           for(Lead l:c.getLead()){
-               l.setClient(null);
-               l.setAdmin(null);
-               
-               for(Call call:l.getCall()){
-                   call.setLead(null);
+            System.out.println(request.getParameter("Date"));
+            List<Client> list=callMaintain.getClientDump(request.getParameter("Date"));
+            for(Client c:list){
+               for(Lead l:c.getLead()){
+                   l.setClient(null);
+                   l.setAdmin(null);
+                   for(Call call:l.getCall()){
+                       call.setLead(null);
+                   }
+                   for(Beneficiaries ben:l.getBeneficiaries()){
+                       ben.setLead(null);
+                   }
                }
-               for(Beneficiaries ben:l.getBeneficiaries()){
-                   ben.setLead(null);
-               }
-           }
-        }
-        callMaintain.doAnalytics();
-        return list;
+            }
+            callMaintain.doAnalytics();
+            return list;
     }
+    
     private ModelAndView getCallSettingsParam(ModelAndView model){
-        
-         model.addObject("sFlag1", eCallHandler.getStatus());
-        model.addObject("sCount1", eCallHandler.getClientStage1().size());
-        model.addObject("sCount2", eCallHandler.getClientStage2().size());
-        model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
-          model.addObject("sCountCC1", callHandler.getNumbers().size());
-        model.addObject("sCountCC2", callHandler.getSids().size());
-        model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
-        
-        model.addObject("followUpCount", operator.getCount());
-        model.addObject("followupFlag", operator.isFollowupFlag());
-        return model;
+            model.addObject("sFlag1", eCallHandler.getStatus());
+            model.addObject("sCount1", eCallHandler.getClientStage1().size());
+            model.addObject("sCount2", eCallHandler.getClientStage2().size());
+            model.addObject("sCount3", eCallHandler.getStageThreeUpdates().size());
+            model.addObject("sCountCC1", callHandler.getNumbers().size());
+            model.addObject("sCountCC2", callHandler.getSids().size());
+            model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
+            model.addObject("followUpCount", operator.getCount());
+            model.addObject("followupFlag", operator.isFollowupFlag());
+            return model;
     }
 
 }

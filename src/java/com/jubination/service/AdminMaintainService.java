@@ -7,12 +7,12 @@
 package com.jubination.service;
 
 
-import com.jubination.backend.LoginInfoService;
+import com.jubination.backend.service.email.LoginInfoService;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.MessageDAOImpl;
-import com.jubination.model.pojo.Admin;
-import com.jubination.model.pojo.AdminSettings;
-import com.jubination.model.pojo.MailMessage;
+import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.pojo.admin.AdminSettings;
+import com.jubination.model.pojo.admin.MailMessage;
 import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;

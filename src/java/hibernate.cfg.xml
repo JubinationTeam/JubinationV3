@@ -4,48 +4,53 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://104.199.158.161/callbot?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jubination?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-   <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.connection.password">root</property>
     <property name="hibernate.c3p0.min_size">10</property>
-<property name="hibernate.c3p0.max_size">20</property>
-<property name="hibernate.c3p0.acquire_increment">1</property>
-<property name="hibernate.c3p0.idle_test_period">3000</property>
-<property name="hibernate.c3p0.max_statements">50</property>
-<property name="hibernate.c3p0.timeout">1800</property>
-   <property name="hbm2ddl.auto">update</property>
-    <property name="hibernate.show_sql">false</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.acquire_increment">1</property>
+    <property name="hibernate.c3p0.idle_test_period">3000</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.timeout">1800</property>
+    <property name="hbm2ddl.auto">update</property>
+    <property name="hibernate.show_sql">true</property>
     <property name="hibernate.cache.use_second_level_cache">false</property>
-  <!--  <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-  -->  <mapping class="com.jubination.model.pojo.MailMessage"/>
-    <mapping class="com.jubination.model.pojo.Admin"/>
-     <mapping class="com.jubination.model.pojo.Call"/>
- <mapping class="com.jubination.model.pojo.Report"/>
- <mapping class="com.jubination.model.pojo.Test"/>
- <mapping class="com.jubination.model.pojo.Barcode"/>
- <mapping class="com.jubination.model.pojo.ReferenceRange"/>
- <mapping class="com.jubination.model.pojo.Profile"/>
- <mapping class="com.jubination.model.pojo.Client"/> 
- <mapping class="com.jubination.model.pojo.TempClient"/>
- 
- <mapping class="com.jubination.model.pojo.DataAnalytics"/>
-
- <mapping class="com.jubination.model.pojo.Lead"/>
-    <mapping class="com.jubination.model.pojo.AdminSettings"/>
+    <!--  <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+  -->
     
-    <mapping class="com.jubination.model.pojo.Beneficiaries"/>
-    <mapping class="com.jubination.model.pojo.Campaigns"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.ProductList"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Childs"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Master"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.Rate"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.TestEntity"/>
-   
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.ReportStatus"/> 
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.BenMaster"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.LeadHistoryMaster"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.OrderMaster"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.TspMaster"/>
-    <mapping class="com.jubination.model.pojo.products.thyrocare.json.DateDetails"/>
+    <mapping class="com.jubination.model.pojo.ivr.exotel.Call"/>
+    
+     <mapping class="com.jubination.model.pojo.crm.Client"/>
+    <mapping class="com.jubination.model.pojo.crm.TempClient"/>
+    <mapping class="com.jubination.model.pojo.crm.DataAnalytics"/>
+    <mapping class="com.jubination.model.pojo.crm.Lead"/>
+    
+    <mapping class="com.jubination.model.pojo.admin.Admin"/>
+    <mapping class="com.jubination.model.pojo.admin.AdminSettings"/>
+    <mapping class="com.jubination.model.pojo.admin.MailMessage" />
+    
+    <mapping class="com.jubination.model.pojo.report.Report"/>
+    <mapping class="com.jubination.model.pojo.report.Test"/>
+    <mapping class="com.jubination.model.pojo.report.Barcode"/>
+    <mapping class="com.jubination.model.pojo.report.ReferenceRange"/>
+    <mapping class="com.jubination.model.pojo.report.Profile"/>
+    
+    <mapping class="com.jubination.model.pojo.booking.thyrocare.Beneficiaries"/>
+    <mapping class="com.jubination.model.pojo.booking.thyrocare.Campaigns"/>
+    
+    <mapping class="com.jubination.model.pojo.products.thyrocare.ProductList"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.Childs"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.Master"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.Rate"/>
+    <mapping class="com.jubination.model.pojo.products.thyrocare.TestEntity"/>
+    
+    <mapping class="com.jubination.model.pojo.status.thyrocare.ReportStatus"/>
+    <mapping class="com.jubination.model.pojo.status.thyrocare.BenMaster"/>
+    <mapping class="com.jubination.model.pojo.status.thyrocare.LeadHistoryMaster"/>
+    <mapping class="com.jubination.model.pojo.status.thyrocare.OrderMaster"/>
+    <mapping class="com.jubination.model.pojo.status.thyrocare.TspMaster"/>
+    <mapping class="com.jubination.model.pojo.status.thyrocare.DateDetails"/>
+    
   </session-factory>
 </hibernate-configuration>

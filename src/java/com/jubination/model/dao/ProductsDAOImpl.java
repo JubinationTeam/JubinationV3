@@ -5,9 +5,9 @@
  */
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.Campaigns;
-import com.jubination.model.pojo.products.thyrocare.json.ProductList;
-import com.jubination.model.pojo.products.thyrocare.json.TestEntity;
+import com.jubination.model.pojo.booking.thyrocare.Campaigns;
+import com.jubination.model.pojo.products.thyrocare.ProductList;
+import com.jubination.model.pojo.products.thyrocare.TestEntity;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;

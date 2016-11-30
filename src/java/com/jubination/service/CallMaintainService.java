@@ -5,24 +5,24 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.EmailService;
-import com.jubination.backend.call.CallBox;
-import com.jubination.backend.freshcall.parallel.master.CallOperator;
+import com.jubination.backend.service.email.sendgrid.EmailService;
+import com.jubination.backend.service.customcall.CallBox;
+import com.jubination.backend.service.freshcall.parallel.master.CallOperator;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
-import com.jubination.model.pojo.Admin;
-import com.jubination.model.pojo.AdminSettings;
-import com.jubination.model.pojo.Beneficiaries;
-import com.jubination.model.pojo.Call;
-import com.jubination.model.pojo.Campaigns;
-import com.jubination.model.pojo.Client;
-import com.jubination.model.pojo.DataAnalytics;
-import com.jubination.model.pojo.Lead;
-import com.jubination.model.pojo.MailMessage;
-import com.jubination.model.pojo.TempClient;
+import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.pojo.admin.AdminSettings;
+import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.booking.thyrocare.Campaigns;
+import com.jubination.model.pojo.crm.Client;
+import com.jubination.model.pojo.crm.DataAnalytics;
+import com.jubination.model.pojo.crm.Lead;
+import com.jubination.model.pojo.admin.MailMessage;
+import com.jubination.model.pojo.crm.TempClient;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

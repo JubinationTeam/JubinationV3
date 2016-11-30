@@ -5,12 +5,12 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.report.PDFBackendProcess;
+import com.jubination.backend.service.report.thyrocare.PDFBackendProcess;
 import com.jubination.model.dao.ReportDAOImpl;
-import com.jubination.model.pojo.Profile;
-import com.jubination.model.pojo.ReferenceRange;
-import com.jubination.model.pojo.Report;
-import com.jubination.model.pojo.Test;
+import com.jubination.model.pojo.report.Profile;
+import com.jubination.model.pojo.report.ReferenceRange;
+import com.jubination.model.pojo.report.Report;
+import com.jubination.model.pojo.report.Test;
 import com.pdfcrowd.Client;
 import com.pdfcrowd.PdfcrowdError;
 import java.io.BufferedInputStream;

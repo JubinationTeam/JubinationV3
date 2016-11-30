@@ -5,12 +5,12 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.ThyrocareBookingOperator;
+import com.jubination.backend.service.products.thyrocare.ThyrocareBookingOperator;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
-import com.jubination.model.pojo.AdminSettings;
-import com.jubination.model.pojo.Campaigns;
-import com.jubination.model.pojo.products.thyrocare.json.ProductList;
+import com.jubination.model.pojo.admin.AdminSettings;
+import com.jubination.model.pojo.booking.thyrocare.Campaigns;
+import com.jubination.model.pojo.products.thyrocare.ProductList;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

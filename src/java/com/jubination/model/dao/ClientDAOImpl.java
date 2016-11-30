@@ -5,10 +5,10 @@
  */
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.Call;
-import com.jubination.model.pojo.Client;
-import com.jubination.model.pojo.Lead;
-import com.jubination.model.pojo.TempClient;
+import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.crm.Client;
+import com.jubination.model.pojo.crm.Lead;
+import com.jubination.model.pojo.crm.TempClient;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
