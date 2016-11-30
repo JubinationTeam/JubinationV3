@@ -642,7 +642,7 @@ public void buildCallAPIMessage(Call call){
                                                                                 Call call=message.getLead().get(message.getLead().size()-1).getCall().get(i);
                                                                                 System.out.println(count+" "+i+" "+call.getDateCreated());
                                                                                 ////////change to allow all lead sent to thyrocare leads///////////
-                                                                                                             if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                             if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
                                                                                                                     affiliateDetails="Interested";
                                                                                                             }
                                                                                 ////////////////////////
