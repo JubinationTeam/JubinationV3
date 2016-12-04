@@ -1,10 +1,10 @@
 package com.jubination.controller;
 
-import com.jubination.backend.service.customcall.CallBox;
-import com.jubination.backend.service.freshcall.parallel.master.CallOperator;
-import com.jubination.backend.service.freshcall.parallel.master.CallManager;
+import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
+import com.jubination.backend.service.leadcall.parallel.master.CallOperator;
+import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;

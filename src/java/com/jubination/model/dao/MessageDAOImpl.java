@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Welcome
  */
 @Repository
-public class MessageDAOImpl<T> implements java.io.Serializable, GenericDAO {
+public class MessageDAOImpl<T> implements java.io.Serializable {
         private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
@@ -36,7 +36,7 @@ public class MessageDAOImpl<T> implements java.io.Serializable, GenericDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)    
     public Object buildEntity(Object entity) {
       MailMessage message = (MailMessage) entity;
@@ -44,71 +44,6 @@ public class MessageDAOImpl<T> implements java.io.Serializable, GenericDAO {
             session.save(message);
             message = (MailMessage) session.get(MailMessage.class, message.getMessageId());
         return (T) message;
-    }
-
-    @Override
-    public Object buildEntity(Object entity, boolean coded) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readProperty(Object paramId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updateProperty(Object entity, Object paramVal, String paramType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updatePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteEntity(Object entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List fetchEntities(String paramVal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object fetchEntity(Object property) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

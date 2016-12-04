@@ -2,7 +2,7 @@ package com.jubination.controller;
 
 
 
-import com.jubination.test.AdvancedTest;
+import com.jubination.common.init.AdvancedTest;
 import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
 

@@ -197,8 +197,8 @@
                                 <h3 >Beneficiary Details</h3>
                                                  <c:if test="${lead.beneficiaries ne null and not empty lead.beneficiaries}">
                                             <c:forEach items="${lead.beneficiaries}" var="ben" varStatus="i">
-                                                                    <label>Beneficiary ${i}</label>
-                                                                 <input type="text" class="form-control" placeholder="Name,Age,Gender" name="ben_${i}" value="${ben.name},${ben.age},${ben.gender}"/>
+                                                                    <label>Beneficiary ${i.index}</label>
+                                                                 <input type="text" class="form-control" placeholder="Name,Age,Gender" name="ben_${i.index}" value="${ben.name},${ben.age},${ben.gender}"/>
                                             <br/>
                                             </c:forEach>
                                             </c:if>

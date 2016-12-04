@@ -2,7 +2,7 @@ package com.jubination.controller;
 
 import com.jubination.model.pojo.status.thyrocare.ReportStatus;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
@@ -91,22 +91,30 @@ public class UpdateAndBookingController {
                         if(leadStatus!=null){
                             if(!leadStatus.isEmpty()){
                                lead.setLeadStatus(leadStatus);
+                               
                                if(leadStatus.equals("Lead sent to Thyrocare")){
-                                   List<Lead> leadList=callMaintain.getDuplicateLeads(number);
-                                   for(Lead l:leadList){
-                                       l.setBooked(true);
-                                       l.setNotification(false);
-                                       l.setPending(false);
-                                       l.setCount(0);
-                                       callMaintain.updateLeadOnly(l);
-                                   }
-                                   String bookingResponse=bookItThroughLMS(id);
+                                   
+                                   
+                                   String bookingResponse=sendManualUpdate(id);
                                    model.addObject("response", bookingResponse);
+                                   System.out.println("Response:"+bookingResponse);
                                    if(bookingResponse.endsWith("Success")){
                                            lead.setBooked(true);
+                                            List<Lead> leadList=callMaintain.getDuplicateLeads(number);
+                                           for(Lead l:leadList){
+                                                l.setNotification(false);
+                                                l.setPending(false);
+                                                l.setCount(0);
+                                                callMaintain.updateLeadOnly(l);
+                                            }
                                    }
-                                   lead.setNotification(false);
-                                   lead.setCount(0);
+                                   
+                               }
+                               else{
+                                   String bookingResponse=sendManualUpdate(id);
+                                   model.addObject("response", bookingResponse);
+                                   System.out.println("Response:"+bookingResponse);
+                                   
                                }
                             }
                        }
@@ -308,7 +316,7 @@ public class UpdateAndBookingController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    private String bookItThroughLMS(String id){
+    private String sendManualUpdate(String id){
             String responseText="";
             try {   
                 String url="https://mypage.jubination.com/api/booking";

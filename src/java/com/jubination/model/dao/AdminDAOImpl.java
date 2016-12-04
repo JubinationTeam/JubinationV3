@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Welcome
  */
 @Repository
-public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
+public class AdminDAOImpl<T> implements java.io.Serializable{
     private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
@@ -35,7 +35,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
     public AdminDAOImpl() {
     }
    
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildEntity(Object entity, boolean coded) {
          Admin admin = (Admin) entity;
@@ -100,12 +100,12 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
         return flag;
     }
 
-    @Override
+    
     public boolean addPropertyList(Object entity, Object property, String listType) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
 @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object readProperty(Object paramId) {
         Admin admin=null;
@@ -119,7 +119,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
     }
 
    
-    @Override
+    
 @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object readPropertyList(Object entity,String listType){
         Admin admin =(Admin) entity;
@@ -169,7 +169,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
         
         return (T) list;
     }
-    @Override
+    
 @Transactional(propagation = Propagation.REQUIRED)
     public boolean updateProperty(Object entity, Object paramVal, String paramType) {
          boolean flag=false;
@@ -203,7 +203,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
     }
 
     
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean deleteEntity(Object entity) {
              boolean flag=false;
@@ -220,7 +220,7 @@ public class AdminDAOImpl<T> implements java.io.Serializable, GenericDAO {
     }
 
     
-    @Override
+    
 @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
 public List fetchEntities(String paramVal) {
         List list=null;
@@ -248,7 +248,7 @@ public List fetchEntities(String paramVal) {
         
     }
     
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildEntity(Object entity) {
         Admin admin = (Admin) entity;
@@ -270,39 +270,5 @@ public List fetchEntities(String paramVal) {
         this.sessionFactory = sessionFactory;
     }
     
-    @Override
-    public boolean updatePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
-    }
-
-    @Override
-    public Object fetchEntity(Object property) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public AdminSettings buildSettingsProperty(AdminSettings settings) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
 }

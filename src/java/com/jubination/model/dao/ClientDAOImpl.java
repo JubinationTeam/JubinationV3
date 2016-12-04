@@ -5,6 +5,7 @@
  */
 package com.jubination.model.dao;
 
+import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
@@ -31,12 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Repository
-public class ClientDAOImpl<T> implements GenericDAO,Serializable{
+public class ClientDAOImpl<T> implements Serializable{
 private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildEntity(Object entity) {
             Client client=(Client) entity;
@@ -105,7 +106,9 @@ private Session session=null;
             session = getSessionFactory().getCurrentSession();
             lead = (Lead) session.get(Lead.class, lead.getLeadId());
             if(lead!=null){
-                lead.getBeneficiaries().size();
+                 if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
             }
         return (T) lead;
     }
@@ -140,6 +143,11 @@ private Session session=null;
             session = getSessionFactory().getCurrentSession();
             client=(Client) session.merge(client);
             client.getLead().size();
+            for(Lead lead:client.getLead()){
+                 if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
+            }
         
          return client;
     }
@@ -154,7 +162,7 @@ public  Object updateProperty(Object entity) {
           
          return client;
     }
-@Override
+
 @Transactional(propagation = Propagation.REQUIRED)   
 public boolean updatePropertyList(Object entity,Object property,String listType) {
         if(listType.equals("AddLead")){
@@ -163,12 +171,23 @@ public boolean updatePropertyList(Object entity,Object property,String listType)
                     Lead storedLead=null;
                         session = getSessionFactory().getCurrentSession();
                         client=(Client) session.merge(client);
+                        List<Beneficiaries> listBen =lead.getBeneficiaries();
                         storedLead = (Lead) session.merge(lead);
                         if(storedLead!=null){
                             lead=storedLead;
                         }
                         client.getLead().add(lead);
+                        
+                        for(Beneficiaries ben : listBen){
+                            session.merge(ben);
+                        }
+                        
                         client.getLead().size();
+                        for(Lead leadIter:client.getLead()){
+                              if(leadIter!=null&&leadIter.getBeneficiaries()!=null){
+                                                                      leadIter.getBeneficiaries().size();
+                                                }
+                        }
                         session.update(client);    
                         return true;
         }
@@ -245,6 +264,11 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                       list= criteria.list();
                       for(Client client :list){
                           client.getLead().size();
+                          for(Lead lead:client.getLead()){
+                              if(lead.getBeneficiaries()!=null){
+                                    lead.getBeneficiaries().size();
+                              }
+                          }
                       }
 
                 break;
@@ -280,7 +304,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                           client.getLead().size();
                           for(Lead lead:client.getLead()){
                               lead.getCall().size();
-                              lead.getBeneficiaries().size();
+                              if(lead.getBeneficiaries()!=null){
+                                    lead.getBeneficiaries().size();
+                              }
                           }
                       }
                       
@@ -293,7 +319,7 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
     return list;
     }
  
-       @Override
+       
        @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public List fetchEntities(String paramVal) {
         List list=null;     
@@ -311,6 +337,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -326,6 +355,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -341,6 +373,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -356,6 +391,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -371,6 +409,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -386,6 +427,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                     if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                    }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -400,6 +444,9 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
                                                 for(Lead lead:client.getLead()){
+                                                     if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                     }
                                                     lead.getCall().size();
                                                 }
                                             }
@@ -411,6 +458,12 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
                                             list = criteria.list();
                                             for(Client client:(List<Client>)list){
                                                 client.getLead().size();
+                                                  for(Lead lead:client.getLead()){
+                                                     if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                    }
+                                                    lead.getCall().size();
+                                                }
                                             }
                          break;
                      
@@ -425,65 +478,8 @@ public Object updateInnerPropertyList(Object entity,Object property,String listT
     }
     
     
-    @Override
-    public Object buildEntity(Object entity, boolean coded) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readProperty(Object paramId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updateProperty(Object entity, Object paramVal, String paramType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-  
-
-    @Override
-    public boolean deleteEntity(Object entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
  
-
-    @Override
-    public Object fetchEntity(Object property) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-        
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

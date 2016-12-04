@@ -5,25 +5,17 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.products.thyrocare.ThyrocareBookingOperator;
+
+import com.jubination.backend.service.products.thyrocare.ProductFetcher;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
 import com.jubination.model.pojo.admin.AdminSettings;
-import com.jubination.model.pojo.booking.thyrocare.Campaigns;
-import com.jubination.model.pojo.products.thyrocare.ProductList;
+import com.jubination.model.pojo.booking.Campaigns;
+import com.jubination.model.pojo.booking.Products;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,53 +28,41 @@ import org.xml.sax.SAXException;
 @Service
 @Transactional
 public class ProductService {
+    
     @Autowired
     ProductsDAOImpl pdao;    
-@Autowired 
-AdminDAOImpl adao;
-   String settings = "settings";
-    public boolean checkIfProductCheckedToday(){
-        return pdao.readProperty(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))!=null;
-    }
-    public ProductList fetchAllProducts() throws IOException, ParserConfigurationException, SAXException, JAXBException{
-        if(pdao.readProperty(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))!=null){
-            return (ProductList) pdao.fetchEntity(new ProductList(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+    @Autowired 
+    AdminDAOImpl adao;
+    @Autowired
+    ProductFetcher operator;
+    String settings = "settings";
+    
+   
+    public List<Products> fetchAllProducts() throws IOException, ParserConfigurationException, SAXException, JAXBException{
+        List<Products> list =pdao.fetchProductEntities();
+        if(list!=null&&list.size()>0){
+            return list;
         }
         else{
-////            String responseApi ="";
-            String apiKey= readSettings(settings).getApiKeyThyrocare();
-            String url="https://www.thyrocare.com/APIS/master.svc/"+apiKey+"/ALL/products";
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(url);
-            ProductList pl =null;
-//            int count=0;
-//            while(!responseApi.equals("SUCCESS")&&count<30){
-//                    System.out.println("trying to fetch products");
-                    HttpResponse response = client.execute(request);
-                    HttpEntity entity = response.getEntity();
-                    String responseText = EntityUtils.toString(entity, "UTF-8");
-                    ObjectMapper mapper = new ObjectMapper();
-                    pl = mapper.readValue(responseText, ProductList.class);
-//                    responseApi=pl.getRESPONSE();
-//                    if(responseApi==null){
-//                        responseApi ="";
-//                        System.out.println(responseText);
-//                    }
-//                    count++;
-//                }
-            pl=buildProductList(pl);
-            pl=null;
-            return (ProductList) pdao.fetchEntity(new ProductList(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+            list=operator.fetchWithoutSaving();
+            for(Products p:list){
+                    buildProducts(p);
+            }
+            return list;
         }
     }
-    public ProductList buildProductList(ProductList pl){
-        pl.setDateId(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        return (ProductList) pdao.buildEntity(pl);
+    
+    public Products buildProducts(Products p){
+        return (Products) pdao.buildEntity(p);
     }
+    
+    
+    
     public AdminSettings readSettings(String settingsName){
         return (AdminSettings) adao.readSettingsProperty(settingsName);
     }
 
+    
     public List<Campaigns> fetchAllCampaigns() {
         
             return (List<Campaigns>) pdao.fetchCampaignEntities();

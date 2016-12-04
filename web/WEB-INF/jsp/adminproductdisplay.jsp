@@ -80,43 +80,25 @@
                             <th>Margin</th>
                            </thead>
                            <tbody>
-                     <c:forEach items="${products.MASTERS.TESTS}" var="offer">
+                     <c:forEach items="${products}" var="offer">
                        <tr>
                            <%--Test Details--%>
-                           <c:if test="${not empty offer.testnames}">
-                            <td>${offer.testnames} , ${offer.disease_group}</td>
-                           </c:if>
-                           <c:if test="${empty offer.testnames}">
-                             <td>${offer.name} , ${offer.disease_group}</td>
-                               
-                           </c:if>
-                             
+                            <td>${offer.name}</td>
                               <%--Name--%>
-                             <c:if test="${not empty offer.testnames}">
-                                    <td>${offer.testnames}</td>
-                           </c:if>
-                            <c:if test="${empty offer.testnames}">
-                                <c:if test="${(fn:startsWith(offer.code, 'P') and fn:length(offer.code) eq 4) or fn:startsWith(offer.code, 'PNL') or fn:startsWith(offer.code, 'ALR')}">
-                                    <td>${offer.name}</td>
-                                </c:if>
-                                    <c:if test="${not ((fn:startsWith(offer.code, 'P') and fn:length(offer.code) eq 4) or fn:startsWith(offer.code, 'PNL') or fn:startsWith(offer.code, 'ALR'))}">
-                                    <td>${offer.code}</td>
-                                </c:if>
-                           </c:if>
+                             <td>${offer.products}</td>
                                     
                              <%--Report Code--%>
-                             <c:if test="${fn:startsWith(offer.code, 'PROJ')}">
-                            <td>${offer.code}</td>
-                                </c:if>
-                            <c:if test="${not fn:startsWith(offer.code, 'PROJ')}">
-                            <td></td>
-                                </c:if>
+                             <td>${offer.reportCode}</td>
+                                    
                              <%--Service type--%>
-                             <td>H</td>
+                             <td>${offer.serviceType}</td>
+                             
                              <%--Handling Charges--%>
                             <td>${offer.hc}</td> 
+                            
                              <%--Rate--%>
-                           <td>${offer.rate.offer_rate} ${offer.rate.pay_amt}</td> 
+                           <td>${offer.rate} </td> 
+                           
                             <%--Margin--%>
                            <td>${offer.margin}</td> 
                            

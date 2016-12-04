@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Welcome
  */
 @Repository
-public class CallAPIMessageDAOImpl<T> implements java.io.Serializable, GenericDAO {
+public class CallAPIMessageDAOImpl<T> implements java.io.Serializable {
 private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
@@ -228,108 +228,5 @@ private Session session=null;
         this.sessionFactory = sessionFactory;
     }
 
-    public Object buildEntity(Object entity, boolean coded) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public boolean addPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object readPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-   
-    
-    public boolean updatePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public boolean deleteEntity(Object entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
-
-    
-    public Object fetchEntity(Object property) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public int countEntities(String paramVal, Object entity, int pageNumber, int pageSize) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-  
-    
-    public Long getNumberOfRecords(String paramVal_1, String paramVal_2, int pageSize, int pageNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Long getNumberOfRecordsOnSearch(String paramVal_1, String paramVal_2, int pageSize, int pageNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
-    public int getNumberOfRecords(String paramVal_1, String paramVal_2, int pageSize, int pageNumber, String availability) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public int getNumberOfRecordsOnSearch(String paramVal_1, Object paramVal_2, int pageSize, int pageNumber, String availability) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object fetchEntities(String paramVal_1, String paramVal_2, String paramVal_3, int pageSize, int pageNumber, String ListType, String availability) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public Object readProperty(Object paramId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List fetchEntities(String paramVal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updateProperty(Object entity, Object paramVal, String paramType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
     
 }

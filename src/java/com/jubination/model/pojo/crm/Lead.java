@@ -7,7 +7,7 @@ package com.jubination.model.pojo.crm;
 
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import java.io.Serializable;

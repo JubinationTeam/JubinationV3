@@ -5,13 +5,11 @@
  */
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.report.Barcode;
-import com.jubination.model.pojo.ivr.exotel.Call;
+
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.Test;
 import com.jubination.model.pojo.status.thyrocare.ReportStatus;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,13 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @author MumbaiZone
  */
 @Repository
-public class ReportDAOImpl<T> implements java.io.Serializable, GenericDAO{
+public class ReportDAOImpl<T> implements java.io.Serializable{
 private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
 
 
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildEntity(Object entity) {
          Report report=(Report) entity;
@@ -55,7 +53,7 @@ private Session session=null;
         return (T) reportStatus;
     }
 
-    @Override
+    
     
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object fetchEntity(Object property) {
@@ -73,65 +71,7 @@ private Session session=null;
         return (T) report;
     }
 
-    @Override
-    public Object buildEntity(Object entity, boolean coded) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readProperty(Object paramId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updateProperty(Object entity, Object paramVal, String paramType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updatePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteEntity(Object entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List fetchEntities(String paramVal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
      
     public SessionFactory getSessionFactory() {
         return sessionFactory;

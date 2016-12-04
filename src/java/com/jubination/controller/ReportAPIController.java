@@ -2,7 +2,6 @@ package com.jubination.controller;
 
 import com.jubination.backend.service.report.thyrocare.ReportMessage;
 import com.jubination.model.pojo.report.Barcode;
-import com.jubination.model.pojo.admin.MailMessage;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
 import com.jubination.model.pojo.report.Report;
@@ -10,8 +9,6 @@ import com.jubination.model.pojo.report.Test;
 import com.jubination.service.PDFReportService;
 import com.jubination.service.XMLReportService;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

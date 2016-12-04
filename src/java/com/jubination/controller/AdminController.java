@@ -2,8 +2,8 @@ package com.jubination.controller;
 
 
 
-import com.jubination.backend.service.customcall.CallBox;
-import com.jubination.backend.service.freshcall.parallel.master.CallManager;
+import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
+import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.MailMessage;
 import com.jubination.service.AdminMaintainService;

@@ -5,12 +5,12 @@
  */
 package com.jubination.backend.service.report.thyrocare;
 
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareBarcode;
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareDate;
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareLead;
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareOrder;
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareReport;
-import com.jubination.backend.pojo.report.thyrocare.xml.ThyrocareTest;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareBarcode;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareDate;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareLead;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareOrder;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareReport;
+import com.jubination.backend.pojo.report.thyrocare.ThyrocareTest;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
 import com.jubination.model.pojo.report.Report;

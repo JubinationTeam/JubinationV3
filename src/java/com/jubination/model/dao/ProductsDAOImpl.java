@@ -5,9 +5,9 @@
  */
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.booking.thyrocare.Campaigns;
-import com.jubination.model.pojo.products.thyrocare.ProductList;
-import com.jubination.model.pojo.products.thyrocare.TestEntity;
+import com.jubination.model.pojo.booking.Campaigns;
+import com.jubination.backend.pojo.products.thyrocare.ProductList;
+import com.jubination.model.pojo.booking.Products;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
@@ -22,46 +22,39 @@ import org.springframework.transaction.annotation.Transactional;
  * @author MumbaiZone
  */
 @Repository
-public class ProductsDAOImpl<T> implements Serializable, GenericDAO {
-private Session session=null;
+public class ProductsDAOImpl<T> implements Serializable {
+    
     @Autowired
     private SessionFactory sessionFactory;
+    private Session session=null;
     
-    @Override
+    
+    
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildEntity(Object entity) {
-        ProductList pl=(ProductList) entity;
+            Products p=(Products) entity;
             session = getSessionFactory().getCurrentSession();
-            session.save(pl);
-            pl = (ProductList) session.get(ProductList.class, pl.getDateId());
-        
-        return (T) pl;
+            session.save(p);
+            p = (Products) session.get(Products.class, p.getId());
+            return (T) p;
     }
-@Override
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public Object fetchEntity(Object property) {
-        ProductList pl=(ProductList) property;
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<T> fetchProductEntities() {
             session = getSessionFactory().getCurrentSession();
-            pl = (ProductList) session.get(ProductList.class, pl.getDateId());
-           pl.getMASTERS().getOFFER().size();
-           for(TestEntity te:pl.getMASTERS().getOFFER()){
-               te.getChilds().size();
-           }
-           pl.getMASTERS().getPOP().size();
-           for(TestEntity te:pl.getMASTERS().getPOP()){
-               te.getChilds().size();
-           }
-           pl.getMASTERS().getPROFILE().size();
-           for(TestEntity te:pl.getMASTERS().getPROFILE()){
-               te.getChilds().size();
-           }
-           pl.getMASTERS().getTESTS().size();
-           for(TestEntity te:pl.getMASTERS().getTESTS()){
-               te.getChilds().size();
-           }
-                   
-        return (T) pl;
+            return session.createCriteria(Products.class).list();
     }
+    
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean deleteAllProductEntities() {
+            session = getSessionFactory().getCurrentSession();
+            List<Products> list=session.createCriteria(Products.class).list();
+            for(Products p:list){
+                session.delete(p);
+            }
+            return true;
+    }
+    
     
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Object fetchCampaignEntities() {
@@ -96,71 +89,9 @@ private Session session=null;
         return (T) camp;
            
     }
-    @Override
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public ProductList readProperty(Object paramId) {
-        String id=(String) paramId;
-            session = getSessionFactory().getCurrentSession();
-            return  (ProductList) session.get(ProductList.class,id);
-    }
+ 
     
-    @Override
-    public Object buildEntity(Object entity, boolean coded) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-   
-
-    @Override
-    public Object readPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updateProperty(Object entity, Object paramVal, String paramType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updatePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteEntity(Object entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object deletePropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List fetchEntities(String paramVal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-
-    @Override
-    public Object buildInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object readInnerPropertyList(Object entity, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean deleteInnerPropertyList(Object entity, Object property, String listType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
      public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

@@ -6,8 +6,7 @@
 package com.jubination.service;
 
 import com.jubination.backend.service.email.sendgrid.EmailService;
-import com.jubination.backend.service.customcall.CallBox;
-import com.jubination.backend.service.freshcall.parallel.master.CallOperator;
+import com.jubination.backend.service.leadcall.parallel.master.CallOperator;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
@@ -15,13 +14,12 @@ import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.AdminSettings;
-import com.jubination.model.pojo.booking.thyrocare.Beneficiaries;
+import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
-import com.jubination.model.pojo.booking.thyrocare.Campaigns;
+import com.jubination.model.pojo.booking.Campaigns;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.crm.Lead;
-import com.jubination.model.pojo.admin.MailMessage;
 import com.jubination.model.pojo.crm.TempClient;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -120,6 +117,12 @@ AdminDAOImpl adao;
             es4=null;
     }
  
+ 
+ public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
+     return addClientCall(client,lead,call)&&unmarkBackupClient(client);
+ }
+ 
+ 
  public boolean addClientCall(Client client,Lead lead,Call message){
      List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
          Client storedClient=null;
@@ -129,17 +132,7 @@ AdminDAOImpl adao;
         lead.setClient(client);       
         message.setLead(lead);
   
-            if(storedClient==null){
-                       System.out.println("Client not present");
-                      if(updateLeadOfClient(addClient(client), lead)){
-                           if(addCallAPIMessage(message)!=null){
-                               if(updateSavedCallOfLead(lead, message)!=null){
-                                   return true;
-                               }
-                             }
-                       }
-            }
-            else{
+             if(storedClient!=null){
                        System.out.println("Client present");
                      client.setClientId(storedClient.getClientId());
                     if(client.getAddress()!=null&&storedClient.getAddress()!=null){
@@ -150,14 +143,16 @@ AdminDAOImpl adao;
                             if(client.getAddress()==null&&storedClient.getAddress()!=null){
                                 client.setAddress(storedClient.getAddress());
                             }
-                     if(updateLeadOfClient(client, lead)){
+                    
+            }
+            
+             if(updateLeadOfClient(client, lead)){
                            if(addCallAPIMessage(message)!=null){
                                if(updateSavedCallOfLead(lead, message)!=null){
                                    return true;
                                }
                              }
                        }
-            }
        return false;
  }
  
@@ -169,57 +164,29 @@ AdminDAOImpl adao;
  }
    public TempClient buildBackupClient(Client client){
            
-            Lead lead=new Lead();
             String beneficiaries="";
+            Lead lead=new Lead();
             if(client.getLead()!=null&&!client.getLead().isEmpty()){
+                                
                                 lead=client.getLead().get(0);
                                 lead.setLeadId(client.getTempLeadDetails());
-                                if(lead.getBeneficiaries()!=null){
-                                       lead.setBenCount(lead.getBeneficiaries().isEmpty()?1:lead.getBeneficiaries().size());
-                                }
-                                else{
-                                    lead.setBenCount(1);
-                                }
-                                if(lead.getBeneficiaries()==null){
-                                        lead.setBeneficiaries(new ArrayList());
-
-                                    }
-                                    int count=lead.getBeneficiaries().size();
-                                        while(count>0){
-                                            count--;
-                                            lead.getBeneficiaries().add(new Beneficiaries());
-                                        }
                                 lead.setOrderId("JUBI0000"+lead.getLeadId());
                                 lead.setOrderBy(client.getName());
 
                                 Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
-
-                                   if(camp!=null){
-                                      lead.setMargin(camp.getMargin());
-                                      lead.setHandlingCharges(camp.getHc());
-                                      lead.setPasson(camp.getPasson());
-                                      lead.setProduct(camp.getProducts());
-                                      lead.setRate(camp.getRate());
-                                      lead.setReportCode(camp.getReportCode());
-                                      lead.setServiceType(camp.getServiceType());
-                                   }
-                                int start = lead.getBeneficiaries().size();
-                                for(int i=start;i<10;i++){
-                                    lead.getBeneficiaries().add(new Beneficiaries());
+                                if(camp!=null){
+                                    lead.setMargin(camp.getMargin());
+                                    lead.setHandlingCharges(camp.getHc());
+                                    lead.setPasson(camp.getPasson());
+                                    lead.setProduct(camp.getProducts());
+                                    lead.setRate(camp.getRate());
+                                    lead.setReportCode(camp.getReportCode());
+                                    lead.setServiceType(camp.getServiceType());
                                 }
 
-
-                                if(lead.getBeneficiaries().isEmpty()){
-                                    Beneficiaries ben = new Beneficiaries();
-                                    ben.setAge(client.getAge());
-                                    ben.setGender(client.getGender());
-                                    ben.setName(client.getName());
-                                    if(client.getGender()!=null&&client.getAge()!=null){
-                                       beneficiaries=client.getName()+"-"+client.getGender()+"-"+client.getAge()+"|";
-                                    }
-                                }
-                                else{
+                                if(lead.getBeneficiaries()!=null&&!lead.getBeneficiaries().isEmpty()){
                                          for(Beneficiaries bens:lead.getBeneficiaries()){
+                                                      bens.setLead(lead);
                                                       beneficiaries+=bens.getName()+"-"+bens.getGender()+"-"+bens.getAge()+"|";
                                          }
                                 }
@@ -229,15 +196,13 @@ AdminDAOImpl adao;
             TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
 
             if(!checkIfClientPresent(client.getPhoneNumber())){
-                            operator.getNumbers().offer(client);
+                            operator.getClients().offer(client);
                             operator.setFreshFlag(true);  
                             tempClient.setCallStatus("pending");
-                      }
+            }
             else{
-
                              tempClient.setCallStatus("duplicate");
             }
-            lead=null;
             beneficiaries=null;
         return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
@@ -307,6 +272,7 @@ AdminDAOImpl adao;
                                                 ben.setGender(benBifurcation[1]);
                                                 ben.setAge(benBifurcation[2]);
                                                 lead.getBeneficiaries().add(ben);
+                                                ben.setLead(lead);
                                             }
                                     }
                                 }
