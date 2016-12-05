@@ -119,7 +119,10 @@ AdminDAOImpl adao;
  
  
  public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
-     return addClientCall(client,lead,call)&&unmarkBackupClient(client);
+     if(addClientCall(client,lead,call)){
+         return unmarkBackupClient(client);
+     }
+     return false;
  }
  
  
