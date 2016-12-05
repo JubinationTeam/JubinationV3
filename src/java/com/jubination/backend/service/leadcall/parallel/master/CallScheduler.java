@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
  * @author MumbaiZone
  */
 @Component
-public class CallOperator {
+public class CallScheduler {
     @Autowired
 CallBox callHandler;
     @Autowired
@@ -41,7 +41,7 @@ CallManager eCallHandler;
                     private final String  dumpOvernight="*/3 * 23 * * *";
                     private final String freshCall="*/3 * 9-19 * * *";
                     private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 30 9-19 * * *";
+                    private final String missedCallCheck="0 15,30,45 9-19 * * *";
                     
                     
                     
@@ -64,7 +64,7 @@ CallManager eCallHandler;
                     
                     private ConcurrentLinkedQueue<Client> clients = new ConcurrentLinkedQueue<>();
 
-    public CallOperator() {
+    public CallScheduler() {
         count=count+1;
     }
                      

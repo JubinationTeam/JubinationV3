@@ -6,7 +6,7 @@
 package com.jubination.service;
 
 import com.jubination.backend.service.email.sendgrid.EmailService;
-import com.jubination.backend.service.leadcall.parallel.master.CallOperator;
+import com.jubination.backend.service.leadcall.parallel.master.CallScheduler;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
@@ -59,7 +59,7 @@ CallAPIMessageDAOImpl callDao;
      @Autowired 
 AdminDAOImpl adao;
     @Autowired
-    CallOperator operator;
+    CallScheduler operator;
   
  private String settings="settings";
 

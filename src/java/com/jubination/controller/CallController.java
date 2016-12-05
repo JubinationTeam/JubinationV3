@@ -1,7 +1,7 @@
 package com.jubination.controller;
 
 import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
-import com.jubination.backend.service.leadcall.parallel.master.CallOperator;
+import com.jubination.backend.service.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.booking.Beneficiaries;
@@ -39,7 +39,7 @@ public class CallController {
     @Autowired
     AdminMaintainService adminMaintain;
     @Autowired
-    CallOperator operator;
+    CallScheduler operator;
     @Autowired
     CallManager eCallHandler;
     @Autowired
