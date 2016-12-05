@@ -12,11 +12,29 @@ import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import com.jubination.service.ProductService;
 import java.io.IOException;
+import java.io.StringReader;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +46,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 
 @Controller
@@ -352,6 +374,7 @@ public class CallController {
             call.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             boolean flag=true;
             System.out.println("CallUpdate by exotel"+status);
+            
             switch(status){
                case "1": 
                    call.setTrackStatus("Pressed 1. Customer spoke to us");
@@ -397,6 +420,24 @@ public class CallController {
                    System.out.println("Exotel details. Not an option");
                    break;
            }
+            
+            String url = getTestURL(request);
+            System.out.println("URL:::::::::::::::::::::; "+url);
+//            CloseableHttpResponse response=null;
+//                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//                            DocumentBuilder builder;
+//                            InputSource is;
+//                            String responseText="NA";
+//                    Document doc=null;
+//        
+//                                    //requesting exotel to initiate call
+//                                    CloseableHttpClient httpclient = HttpClients.createDefault();
+//                                    HttpGet httpGet = new HttpGet(getTestURL(request));
+//                                    HttpResponse response = httpclient.execute(httpGet);
+//                                    HttpEntity entity = response.getEntity();
+//                                    responseText = EntityUtils.toString(entity, "UTF-8");
+                           
+                    
             if(flag){
                 operator.doStageThreeCall(call);
                 return new ResponseEntity(HttpStatus.OK);
@@ -453,5 +494,32 @@ public class CallController {
             model.addObject("followupFlag", operator.isFollowupFlag());
             return model;
     }
+public String getTestURL(HttpServletRequest req) {
 
+    String scheme = req.getScheme();             // http
+    String serverName = "54.149.67.96";     // hostname.com
+    int serverPort = req.getServerPort();        // 80
+    String contextPath = req.getContextPath();   // /mywebapp
+    String servletPath = req.getServletPath();   // /servlet/MyServlet
+    String pathInfo = req.getPathInfo();         // /a/b;c=123
+    String queryString = req.getQueryString();          // d=789
+
+    // Reconstruct original requesting URL
+    StringBuilder url = new StringBuilder();
+    url.append(scheme).append("://").append(serverName);
+
+    if (serverPort != 80 && serverPort != 443) {
+        url.append(":").append(serverPort);
+    }
+
+    url.append(contextPath).append(servletPath);
+
+    if (pathInfo != null) {
+        url.append(pathInfo);
+    }
+    if (queryString != null) {
+        url.append("?").append(queryString);
+    }
+    return url.toString();
+}
 }

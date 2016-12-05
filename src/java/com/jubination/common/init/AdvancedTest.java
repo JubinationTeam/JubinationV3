@@ -10,6 +10,7 @@ import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.dao.MessageDAOImpl;
 import com.jubination.model.dao.ReportDAOImpl;
+import com.jubination.model.pojo.admin.Admin;
 
 
 /**
@@ -32,8 +33,8 @@ public class AdvancedTest {
         reportDao.setSessionFactory(HibernateUtil.getSessionFactory());
         cDao.setSessionFactory(HibernateUtil.getSessionFactory());
         daDao.setSessionFactory(HibernateUtil.getSessionFactory());
-       // adao.buildEntity(new Admin("support@jubination.com","abcdef","ROLE_ADMINISTRATOR","Support",0,"Administrator"));
-//            
+        adao.buildInitEntity(new Admin("support@jubination.com","abcdef","ROLE_ADMINISTRATOR","Support",0,"Administrator"));
+          
 
         System.err.println("Constructed:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         

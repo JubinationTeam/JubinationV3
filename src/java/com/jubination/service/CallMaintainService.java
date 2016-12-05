@@ -189,6 +189,7 @@ AdminDAOImpl adao;
                                 int count=9-lead.getBeneficiaries().size();
                                 while(count>=0){
                                     lead.getBeneficiaries().add(new Beneficiaries());
+                                    count--;
                                 }
                                 if(lead.getBeneficiaries()!=null&&!lead.getBeneficiaries().isEmpty()){
                                          for(Beneficiaries bens:lead.getBeneficiaries()){

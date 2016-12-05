@@ -262,6 +262,36 @@ public List fetchEntities(String paramVal) {
         return (T) admin;
     
     }
+    //Hibernate code
+    public Object buildInitEntity(Object entity) {
+   Admin admin = (Admin) entity;
+         
+            Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+            admin.setPassword(encoder.encodePassword(admin.getPassword(), null));
+         
+        try{
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            session.save(admin);
+            admin = (Admin) session.get(Admin.class, admin.getUsername());
+            session.getTransaction().commit();
+        }
+        catch(Exception e){
+            session.getTransaction().rollback();
+            System.out.println("Error in building Admin and its properties at AdminDAO "+e);
+            e.printStackTrace();
+            admin=null;
+        }
+        finally{
+            if(session.isOpen()){
+                
+            }
+            session=null;
+        }
+        return (T) admin;
+
+    }
+    /////////////////////
      public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
