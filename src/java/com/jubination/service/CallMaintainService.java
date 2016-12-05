@@ -186,7 +186,10 @@ AdminDAOImpl adao;
                                     lead.setReportCode(camp.getReportCode());
                                     lead.setServiceType(camp.getServiceType());
                                 }
-
+                                int count=9-lead.getBeneficiaries().size();
+                                while(count>=0){
+                                    lead.getBeneficiaries().add(new Beneficiaries());
+                                }
                                 if(lead.getBeneficiaries()!=null&&!lead.getBeneficiaries().isEmpty()){
                                          for(Beneficiaries bens:lead.getBeneficiaries()){
                                                       bens.setLead(lead);
