@@ -74,10 +74,10 @@ public class ProductFetcher {
             for(TestEntity te:tList){
                             Products p = new Products();
                             if(te.getTestnames()!=null){
-                                p.setName(te.getTestnames()+" , "+te.getDisease_group()+" , "+te.getRate());
+                                p.setName(te.getTestnames()+" , "+te.getDisease_group());
                            }
                            else{
-                                p.setName(te.getName()+" , "+te.getDisease_group()+" , "+te.getRate());
+                                p.setName(te.getName()+" , "+te.getDisease_group());
                             }
                             
                             if(te.getTestnames()!=null){
@@ -96,16 +96,23 @@ public class ProductFetcher {
                                if(te.getCode().startsWith("PROJ")){
                                    p.setReportCode(te.getCode());
                                }         
-                            
-                               if(te.getRate()!=null){
-                                  p.setRate(te.getRate().getOffer_rate()+te.getRate().getPay_amt());
-                              }
+                               
+                                if(te.getRate()!=null){
+                                   if(te.getRate().getOffer_rate()!=null){
+                                        p.setRate(te.getRate().getOffer_rate());
+                                    }
+                                     else if(te.getRate().getPay_amt()!=null){
+                                        p.setRate(te.getRate().getPay_amt());
+                                    }
+                                }
                                
                                p.setServiceType("H");
                               
                                p.setHc(te.getHc());
                               
                               p.setMargin(te.getMargin());
+                              pList.add(p);
+                              System.out.println("Adding products");
             }
             tList=null;
             return pList;

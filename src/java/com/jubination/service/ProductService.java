@@ -41,11 +41,16 @@ public class ProductService {
     public List<Products> fetchAllProducts() throws IOException, ParserConfigurationException, SAXException, JAXBException{
         List<Products> list =pdao.fetchProductEntities();
         if(list!=null&&list.size()>0){
+            System.out.println("No products saved");
             return list;
         }
         else{
             list=operator.fetchWithoutSaving();
+            
+            System.out.println("Saving products");
             for(Products p:list){
+                
+            System.out.println("Saving products");
                     buildProducts(p);
             }
             return list;
