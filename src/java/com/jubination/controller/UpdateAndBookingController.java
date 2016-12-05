@@ -78,6 +78,7 @@ public class UpdateAndBookingController {
         String ben7 =request.getParameter("ben_7");
         String ben8 =request.getParameter("ben_8");
         String ben9 =request.getParameter("ben_9");
+        Integer benCount=0;
         if(id!=null){
             if(!id.isEmpty()){
                 Lead lead=null;
@@ -88,44 +89,8 @@ public class UpdateAndBookingController {
                     Client client=lead.getClient();
                     lead.setAdmin(admin);
                     lead.setNotification(false);
-                        if(leadStatus!=null){
-                            if(!leadStatus.isEmpty()){
-                               lead.setLeadStatus(leadStatus);
-                               
-                               if(leadStatus.equals("Lead sent to Thyrocare")){
-                                   
-                                   
-                                   String bookingResponse=sendManualUpdate(id);
-                                   model.addObject("response", bookingResponse);
-                                   System.out.println("Response:"+bookingResponse);
-                                   if(bookingResponse.endsWith("Success")){
-                                           lead.setBooked(true);
-                                            List<Lead> leadList=callMaintain.getDuplicateLeads(number);
-                                           for(Lead l:leadList){
-                                                l.setNotification(false);
-                                                l.setPending(false);
-                                                l.setCount(0);
-                                                callMaintain.updateLeadOnly(l);
-                                            }
-                                   }
-                                   
-                               }
-                               else{
-                                   String bookingResponse=sendManualUpdate(id);
-                                   model.addObject("response", bookingResponse);
-                                   System.out.println("Response:"+bookingResponse);
-                                   
-                               }
-                            }
-                       }
-                      if(leadStatus!=null){ 
-                       if(leadStatus.contains("Follow")&&date!=null){
-                           if(!date.isEmpty()){
-                               lead.setNotification(true);
-                               lead.setFollowUpDate(date);
-                           }
-                       }
-                      }
+                        
+                      
                       if(product!=null){
                            if(!product.isEmpty()){
                                lead.setProduct(product);
@@ -156,6 +121,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(0).setName(ben0.split(",")[0]);
                                lead.getBeneficiaries().get(0).setAge(ben0.split(",")[1]);
                                lead.getBeneficiaries().get(0).setGender(ben0.split(",")[2]);
+                               benCount++;
                            }
                        }
                        if(ben1!=null&&ben1.contains(",")){
@@ -163,6 +129,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(1).setName(ben1.split(",")[0]);
                                lead.getBeneficiaries().get(1).setAge(ben1.split(",")[1]);
                                lead.getBeneficiaries().get(1).setGender(ben1.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben2!=null&&ben2.contains(",")){
@@ -170,6 +137,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(2).setName(ben2.split(",")[0]);
                                lead.getBeneficiaries().get(2).setAge(ben2.split(",")[1]);
                                lead.getBeneficiaries().get(2).setGender(ben2.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben3!=null&&ben3.contains(",")){
@@ -177,6 +145,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(3).setName(ben3.split(",")[0]);
                                lead.getBeneficiaries().get(3).setAge(ben3.split(",")[1]);
                                lead.getBeneficiaries().get(3).setGender(ben3.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben4!=null&&ben4.contains(",")){
@@ -184,6 +153,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(4).setName(ben4.split(",")[0]);
                                lead.getBeneficiaries().get(4).setAge(ben4.split(",")[1]);
                                lead.getBeneficiaries().get(4).setGender(ben4.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben5!=null&&ben5.contains(",")){
@@ -191,6 +161,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(5).setName(ben5.split(",")[0]);
                                lead.getBeneficiaries().get(5).setAge(ben5.split(",")[1]);
                                lead.getBeneficiaries().get(5).setGender(ben5.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben6!=null&&ben6.contains(",")){
@@ -198,6 +169,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(6).setName(ben6.split(",")[0]);
                                lead.getBeneficiaries().get(6).setAge(ben6.split(",")[1]);
                                lead.getBeneficiaries().get(6).setGender(ben6.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben7!=null&&ben7.contains(",")){
@@ -212,6 +184,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(8).setName(ben8.split(",")[0]);
                                lead.getBeneficiaries().get(8).setAge(ben8.split(",")[1]);
                                lead.getBeneficiaries().get(8).setGender(ben8.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(ben9!=null&&ben9.contains(",")){
@@ -219,6 +192,7 @@ public class UpdateAndBookingController {
                                lead.getBeneficiaries().get(9).setName(ben9.split(",")[0]);
                                lead.getBeneficiaries().get(9).setAge(ben9.split(",")[1]);
                                lead.getBeneficiaries().get(9).setGender(ben9.split(",")[2]);
+                                benCount++;
                            }
                        }
                        if(comment!=null){
@@ -267,7 +241,37 @@ public class UpdateAndBookingController {
                                client.setInitialComments(initialComment);
                            }
                        }
+                        if(leadStatus!=null&&!leadStatus.isEmpty()){
+                               lead.setLeadStatus(leadStatus);
+                        }
+                        if(leadStatus!=null){ 
+                            if(leadStatus.contains("Follow")&&date!=null){
+                                if(!date.isEmpty()){
+                                    lead.setNotification(true);
+                                    lead.setFollowUpDate(date);
+                                }
+                            }
+                      }
+                       lead.setBenCount(benCount);
+                      
                         if(callMaintain.updateClientOnly(client)&&callMaintain.updateLeadOnly(lead)){
+                                        if(leadStatus!=null&&!leadStatus.isEmpty()){
+                                          String bookingResponse=sendManualUpdate(id);
+                                              model.addObject("response", bookingResponse);
+                                              System.out.println("Response:"+bookingResponse);
+                                          if(leadStatus.equals("Lead sent to Thyrocare")){
+                                              if(bookingResponse.endsWith("Success")){
+                                                      lead.setBooked(true);
+                                                       List<Lead> leadList=callMaintain.getDuplicateLeads(number);
+                                                      for(Lead l:leadList){
+                                                           l.setNotification(false);
+                                                           l.setPending(false);
+                                                           l.setCount(0);
+                                                           callMaintain.updateLeadOnly(l);
+                                                       }
+                                              }  
+                                       }
+                                  }
                                 model.addObject("message", "Updated Database");
                                 return model;
                        }
