@@ -38,11 +38,10 @@ CallManager eCallHandler;
                     private boolean dumpRetriever=true;
                     private int count=7;
                     
-                    private final String  dumpOvernight="*/3 * 23 * * *";
+                     private final String  dumpOvernight="*/3 * 20-23,0-8 * * *";
                     private final String freshCall="*/3 * 9-19 * * *";
                     private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 30,40,50 9-19 * * *";
-                    
+                    private final String missedCallCheck="0 30,35,40,45,50,55 9-19 * * *";
                     
                     
                     
