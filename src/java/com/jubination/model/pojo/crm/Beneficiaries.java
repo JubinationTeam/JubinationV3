@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.pojo.booking;
+package com.jubination.model.pojo.crm;
 
 import com.jubination.model.pojo.crm.Lead;
 import java.io.Serializable;
@@ -13,8 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -35,9 +40,20 @@ public class Beneficiaries implements Serializable {
     @Column(name="age")
     String age;
 
-@JsonBackReference    
-    @ManyToOne
+@JsonBackReference  
+   @ManyToOne
     Lead lead;
+ 
+@Transient
+ boolean persistent;
+    public Beneficiaries() {
+    }
+
+    public Beneficiaries(String name, String gender, String age) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+    }
 
     public String getName() {
         return name;
@@ -79,6 +95,16 @@ public class Beneficiaries implements Serializable {
         this.lead = lead;
     }
     
+      public boolean isPersistent() {
+        return persistent;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void setPersistent() {
+        this.persistent = true;
+    }
+
     
     
     

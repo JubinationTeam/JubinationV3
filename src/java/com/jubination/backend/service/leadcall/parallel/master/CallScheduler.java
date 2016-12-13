@@ -5,11 +5,14 @@
  */
 package com.jubination.backend.service.leadcall.parallel.master;
 
+import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
+import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
+import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,10 @@ CallBox callHandler;
 CallManager eCallHandler;
     @Autowired
        private CallMaintainService service;
+        @Autowired
+    private AdminMaintainService adminService;
+    
+    private String settings="settings";
                     private boolean freshFlag=false;
                    
                     private boolean followupFlag=false;
@@ -41,13 +48,24 @@ CallManager eCallHandler;
                      private final String  dumpOvernight="*/3 * 20-23,0-8 * * *";
                     private final String freshCall="*/3 * 9-19 * * *";
                     private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 30,35,40,45,50,55 9-19 * * *";
+                    private final String missedCallCheck="0 */8 9-19 * * *";
                     
                     
                     
                     
-                    private final String followUpCall="0 0 10-19 * * *";
+                    private final String followUpCall="0 */30 10-19 * * *";
                     private final String calculateAnalytics="0 30 23 * * *";
+                    
+                    
+//                    private final String  dumpOvernight="*/3 0-30 19 * * *";
+//                    private final String freshCall="*/3 31-59 19 * * *";
+//                    private final String retreiveDump="0 33 19 * * *";
+//                    
+//                    private final String missedCallCheck="0 */8 20 * * *";
+//                    private final String followUpCall="0 */15 10-19 * * *";
+//                    private final String calculateAnalytics="0 30 23 * * *";
+                    
+                    
                     
                      private String appIdLead="102261";
                     private String appIdReEngage="107784";
@@ -147,11 +165,16 @@ CallManager eCallHandler;
                     @Scheduled(cron = dumpOvernight)//7pm to 8am save temp daa
                     void freshCustomerCallSave(){
                         if(isFreshFlag()||!clients.isEmpty()&&eCallHandler.getStatus()){
-                            System.out.println("In 19-9 overnight save dump");
                             while(!clients.isEmpty()){
+                            System.out.println("In 19-9 overnight save dump");
                                                             clients.peek().setOvernight(true);
                                                             clients.peek().setPriority(6);
-                                                           if(service.saveTemporaryClient(clients.peek())){
+                                                            if(clients.peek().getLead()==null||clients.peek().getLead().isEmpty()){
+                                                                        List<Lead> leadList = new ArrayList<>();
+                                                                        leadList.add(new Lead(clients.peek().getTempLeadDetails()));
+                                                                        clients.peek().setLead(leadList);
+                                                                }
+                                                           if(service.updateTemporaryClient(clients.peek(),clients.peek().getLead().get(0))){
                                                                clients.poll();
                                                            }
                                       } 
@@ -163,21 +186,20 @@ CallManager eCallHandler;
                     void updateCustomerData(){
                    System.out.println("Retreiving overnight dump");
                                      for(Client client:service.getAllTemporaryClients()){
-                                          if(clients.peek().getLead()==null||clients.peek().getLead().isEmpty()){
+                                            if(client!=null){
+                                                        if(client.getLead()==null||client.getLead().isEmpty()){
                                                                 List<Lead> leadList = new ArrayList<>();
-                                                                leadList.add(new Lead(clients.peek().getTempLeadDetails()));
-                                                                clients.peek().setLead(leadList);
+                                                                leadList.add(new Lead(client.getTempLeadDetails()));
+                                                                client.setLead(leadList);
                                                         }
-                                                        
                                                         client.getLead().get(0).setCount(count);
                                                         client.getLead().get(0).setPending(true);
                                                         client.setPriority(5);
                                                         eCallHandler.getClientStage1().push(client);
-                                                        
+                                            }
                                      }
-                                     
-                        
                     }
+                    
                     
                      @Async
                     @Scheduled(cron = missedCallCheck)//9am to 7pm do calling
@@ -209,11 +231,21 @@ CallManager eCallHandler;
                                 }
                             }
                             if(eCallHandler.getClientStage1().isEmpty()){
-                           for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotified")){
-                               client.setPriority(4);         
-                               eCallHandler.getClientStage1().push(client);
-                               
-                           }
+                                sendEmailFollowupUpdate("disha@jubination.com");
+                                sendEmailFollowupUpdate("trupti@jubination.com");
+                                sendEmailFollowupUpdate("vinay@jubination.com");
+                                sendEmailFollowupUpdate("tauseef@jubination.com");
+                                sendEmailFollowupUpdate("souvik@jubination.com");
+                                for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Notified")){
+                                    client.setPriority(4);         
+                                    eCallHandler.getClientStage1().push(client);
+
+                                }
+                                for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Pending")){
+                                    client.setPriority(4);         
+                                    eCallHandler.getClientStage1().push(client);
+
+                                }
                              }
                         }
                     }
@@ -276,7 +308,22 @@ CallManager eCallHandler;
     }
 
   
-
+ private void sendEmailFollowupUpdate(String email){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Your pending health checkup",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "I am call Bot!<br/>" +
+                                                "<br/>" +
+                                                "Follow u  has started" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Wish you a happy & healthy day!<br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" + 
+                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
 
 
        

@@ -9,9 +9,10 @@ import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
+import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.controller.UpdateAndBookingController;
 import com.jubination.model.pojo.admin.AdminSettings;
-import com.jubination.model.pojo.booking.Beneficiaries;
+import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
@@ -48,7 +49,8 @@ public class CallWorkerSlave3Leftover {
      private  CallManager manager;
     @Autowired
           private   CallBox callBox;
-    
+     @Autowired
+    Updater updater;
     private String settings="settings";
       public void work() {
           try{
@@ -162,7 +164,7 @@ public class CallWorkerSlave3Leftover {
                                                                                                                 }
                                                                                                                 service.updateLeadOnly(lead);
                                                                                                                 
-                                                                                                               sendAutomatedUpdate(lead.getLeadId());
+                                                                                                                updater.sendAutomatedUpdate(lead.getLeadId());
                                                                                                              call.setLead(client.getLead().get(client.getLead().size()-1));
                                                                                                              service.updateCallAPIMessage(call);
                                                                                                              }
@@ -253,37 +255,7 @@ public class CallWorkerSlave3Leftover {
             }
                         
             }
-      private String sendAutomatedUpdate(String id){
-            String responseText="";
-            try {   
-                String url="https://mypage.jubination.com/api/booking";
-                ObjectMapper mapper = new ObjectMapper();
-                //Object to JSON in String
-                Lead lead=service.getClientDetails(id);
-                lead.setCall(null);
-                lead.getAdmin().setReceivedMessageList(null);
-                lead.getAdmin().setSentMessageList(null);
-                lead.getAdmin().setPassword(null);
-                for(Beneficiaries ben:lead.getBeneficiaries()){
-                    ben.setLead(null);
-                }
-                lead.getClient().setLead(null);
-                String jsonString= mapper.writeValueAsString(lead);
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                StringEntity requestEntity = new StringEntity(
-                jsonString,
-                ContentType.APPLICATION_JSON);
-                HttpPost postMethod = new HttpPost(url);
-                postMethod.setEntity(requestEntity);
-                HttpResponse response = httpClient.execute(postMethod);
-                HttpEntity entity = response.getEntity();
-                responseText = EntityUtils.toString(entity, "UTF-8");
-            } 
-            catch (Exception ex) {
-                           Logger.getLogger(UpdateAndBookingController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return responseText;
-    }
+    
        private void sendEmailNotUpdated(String email,String number,String exec) {
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Spoke But Not Updated",

@@ -14,7 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -77,6 +80,9 @@ public class Client implements Serializable {
  @Column(name="real_time_data")
   String realTimeData;
  
+ @Transient
+ boolean persistent;
+ 
   @JsonManagedReference 
  @OneToMany(mappedBy="client")
       @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
@@ -88,7 +94,7 @@ public class Client implements Serializable {
 
  
  
-    public Client(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments) {
+    public Client(String name,String campaignName,String age,String gender,String emailId, String phoneNumber, String address, String city, String pincode, String dateCreation, String dateUpdated, boolean overnight, String tempLeadDetails,String ipAddress,String initialComments,String source) {
        this.name=name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
@@ -104,6 +110,7 @@ public class Client implements Serializable {
         this.gender=gender;
         this.ipAddress=ipAddress;
         this.initialComments=initialComments;
+        this.source=source;
     }
 
     public long getClientId() {
@@ -273,6 +280,16 @@ public class Client implements Serializable {
 
     public void setRealTimeData(String realTimeData) {
         this.realTimeData = realTimeData;
+    }
+
+    public boolean isPersistent() {
+        return persistent;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void setPersistent() {
+        this.persistent = true;
     }
 
    

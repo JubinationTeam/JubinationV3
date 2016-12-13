@@ -10,9 +10,10 @@ import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.pojo.ivr.exotel.ExotelMessage;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
+import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.controller.UpdateAndBookingController;
 import com.jubination.model.pojo.admin.AdminSettings;
-import com.jubination.model.pojo.booking.Beneficiaries;
+import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
@@ -65,7 +66,8 @@ public class CallWorkerSlave2 {
          
        @Autowired
      private  AdminMaintainService adminService;
-       
+        @Autowired
+    Updater updater;
     private String settings="settings";
     
           public void work(Client client){
@@ -194,7 +196,7 @@ public class CallWorkerSlave2 {
                             if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
                             }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                            updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
                         else if(message.getStatus().contains("failed")){
                             message.getLead().setLeadStatus("Failed");
@@ -202,7 +204,7 @@ public class CallWorkerSlave2 {
                              if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
                             }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
                         else if(message.getStatus().contains("no-answer")){
                             message.getLead().setLeadStatus("No Answer");
@@ -210,7 +212,7 @@ public class CallWorkerSlave2 {
                              if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
                             }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
                         else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
                             message.getLead().setLeadStatus("Hanged up while greetings");
@@ -218,7 +220,7 @@ public class CallWorkerSlave2 {
                              if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
                             }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
 
 
@@ -238,7 +240,7 @@ public class CallWorkerSlave2 {
                         if(client!=null){
                             sendEmailToFailCall(client.getEmailId());
                         }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                     }
                     else if(message.getStatus().contains("failed")){
                         message.getLead().setLeadStatus("Failed");
@@ -246,7 +248,7 @@ public class CallWorkerSlave2 {
                         if(client!=null){
                             sendEmailToFailCall(client.getEmailId());
                         }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                     }
                     else if(message.getStatus().contains("no-answer")){
                         message.getLead().setLeadStatus("No Answer");
@@ -254,7 +256,7 @@ public class CallWorkerSlave2 {
                         if(client!=null){
                             sendEmailToFailCall(client.getEmailId());
                         }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                     }
                     else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
                             message.getLead().setLeadStatus("Hanged up while greetings");
@@ -262,7 +264,7 @@ public class CallWorkerSlave2 {
                              if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
                             }
-                            sendAutomatedUpdate(message.getLead().getLeadId());
+                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
 
                     service.updateCallAPIMessage(storedMessage);
@@ -346,37 +348,7 @@ public class CallWorkerSlave2 {
                              }
                                     return eMessage;
            }
-        private String sendAutomatedUpdate(String id){
-            String responseText="";
-            try {   
-                String url="https://mypage.jubination.com/api/booking";
-                ObjectMapper mapper = new ObjectMapper();
-                //Object to JSON in String
-                Lead lead=service.getClientDetails(id);
-                lead.setCall(null);
-                lead.getAdmin().setReceivedMessageList(null);
-                lead.getAdmin().setSentMessageList(null);
-                lead.getAdmin().setPassword(null);
-                for(Beneficiaries ben:lead.getBeneficiaries()){
-                    ben.setLead(null);
-                }
-                lead.getClient().setLead(null);
-                String jsonString= mapper.writeValueAsString(lead);
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                StringEntity requestEntity = new StringEntity(
-                jsonString,
-                ContentType.APPLICATION_JSON);
-                HttpPost postMethod = new HttpPost(url);
-                postMethod.setEntity(requestEntity);
-                HttpResponse response = httpClient.execute(postMethod);
-                HttpEntity entity = response.getEntity();
-                responseText = EntityUtils.toString(entity, "UTF-8");
-            } 
-            catch (Exception ex) {
-                           Logger.getLogger(UpdateAndBookingController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return responseText;
-    }
+        
           private void sendEmailToFailCall(String email){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Your pending health checkup",

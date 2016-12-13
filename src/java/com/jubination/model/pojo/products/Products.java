@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.pojo.booking;
+package com.jubination.model.pojo.products;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,10 +18,13 @@ import javax.persistence.Table;
  * @author MumbaiZone
  */
 @Entity
-@Table(name="campaigns",catalog="jubination")
-public class Campaigns implements java.io.Serializable{
+@Table(name="products",catalog="jubination")
+public class Products implements Serializable {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    Long id;
     @Column(name="name")
     String name;
     @Column(name="products")
@@ -35,8 +41,9 @@ public class Campaigns implements java.io.Serializable{
     String reportCode;
     @Column(name="service_type")
     String serviceType;
+    @Column(name="details")
+    String details;
 
-  
     public String getName() {
         return name;
     }
@@ -69,22 +76,6 @@ public class Campaigns implements java.io.Serializable{
         this.hc = hc;
     }
 
-    public String getReportCode() {
-        return reportCode;
-    }
-
-    public void setReportCode(String reportCode) {
-        this.reportCode = reportCode;
-    }
-
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
-    }
-
     public String getMargin() {
         return margin;
     }
@@ -101,9 +92,36 @@ public class Campaigns implements java.io.Serializable{
         this.passon = passon;
     }
 
-    
-    
-    
-    
-    
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
 }

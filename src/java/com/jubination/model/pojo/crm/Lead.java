@@ -7,7 +7,6 @@ package com.jubination.model.pojo.crm;
 
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import java.io.Serializable;
@@ -19,7 +18,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
@@ -39,8 +41,6 @@ import org.hibernate.annotations.NotFoundAction;
 public class Lead implements Serializable {
     @Id
     String leadId;
-        @ManyToOne
-    Client client;
          @Column(name="count")
     private int count;
       @Column(name="pending")
@@ -88,16 +88,21 @@ public class Lead implements Serializable {
     @Column(name="handling_charges")
     private String handlingCharges;
     
-    
+     @Transient
+ boolean persistent;
+     
+     @JsonBackReference  
+        @ManyToOne
+   private Client client;
       @JsonManagedReference 
          @OneToMany(mappedBy="lead")
-      @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
+      @Cascade({CascadeType.DELETE,CascadeType.SAVE_UPDATE})
       @NotFound(action=NotFoundAction.IGNORE)
         private List<Call> call= new ArrayList<>();
       
       @JsonManagedReference 
          @OneToMany(mappedBy="lead")
-      @Cascade({CascadeType.PERSIST,CascadeType.DELETE,CascadeType.SAVE_UPDATE})
+      @Cascade({CascadeType.DELETE,CascadeType.SAVE_UPDATE})
       @NotFound(action=NotFoundAction.IGNORE)
         private List<Beneficiaries> beneficiaries= new ArrayList<>();
       @OneToOne
@@ -320,7 +325,15 @@ public class Lead implements Serializable {
         this.passon = passon;
     }
 
+public boolean isPersistent() {
+        return persistent;
+    }
 
+    @PostLoad
+    @PostPersist
+    public void setPersistent() {
+        this.persistent = true;
+    }
         
     
 }

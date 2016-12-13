@@ -22,9 +22,9 @@ public class CallManager {
                         
                         private static final long time=100;
                     
-                        private Boolean status=false;
+                        private Boolean status=true;
                     
-                        private int executives=0;
+                        private int executives=1;
                         
                         
                         @Autowired

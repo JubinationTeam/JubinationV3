@@ -4,7 +4,7 @@ import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
 import com.jubination.backend.service.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.Beneficiaries;
+import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
@@ -450,8 +450,10 @@ public class CallController {
            if(client!=null){
                 if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                     try{
-                        if(callMaintain.buildBackupClient(client)!=null&&eCallHandler.getStatus()){        
-                            return new ResponseEntity(HttpStatus.OK);
+                        if(eCallHandler.getStatus()){        
+                            if(callMaintain.buildBackupClient(client)!=null){
+                                return new ResponseEntity(HttpStatus.OK);
+                            }
                         }
                     }
                     catch(Exception e){

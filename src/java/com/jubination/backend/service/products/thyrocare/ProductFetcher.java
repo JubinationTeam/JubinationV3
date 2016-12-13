@@ -7,7 +7,7 @@ package com.jubination.backend.service.products.thyrocare;
 
 import com.jubination.backend.pojo.products.thyrocare.ProductList;
 import com.jubination.backend.pojo.products.thyrocare.TestEntity;
-import com.jubination.model.pojo.booking.Products;
+import com.jubination.model.pojo.products.Products;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.ProductService;
 import java.io.IOException;

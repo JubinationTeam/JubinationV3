@@ -1,8 +1,9 @@
 package com.jubination.controller;
 
+import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.model.pojo.status.thyrocare.ReportStatus;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.Beneficiaries;
+import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
@@ -45,6 +46,8 @@ public class UpdateAndBookingController {
     CallMaintainService callMaintain;
     @Autowired 
     XMLReportService reportService;
+    @Autowired
+    Updater updater;
     
     @RequestMapping(value="/admin/callupdates/update")
     public ModelAndView updateClient(HttpServletRequest request, Principal principal) throws IOException {
@@ -85,6 +88,7 @@ public class UpdateAndBookingController {
                 lead = new Lead();
                 lead.setLeadId(id);
                 lead=callMaintain.readLead(lead);
+                System.out.println("BEN SIZE::::::::::::::::::::::::::::::::::::::::::;"+lead.getBeneficiaries().size());
                 if(lead!=null){
                     Client client=lead.getClient();
                     lead.setAdmin(admin);
@@ -118,81 +122,102 @@ public class UpdateAndBookingController {
                        }
                        if(ben0!=null&&ben0.contains(",")){
                            if(!ben0.isEmpty()){
-                               lead.getBeneficiaries().get(0).setName(ben0.split(",")[0]);
-                               lead.getBeneficiaries().get(0).setAge(ben0.split(",")[1]);
-                               lead.getBeneficiaries().get(0).setGender(ben0.split(",")[2]);
-                               benCount++;
+                               if(!ben0.equals(",,")){
+                                        lead.getBeneficiaries().get(0).setName(ben0.split(",")[0]);
+                                        lead.getBeneficiaries().get(0).setAge(ben0.split(",")[1]);
+                                        lead.getBeneficiaries().get(0).setGender(ben0.split(",")[2]);
+                                        benCount++;
+                               }
                            }
                        }
                        if(ben1!=null&&ben1.contains(",")){
                            if(!ben1.isEmpty()){
-                               lead.getBeneficiaries().get(1).setName(ben1.split(",")[0]);
-                               lead.getBeneficiaries().get(1).setAge(ben1.split(",")[1]);
-                               lead.getBeneficiaries().get(1).setGender(ben1.split(",")[2]);
-                                benCount++;
+                               if(!ben1.equals(",,")){
+                                        lead.getBeneficiaries().get(1).setName(ben1.split(",")[0]);
+                                        lead.getBeneficiaries().get(1).setAge(ben1.split(",")[1]);
+                                        lead.getBeneficiaries().get(1).setGender(ben1.split(",")[2]);
+                                        benCount++;
+                               }
                            }
                        }
                        if(ben2!=null&&ben2.contains(",")){
                            if(!ben2.isEmpty()){
-                               lead.getBeneficiaries().get(2).setName(ben2.split(",")[0]);
-                               lead.getBeneficiaries().get(2).setAge(ben2.split(",")[1]);
-                               lead.getBeneficiaries().get(2).setGender(ben2.split(",")[2]);
-                                benCount++;
+                               if(!ben2.equals(",,")){
+                                    lead.getBeneficiaries().get(2).setName(ben2.split(",")[0]);
+                                    lead.getBeneficiaries().get(2).setAge(ben2.split(",")[1]);
+                                    lead.getBeneficiaries().get(2).setGender(ben2.split(",")[2]);
+                                    benCount++;
+                               }
                            }
                        }
                        if(ben3!=null&&ben3.contains(",")){
                            if(!ben3.isEmpty()){
-                               lead.getBeneficiaries().get(3).setName(ben3.split(",")[0]);
-                               lead.getBeneficiaries().get(3).setAge(ben3.split(",")[1]);
-                               lead.getBeneficiaries().get(3).setGender(ben3.split(",")[2]);
-                                benCount++;
+                               if(!ben3.equals(",,")){
+                                        lead.getBeneficiaries().get(3).setName(ben3.split(",")[0]);
+                                        lead.getBeneficiaries().get(3).setAge(ben3.split(",")[1]);
+                                        lead.getBeneficiaries().get(3).setGender(ben3.split(",")[2]);
+                                        benCount++;
+                               }
                            }
                        }
                        if(ben4!=null&&ben4.contains(",")){
                            if(!ben4.isEmpty()){
-                               lead.getBeneficiaries().get(4).setName(ben4.split(",")[0]);
-                               lead.getBeneficiaries().get(4).setAge(ben4.split(",")[1]);
-                               lead.getBeneficiaries().get(4).setGender(ben4.split(",")[2]);
-                                benCount++;
+                               if(!ben4.equals(",,")){
+                                        lead.getBeneficiaries().get(4).setName(ben4.split(",")[0]);
+                                        lead.getBeneficiaries().get(4).setAge(ben4.split(",")[1]);
+                                        lead.getBeneficiaries().get(4).setGender(ben4.split(",")[2]);
+                                        benCount++;
+                               }
                            }
                        }
                        if(ben5!=null&&ben5.contains(",")){
                            if(!ben5.isEmpty()){
-                               lead.getBeneficiaries().get(5).setName(ben5.split(",")[0]);
-                               lead.getBeneficiaries().get(5).setAge(ben5.split(",")[1]);
-                               lead.getBeneficiaries().get(5).setGender(ben5.split(",")[2]);
-                                benCount++;
+                               if(!ben5.equals(",,")){
+                                        lead.getBeneficiaries().get(5).setName(ben5.split(",")[0]);
+                                        lead.getBeneficiaries().get(5).setAge(ben5.split(",")[1]);
+                                        lead.getBeneficiaries().get(5).setGender(ben5.split(",")[2]);
+                                        benCount++;
+                               }
                            }
                        }
                        if(ben6!=null&&ben6.contains(",")){
                            if(!ben6.isEmpty()){
-                               lead.getBeneficiaries().get(6).setName(ben6.split(",")[0]);
-                               lead.getBeneficiaries().get(6).setAge(ben6.split(",")[1]);
-                               lead.getBeneficiaries().get(6).setGender(ben6.split(",")[2]);
-                                benCount++;
+                               if(!ben6.equals(",,")){
+                                    lead.getBeneficiaries().get(6).setName(ben6.split(",")[0]);
+                                    lead.getBeneficiaries().get(6).setAge(ben6.split(",")[1]);
+                                    lead.getBeneficiaries().get(6).setGender(ben6.split(",")[2]);
+                                    benCount++;
+                               }
                            }
                        }
                        if(ben7!=null&&ben7.contains(",")){
                            if(!ben7.isEmpty()){
-                               lead.getBeneficiaries().get(7).setName(ben7.split(",")[0]);
-                               lead.getBeneficiaries().get(7).setAge(ben7.split(",")[1]);
-                               lead.getBeneficiaries().get(7).setGender(ben7.split(",")[2]);
+                               if(!ben7.equals(",,")){
+                                    lead.getBeneficiaries().get(7).setName(ben7.split(",")[0]);
+                                    lead.getBeneficiaries().get(7).setAge(ben7.split(",")[1]);
+                                    lead.getBeneficiaries().get(7).setGender(ben7.split(",")[2]);
+                                     benCount++;
+                               }
                            }
                        }
                        if(ben8!=null&&ben8.contains(",")){
                            if(!ben8.isEmpty()){
-                               lead.getBeneficiaries().get(8).setName(ben8.split(",")[0]);
-                               lead.getBeneficiaries().get(8).setAge(ben8.split(",")[1]);
-                               lead.getBeneficiaries().get(8).setGender(ben8.split(",")[2]);
-                                benCount++;
+                               if(!ben8.equals(",,")){
+                                    lead.getBeneficiaries().get(8).setName(ben8.split(",")[0]);
+                                    lead.getBeneficiaries().get(8).setAge(ben8.split(",")[1]);
+                                    lead.getBeneficiaries().get(8).setGender(ben8.split(",")[2]);
+                                     benCount++;
+                               }
                            }
                        }
                        if(ben9!=null&&ben9.contains(",")){
                            if(!ben9.isEmpty()){
-                               lead.getBeneficiaries().get(9).setName(ben9.split(",")[0]);
-                               lead.getBeneficiaries().get(9).setAge(ben9.split(",")[1]);
-                               lead.getBeneficiaries().get(9).setGender(ben9.split(",")[2]);
-                                benCount++;
+                               if(!ben9.equals(",,")){
+                                    lead.getBeneficiaries().get(9).setName(ben9.split(",")[0]);
+                                    lead.getBeneficiaries().get(9).setAge(ben9.split(",")[1]);
+                                    lead.getBeneficiaries().get(9).setGender(ben9.split(",")[2]);
+                                      benCount++;
+                               }
                            }
                        }
                        if(comment!=null){
@@ -249,6 +274,7 @@ public class UpdateAndBookingController {
                                 if(!date.isEmpty()){
                                     lead.setNotification(true);
                                     lead.setFollowUpDate(date);
+                                    lead.setCount(7);
                                 }
                             }
                       }
@@ -256,7 +282,7 @@ public class UpdateAndBookingController {
                       
                         if(callMaintain.updateClientOnly(client)&&callMaintain.updateLeadOnly(lead)){
                                         if(leadStatus!=null&&!leadStatus.isEmpty()){
-                                          String bookingResponse=sendManualUpdate(id);
+                                          String bookingResponse=updater.sendAutomatedUpdate(id);
                                               model.addObject("response", bookingResponse);
                                               System.out.println("Response:"+bookingResponse);
                                           if(leadStatus.equals("Lead sent to Thyrocare")){
@@ -320,36 +346,5 @@ public class UpdateAndBookingController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    private String sendManualUpdate(String id){
-            String responseText="";
-            try {   
-                String url="https://mypage.jubination.com/api/booking";
-                ObjectMapper mapper = new ObjectMapper();
-                //Object to JSON in String
-                Lead lead=callMaintain.getClientDetails(id);
-                lead.setCall(null);
-                lead.getAdmin().setReceivedMessageList(null);
-                lead.getAdmin().setSentMessageList(null);
-                lead.getAdmin().setPassword(null);
-                for(Beneficiaries ben:lead.getBeneficiaries()){
-                    ben.setLead(null);
-                }
-                lead.getClient().setLead(null);
-                String jsonString= mapper.writeValueAsString(lead);
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                StringEntity requestEntity = new StringEntity(
-                jsonString,
-                ContentType.APPLICATION_JSON);
-                HttpPost postMethod = new HttpPost(url);
-                postMethod.setEntity(requestEntity);
-                HttpResponse response = httpClient.execute(postMethod);
-                HttpEntity entity = response.getEntity();
-                responseText = EntityUtils.toString(entity, "UTF-8");
-            } 
-            catch (Exception ex) {
-                           Logger.getLogger(UpdateAndBookingController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return responseText;
-    }
     
 }

@@ -83,7 +83,7 @@
                    </div>
                </center>
                <br/>
-               <h2> Spoke but not updated </h2>
+               <h2> Spoke but not updated / Missed calls</h2>
                <div class="table-responsive">
                <table class="table table-striped table-condensed table-hover table-bordered">
               <thead>
@@ -124,7 +124,8 @@
               </thead>
               <tbody>
                     <c:forEach items="${callrecords}" var="item">
-                        <c:if test="${(not empty item.recordingUrl && not empty item.lead.leadId &&  empty item.lead.followUpDate &&
+                        <c:if test="${
+                              (not empty item.recordingUrl &&not empty item.lead.leadId &&  empty item.lead.followUpDate &&
                                       item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
                                       item.lead.leadStatus ne 'Follow up/Call back'&&
                                       item.lead.leadStatus ne 'Not interested'&&

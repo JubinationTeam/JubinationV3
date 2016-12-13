@@ -1,7 +1,7 @@
 package com.jubination.controller;
 
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.booking.Campaigns;
+import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.ProductService;
 import java.io.IOException;

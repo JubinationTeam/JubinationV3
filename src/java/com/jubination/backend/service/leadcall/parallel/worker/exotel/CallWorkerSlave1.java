@@ -7,10 +7,13 @@ package com.jubination.backend.service.leadcall.parallel.worker.exotel;
 
 import com.jubination.backend.service.leadcall.parallel.worker.exotel.CallWorkerSlave2;
 import com.jubination.backend.pojo.ivr.exotel.ExotelMessage;
+import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
+import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
+import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
 import java.io.StringReader;
@@ -56,6 +59,10 @@ public class CallWorkerSlave1 {
      private  CallManager manager;
     @Autowired
      private CallWorkerSlave2 worker2;
+    @Autowired
+    private AdminMaintainService adminService;
+    
+    private String settings="settings";
     
       
       
@@ -160,6 +167,11 @@ public class CallWorkerSlave1 {
                                                  call.setCallTo(callerId);
                                                  call.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                                                  call.setTrackStatus(call.getMessage());
+                                                 sendEmailToFailCall("disha@jubination.com", client.getTempLeadDetails(), client.getPhoneNumber());
+                                                 sendEmailToFailCall("trupti@jubination.com", client.getTempLeadDetails(), client.getPhoneNumber());
+                                                 sendEmailToFailCall("vinay@jubination.com", client.getTempLeadDetails(), client.getPhoneNumber());
+                                                 sendEmailToFailCall("tauseef@jubination.com", client.getTempLeadDetails(), client.getPhoneNumber());
+                                                 sendEmailToFailCall("souvik@jubination.com", client.getTempLeadDetails(), client.getPhoneNumber());
                                         }
                                         else{
                                                 System.out.println(Thread.currentThread().getName()+" "+"Stage 1:xml message unknown error");
@@ -169,9 +181,11 @@ public class CallWorkerSlave1 {
                                         }
                                     }
                                 //Settings to make objects ready
+                                
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
                                     lead.setCount(lead.getCount()-1);
                                     client.setOvernight(false);
+                                 
                                     
                                     //If count zero, make all the leads count zero
                                     if(lead.getCount()==0){
@@ -211,6 +225,23 @@ public class CallWorkerSlave1 {
                  return client;
           }
           
-          
+          private void sendEmailToFailCall(String email,String leadId,String number){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Your pending health checkup",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "I am call Bot!<br/>" +
+                                                "<br/>" +
+                                                "Exotel has failed to call the following lead/number" +
+                                                "<br/>" +
+                                                "Lead "+leadId+", number "+number+
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Wish you a happy & healthy day!<br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" + 
+                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
           
 }
