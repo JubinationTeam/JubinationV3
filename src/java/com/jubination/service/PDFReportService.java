@@ -5,7 +5,8 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.report.thyrocare.PDFBackendProcess;
+import com.jubination.backend.service.report.parallel.worker.thyrocare.PDFBackendProcess;
+import com.jubination.backend.service.report.parallel.worker.ReportOperator;
 import com.jubination.model.dao.ReportDAOImpl;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
@@ -34,25 +35,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PDFReportService {
     
-   
+    @Autowired
+    ReportOperator rOperator;
     @Autowired
     PDFBackendProcess backend;
     @Autowired
     ReportDAOImpl reportDAO;
 
   
-    
-     public boolean parsePDFToTextThyrocreBlood(String url,String reportId) throws IOException{
-           try {
-              
-                    buildReport(backend.parsePDF(url,reportId));
-                    
-            } catch (Exception ex) {
-            Logger.getLogger(XMLReportService.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        return true;
-    }
      
      //CLEAN AND SAVE TO DATABASE
                            public  void buildReport(Report report){

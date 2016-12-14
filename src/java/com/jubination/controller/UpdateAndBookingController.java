@@ -31,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -345,6 +346,50 @@ public class UpdateAndBookingController {
             }
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
-
+ @RequestMapping(value="/admin/callnotification/on/{leadId}")
+    public ModelAndView swichOnCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallnotification");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            Lead lead = new Lead();
+            lead.setLeadId(leadId);
+            lead=callMaintain.readLead(lead);
+            lead.setNotification(false);
+            lead.setPending(false);
+            lead.setCount(0);
+            lead.setLeadStatus("Lead sent to Thyrocare");
+            callMaintain.updateLeadOnly(lead);
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
+    }
     
+    @RequestMapping(value="/admin/callnotification/off/{leadId}")
+    public ModelAndView swichOffCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallnotification");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            Lead lead = new Lead();
+            lead.setLeadId(leadId);
+            lead=callMaintain.readLead(lead);
+            lead.setNotification(false);
+            lead.setPending(false);
+            lead.setCount(0);
+            lead.setLeadStatus("Disapproved");
+            callMaintain.updateLeadOnly(lead);
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
+    }
+    @RequestMapping(value="/admin/callnotification/off/source")
+    public ModelAndView swichOffCallNotifications(HttpServletRequest request, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallnotification");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            List<Lead> list=callMaintain.readLeadsBySource(request.getParameter("source"));
+            for(Lead lead:list){
+                lead.setNotification(false);
+                lead.setPending(false);
+                lead.setCount(0);
+                lead.setLeadStatus("Disapproved");
+                callMaintain.updateLeadOnly(lead);
+            }
+            model.addObject("lead", callMaintain.readNotifiedLead());
+            return model;
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import com.jubination.backend.service.report.parallel.worker.ReportOperator;
 
 
 @Controller
@@ -30,21 +31,25 @@ public class ReportAPIController {
     PDFReportService servicePDF;
     @Autowired
     XMLReportService serviceXML;
+    @Autowired
+    ReportOperator rOperator;
+    
     
     @RequestMapping(value="/pdf/parser/{clinic}/{test}/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public   @ResponseBody ReportMessage startReportParsing(@RequestBody ReportMessage msg, HttpServletRequest request,@PathVariable("clinic") String clinic,@PathVariable("test") String test,@PathVariable("reportId") String reportId,Principal principal) {
-            if(clinic.equalsIgnoreCase("thyrocare")){   
+        msg.setReportId(reportId);
+        if(clinic.equalsIgnoreCase("thyrocare")){   
                 if(test.equalsIgnoreCase("blood")){  
                     try{
                         System.out.println("Thyrocare Blood");
-                        if(serviceXML.parseXMLToTextThyrocreBlood(msg.getReportXml(),reportId)){
-                            System.out.println("XML parsing Done");
+                        if(rOperator.startParsing(msg)){
+                            System.out.println("Parsing started");
                             msg.setBody("Success");
                              return msg;
                         }
-                        else if(servicePDF.parsePDFToTextThyrocreBlood(msg.getReportUrl(),reportId)){
-                             msg.setBody("Success");
-                            System.out.println("PDF parsing Done");
+                        else {
+                             msg.setBody("Error "+"Multiple files at a time.");
+                            System.out.println("Parsing not Done : Multiple files at a time");
                              return msg;
                          }
                     }
@@ -75,6 +80,7 @@ public class ReportAPIController {
             return model;
      }
   
+    
     @RequestMapping(value="/report/json/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
     public @ResponseBody Report  getReportViewJson(HttpServletRequest request,@PathVariable("reportId") String reportId,Principal principal) {
             Report report=servicePDF.getReport(reportId);

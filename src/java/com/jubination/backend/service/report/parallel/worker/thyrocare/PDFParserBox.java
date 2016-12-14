@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.report.thyrocare;
+package com.jubination.backend.service.report.parallel.worker.thyrocare;
 
 import java.io.IOException;
 import java.net.URL;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @author Welcome
  */
 @Component
+@Scope("prototype")
 public class PDFParserBox {
     
     private PDFTextStripper pdfStripper;

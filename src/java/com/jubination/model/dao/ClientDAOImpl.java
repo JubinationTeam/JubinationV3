@@ -127,7 +127,7 @@ public class ClientDAOImpl<T> implements Serializable{
                  System.out.println("READ LEAD WITH INNER ELEMENTS :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
         return (T) lead;
     }
-        // read lead with status
+        // read lead with variable
         @Transactional(propagation = Propagation.REQUIRED, readOnly = true)      
         public Object fetchInnerEntities(String param, String type) {
          List<Lead> list=null;
@@ -142,11 +142,18 @@ public class ClientDAOImpl<T> implements Serializable{
                     list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.and(Restrictions.eq("pending", true),Restrictions.ge("count", 1))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
              }
+             
          }
          else if(param.equals("Number")){
              session = getSessionFactory().getCurrentSession();
             list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
                    add(Restrictions.eq("c.phoneNumber", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+        
+         }
+         else if(param.equals("Source")){
+             session = getSessionFactory().getCurrentSession();
+            list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
+                   add(Restrictions.eq("c.source", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
          if(list!=null){

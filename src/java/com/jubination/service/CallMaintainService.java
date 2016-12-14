@@ -483,6 +483,9 @@ AdminDAOImpl adao;
             return clientDao.updatePropertyList(client,lead,"AddLead");
     }
     
+     public List<Lead> readLeadsBySource(String source){
+         return (List<Lead>) clientDao.fetchInnerEntities("Source",source);
+     }
      
       public Lead readLead(Lead lead) {
             return (Lead) clientDao.readInnerPropertyList(lead);

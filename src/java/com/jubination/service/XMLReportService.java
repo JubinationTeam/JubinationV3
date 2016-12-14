@@ -5,7 +5,8 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.report.thyrocare.XMLParser;
+import com.jubination.backend.service.report.parallel.worker.ReportOperator;
+import com.jubination.backend.service.report.parallel.worker.thyrocare.XMLBackendProcess;
 import com.jubination.model.dao.ReportDAOImpl;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.status.thyrocare.ReportStatus;
@@ -26,22 +27,14 @@ import org.xml.sax.SAXException;
 @Service
 @Transactional
 public class XMLReportService {
+    
     @Autowired
-    XMLParser operator;
+    ReportOperator rOperator;
+    @Autowired
+    XMLBackendProcess operator;
   @Autowired
     ReportDAOImpl reportDAO;
-    public boolean parseXMLToTextThyrocreBlood(String reportUrl, String reportId) {
-        try {
-            
-           buildReport(operator.convertThyrocareReportToGeneralReport(operator.parseXML(reportUrl),reportId));
-           
-        } catch (Exception ex) {
-            Logger.getLogger(XMLReportService.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        return true;
-        
-    }
+   
     //CLEAN AND SAVE TO DATABASE
                            public  void buildReport(Report report){
                                            

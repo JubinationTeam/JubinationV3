@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.report.thyrocare;
+package com.jubination.backend.service.report.parallel.worker.thyrocare;
 
+import com.jubination.backend.service.report.parallel.worker.ReportOperator;
+import com.jubination.backend.pojo.report.thyrocare.ReportMessage;
 import com.jubination.backend.pojo.report.thyrocare.ThyrocareBarcode;
 import com.jubination.backend.pojo.report.thyrocare.ThyrocareDate;
 import com.jubination.backend.pojo.report.thyrocare.ThyrocareLead;
@@ -15,11 +17,14 @@ import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Test;
+import com.jubination.service.XMLReportService;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
@@ -42,6 +47,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -52,7 +59,8 @@ import org.xml.sax.SAXException;
  * @author MumbaiZone
  */
 @Component
-public class XMLParser {
+@Scope("prototype")
+public class XMLBackendProcess {
     
                           private Profile profileArthritis =new Profile("ARTHRITIS");
                            private Profile profileHeart =new Profile("HEART RISKY MARKERS");
@@ -88,6 +96,23 @@ public class XMLParser {
                             private boolean flagProstate =false;
                             private boolean flagStress =false;
                              private boolean flagHepatitis =false;
+                             
+                             @Autowired
+                             ReportOperator operator;
+                             @Autowired
+                             XMLReportService service;
+                             
+                             public boolean parseAndBuildXML(ReportMessage msg){
+                                
+                                        try {
+                                            service.buildReport(convertThyrocareReportToGeneralReport(parseXML(msg.getReportXml()),msg.getReportId()));
+                                        } catch(Exception ex) {
+                                            Logger.getLogger(XMLBackendProcess.class.getName()).log(Level.SEVERE, null, ex);
+                                            return false;
+                                        } 
+                                        return true;
+                             }
+                             
     public ThyrocareReport parseXML(String url) throws JAXBException, IOException, ParserConfigurationException, SAXException{
         
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

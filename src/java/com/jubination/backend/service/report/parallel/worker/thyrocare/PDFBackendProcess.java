@@ -1,26 +1,49 @@
-package com.jubination.backend.service.report.thyrocare;
+package com.jubination.backend.service.report.parallel.worker.thyrocare;
 
+import com.jubination.backend.pojo.report.thyrocare.ReportMessage;
 import com.jubination.model.pojo.report.Barcode;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.Test;
+import com.jubination.service.PDFReportService;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class PDFBackendProcess {
                     
                     @Autowired
                     PDFService service;
                     @Autowired
                     PDFParserBox pdfManager;
+                    @Autowired
+                    PDFReportService mainService;
                     
-    
+                    
+                    
+                    
+                     public boolean parseAndBuildPDF(ReportMessage msg){
+                                
+                                        try {
+                                            mainService.buildReport(parsePDF(msg.getReportUrl(),msg.getReportId()));
+                                        } catch(Exception ex) {
+                                            Logger.getLogger(XMLBackendProcess.class.getName()).log(Level.SEVERE, null, ex);
+                                            return false;
+                                        } 
+                                        return true;
+                             }
+                    
+                     
+                     
                     public Report parsePDF(String url,String reportId) throws IOException{
                         
                                             Report report= new Report(reportId);

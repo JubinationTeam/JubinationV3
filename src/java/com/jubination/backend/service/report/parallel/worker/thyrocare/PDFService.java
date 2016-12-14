@@ -1,4 +1,4 @@
-package com.jubination.backend.service.report.thyrocare;
+package com.jubination.backend.service.report.parallel.worker.thyrocare;
 
 import com.jubination.model.pojo.report.Test;
 import com.jubination.model.pojo.report.Report;
@@ -6,9 +6,11 @@ import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class PDFService {
                             
                           private boolean hemoFlag=false;

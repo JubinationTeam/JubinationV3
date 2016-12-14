@@ -13,6 +13,7 @@ public class ReportMessage {
     String reportUrl;
     String reportXml;
     String body;
+    String reportId;
 
     public String getReportUrl() {
         return reportUrl;
@@ -36,6 +37,14 @@ public class ReportMessage {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(String reportId) {
+        this.reportId = reportId;
     }
     
     

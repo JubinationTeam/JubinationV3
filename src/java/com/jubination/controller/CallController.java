@@ -327,37 +327,7 @@ public class CallController {
             return model;
     }
     
-     @RequestMapping(value="/admin/callnotification/on/{leadId}")
-    public ModelAndView swichOnCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
-            ModelAndView model= new ModelAndView("admincallnotification");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            Lead lead = new Lead();
-            lead.setLeadId(leadId);
-            lead=callMaintain.readLead(lead);
-            lead.setNotification(false);
-            lead.setPending(false);
-            lead.setCount(0);
-            lead.setLeadStatus("Lead sent to Thyrocare");
-            callMaintain.updateLeadOnly(lead);
-            model.addObject("lead", callMaintain.readNotifiedLead());
-            return model;
-    }
     
-    @RequestMapping(value="/admin/callnotification/off/{leadId}")
-    public ModelAndView swichOffCallNotifications(HttpServletRequest request,@PathVariable("leadId") String leadId, Principal principal) throws IOException {
-            ModelAndView model= new ModelAndView("admincallnotification");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            Lead lead = new Lead();
-            lead.setLeadId(leadId);
-            lead=callMaintain.readLead(lead);
-            lead.setNotification(false);
-            lead.setPending(false);
-            lead.setCount(0);
-            lead.setLeadStatus("Disapproved");
-            callMaintain.updateLeadOnly(lead);
-            model.addObject("lead", callMaintain.readNotifiedLead());
-            return model;
-    }
     
     @RequestMapping(value="/exotel/{value}",method=RequestMethod.GET)
     public ResponseEntity callUpdateGet(HttpServletRequest request,@PathVariable("value") String status, Principal principal) throws IOException {

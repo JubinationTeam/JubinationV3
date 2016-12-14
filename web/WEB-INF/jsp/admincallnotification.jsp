@@ -60,8 +60,19 @@
         <tiles:insertAttribute name="navigation"/>
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="row">
+                
+                      <form class="form-signin" action="${pageContext.request.contextPath}/admin/callnotification/off/source/" >                                                               
+                        <h3 class="form-signin-heading">Disapprove Records source wise</h3>
+                        <input type="text" class="form-control"  name='source' placeholder="Source" required>
+                        <br/>
+                       <button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapprove</button>
+                           
+                      </form>
+                
+            </div>
              <div class="row" >
-                <h3  style="margin-left: 50px">Clients Pending (${fn:length(lead)})</h3>
+                    <h3  style="margin-left: 50px">Clients Pending (${fn:length(lead)})</h3>
                 <c:if test="${not empty lead}">
                <div class="col-sm-12 table-responsive">
                   
@@ -80,7 +91,7 @@
                             <th>Date</th>
                             <th>Follow up Date</th>
                             <th>Booking Manually</th>
-                            <th>Disapproved</th>
+                            <th>Disapprove</th>
                            </thead>
                            <tbody>
                    <c:forEach items="${lead}" var="lead">
@@ -98,7 +109,7 @@
                            <td>${lead.followUpDate}</td>
                            <c:if test="${not lead.notification}">
                            <td><a href="${pageContext.request.contextPath}/admin/callnotification/on/${lead.leadId}"><button class="btn btn-sm" style="background-color:#0081c2;color:#ffffff" type="button">Booking Done</button></a></td>
-                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/off/${lead.leadId}"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapproved</button></a></td>
+                           <td><a href="${pageContext.request.contextPath}/admin/callnotification/off/${lead.leadId}"><button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapprove</button></a></td>
                            </c:if>
                            <c:if test="${lead.notification}">
                            <td></td><td></td>
