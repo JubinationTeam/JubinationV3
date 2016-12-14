@@ -86,7 +86,7 @@ public class Updater {
                                                 "<br/>" +
                                                 "I am call Bot!<br/>" +
                                                 "<br/>" +
-                                                "CallBOt has failed to update the following lead/number" +
+                                                "CallBot has failed to update the following lead" +
                                                 "<br/>" +
                                                 "Lead "+leadId+
                                                 "<br/>" +

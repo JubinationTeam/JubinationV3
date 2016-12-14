@@ -1,6 +1,6 @@
 package com.jubination.controller;
 
-import com.jubination.backend.service.report.thyrocare.ReportMessage;
+import com.jubination.backend.pojo.report.thyrocare.ReportMessage;
 import com.jubination.model.pojo.report.Barcode;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
