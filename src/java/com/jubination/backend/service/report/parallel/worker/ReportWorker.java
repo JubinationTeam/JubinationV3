@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.report.parallel.worker.thyrocare;
+package com.jubination.backend.service.report.parallel.worker;
 
 import com.jubination.backend.pojo.report.thyrocare.ReportMessage;
 import com.jubination.backend.service.report.parallel.worker.ReportOperator;
+import com.jubination.backend.service.report.parallel.worker.thyrocare.PDFBackendProcess;
+import com.jubination.backend.service.report.parallel.worker.thyrocare.XMLBackendProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

@@ -56,6 +56,12 @@ public class Lead implements Serializable {
     @Column(name="lead_status")
     private String leadStatus;
     
+    
+    @Column(name="date_creation")
+    String dateCreation;
+    @Column(name="date_updated")
+    String dateUpdated;
+    
     @Column(name="hardcopy")
     private String hardcopy;
     @Column(name="appointment_date")
@@ -328,6 +334,23 @@ public class Lead implements Serializable {
 public boolean isPersistent() {
         return persistent;
     }
+
+    public String getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public String getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(String dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
 
     @PostLoad
     @PostPersist

@@ -61,15 +61,15 @@
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
-                
-                      <form class="form-signin" action="${pageContext.request.contextPath}/admin/callnotification/off/source/" >                                                               
+                <div class="col-sm-4">
+                      <form  style="margin-left: 50px" class="form-signin" action="${pageContext.request.contextPath}/admin/callnotification/off/source/" >                                                               
                         <h3 class="form-signin-heading">Disapprove Records source wise</h3>
                         <input type="text" class="form-control"  name='source' placeholder="Source" required>
-                        <br/>
+                      <br/>
                        <button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapprove</button>
                            
                       </form>
-                
+                </div>
             </div>
              <div class="row" >
                     <h3  style="margin-left: 50px">Clients Pending (${fn:length(lead)})</h3>

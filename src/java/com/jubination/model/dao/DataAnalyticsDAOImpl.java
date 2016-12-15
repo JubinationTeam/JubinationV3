@@ -16,6 +16,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -55,11 +56,29 @@ public class DataAnalyticsDAOImpl<T> implements java.io.Serializable {
        List<DataAnalytics> list=null;
         
                     session = getSessionFactory().getCurrentSession();
-                    list=session.createCriteria(DataAnalytics.class).add(Restrictions.like("date", (String)paramId, MatchMode.START)).list();
+                   list =session.createCriteria(DataAnalytics.class)
+                           .add(Restrictions.like("date", (String)paramId, MatchMode.START))
+                            .setProjection(Projections.projectionList()
+                                    .add(Projections.max("date"))).list();
+
+
                return (T) list;
         
     }
 
+    @Transactional(propagation=Propagation.REQUIRED,readOnly = true)
+    public Object readPropertyByRecency() {
+       List<DataAnalytics> list=null;
+        
+                    session = getSessionFactory().getCurrentSession();
+                   list =session.createCriteria(DataAnalytics.class)
+                                    .setProjection(Projections.projectionList()
+                                        .add(Projections.max("requestedTime"))).list();
+
+
+               return (T) list;
+        
+    }
    
    
      public SessionFactory getSessionFactory() {

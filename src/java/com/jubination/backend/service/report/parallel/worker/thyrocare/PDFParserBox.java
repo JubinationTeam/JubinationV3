@@ -27,22 +27,28 @@ public class PDFParserBox {
  
     public String ToText(String url) throws IOException
    {
-       this.pdfStripper = null;
-       this.pdDoc = null;
-       pdDoc = PDDocument.load(new URL(url).openStream());
-       pdDoc.getClass();
-       pdfStripper = new PDFTextStripper(){
-           @Override
-           protected void processTextPosition( TextPosition text ){
-                  super.processTextPosition(text);
-           }
-       };
-       pdfStripper.setStartPage(1);
-        pdfStripper.setEndPage(pdDoc.getNumberOfPages());
-       
-       Text = pdfStripper.getText(pdDoc);
-       pdDoc.close();
-       return Text;
+       try{
+                this.pdfStripper = null;
+                this.pdDoc = null;
+                pdDoc = PDDocument.load(new URL(url).openStream());
+                pdDoc.getClass();
+                pdfStripper = new PDFTextStripper(){
+                    @Override
+                    protected void processTextPosition( TextPosition text ){
+                           super.processTextPosition(text);
+                    }
+                };
+                pdfStripper.setStartPage(1);
+                 pdfStripper.setEndPage(pdDoc.getNumberOfPages());
+                Text = pdfStripper.getText(pdDoc);
+                
+                return Text;
+       }
+       finally{
+            pdDoc.close();
+            pdfStripper=null;
+            pdDoc=null;
+       }
    }
 
    

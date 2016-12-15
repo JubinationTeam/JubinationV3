@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -150,10 +151,10 @@ public class ClientDAOImpl<T> implements Serializable{
                    add(Restrictions.eq("c.phoneNumber", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
-         else if(param.equals("Source")){
+         else if(param.equals("ActiveSourceLeads")){
              session = getSessionFactory().getCurrentSession();
-            list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
-                   add(Restrictions.eq("c.source", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+            list=(List<Lead>) session.createCriteria(Lead.class,"l").createAlias("client", "c").
+                   add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("c.source", type))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
          if(list!=null){
@@ -285,6 +286,7 @@ public class ClientDAOImpl<T> implements Serializable{
         System.out.println("READ CLIENT WITH A PROPERTY (INNER AND NON INNER MIXED) :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
     return list;
     }
+        
         //read client with status
         @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
         public List fetchEntities(String paramVal) {
@@ -491,8 +493,35 @@ public class ClientDAOImpl<T> implements Serializable{
                     System.out.println("ADD LEAD :::::::::::::::::::::::::::::::::::::::::::::::FAIL");
                     return false;
         }
-        
-        public SessionFactory getSessionFactory() {
+     
+        @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public List<Object> fetchFreshCallEntity(String fromDate,String toDate, String type) {
+        List list=null;
+        switch(type){
+            case "Total":
+                    session = getSessionFactory().getCurrentSession();
+                     Criteria criteria =session.createCriteria(Client.class,"client").createAlias("client.lead", "lead").createAlias("lead.call", "call")
+                              .add(Restrictions.and(
+                                      Restrictions.ge("client.dateCreation",fromDate+" 00:00:00"),
+                                      Restrictions.le("client.dateCreation",toDate+" 23:59:59")
+                              )
+                      );
+                      criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                     list= criteria.list();
+                     for(Client c:(List<Client>)list){
+                         c.getLead().size();
+                         for(Lead l:c.getLead()){
+                             l.getCall().size();
+                         }
+                     }
+                     
+                    break;
+                 
+                
+        } 
+        return list;
+    }
+public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
         public void setSessionFactory(SessionFactory sessionFactory) {

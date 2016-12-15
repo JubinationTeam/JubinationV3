@@ -71,12 +71,15 @@
                 <br/>
                 <button class="btn btn-sm" style="background-color:#0081c2;color:#ffffff" type="submit">Fetch</button>
               </form>
-                
+                <br/>
+                     <a href="${pageContext.request.contextPath}/admin/callanalytics/get/recent"><button class="btn btn-sm"   style="background-color:#515151;color:#ffffff"  type="button">Recent Analytics</button></a><br/><br/>
+                  
                 </div>
+               
                 <div class="col-xs-3">
                      <form action="${pageContext.request.contextPath}/admin/setExecs/auto" method="GET" class="form-signin-heading" >
                          <h3 class="form-signin-heading">Calling Executives</h3>
-                         <input type="text" class="form-control"  name="ex" value="${ex}"/><br/>
+                         <input type="text" class="form-control"  name="ex" value="${ex}" required="true"/><br/>
                                <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff">Change</button>
                                 </form><br/>
                                 ${message}
@@ -88,65 +91,54 @@
                
                    <hr/>
                    <c:if test="${not empty analytics}">
-                       <div class="row">
-                           <h3>Date - ${analytics.date}</h3>
-                       </div>
-                   <hr/>
-                       <div class="row">
-                       <div class="col-xs-4">
-                       <h2>Total</h2>
-                       <h3>${analytics.total}</h3>
-                       </div>
-                       <div class="col-xs-4">
-                       <h2>Busy</h2>
-                       <h3>${analytics.busy}</h3>
-                       </div>
-                       <div class="col-xs-4">
-                       <h2>Failed</h2>
-                       <h3>${analytics.failed}</h3>
-                       </div>
-                        </div>
-                 <hr/>
-                       <div class="row">
-                       <div class="col-xs-4">
-                       <h2>No Answer</h2>
-                       <h3>${analytics.noAnswer}</h3>
-                       </div>
-                  
-                       <div class="col-xs-4">
-                       <h2>Client hangs up while greeting</h2>
-                       <h3>${analytics.greetingsHangup}</h3>
-                       </div>
-                       <div class="col-xs-4">
-                       <h2>Client hangs up while connecting</h2>
-                       <h3>${analytics.hangupOnConnect}</h3>
-                       </div>
-                        </div>
-                  <hr/>
-                       <div class="row">
-                       <div class="col-xs-4">
-                       <h2>MissCall</h2>
-                       <h3>${analytics.missCall}</h3>
-                       </div>
-                       <div class="col-xs-4">
-                       <h2>Spoke</h2>
-                       <h3>${analytics.spoke}</h3>
-                       </div>
-                       <div class="col-xs-4">
-                       <h2>Requested Call Back</h2>
-                       <h3>${analytics.requestedCallBack}</h3>
-                       </div>
-                   </div> <hr/>
                         <div class="row">
-                       <div class="col-xs-4">
-                       <h2>Others</h2>
-                       <h3>${analytics.others}</h3>
-                       </div>
-                       <div class="col-xs-4"></div>
-                       <div class="col-xs-4"></div>
+                             <div class="col-sm-12 table-responsive">
+
+                          <table  class="table table-bordered table-striped">
+
+                                  <thead>
+                                  <th>Type</th>
+                                   <th>On Date</th>
+                                   <th>From Date</th>
+                                   <th>To Date</th>
+                                   <th>Requested Time</th>
+                                  <th>Total</th>
+                                  <th>Busy</th>
+                                  <th>Failed</th>
+                                  <th>No Answer</th>
+                                  <th>Client hangs up while greeting</th>
+                                   <th>Client hangs up while connecting</th>
+                                   <th>MissCall</th>
+                                   <th>Spoke</th>
+                                   <th>Requested Call Back</th>
+                                   <th>Others</th>
+                                  </thead>
+                                  <tbody>
+                          <c:forEach items="${analytics}" var="item">
+                              <tr>
+                                   <td>${item.type}</td>
+                                  <td>${item.date}</td>
+                                  <td>${item.fromDate}</td>
+                                  <td>${item.toDate}</td>
+                                  <td>${item.requestedTime}</td>
+                                  <td>${item.total}</td>
+                                  <td>${item.busy}</td>
+                                  <td>${item.failed}</td>
+                                  <td>${item.noAnswer}</td>
+                                  <td>${item.greetingsHangup}</td>
+                                  <td>${item.hangupOnConnect}</td>
+                                  <td>${item.missCall}</td>
+                                  <td>${item.spoke}</td>
+                                  <td>${item.requestedCallBack}</td>
+                                  <td>${item.others}</td>
+                              </tr>
+
+                          </c:forEach>
+                               </tbody>
+                               </table>
+                      </div>
                         </div>
-                 <hr/>
-                   </c:if>
+                 </c:if>
                
                    
                    

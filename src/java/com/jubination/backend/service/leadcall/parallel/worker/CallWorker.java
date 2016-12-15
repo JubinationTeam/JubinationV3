@@ -5,9 +5,10 @@
  */
 package com.jubination.backend.service.leadcall.parallel.worker;
 
+import com.jubination.backend.service.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.leadcall.parallel.worker.exotel.CallWorkerSlave1;
 import com.jubination.backend.service.leadcall.parallel.worker.exotel.CallWorkerSlave3Leftover;
-import com.jubination.backend.service.leadcall.parallel.master.CallManager;
+import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ public class CallWorker implements Runnable{
           }
            
            
-          
+   
      
     
    
@@ -58,7 +59,6 @@ public class CallWorker implements Runnable{
         this.status = status;
     }
 
-   
     
     
 }

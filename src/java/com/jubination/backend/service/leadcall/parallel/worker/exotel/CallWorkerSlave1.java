@@ -79,6 +79,8 @@ public class CallWorkerSlave1 {
                 System.out.println("Error @ outer work Slave 1");
                 e.printStackTrace();
             }
+            finally{
+            }
                    
                       
             }

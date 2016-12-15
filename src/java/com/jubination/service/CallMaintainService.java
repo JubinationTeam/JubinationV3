@@ -18,14 +18,12 @@ import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.model.pojo.crm.Client;
-import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.model.pojo.crm.TempClient;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -48,23 +46,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class CallMaintainService {
+    
     @Autowired
-CallAPIMessageDAOImpl callDao;
+    CallAPIMessageDAOImpl callDao;
     @Autowired
-            ClientDAOImpl clientDao;
+    ClientDAOImpl clientDao;
     @Autowired
-            DataAnalyticsDAOImpl daDao;
-      @Autowired
-            ProductsDAOImpl pDao;
-     @Autowired 
-AdminDAOImpl adao;
+    ProductsDAOImpl pDao;
+    @Autowired 
+    AdminDAOImpl adao;
     @Autowired
     CallScheduler operator;
+    
+    private  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
+    
+    private  String excelOutputBuildDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\";
   
- private String settings="settings";
+    private String settings="settings";
 
     
- public void sendEmailUpdate() {
+    public void sendEmailUpdate() {
           
            AdminSettings adminSettings=(AdminSettings) adao.readSettingsProperty(settings);
             EmailService es1=new EmailService("disha@jubination.com","Call records updated!",
@@ -117,16 +118,14 @@ AdminDAOImpl adao;
             es4=null;
     }
  
- 
- public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
+    public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
      if(addClientCall(client,lead,call)){
          return unmarkBackupClient(client);
      }
      return false;
  }
  
- 
- public boolean addClientCall(Client client,Lead lead,Call message){
+    public boolean addClientCall(Client client,Lead lead,Call message){
      List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
      
     Client storedClient=null;
@@ -228,7 +227,7 @@ AdminDAOImpl adao;
        return false;
  }
  
-   public boolean updateTemporaryClient(Client client,Lead lead) {
+    public boolean updateTemporaryClient(Client client,Lead lead) {
       List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
          Client storedClient=null;
         if(storedClientList!=null&&storedClientList.size()>0){
@@ -300,14 +299,16 @@ AdminDAOImpl adao;
                  }
             return false;
     }
- 
- public List<Client> getClientDump(String date){
+   
+    public List<Client> getClientDump(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
- public List<Client> getClientDumpForDisplay(String date){
+    
+    public List<Client> getClientDumpForDisplay(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateCreated");
  }
-   public TempClient buildBackupClient(Client client){
+    
+    public TempClient buildBackupClient(Client client){
            
             String beneficiaries="";
             Lead lead=new Lead();
@@ -317,6 +318,8 @@ AdminDAOImpl adao;
                                 lead.setLeadId(client.getTempLeadDetails());
                                 lead.setOrderId("JUBI0000"+lead.getLeadId());
                                 lead.setOrderBy(client.getName());
+                                lead.setDateCreation(client.getDateCreation());
+                                lead.setDateCreation(client.getDateUpdated());
 
                                 Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
                                 if(camp!=null){
@@ -368,8 +371,7 @@ AdminDAOImpl adao;
         return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
    
-   
-   public TempClient readBackupClient(String leadId){
+    public TempClient readBackupClient(String leadId){
        List<TempClient> list=clientDao.readBackupEntity(leadId);
        if(list!=null){
            if(list.size()>0){
@@ -384,7 +386,7 @@ AdminDAOImpl adao;
      
    }
    
-   public Boolean checkIfClientPresent(String number,String date, String leadId){
+    public Boolean checkIfClientPresent(String number,String date, String leadId){
        List<TempClient> list=clientDao.readBackupEntityByNumberAndDate(number,date);
        List<TempClient> list2=clientDao.readBackupEntityByLeadId(leadId);
        list.addAll(list2);
@@ -397,7 +399,7 @@ AdminDAOImpl adao;
        return false;
    }
    
-   public boolean unmarkBackupClient(Client client){
+    public boolean unmarkBackupClient(Client client){
        TempClient tempClient=readBackupClient(client.getTempLeadDetails());
        tempClient.setCallStatus(null);
        return updateBackupClient(tempClient);
@@ -422,6 +424,8 @@ AdminDAOImpl adao;
             lead.setProduct(lead.getProduct());
             lead.setRate(lead.getReportCode());
             lead.setServiceType(lead.getServiceType());
+            lead.setDateCreation(tempClient.getDateCreation());
+            lead.setDateUpdated(lead.getDateUpdated());
             client.getLead().add(lead);
             if(tempClient.getBeneficiaries()!=null&&tempClient.getBeneficiaries().contains(":")&&!tempClient.getBeneficiaries().isEmpty()){
                         String[] benDetailsList=tempClient.getBeneficiaries().split(":");
@@ -468,7 +472,7 @@ AdminDAOImpl adao;
         return clientList;
    }
    
-   public Client getClientDetailsWithList(Client client){
+    public Client getClientDetailsWithList(Client client){
        return (Client) clientDao.readEntityLists(client);
    }
     
@@ -479,53 +483,63 @@ AdminDAOImpl adao;
     public boolean updateClientOnly(Client client) {
             return clientDao.updateProperty(client)!=null;
     }
+    
     public boolean updateLeadOfClient(Client client,Lead lead) {
             return clientDao.updatePropertyList(client,lead,"AddLead");
     }
     
-     public List<Lead> readLeadsBySource(String source){
-         return (List<Lead>) clientDao.fetchInnerEntities("Source",source);
+    public List<Lead> readLeadsBySource(String source){
+         return (List<Lead>) clientDao.fetchInnerEntities("ActiveSourceLeads",source);
      }
      
-      public Lead readLead(Lead lead) {
+    public Lead readLead(Lead lead) {
             return (Lead) clientDao.readInnerPropertyList(lead);
     }
+    
     public boolean updateLeadOnly(Lead lead) {
             return clientDao.updatePropertyOfList(lead,"Lead");
     }
+    
     public Lead updateSavedCallOfLead(Lead lead,Call call) {
             return (Lead) clientDao.updateInnerPropertyList(lead,call,"Call");
     }
+    
     public Lead updateSavedBenOfLead(Lead lead,Beneficiaries ben) {
             return (Lead) clientDao.updateInnerPropertyList(lead,ben,"Beneficiaries");
     }
+    
     public List<Client> getClientsByEmailId(String email){
         return (List<Client>) clientDao.getByProperty(email, "Email");
     }
+    
     public List<Client> getClientsByPhoneNumber(String number){
         return (List<Client>) clientDao.getByProperty(number, "Number");
     }
-     public List<Client> getClientsByName(String name){
+    
+    public List<Client> getClientsByName(String name){
         return (List<Client>) clientDao.getByProperty(name, "Name");
     }
-     public List<Client> getClientsByDateCreated(String date){
+    
+    public List<Client> getClientsByDateCreated(String date){
         return (List<Client>) clientDao.getByProperty(date, "DateCreated");
     }   
-     public List<Client> getClientsByDateUpdated(String date){
+    
+    public List<Client> getClientsByDateUpdated(String date){
         return (List<Client>) clientDao.getByProperty(date, "DateCreated");
     }  
-         public List<Client> getClientsByCity(String city){
+    
+    public List<Client> getClientsByCity(String city){
         return (List<Client>) clientDao.getByProperty(city, "City");
     }  
-             public List<Client> getClientsById(long id){
+    
+    public List<Client> getClientsById(long id){
         return (List<Client>) clientDao.getByProperty(id, "Id");
     }  
- public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
+    
+    public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
         
         return (List<Client>)clientDao.fetchEntities(param);
     }
-
-  
 
     public List<Client> getAllTemporaryClients() {
         return (List<Client>)clientDao.fetchEntities("Overnight");
@@ -534,6 +548,7 @@ AdminDAOImpl adao;
     public Call addCallAPIMessage(Call call){
         return (Call) callDao.buildEntity(call);
     }
+
     public Beneficiaries addBeneficiaries(Beneficiaries ben){
         return (Beneficiaries) clientDao.buildBeneficiaryEntity(ben);
     }
@@ -554,49 +569,16 @@ AdminDAOImpl adao;
     public Call updateCallAPIMessage(Call call) {
             return (Call) callDao.updateProperty(call);
     }
-public void buildCallAPIMessage(Call call){
+    
+    public void buildCallAPIMessage(Call call){
             callDao.buildEntity(call);
     }
+    
     public Object getPendingCallOnDate(String date) {
         
       return (List<Call>) callDao.getByProperty(date, "PendingOnDate");
     }
-
     
-    public void doAnalytics() {
-       Long total= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Total");
-       Long busy= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Busy");
-       Long failed= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Failed");
-       Long noAnswer= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"NoAnswer");
-       Long greetingsHangUp= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"GreetingsHangUp");
-       Long hangUpOnConnect= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"HangUpOnConnect");
-       Long missCall= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"MissCall");
-       Long spoke= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Spoke");
-       Long requestedCallBack= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"RequestedCallBack");
-       Long others = total-busy-failed-noAnswer-greetingsHangUp-hangUpOnConnect-missCall-spoke-requestedCallBack;
-       DataAnalytics da= new DataAnalytics();
-       da.setTotal(total);
-       da.setBusy(busy);
-       da.setFailed(failed);
-       da.setNoAnswer(noAnswer);
-       da.setGreetingsHangup(greetingsHangUp);
-       da.setHangupOnConnect(hangUpOnConnect);
-       da.setMissCall(missCall);
-       da.setSpoke(spoke);
-       da.setRequestedCallBack(requestedCallBack);
-       da.setOthers(others);
-       da.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-       daDao.buildEntity(da);
-    }
-    public DataAnalytics readAnalytics(String date){
-        List<DataAnalytics> list=(List<DataAnalytics>) daDao.readPropertyByDate(date);
-        if(list.size()>0){
-        return list.get(list.size()-1);
-        }
-        list=null;
-        return null;
-    }
-
     public List<Lead> readNotifiedLead() {
         List<Lead> list = null;
         list= (List<Lead>) clientDao.fetchInnerEntities("Lead","Pending");
@@ -639,15 +621,15 @@ public void buildCallAPIMessage(Call call){
        // return readBackupClient(leadId);
     }
     
- public List<Lead> getLeadDumpForDisplay(String date){
+    public List<Lead> getLeadDumpForDisplay(String date){
     return (List<Lead>) clientDao.getByProperty(date,"DateCreatedLeadProperty");
  }
     
     public boolean createCallExcel(List<Call> list){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
-        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\data.xls";
-         String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\data.xls";
+        String excelOutputFilePath=excelOutputDirectory+"data.xls";
+         String excelOutputBuildFilePath=excelOutputBuildDirectory+"data.xls";
             boolean flag=false;
             
 		try {
@@ -735,227 +717,21 @@ public void buildCallAPIMessage(Call call){
                 return flag;	
     }
 
-  public boolean createClientExcel(String date){
+    public boolean createClientExcel(String date){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
-        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\client.xls";
-        String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\client.xls";
+        
+        String excelOutputFilePath=excelOutputDirectory+"client.xls";
+         String excelOutputBuildFilePath=excelOutputBuildDirectory+"client.xls";
             boolean flag=false;
             
 		try {
-            workbook = new HSSFWorkbook();
+                                        workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Client Sheet");
 		
                 
-                                        List<Client> list=getClientDumpForDisplay(date);
+                                        Map<String,Object[]> data=doReportingOperation(getClientDumpForDisplay(date));
                 
-                                          
-                
-                                      Client[] messageArray = new Client[list.size()];
-                                        list.toArray(messageArray);
-		Map<String, Object[]> data = new LinkedHashMap<>();
-		
-                                        Integer index=1;
-                                        data.put(index.toString(), new Object[] {
-                                                 "Lead id","Name","Number","Email","Campaign Name","Pub Id","Source","Date","City","Affiliate Status","Picked up by","Follow ups left","Client comment","Lead comment","Follow up date",
-                                                "Status","Date","Status-1","Date-1"," Status-2","Date-2"," Status-3","Date-3"," Status-4","Date-4"," Status-5","Date-5"," Status-6","Date-6"," Status-7","Date-7",
-                                                " Status-8","Date-8"," Status-9","Date-9"," Status-10","Date-10"," Status-11","Date-11"," Status-12","Date-12"," Status-13","Date-13"," Status-14","Date-14"," Status-15","Date-15","","Final Status Beta"});
-                                        index++;
-                                        for(Client client:messageArray){
-                                            String[] leadDetailsArray= new String[]{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
-                                            String[] dateDetailsArray= new String[]{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
-                                            String affiliateDetails= "WIP";
-                                            
-                                            for(int i=0;i<20;i++){
-                                                dateDetailsArray[i]="";
-                                                leadDetailsArray[i]="";
-                                            }
-                                            int count=0;
-                                            String caller="";
-                                            
-                                            if(client!=null&&client.getLead()!=null&&client.getLead().size()>=1){
-                                                Lead lead = client.getLead().get(client.getLead().size()-1);
-                                                if(lead.getCall().size()>0){     
-                                                                for(int i=lead.getCall().size()-1;i>=0;i--){
-                                                                    if(count<15){
-                                                                                Call call=lead.getCall().get(i);
-                                                                                if(call==null){
-                                                                                    break;
-                                                                                }
-                                                                                System.out.println(count+" "+i+" "+call.getDateCreated());
-                                                                                ////////change to allow all lead sent to thyrocare leads///////////
-                                                                                                             
-                                                                                ////////////////////////
-                                                                                                            if(call.getStatus()!=null&&call.getStatus().contains("busy")){
-                                                                                                                leadDetailsArray[count]="Busy";
-                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                    affiliateDetails="Disconnecting the call";
-                                                                                                                }
-                                                                                                            }
-                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("failed")){
-                                                                                                                leadDetailsArray[count]="Failed";
-                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                    affiliateDetails="Not Reachable";
-                                                                                                                }
-                                                                                                            }
-                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("no-answer")){
-                                                                                                                leadDetailsArray[count]="No Answer";
-                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                    affiliateDetails="Ringing";
-                                                                                                                }
-                                                                                                            }
-                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("completed")&&call.getCallType().contains("trans")){
-                                                                                                               leadDetailsArray[count]="Hanged up while greetings";
-                                                                                                               dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                               if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                    affiliateDetails="Disconnecting the call";
-                                                                                                                }
-                                                                                                            }
-                                                                                                            else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("client-hangup")){
-                                                                                                                leadDetailsArray[count]="Hanged up while connecting";
-                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                      affiliateDetails="Disconnecting the call";
-                                                                                                                  }
-                                                                                                            }
-                                                                                                             
-                                                                                                            else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("incomplete")){
-                                                                                                                leadDetailsArray[count]="We missed client's call";
-                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
-                                                                                                                                              affiliateDetails="WIP";
-                                                                                                                                          }
-                                                                                                                caller=call.getDialWhomNumber();
-                                                                                                            }
-                                                                                                        else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("spoke")){
-                                                                                                                if(lead.getLeadStatus()!=null&&(lead.getLeadStatus().contains("Follow up/Call back")||
-                                                                                                                     lead.getLeadStatus().contains("Lead sent to Thyrocare")||
-                                                                                                                        lead.getLeadStatus().contains("Not interested")||
-                                                                                                                        lead.getLeadStatus().contains("Not registered")||
-                                                                                                                        lead.getLeadStatus().contains("Language not recognizable")||
-                                                                                                                        lead.getLeadStatus().contains("No Service")||
-                                                                                                                        lead.getLeadStatus().contains("Customer complained")||
-                                                                                                                        lead.getLeadStatus().contains("Disapproved")
-                                                                                                                        )){
-                                                                                                                                             leadDetailsArray[count]=lead.getLeadStatus();
-                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-                                                                                                                                                 if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
-                                                                                                                                                     affiliateDetails="Interested";
-                                                                                                                                                 }
-                                                                                                                                                 else{
-                                                                                                                                                     affiliateDetails="WIP"; 
-                                                                                                                                                 }
-                                                                                                                                             }
-                                                                                                                                             else{
-                                                                                                                                                     affiliateDetails=lead.getLeadStatus();
-                                                                                                                                             } 
-                                                                                                                                             dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                 }
-                                                                                                                else{
-
-                                                                                                                           if(i==lead.getCall().size()-1){
-                                                                                                                                     leadDetailsArray[count]="Spoke but not updated";
-                                                                                                                                      dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                                      affiliateDetails="Spoke but not updated";
-                                                                                                                           }
-                                                                                                                           else{
-                                                                                                                                     leadDetailsArray[count]=lead.getLeadStatus()+":";
-                                                                                                                                      dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                           }
-                                                                                                                 }
-                                                                                                                  caller=call.getDialWhomNumber();
-
-                                                                                                            }
-                                                                                                        else{
-                                                                                                            
-                                                                                                            if(i==lead.getCall().size()-1){
-                                                                                                                    if(lead.getLeadStatus()!=null){
-                                                                                                                                caller=call.getDialWhomNumber();
-                                                                                                                                if(lead.getLeadStatus()!=null&&(lead.getLeadStatus().contains("Follow up/Call back")||
-                                                                                                                                           lead.getLeadStatus().contains("Not interested")||
-                                                                                                                                           lead.getLeadStatus().contains("Not registered")||
-                                                                                                                                           lead.getLeadStatus().contains("Language not recognizable")||
-                                                                                                                                           lead.getLeadStatus().contains("No Service")||
-                                                                                                                                           lead.getLeadStatus().contains("Customer complained")||
-                                                                                                                                           lead.getLeadStatus().contains("Disapproved")
-                                                                                                                                           )){
-
-                                                                                                                                        affiliateDetails=lead.getLeadStatus();
-
-                                                                                                                                }
-                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-
-                                                                                                                                  affiliateDetails="Interested";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("Busy")){
-                                                                                                                                    affiliateDetails="Disconnecting the call";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("Failed")){
-                                                                                                                                    affiliateDetails="Not Reachable";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("No Answer")){
-                                                                                                                                     affiliateDetails="Ringing";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("Hanged up while greetings")){
-                                                                                                                                    affiliateDetails="Disconnecting the call";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("Hanged up while connecting")){
-                                                                                                                                    affiliateDetails="Disconnecting the call";
-                                                                                                                                }
-                                                                                                                                else if(lead.getLeadStatus().contains("Spoke but not updated")){
-                                                                                                                                    affiliateDetails="Spoke but not updated";
-                                                                                                                                }
-                                                                                                                                else{
-                                                                                                                                    affiliateDetails=lead.getLeadStatus();
-                                                                                                                                }
-
-                                                                                                                                leadDetailsArray[count]=lead.getLeadStatus();
-                                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                    }
-                                                                                                                    else{
-                                                                                                                                leadDetailsArray[count]=call.getStatus()+"%";
-                                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                                caller=call.getDialWhomNumber();
-                                                                                                                                 affiliateDetails=lead.getLeadStatus();
-                                                                                                                    }
-
-                                                                                                            }
-                                                                                                            else{
-                                                                                                                            leadDetailsArray[count]=lead.getLeadStatus()+"$";
-                                                                                                                            dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                            }
-                                                                                                                                            
-                                                                                                                                            
-                                                                                                        }
-                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-                                                                                                                                        affiliateDetails="Interested";
-                                                                                                                                }
-                                                                               
-                                                                                                      
-                                                                               
-                                                                               
-
-                                                                                count++;
-                                                                }
-
-                                                                }
-                                                                
-                                            }
-                                                data.put(index.toString(), new Object[] {lead.getLeadId(),client.getName(),client.getPhoneNumber(),client.getEmailId(),client.getCampaignName(),client.getPubId(),client.getSource(),client.getDateCreation(),client.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),client.getInitialComments(),lead.getComments(),lead.getFollowUpDate(),
-                                                leadDetailsArray[0],dateDetailsArray[0],leadDetailsArray[1],dateDetailsArray[1],leadDetailsArray[2],dateDetailsArray[2],leadDetailsArray[3],dateDetailsArray[3],leadDetailsArray[4],dateDetailsArray[4],leadDetailsArray[5],dateDetailsArray[5],leadDetailsArray[6],dateDetailsArray[6],leadDetailsArray[7],dateDetailsArray[7],
-                                                leadDetailsArray[8],dateDetailsArray[8],leadDetailsArray[9],dateDetailsArray[9],leadDetailsArray[10],dateDetailsArray[10],leadDetailsArray[11],dateDetailsArray[11],leadDetailsArray[12],dateDetailsArray[12],leadDetailsArray[13],dateDetailsArray[13],leadDetailsArray[14],dateDetailsArray[14],leadDetailsArray[15],dateDetailsArray[15],"",lead.getLeadStatus()});
-                                                index++;
-                                                client=null;
-                                        lead=null;
-                                        }
-                                            
-                                        }
-                                        
-                                        
-                                     list=null;
 		Set<String> keyset = data.keySet();
 		int rownum = 0;
 		for (String key : keyset) {
@@ -1012,12 +788,219 @@ public void buildCallAPIMessage(Call call){
                 return flag;	
     }
 
-   
-  public boolean createClientExcelAllLead(String date){
+    public Map<String, Object[]> doReportingOperation(List<Client> list){
+        
+                                        
+                                      Client[] messageArray = new Client[list.size()];
+                                       list.toArray(messageArray);
+		Map<String, Object[]> data = new LinkedHashMap<>();
+                                        Integer index=1;
+                                        data.put(index.toString(), new Object[] {
+                                                 "Lead id","Name","Number","Email","Campaign Name","Pub Id","Source","Date","City","Affiliate Status","Picked up by","Follow ups left","Client comment","Lead comment","Follow up date",
+                                                "Status","Date","Status-1","Date-1"," Status-2","Date-2"," Status-3","Date-3"," Status-4","Date-4"," Status-5","Date-5"," Status-6","Date-6"," Status-7","Date-7",
+                                                " Status-8","Date-8"," Status-9","Date-9"," Status-10","Date-10"," Status-11","Date-11"," Status-12","Date-12"," Status-13","Date-13"," Status-14","Date-14"," Status-15","Date-15","","Final Status Beta"});
+                                        index++;
+                                        for(Client client:messageArray){
+                                            String[] leadDetailsArray= new String[]{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+                                            String[] dateDetailsArray= new String[]{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+                                            String affiliateDetails= "WIP";
+                                            
+                                            for(int i=0;i<20;i++){
+                                                dateDetailsArray[i]="";
+                                                leadDetailsArray[i]="";
+                                            }
+                                            int count=0;
+                                            String caller="";
+                                            
+                                            if(client!=null&&client.getLead()!=null&&client.getLead().size()>=1){
+                                                Lead lead = client.getLead().get(client.getLead().size()-1);
+                                                if(lead.getCall().size()>0){     
+                                                                for(int i=lead.getCall().size()-1;i>=0;i--){
+                                                                    if(count<15){
+                                                                                Call call=lead.getCall().get(i);
+                                                                                if(call==null){
+                                                                                    break;
+                                                                                }
+                                                                                System.out.println(count+" "+i+" "+call.getDateCreated());
+                                                                                ////////change to allow all lead sent to thyrocare leads///////////
+                                                                                                             
+                                                                                ////////////////////////
+                                                                                                            if(call.getStatus()!=null&&call.getStatus().contains("busy")){
+                                                                                                                leadDetailsArray[count]="Busy";
+                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                    affiliateDetails="Disconnecting the call";
+                                                                                                                }
+                                                                                                            }
+                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("failed")){
+                                                                                                                leadDetailsArray[count]="Failed";
+                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                    affiliateDetails="Not Reachable";
+                                                                                                                }
+                                                                                                            }
+                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("no-answer")){
+                                                                                                                leadDetailsArray[count]="No Answer";
+                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                    affiliateDetails="Ringing";
+                                                                                                                }
+                                                                                                            }
+                                                                                                            else if(call.getStatus()!=null&&call.getStatus().contains("completed")&&call.getCallType().contains("trans")){
+                                                                                                               leadDetailsArray[count]="Hanged up while greetings";
+                                                                                                               dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                               if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                    affiliateDetails="Disconnecting the call";
+                                                                                                                }
+                                                                                                            }
+                                                                                                            else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("client-hangup")){
+                                                                                                                leadDetailsArray[count]="Hanged up while connecting";
+                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                      affiliateDetails="Disconnecting the call";
+                                                                                                                  }
+                                                                                                            }
+                                                                                                             
+                                                                                                            else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("incomplete")){
+                                                                                                                leadDetailsArray[count]="We missed client's call";
+                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
+                                                                                                                                              affiliateDetails="WIP";
+                                                                                                                                          }
+                                                                                                                caller=call.getDialWhomNumber();
+                                                                                                            }
+                                                                                                        else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("spoke")){
+                                                                                                                if(lead.getLeadStatus()!=null&&(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                                                     lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                                        lead.getLeadStatus().contains("Not interested")||
+                                                                                                                        lead.getLeadStatus().contains("Not registered")||
+                                                                                                                        lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                                                        lead.getLeadStatus().contains("No Service")||
+                                                                                                                        lead.getLeadStatus().contains("Customer complained")||
+                                                                                                                        lead.getLeadStatus().contains("Disapproved")
+                                                                                                                        )){
+                                                                                                                                             leadDetailsArray[count]=lead.getLeadStatus();
+                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                                     affiliateDetails="Interested";
+                                                                                                                                             }
+                                                                                                                                             else{
+                                                                                                                                                     affiliateDetails=lead.getLeadStatus();
+                                                                                                                                             } 
+                                                                                                                                             dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                 }
+                                                                                                                else{
+
+                                                                                                                           if(i==lead.getCall().size()-1){
+                                                                                                                                     leadDetailsArray[count]="Spoke but not updated";
+                                                                                                                                      dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                                      affiliateDetails="Spoke but not updated";
+                                                                                                                           }
+                                                                                                                           else{
+                                                                                                                                     leadDetailsArray[count]=lead.getLeadStatus()+":";
+                                                                                                                                      dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                           }
+                                                                                                                 }
+                                                                                                                  caller=call.getDialWhomNumber();
+
+                                                                                                            }
+                                                                                                        else{
+                                                                                                            
+                                                                                                            if(i==lead.getCall().size()-1){
+                                                                                                                    if(lead.getLeadStatus()!=null){
+                                                                                                                                caller=call.getDialWhomNumber();
+                                                                                                                                if(lead.getLeadStatus()!=null&&(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                                                                           lead.getLeadStatus().contains("Not interested")||
+                                                                                                                                           lead.getLeadStatus().contains("Not registered")||
+                                                                                                                                           lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                                                                           lead.getLeadStatus().contains("No Service")||
+                                                                                                                                           lead.getLeadStatus().contains("Customer complained")||
+                                                                                                                                           lead.getLeadStatus().contains("Disapproved")
+                                                                                                                                           )){
+
+                                                                                                                                        affiliateDetails=lead.getLeadStatus();
+
+                                                                                                                                }
+                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+
+                                                                                                                                  affiliateDetails="Interested";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("Busy")){
+                                                                                                                                    affiliateDetails="Disconnecting the call";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("Failed")){
+                                                                                                                                    affiliateDetails="Not Reachable";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("No Answer")){
+                                                                                                                                     affiliateDetails="Ringing";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("Hanged up while greetings")){
+                                                                                                                                    affiliateDetails="Disconnecting the call";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("Hanged up while connecting")){
+                                                                                                                                    affiliateDetails="Disconnecting the call";
+                                                                                                                                }
+                                                                                                                                else if(lead.getLeadStatus().contains("Spoke but not updated")){
+                                                                                                                                    affiliateDetails="Spoke but not updated";
+                                                                                                                                }
+                                                                                                                                else{
+                                                                                                                                        affiliateDetails=lead.getLeadStatus();
+                                                                                                                                }
+
+                                                                                                                                leadDetailsArray[count]=lead.getLeadStatus();
+                                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                    }
+                                                                                                                    else{
+                                                                                                                                leadDetailsArray[count]=call.getStatus()+"%";
+                                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                                                caller=call.getDialWhomNumber();
+                                                                                                                                 affiliateDetails=lead.getLeadStatus();
+                                                                                                                    }
+
+                                                                                                            }
+                                                                                                            else{
+                                                                                                                            leadDetailsArray[count]=lead.getLeadStatus()+"$";
+                                                                                                                            dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
+                                                                                                            }
+                                                                                                                                            
+                                                                                                                                            
+                                                                                                        }
+                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                        affiliateDetails="Interested";
+                                                                                                                                }
+                                                                                                 if(lead.getFollowUpDate()!=null&&!affiliateDetails.contains("")&&!lead.getLeadStatus().contains("Follow up/Call back")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Not interested")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Not registered")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Language not recognizable")&&
+                                                                                                                                           !lead.getLeadStatus().contains("No Service")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Customer complained")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Disapproved")){
+                                                                                                                                        affiliateDetails="Follow up/Call back";
+                                                                                                                                }
+                                                                                 count++;
+                                                                }
+
+                                                                }
+                                                                
+                                            }
+                                                data.put(index.toString(), new Object[] {lead.getLeadId(),client.getName(),client.getPhoneNumber(),client.getEmailId(),client.getCampaignName(),client.getPubId(),client.getSource(),client.getDateCreation(),client.getCity(),affiliateDetails,caller,Integer.toString(lead.getCount()),client.getInitialComments(),lead.getComments(),lead.getFollowUpDate(),
+                                                leadDetailsArray[0],dateDetailsArray[0],leadDetailsArray[1],dateDetailsArray[1],leadDetailsArray[2],dateDetailsArray[2],leadDetailsArray[3],dateDetailsArray[3],leadDetailsArray[4],dateDetailsArray[4],leadDetailsArray[5],dateDetailsArray[5],leadDetailsArray[6],dateDetailsArray[6],leadDetailsArray[7],dateDetailsArray[7],
+                                                leadDetailsArray[8],dateDetailsArray[8],leadDetailsArray[9],dateDetailsArray[9],leadDetailsArray[10],dateDetailsArray[10],leadDetailsArray[11],dateDetailsArray[11],leadDetailsArray[12],dateDetailsArray[12],leadDetailsArray[13],dateDetailsArray[13],leadDetailsArray[14],dateDetailsArray[14],leadDetailsArray[15],dateDetailsArray[15],"",lead.getLeadStatus()});
+                                                index++;
+                                                client=null;
+                                        lead=null;
+                                        }
+                                            
+                                        }
+                                        list=null;
+                                        return data;
+    }
+    
+    public boolean createClientExcelAllLead(String date){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
-        String excelOutputFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\client.xls";
-        String excelOutputBuildFilePath="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\client.xls";
+        
+        String excelOutputFilePath=excelOutputDirectory+"client.xls";
+         String excelOutputBuildFilePath=excelOutputBuildDirectory+"client.xls";
             boolean flag=false;
             
 		try {
@@ -1065,35 +1048,35 @@ public void buildCallAPIMessage(Call call){
                                                                                                             if(call.getStatus()!=null&&call.getStatus().contains("busy")){
                                                                                                                 leadDetailsArray[count]="Busy";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                     affiliateDetails="Disconnecting the call";
                                                                                                                 }
                                                                                                             }
                                                                                                             else if(call.getStatus()!=null&&call.getStatus().contains("failed")){
                                                                                                                 leadDetailsArray[count]="Failed";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                     affiliateDetails="Not Reachable";
                                                                                                                 }
                                                                                                             }
                                                                                                             else if(call.getStatus()!=null&&call.getStatus().contains("no-answer")){
                                                                                                                 leadDetailsArray[count]="No Answer";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                     affiliateDetails="Ringing";
                                                                                                                 }
                                                                                                             }
                                                                                                             else if(call.getStatus()!=null&&call.getStatus().contains("completed")&&call.getCallType().contains("trans")){
                                                                                                                leadDetailsArray[count]="Hanged up while greetings";
                                                                                                                dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                               if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                               if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                     affiliateDetails="Disconnecting the call";
                                                                                                                 }
                                                                                                             }
                                                                                                             else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("client-hangup")){
                                                                                                                 leadDetailsArray[count]="Hanged up while connecting";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                       affiliateDetails="Disconnecting the call";
                                                                                                                   }
                                                                                                             }
@@ -1101,7 +1084,7 @@ public void buildCallAPIMessage(Call call){
                                                                                                             else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("did not speak")&&call.getCallType().contains("incomplete")){
                                                                                                                 leadDetailsArray[count]="We missed client's call";
                                                                                                                 dateDetailsArray[count]=call.getDateCreated()+" "+call.getDuration();
-                                                                                                                if(lead.getCall().size()>=4&&i==lead.getCall().size()-1){
+                                                                                                                if(lead.getCall().size()>=operator.getCount()-1&&i==lead.getCall().size()-1){
                                                                                                                                               affiliateDetails="WIP";
                                                                                                                                           }
                                                                                                                 caller=call.getDialWhomNumber();
@@ -1118,12 +1101,8 @@ public void buildCallAPIMessage(Call call){
                                                                                                                         )){
                                                                                                                                              leadDetailsArray[count]=lead.getLeadStatus();
                                                                                                                                              if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
-                                                                                                                                                 if((call.getDialWhomNumber()!=null&&!call.getDialWhomNumber().isEmpty())){
-                                                                                                                                                     affiliateDetails="Interested";
-                                                                                                                                                 }
-                                                                                                                                                 else{
-                                                                                                                                                     affiliateDetails="WIP"; 
-                                                                                                                                                 }
+                                                                                                                                                 affiliateDetails="Interested";
+                                                                                                                                                
                                                                                                                                              }
                                                                                                                                              else{
                                                                                                                                                      affiliateDetails=lead.getLeadStatus();
@@ -1210,7 +1189,15 @@ public void buildCallAPIMessage(Call call){
                                                                                                                                         affiliateDetails="Interested";
                                                                                                                                 }
                                                                                
-                                                                                                      
+                                                                                                      if(lead.getFollowUpDate()!=null&&!affiliateDetails.contains("")&&!lead.getLeadStatus().contains("Follow up/Call back")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Not interested")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Not registered")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Language not recognizable")&&
+                                                                                                                                           !lead.getLeadStatus().contains("No Service")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Customer complained")&&
+                                                                                                                                           !lead.getLeadStatus().contains("Disapproved")){
+                                                                                                                                        affiliateDetails="Follow up/Call back";
+                                                                                                                                } 
                                                                                
                                                                                
 
@@ -1286,9 +1273,5 @@ public void buildCallAPIMessage(Call call){
                 }
                 return flag;	
     }
-
-   
-   
-
     
 }

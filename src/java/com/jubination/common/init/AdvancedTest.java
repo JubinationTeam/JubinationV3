@@ -33,7 +33,7 @@ public class AdvancedTest {
         reportDao.setSessionFactory(HibernateUtil.getSessionFactory());
         cDao.setSessionFactory(HibernateUtil.getSessionFactory());
         daDao.setSessionFactory(HibernateUtil.getSessionFactory());
-        adao.buildInitEntity(new Admin("souvik@jubination.com","abcdef","ROLE_ADMINISTRATOR","Support",0,"Administrator"));
+        adao.buildInitEntity(new Admin("support@jubination.com","abcdef","ROLE_ADMINISTRATOR","Support",0,"Administrator"));
           
 
         System.err.println("Constructed:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");

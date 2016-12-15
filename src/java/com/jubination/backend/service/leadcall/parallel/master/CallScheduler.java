@@ -14,6 +14,7 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import com.jubination.service.DataAnalyticsService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -34,6 +35,8 @@ CallBox callHandler;
 CallManager eCallHandler;
     @Autowired
        private CallMaintainService service;
+    @Autowired
+       private DataAnalyticsService analyticsService;
         @Autowired
     private AdminMaintainService adminService;
     
@@ -259,7 +262,7 @@ CallManager eCallHandler;
                         }
                         
                         eCallHandler.getRealTimeInCall().clear();
-                        service.doAnalytics();
+                        analyticsService.doAnalytics();
                     }
 
     public boolean isFreshFlag() {

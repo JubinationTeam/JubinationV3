@@ -5,10 +5,10 @@
  */
 package com.jubination.backend.service.leadcall.parallel.worker.exotel;
 
+import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.service.numbercall.serial.exotel.CallBox;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
-import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.controller.UpdateAndBookingController;
 import com.jubination.model.pojo.admin.AdminSettings;
@@ -253,7 +253,9 @@ public class CallWorkerSlave3Leftover {
                 System.out.println("Error @ outer work Slave 3 Leftover");
                 e.printStackTrace();
             }
-                        
+             finally{
+            
+              }           
             }
     
        private void sendEmailNotUpdated(String email,String number,String exec) {

@@ -130,13 +130,7 @@ public class CallController {
             return model;
     }
     
-    @RequestMapping(value = "/admin/callanalytics/get")
-    public  ModelAndView adminLoginCheck(HttpServletRequest request,Principal principal) {
-            ModelAndView model= new ModelAndView("adminpage");
-            model.addObject("analytics",callMaintain.readAnalytics(request.getParameter("date")));
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            return model;
-    }
+    
     
     @RequestMapping(value="/admin/callsettings/set/count")
     public ModelAndView callSettingsSetCount(HttpServletRequest request, Principal principal) throws IOException {
@@ -271,13 +265,7 @@ public class CallController {
             return model;
     }    
     
-    @RequestMapping(value="/admin/callsettings/do/analytics")
-    public ModelAndView doCallAnalytics(HttpServletRequest request, Principal principal) throws IOException {
-            ModelAndView model= new ModelAndView("adminpage");
-            callMaintain.doAnalytics();
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            return model;
-    }
+   
 
     @RequestMapping(value="/admin/callrecords")
     public ModelAndView callRecords(HttpServletRequest request, Principal principal) throws IOException {
@@ -450,7 +438,6 @@ public class CallController {
                    }
                }
             }
-            callMaintain.doAnalytics();
             return list;
     }
     

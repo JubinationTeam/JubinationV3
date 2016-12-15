@@ -17,7 +17,7 @@ import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.ReferenceRange;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Test;
-import com.jubination.service.XMLReportService;
+import com.jubination.service.ReportService;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -100,17 +100,21 @@ public class XMLBackendProcess {
                              @Autowired
                              ReportOperator operator;
                              @Autowired
-                             XMLReportService service;
+                             ReportService service;
                              
                              public boolean parseAndBuildXML(ReportMessage msg){
                                 
                                         try {
                                             service.buildReport(convertThyrocareReportToGeneralReport(parseXML(msg.getReportXml()),msg.getReportId()));
+                                            
+                                        return true;
                                         } catch(Exception ex) {
                                             Logger.getLogger(XMLBackendProcess.class.getName()).log(Level.SEVERE, null, ex);
                                             return false;
                                         } 
-                                        return true;
+                                        finally{
+                                            
+                                        }
                              }
                              
     public ThyrocareReport parseXML(String url) throws JAXBException, IOException, ParserConfigurationException, SAXException{

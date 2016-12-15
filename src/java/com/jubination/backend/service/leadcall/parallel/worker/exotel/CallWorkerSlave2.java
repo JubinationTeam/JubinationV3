@@ -5,11 +5,11 @@
  */
 package com.jubination.backend.service.leadcall.parallel.worker.exotel;
 
+import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.leadcall.parallel.worker.exotel.CallWorkerSlave3;
 import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.backend.pojo.ivr.exotel.ExotelMessage;
 import com.jubination.backend.service.leadcall.parallel.master.CallManager;
-import com.jubination.backend.service.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.controller.UpdateAndBookingController;
 import com.jubination.model.pojo.admin.AdminSettings;
@@ -181,8 +181,15 @@ public class CallWorkerSlave2 {
                        }
             catch(Exception e){
                 System.out.println("Error @ outer work Slave 2");
+                
                 e.printStackTrace();
-            }             
+            } 
+              finally{
+                  System.out.println("Made client null Slave 2");
+                  client=null;
+                
+            
+              }
            }
            
           private void processIfStage3NotUpdated(Call storedMessage, Call message, Client client){

@@ -5,7 +5,7 @@ import com.jubination.model.pojo.report.Barcode;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.Test;
-import com.jubination.service.PDFReportService;
+import com.jubination.service.ReportService;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,7 +26,7 @@ public class PDFBackendProcess {
                     @Autowired
                     PDFParserBox pdfManager;
                     @Autowired
-                    PDFReportService mainService;
+                    ReportService mainService;
                     
                     
                     
@@ -35,11 +35,13 @@ public class PDFBackendProcess {
                                 
                                         try {
                                             mainService.buildReport(parsePDF(msg.getReportUrl(),msg.getReportId()));
+                                        return true;
                                         } catch(Exception ex) {
                                             Logger.getLogger(XMLBackendProcess.class.getName()).log(Level.SEVERE, null, ex);
                                             return false;
                                         } 
-                                        return true;
+                                        finally{
+                                        }
                              }
                     
                      

@@ -5,7 +5,6 @@
  */
 package com.jubination.model.dao;
 
-
 import com.jubination.model.pojo.ivr.exotel.Call;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +40,6 @@ private Session session=null;
         return (T) msg;
 
     }
-
-
-   
-  
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object getByProperty(Object entity, String listType) {
@@ -107,7 +102,8 @@ private Session session=null;
         }
     return list;
     }
-     @Transactional(propagation = Propagation.REQUIRED)
+   
+    @Transactional(propagation = Propagation.REQUIRED)
     public Object updateProperty(Object entity) {
         
         Call msg=(Call) entity;
@@ -118,7 +114,166 @@ private Session session=null;
         
             return msg;
     }
- @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+ 
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public Long fetchEntitySize(String fromDate, String toDate, String type) {
+        Long size = 0l;
+        switch(type){
+            case "Total":
+                
+                    session = getSessionFactory().getCurrentSession();
+                      Criteria criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                      
+                    break;
+            case "Busy":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("Status", "busy",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                     
+                 break;
+            case "Failed":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("Status", "failed",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                 
+                 break;
+            case "NoAnswer":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("Status", "no-answer",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                      
+                 break;
+              case "RequestedCallBack":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("TrackStatus", "requested for callback",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+
+                 break;
+            case "GreetingsHangUp":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("CallType", "trans",MatchMode.ANYWHERE));
+                      criteria.add(Restrictions.like("Status", "completed",MatchMode.ANYWHERE));
+                      criteria.add(Restrictions.isNull("TrackStatus"));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                      
+                       break;
+            case "HangUpOnConnect":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("TrackStatus", "did not speak",MatchMode.ANYWHERE));
+                      criteria.add(Restrictions.like("CallType", "client-hangup",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+                      
+                  break;
+            case "MissCall": 
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("TrackStatus", "did not speak",MatchMode.ANYWHERE));
+                      criteria.add(Restrictions.like("CallType", "incomplete",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+             break;
+            case "Spoke":
+                    session = getSessionFactory().getCurrentSession();
+                      criteria = session.createCriteria(Call.class, "call");
+                      criteria.setReadOnly(true);
+                      criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge("DateCreated",fromDate),
+                                      Restrictions.le("DateCreated",toDate),
+                                      Restrictions.isNull("lead")
+                              )
+                      );
+                      criteria.add(Restrictions.like("TrackStatus", "spoke",MatchMode.ANYWHERE));
+                      criteria.setProjection(Projections.rowCount());
+                      size = (Long) criteria.uniqueResult();
+     
+                       break;
+                
+        }
+        return size;
+    }
+       
+    
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Long fetchEntitySize(String date, String type) {
         Long size = 0l;
         switch(type){
@@ -220,6 +375,9 @@ private Session session=null;
         }
         return size;
     }
+       
+   
+    
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

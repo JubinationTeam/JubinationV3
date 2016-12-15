@@ -63,7 +63,7 @@
             <div class="container glass" >
           
                 <form id="admin-login-form" class="form-signin" action="${pageContext.request.contextPath}/admin/j_spring_security_check" method="post" name="f" >                                                               
-        <h2 class="form-signin-heading" ><span style="color:#0081c2"class="glyphicon glyphicon-flash"></span>&nbsp;Call Bot V3</h2>
+        <h2 class="form-signin-heading" ><span style="color:#0081c2"class="glyphicon glyphicon-flash"></span>&nbsp;Call Bot V4</h2>
         <input type="text" class="form-control" name='j_username' placeholder="User Id" required autofocus>
         <input type="password" class="form-control" name='j_password'  placeholder="Password" required>
         <label class="checkbox" >
@@ -72,7 +72,7 @@
         <button class="btn btn-lg btn-block" style="background-color:#0081c2;color:#ffffff" type="submit">Sign in</button>
       </form>
           <br/>
-        <p style="color:#9b9b9b"><span  class="glyphicon glyphicon-flash"></span>Faster  - <span class="glyphicon glyphicon-leaf"></span>Lightweight  - <span  class="glyphicon glyphicon-cog"></span>Deca-Core</p>
+        <p style="color:#9b9b9b"><span  class="glyphicon glyphicon-flash"></span> Faster  - <span class="glyphicon glyphicon-leaf"></span> Lightweight  - <span  class="glyphicon glyphicon-cog"></span> Deca-Core - <span  class="glyphicon glyphicon-link"></span> Integrated - <span  class="glyphicon glyphicon-barcode"></span> Analytics</p>
         <br/>
             </div>
     </div> <!-- /container -->

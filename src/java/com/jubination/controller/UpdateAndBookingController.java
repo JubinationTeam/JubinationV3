@@ -3,29 +3,17 @@ package com.jubination.controller;
 import com.jubination.backend.service.update.lms.Updater;
 import com.jubination.model.pojo.status.thyrocare.ReportStatus;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
-import com.jubination.service.XMLReportService;
+import com.jubination.service.ReportService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,7 +34,7 @@ public class UpdateAndBookingController {
     @Autowired
     CallMaintainService callMaintain;
     @Autowired 
-    XMLReportService reportService;
+    ReportService reportService;
     @Autowired
     Updater updater;
     
@@ -340,10 +328,7 @@ public class UpdateAndBookingController {
 
      @RequestMapping(value="/API/reportStatus/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity reportStatusEntry(@RequestBody ReportStatus reportStatus,HttpServletRequest request) throws IOException{
-            if(reportStatus!=null){
-                reportService.buildReportStatus(reportStatus);
-                return new ResponseEntity(HttpStatus.OK);
-            }
+            
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
  @RequestMapping(value="/admin/callnotification/on/{leadId}")

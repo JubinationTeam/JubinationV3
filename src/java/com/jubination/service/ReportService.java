@@ -33,18 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PDFReportService {
+public class ReportService {
     
-    @Autowired
-    ReportOperator rOperator;
-    @Autowired
-    PDFBackendProcess backend;
     @Autowired
     ReportDAOImpl reportDAO;
 
   
      
-     //CLEAN AND SAVE TO DATABASE
+     //SAVE TO DATABASE
                            public  void buildReport(Report report){
                                            
                                             reportDAO.buildEntity(report);
