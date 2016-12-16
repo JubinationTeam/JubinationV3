@@ -9,6 +9,7 @@ package com.jubination.model.dao;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.admin.MailMessage;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -58,8 +59,8 @@ public class DataAnalyticsDAOImpl<T> implements java.io.Serializable {
                     session = getSessionFactory().getCurrentSession();
                    list =session.createCriteria(DataAnalytics.class)
                            .add(Restrictions.like("date", (String)paramId, MatchMode.START))
-                            .setProjection(Projections.projectionList()
-                                    .add(Projections.max("date"))).list();
+                            .list();
+                   
 
 
                return (T) list;
@@ -68,13 +69,20 @@ public class DataAnalyticsDAOImpl<T> implements java.io.Serializable {
 
     @Transactional(propagation=Propagation.REQUIRED,readOnly = true)
     public Object readPropertyByRecency() {
-       List<DataAnalytics> list=null;
+       List<DataAnalytics> list=new ArrayList<>();
         
                     session = getSessionFactory().getCurrentSession();
-                   list =session.createCriteria(DataAnalytics.class)
+                   List<String> tempList =session.createCriteria(DataAnalytics.class)
                                     .setProjection(Projections.projectionList()
-                                        .add(Projections.max("requestedTime"))).list();
-
+                                        .add(Projections.max("requestedTime"))
+                                        //.add(Projections.groupProperty("type"))
+                                        ).list();
+                   
+                   if(tempList.size()>0){
+                    list =session.createCriteria(DataAnalytics.class)
+                           .add(Restrictions.like("requestedTime", tempList.get(0)))
+                            .list();
+                   }
 
                return (T) list;
         

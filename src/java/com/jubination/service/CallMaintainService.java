@@ -364,6 +364,10 @@ public class CallMaintainService {
                             operator.setFreshFlag(true);  
                             tempClient.setCallStatus("pending");
             }
+          else if(tempClient.getCampaignName().equals("DietChart")){
+                
+                             tempClient.setCallStatus("diet");
+            }
             else{
                              tempClient.setCallStatus("duplicate");
             }
@@ -595,28 +599,7 @@ public class CallMaintainService {
         Lead lead=new Lead();
         lead.setLeadId(leadId);
        lead=readLead(lead);
-        if(lead!=null){
-            if(lead.getClient()!=null){
-                 lead.getClient().setLead(null);
-                for(Beneficiaries ben:lead.getBeneficiaries()){
-                    ben.setLead(null);
-                }
-                 if(lead.getAdmin()!=null){
-                    if(lead.getAdmin().getReceivedMessageList()==null){
-                        lead.getAdmin().setReceivedMessageList(null);
-                    }
-                    if(lead.getAdmin().getSentMessageList()==null){
-                        lead.getAdmin().setSentMessageList(null);
-                    }
-                    lead.getAdmin().setPassword(null);
-                }
-                
-                return lead;
-            }
-        }
-        lead=new Lead();
-        lead.setClient(new Client());
-        lead.setAdmin(new Admin());
+        
         return lead;
        // return readBackupClient(leadId);
     }

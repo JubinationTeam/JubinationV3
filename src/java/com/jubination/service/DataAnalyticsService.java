@@ -12,6 +12,7 @@ import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.model.pojo.ivr.exotel.Call;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -69,8 +70,12 @@ ClientDAOImpl clientDao;
             
 
             public List<DataAnalytics> readAnalytics(String date){
-                return (List<DataAnalytics>) daDao.readPropertyByDate(date);
-                
+                List<DataAnalytics> listTemp=(List<DataAnalytics>) daDao.readPropertyByDate(date);
+                List<DataAnalytics> list= new ArrayList<>();
+                if(listTemp.size()>0){
+                    list.add(listTemp.get(listTemp.size()-1));
+                }
+                return list;
             }
 
             public List<DataAnalytics> readRecentAnalytics() {
@@ -230,14 +235,13 @@ ClientDAOImpl clientDao;
                     counts.put(callBackSpoke,0l);
                     counts.put(callBackRequestedCallBack,0l);
                     counts.put(callBackOthers,0l);
-
+                    if(list!=null){
                     for(Client client:list){
                         int count=0;
                         if(client!=null&&client.getLead()!=null&&client.getLead().size()>=1){
                             Lead lead = client.getLead().get(client.getLead().size()-1);
                             if(lead.getCall().size()>0){     
                                     for(int i=lead.getCall().size()-1;i>=0;i--){
-                                        if(count<15){
                                                     Call call=lead.getCall().get(i);
                                                     if(call==null){
                                                         break;
@@ -312,14 +316,14 @@ ClientDAOImpl clientDao;
                                                                         setOthersToCount(counts, lead, call, i);
                                                 }
                                             }
-                                             count++;
-                                        }
+                                        
                                    }
                         }
                     client=null;
                     lead=null;
                     }
                     }
+            }
                     list=null;
                     return counts;
             }

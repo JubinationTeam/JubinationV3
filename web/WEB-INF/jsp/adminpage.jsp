@@ -91,6 +91,7 @@
                
                    <hr/>
                    <c:if test="${not empty analytics}">
+                       
                         <div class="row">
                              <div class="col-sm-12 table-responsive">
 
@@ -114,10 +115,11 @@
                                    <th>Others</th>
                                   </thead>
                                   <tbody>
-                          <c:forEach items="${analytics}" var="item">
-                              <tr>
-                                   <td>${item.type}</td>
-                                  <td>${item.date}</td>
+                           <c:if test="${fn:length(analytics)>0}">
+                          <c:forEach items="${analytics}" var="item" >
+                             <tr>
+                                    <td>${item.type}</td>
+                                   <td>${item.date}</td>
                                   <td>${item.fromDate}</td>
                                   <td>${item.toDate}</td>
                                   <td>${item.requestedTime}</td>
@@ -134,6 +136,7 @@
                               </tr>
 
                           </c:forEach>
+                                </c:if>
                                </tbody>
                                </table>
                       </div>

@@ -185,10 +185,6 @@ public class CallWorkerSlave2 {
                 e.printStackTrace();
             } 
               finally{
-                  System.out.println("Made client null Slave 2");
-                  client=null;
-                
-            
               }
            }
            

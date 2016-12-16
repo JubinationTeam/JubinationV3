@@ -7,8 +7,10 @@ package com.jubination.backend.service.update.lms;
 
 import com.jubination.backend.service.email.sendgrid.EmailService;
 import com.jubination.controller.UpdateAndBookingController;
+import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Beneficiaries;
+import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
@@ -47,12 +49,36 @@ public class Updater {
                 ObjectMapper mapper = new ObjectMapper();
                 //Object to JSON in String
                 Lead lead=service.getClientDetails(id);
-                lead.setCall(null);
-                if(lead.getBeneficiaries()!=null){
-                    for(Beneficiaries ben:lead.getBeneficiaries()){
-                        ben.setLead(null);
+                
+                if(lead!=null){
+                    if(lead.getClient()!=null){
+                         lead.getClient().setLead(null);
                     }
+                    else{
+                                lead.setClient(new Client());
+                    }
+                    
+                        if(lead.getBeneficiaries()!=null){
+                            for(Beneficiaries ben:lead.getBeneficiaries()){
+                                ben.setLead(null);
+                            }
+                        }
+                         if(lead.getAdmin()!=null){
+                                lead.getAdmin().setReceivedMessageList(null);
+                                lead.getAdmin().setSentMessageList(null);
+                               lead.getAdmin().setPassword(null);
+                        }
+                         lead.setCall(null);
+             
                 }
+                else{
+                        lead=new Lead();
+                        lead.setClient(new Client());
+                        lead.setAdmin(new Admin());
+                }
+                
+                
+                
                 String jsonString= mapper.writeValueAsString(lead);
                 HttpClient httpClient = HttpClientBuilder.create().build();
                 System.out.println(jsonString);
