@@ -64,22 +64,15 @@
            
                 <div class="col-sm-5">
                     
-                     <div class="col-xs-12">
-                     <form action="${pageContext.request.contextPath}/admin/setExecs/custom" method="GET" class="form-signin-heading" >
-                         <h3 class="form-signin-heading">Calling Executives</h3>
-                         <input type="text" class="form-control"  name="ex" value="${ex}"/><br/>
-                               <button type="submit" class="btn btn-sm"  style="background-color:#515151;color:#ffffff">Change</button>
-                                </form><br/>
-                                ${message}
-                </div>
-                <hr/>
+                     
+                
                     <div id="compose" class="form-group" >
                        <form action="${pageContext.request.contextPath}/admin/callcustom/call/lead" method="post">
                          
 
                             <textarea name="numbers" class="form-control" rows="10" placeholder="Add numbers here...(Each in new line)" id="comment"></textarea>
                             </br>
-                            <button type="submit" class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff" id="button-submit">Lead Call</button>
+                            <button type="submit" class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff" id="button-submit">Call Numbers</button>
                        </form>                       
                     </div>
                        <hr/>

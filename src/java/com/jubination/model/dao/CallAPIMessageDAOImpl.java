@@ -5,7 +5,7 @@
  */
 package com.jubination.model.dao;
 
-import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.exotel.Call;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;

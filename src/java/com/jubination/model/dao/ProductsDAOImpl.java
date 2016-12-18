@@ -6,7 +6,7 @@
 package com.jubination.model.dao;
 
 import com.jubination.model.pojo.products.Campaigns;
-import com.jubination.backend.pojo.products.thyrocare.ProductList;
+import com.jubination.backend.pojo.thyrocare.products.ProductList;
 import com.jubination.model.pojo.products.Products;
 import java.io.Serializable;
 import java.util.List;

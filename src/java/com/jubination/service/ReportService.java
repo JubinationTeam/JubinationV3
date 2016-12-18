@@ -5,18 +5,11 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.report.parallel.worker.thyrocare.PDFBackendProcess;
-import com.jubination.backend.service.report.parallel.worker.ReportOperator;
+
 import com.jubination.model.dao.ReportDAOImpl;
-import com.jubination.model.pojo.report.Profile;
-import com.jubination.model.pojo.report.ReferenceRange;
 import com.jubination.model.pojo.report.Report;
-import com.jubination.model.pojo.report.Test;
-import com.pdfcrowd.Client;
-import com.pdfcrowd.PdfcrowdError;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,8 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

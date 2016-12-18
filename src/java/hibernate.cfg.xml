@@ -19,7 +19,7 @@
     <!--  <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
   -->
     
-    <mapping class="com.jubination.model.pojo.ivr.exotel.Call"/>
+    <mapping class="com.jubination.model.pojo.exotel.Call"/>
     
      <mapping class="com.jubination.model.pojo.crm.Client"/>
     <mapping class="com.jubination.model.pojo.crm.TempClient"/>
@@ -34,12 +34,7 @@
     <mapping class="com.jubination.model.pojo.products.Campaigns"/>
     <mapping class="com.jubination.model.pojo.products.Products"/>
     
-    <mapping class="com.jubination.model.pojo.status.thyrocare.ReportStatus"/>
-    <mapping class="com.jubination.model.pojo.status.thyrocare.BenMaster"/>
-    <mapping class="com.jubination.model.pojo.status.thyrocare.LeadHistoryMaster"/>
-    <mapping class="com.jubination.model.pojo.status.thyrocare.OrderMaster"/>
-    <mapping class="com.jubination.model.pojo.status.thyrocare.TspMaster"/>
-    <mapping class="com.jubination.model.pojo.status.thyrocare.DateDetails"/>
+    <mapping class="com.jubination.model.pojo.status.ReportStatus"/>
     
     
     <mapping class="com.jubination.model.pojo.report.Report"/>

@@ -6,7 +6,7 @@
 package com.jubination.service;
 
 
-import com.jubination.backend.service.products.thyrocare.ProductFetcher;
+import com.jubination.backend.service.thyrocare.products.ProductFetcher;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
 import com.jubination.model.pojo.admin.AdminSettings;

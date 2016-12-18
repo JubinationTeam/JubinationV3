@@ -6,7 +6,7 @@
 package com.jubination.model.dao;
 
 import com.jubination.model.pojo.crm.Beneficiaries;
-import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.model.pojo.crm.TempClient;
@@ -120,7 +120,11 @@ public class ClientDAOImpl<T> implements Serializable{
        Lead lead=(Lead) entity;
             session = getSessionFactory().getCurrentSession();
             lead = (Lead) session.get(Lead.class, lead.getLeadId());
+            
             if(lead!=null){
+                if(lead.getCall()!=null){
+                        lead.getCall().size();
+                }
                  if(lead.getBeneficiaries()!=null){
                                                                       lead.getBeneficiaries().size();
                                                 }
@@ -149,6 +153,12 @@ public class ClientDAOImpl<T> implements Serializable{
              session = getSessionFactory().getCurrentSession();
             list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
                    add(Restrictions.eq("c.phoneNumber", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+        
+         }
+          else if(param.equals("MissedAppointmentStatusToday")){
+             session = getSessionFactory().getCurrentSession();
+            list=(List<Lead>) session.createCriteria(Lead.class).
+                   add(Restrictions.and(Restrictions.like("missedAppointmentStatus", type,MatchMode.ANYWHERE),Restrictions.eq("appointmentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
          else if(param.equals("ActiveSourceLeads")){
@@ -296,8 +306,6 @@ public class ClientDAOImpl<T> implements Serializable{
                  switch (paramVal) {
                       case "PendingAndNotified":
                                             session = getSessionFactory().getCurrentSession();
-                                            List listCallBack=null;
-                                            List followUp=null;
                                             Criteria criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
                                             criteria.add(
@@ -327,7 +335,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
-                                            criteria.add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", "")));
+                                            criteria.add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", ""),Restrictions.eq("l.missedAppointment", false)));
                                             criteria.addOrder(Order.asc("l.count"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                                             list = criteria.list();
@@ -347,7 +355,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("lead", "l");
                                             criteria.add(
                                                 Restrictions.or(
-                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
+                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),Restrictions.eq("l.missedAppointment", false)),
                                                     Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             ));
                                             criteria.addOrder(Order.asc("l.followUpDate"));
@@ -363,6 +371,47 @@ public class ClientDAOImpl<T> implements Serializable{
                                                 }
                                             }
                          break;
+                         case "PendingMA":
+                                            session = getSessionFactory().getCurrentSession();
+                                            criteria = session.createCriteria(Client.class);
+                                            criteria.createAlias("lead", "l");
+                                            criteria.add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", ""),Restrictions.eq("l.missedAppointment", true)));
+                                            criteria.addOrder(Order.desc("l.count"));
+                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                                            list = criteria.list();
+                                            for(Client client:(List<Client>)list){
+                                                client.getLead().size();
+                                                for(Lead lead:client.getLead()){
+                                                     if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                     }
+                                                    lead.getCall().size();
+                                                }
+                                            }
+                         break;
+                         case "NotifiedMA":
+                                            session = getSessionFactory().getCurrentSession();
+                                            criteria = session.createCriteria(Client.class);
+                                            criteria.createAlias("lead", "l");
+                                            criteria.add(
+                                                Restrictions.or(
+                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),Restrictions.eq("l.missedAppointment", true)),
+                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                            ));
+                                            criteria.addOrder(Order.asc("l.followUpDate"));
+                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                                            list = criteria.list();
+                                            for(Client client:(List<Client>)list){
+                                                client.getLead().size();
+                                                for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
+                                                    lead.getCall().size();
+                                                }
+                                            }
+                         break;
+                         
                          case "Overnight":
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
@@ -441,6 +490,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                     lead.getCall().size();
                                     lead.getBeneficiaries().size();
                                     lead.getCall().add(call);
+                                   // call.setLead(lead);
                                     session.update(lead);
                                     System.out.println("UPDATE CALL DETAILS OF LEAD :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
                                     return lead;
@@ -497,13 +547,11 @@ public class ClientDAOImpl<T> implements Serializable{
         @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public List<Object> fetchFreshCallEntity(String fromDate,String toDate, String type) {
         List list=null;
-        switch(type){
-            case "Total":
                     session = getSessionFactory().getCurrentSession();
-                     Criteria criteria =session.createCriteria(Client.class,"client").createAlias("client.lead", "lead").createAlias("lead.call", "call")
+                     Criteria criteria =session.createCriteria(Client.class,"client")
                               .add(Restrictions.and(
-                                      Restrictions.ge("client.dateCreation",fromDate+" 00:00:00"),
-                                      Restrictions.le("client.dateCreation",toDate+" 23:59:59")
+                                      Restrictions.ge("client.dateCreation",fromDate),
+                                      Restrictions.le("client.dateCreation",toDate)
                               )
                       );
                       criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -514,11 +562,8 @@ public class ClientDAOImpl<T> implements Serializable{
                              l.getCall().size();
                          }
                      }
-                     
-                    break;
-                 
-                
-        } 
+        
+            System.out.println("IMPORTANT:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"+list.size());
         return list;
     }
 public SessionFactory getSessionFactory() {

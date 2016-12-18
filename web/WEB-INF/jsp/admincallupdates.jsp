@@ -145,6 +145,7 @@
                                                 <option name="leadStatus"  value="" >Select lead status</option>
                                                 <option name="leadStatus"  value="Follow up/Call back" >Follow up/Call back</option>
                                                 <option name="leadStatus"  value="Lead sent to Thyrocare" >Lead sent to Thyrocare</option>
+                                                <option name="leadStatus"  value="Rescheduled">Rescheduled</option>
                                                 <option name="leadStatus"  value="Not interested">Not interested</option>
                                                 <option name="leadStatus"  value="Not registered">Not registered</option>
                                                 <option name="leadStatus"  value="Language not recognizable">Language not recognizable</option>

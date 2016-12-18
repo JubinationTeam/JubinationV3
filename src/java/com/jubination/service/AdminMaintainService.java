@@ -7,7 +7,7 @@
 package com.jubination.service;
 
 
-import com.jubination.backend.service.email.LoginInfoService;
+import com.jubination.backend.service.core.email.LoginInfoService;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.MessageDAOImpl;
 import com.jubination.model.pojo.admin.Admin;

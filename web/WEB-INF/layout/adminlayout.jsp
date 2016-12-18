@@ -69,7 +69,7 @@
         
 <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" >
-              <li ><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin"><span style="font-size: 20px;" class="glyphicon glyphicon-bullhorn"></span>&nbsp;Calls Overview </a></li>
+              <li ><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin"><span style="font-size: 20px;" class="glyphicon glyphicon-bullhorn"></span>&nbsp;Calls Analytics </a></li>
             <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callinterface"><span style="font-size: 20px;" class="glyphicon glyphicon-time"></span>&nbsp;Calls in Real time</a></li>
             <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callnotification"><span style="font-size: 20px;"class="glyphicon glyphicon-list-alt"></span>&nbsp;Follow Up Calls</a></li>
             <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callupdates"><span style="font-size: 20px;"class="glyphicon glyphicon-upload"></span>&nbsp;Call Updates</a></li>  

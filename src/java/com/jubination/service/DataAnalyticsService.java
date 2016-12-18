@@ -10,7 +10,7 @@ import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.crm.Lead;
-import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.exotel.Call;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,7 +66,16 @@ ClientDAOImpl clientDao;
             private final String callBackSpoke="callBackSpoke";
             private final String callBackRequestedCallBack="callBackRequestedCallBack";
             private final String callBackOthers="callBackOthers";
-    
+            private final String missedTotal="missedTotal";
+            private final String missedBusy="missedBusy";
+            private final String missedFailed="missedFailed";
+            private final String missedNoAnswer="missedNoAnswer";
+            private final String missedGreetingsOnHangup="missedGreetingsOnHangup";
+            private final String missedHangUpConnect="missedHangUpConnect";
+            private final String missedMissCall="missedMissCall";
+            private final String missedSpoke="missedSpoke";
+            private final String missedRequestedCallBack="missedRequestedCallBack";
+            private final String missedOthers="missedOthers";
             
 
             public List<DataAnalytics> readAnalytics(String date){
@@ -119,22 +128,27 @@ ClientDAOImpl clientDao;
                 daFollowUp.setType("followUp");
                 DataAnalytics daCustom = new DataAnalytics();
                 daCustom.setType("custom");
+                DataAnalytics daMissed = new DataAnalytics();
+                daMissed.setType("missed");
 
                 String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                 daFresh.setRequestedTime(time);
                 daCallBack.setRequestedTime(time);
                 daFollowUp.setRequestedTime(time);
                 daCustom.setRequestedTime(time);
+                daMissed.setRequestedTime(time);
 
                 daFresh.setFromDate(fromDate);
                 daCallBack.setFromDate(fromDate);
                 daFollowUp.setFromDate(fromDate);
                 daCustom.setFromDate(fromDate);
+                daMissed.setFromDate(fromDate);
 
                 daFresh.setToDate(toDate);
                 daCallBack.setToDate(toDate);
                 daFollowUp.setToDate(toDate);
                 daCustom.setToDate(toDate);
+                daMissed.setToDate(toDate);
 
                Long total= callDao.fetchEntitySize(fromDate, toDate,"Total");
                Long busy= callDao.fetchEntitySize(fromDate, toDate,"Busy");
@@ -175,7 +189,7 @@ ClientDAOImpl clientDao;
                daDao.buildEntity(daCallBack);
 
                //Fresh Call
-               daFresh.setTotal(counts.get(freshBusy));
+               daFresh.setTotal(counts.get(freshTotal));
                daFresh.setBusy(counts.get(freshBusy));
                daFresh.setFailed(counts.get(freshFailed));
                daFresh.setNoAnswer(counts.get(freshNoAnswer));
@@ -199,6 +213,19 @@ ClientDAOImpl clientDao;
                daFollowUp.setRequestedCallBack(counts.get(followUpRequestedCallBack));
                daFollowUp.setOthers(counts.get(followUpOthers));
                daDao.buildEntity(daFollowUp);
+               
+               //Missed Appointment
+               daMissed.setTotal(counts.get(missedTotal));
+               daMissed.setBusy(counts.get(missedBusy));
+               daMissed.setFailed(counts.get(missedFailed));
+               daMissed.setNoAnswer(counts.get(missedNoAnswer));
+               daMissed.setGreetingsHangup(counts.get(missedGreetingsOnHangup));
+               daMissed.setHangupOnConnect(counts.get(missedHangUpConnect));
+               daMissed.setMissCall(counts.get(missedMissCall));
+               daMissed.setSpoke(counts.get(missedSpoke));
+               daMissed.setRequestedCallBack(counts.get(missedRequestedCallBack));
+               daMissed.setOthers(counts.get(missedOthers));
+               daDao.buildEntity(daMissed);
 
             }
             public Map<String, Long> doReportingOperationSize(List<Client> list){
@@ -235,6 +262,16 @@ ClientDAOImpl clientDao;
                     counts.put(callBackSpoke,0l);
                     counts.put(callBackRequestedCallBack,0l);
                     counts.put(callBackOthers,0l);
+                    counts.put(missedTotal,0l);
+                    counts.put(missedBusy,0l);
+                    counts.put(missedFailed,0l);
+                    counts.put(missedNoAnswer,0l);
+                    counts.put(missedGreetingsOnHangup,0l);
+                    counts.put(missedHangUpConnect,0l);
+                    counts.put(missedMissCall,0l);
+                    counts.put(missedSpoke,0l);
+                    counts.put(missedRequestedCallBack,0l);
+                    counts.put(missedOthers,0l);
                     if(list!=null){
                     for(Client client:list){
                         int count=0;
@@ -242,11 +279,13 @@ ClientDAOImpl clientDao;
                             Lead lead = client.getLead().get(client.getLead().size()-1);
                             if(lead.getCall().size()>0){     
                                     for(int i=lead.getCall().size()-1;i>=0;i--){
+                                        System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::REPORTING");
                                                     Call call=lead.getCall().get(i);
                                                     if(call==null){
                                                         break;
                                                     }
                                                     System.out.println(count+" "+i+" "+call.getDateCreated());
+                                        System.out.println("STARTED OPERATION ::::::::::::::::::::::::::::::::::::::::::::REPORTING");
 
                                                 if(call.getStatus()!=null&&call.getStatus().contains("busy")){
 
@@ -337,6 +376,10 @@ ClientDAOImpl clientDao;
                         counts.replace(freshBusy, counts.get(freshBusy)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
                 }
+                else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                       counts.replace(missedBusy, counts.get(missedBusy)+1);
+                        counts.replace(missedTotal, counts.get(missedTotal)+1);
+                }
                 else{
                         counts.replace(followUpBusy, counts.get(followUpBusy)+1);
                         counts.replace(followUpTotal, counts.get(followUpTotal)+1);
@@ -353,6 +396,10 @@ ClientDAOImpl clientDao;
                             counts.replace(freshFailed, counts.get(freshFailed)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
+                    else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedFailed, counts.get(missedFailed)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
+                    }
                     else{
                             counts.replace(followUpFailed, counts.get(followUpFailed)+1);
                             counts.replace(followUpTotal, counts.get(followUpTotal)+1);
@@ -368,6 +415,10 @@ ClientDAOImpl clientDao;
                     else if(i==0){
                             counts.replace(freshNoAnswer, counts.get(freshNoAnswer)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
+                    }
+                    else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedNoAnswer, counts.get(missedNoAnswer)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
                     }
                     else{
                             counts.replace(followUpNoAnswer, counts.get(followUpNoAnswer)+1);
@@ -386,6 +437,10 @@ ClientDAOImpl clientDao;
                         counts.replace(freshHangUpConnect, counts.get(freshHangUpConnect)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
                 }
+                     else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedHangUpConnect, counts.get(missedHangUpConnect)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
+                    }
                 else{
                         counts.replace(followUpHangUpConnect, counts.get(followUpHangUpConnect)+1);
                         counts.replace(followUpTotal, counts.get(followUpTotal)+1);
@@ -401,6 +456,10 @@ ClientDAOImpl clientDao;
                     else if(i==0){
                             counts.replace(freshGreetingsOnHangup, counts.get(freshGreetingsOnHangup)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
+                    }
+                     else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedGreetingsOnHangup, counts.get(missedGreetingsOnHangup)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
                     }
                     else{
                             counts.replace(followUpGreetingsOnHangup, counts.get(followUpGreetingsOnHangup)+1);
@@ -418,6 +477,10 @@ ClientDAOImpl clientDao;
                         counts.replace(freshMissCall, counts.get(freshMissCall)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
                 }
+                else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedMissCall, counts.get(missedMissCall)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
+                    }
                 else{
                         counts.replace(followUpMissCall, counts.get(followUpMissCall)+1);
                         counts.replace(followUpTotal, counts.get(followUpTotal)+1);
@@ -434,6 +497,10 @@ ClientDAOImpl clientDao;
                             counts.replace(freshSpoke, counts.get(freshSpoke)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
+                else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedSpoke, counts.get(missedSpoke)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
+                    }
                     else{
                             counts.replace(followUpSpoke, counts.get(followUpSpoke)+1);
                             counts.replace(followUpTotal, counts.get(followUpTotal)+1);
@@ -449,6 +516,10 @@ ClientDAOImpl clientDao;
                     else if(i==0){
                             counts.replace(freshOthers, counts.get(freshOthers)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
+                    }
+                    else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                           counts.replace(missedOthers, counts.get(missedOthers)+1);
+                            counts.replace(missedTotal, counts.get(missedTotal)+1);
                     }
                     else{
                             counts.replace(followUpOthers, counts.get(followUpOthers)+1);

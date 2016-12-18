@@ -9,7 +9,7 @@ package com.jubination.model.dao;
 import com.jubination.model.pojo.report.Report;
 import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.Test;
-import com.jubination.model.pojo.status.thyrocare.ReportStatus;
+import com.jubination.model.pojo.status.ReportStatus;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -48,7 +48,7 @@ private Session session=null;
          ReportStatus reportStatus=(ReportStatus) entity;
             session = getSessionFactory().getCurrentSession();
             session.save(reportStatus);
-            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getRES_ID());
+            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getOrderId());
 
         return (T) reportStatus;
     }

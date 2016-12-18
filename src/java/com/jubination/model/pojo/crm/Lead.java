@@ -6,8 +6,7 @@
 package com.jubination.model.pojo.crm;
 
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +54,10 @@ public class Lead implements Serializable {
     private String comments;
     @Column(name="lead_status")
     private String leadStatus;
-    
+    @Column(name="missed_appointment")
+    private Boolean missedAppointment;  
+    @Column(name="missed_appointment_status")
+    private String missedAppointmentStatus;  
     
     @Column(name="date_creation")
     String dateCreation;
@@ -350,6 +352,24 @@ public boolean isPersistent() {
     public void setDateUpdated(String dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
+
+    public Boolean isMissedAppointment() {
+        return missedAppointment;
+    }
+
+    public void setMissedAppointment(Boolean missedAppointment) {
+        this.missedAppointment = missedAppointment;
+    }
+
+    public String getMissedAppointmentStatus() {
+        return missedAppointmentStatus;
+    }
+
+    public void setMissedAppointmentStatus(String missedAppointmentStatus) {
+        this.missedAppointmentStatus = missedAppointmentStatus;
+    }
+
+   
 
 
     @PostLoad

@@ -5,6 +5,8 @@
 --%>
 
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -64,21 +66,7 @@
             <h2>Calling Settings</h2>
             <hr/>
              <div class="row">
-                    <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-3">
-                        <br/>
-                        <b>To generate till date analytics report </b>
-                        <br/>
-                        <br/>
-                             <a href="${pageContext.request.contextPath}/admin/callsettings/do/analytics"><button class="btn btn-sm"   style="background-color:#0081c2;color:#ffffff"  type="button">Do Today's Analytics</button></a><br/><br/>
-                   <br/>
-                     <form action="${pageContext.request.contextPath}/admin/callsettings/do/analytics" method="GET" class="form-signin-heading" >
-     
-                         <input type="text" class="form-control"  name="fromDate" placeholder="From Date" required="true"/><br/>
-                         <input type="text" class="form-control"  name="toDate" placeholder="To Date" required="true"/><br/>
-                               <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff">Do Custom Analytics</button>
-                      </form>
-                     <br/>
-                    </div>
+                  
                   
                      <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-3">
                     <h3>Auto Calling</h3>
@@ -175,6 +163,25 @@
                         <a href="${pageContext.request.contextPath}/admin/callsettings/followup/on"><button class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff"  type="button">Switch on</button></a><br/><br/>
                     </c:if>
                     </div>
+                        <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-3">
+                     <form action="${pageContext.request.contextPath}/admin/setExecs/auto" method="GET" class="form-signin-heading" >
+                         <h3 class="form-signin-heading">Auto Calling Executives</h3>
+                         <input type="text" class="form-control"  name="ex" value="${ex}" required="true"/><br/>
+                               <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff">Change</button>
+                                </form>
+                               
+                                ${message}
+                                <br/>
+                        </div>
+                                <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-3">
+                                 <form action="${pageContext.request.contextPath}/admin/setExecs/custom" method="GET" class="form-signin-heading" >
+                         <h3 class="form-signin-heading">Custom Calling Executives</h3>
+                         <input type="text" class="form-control"  name="ex" value="${ex}"/><br/>
+                               <button type="submit" class="btn btn-sm"  style="background-color:#515151;color:#ffffff">Change</button>
+                                </form>
+                         ${message}
+                         <br/>
+                </div>
                     </div>
                 <hr/>
                

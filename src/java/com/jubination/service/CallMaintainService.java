@@ -5,25 +5,24 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.email.sendgrid.EmailService;
-import com.jubination.backend.service.leadcall.parallel.master.CallScheduler;
+import com.jubination.backend.service.sendgrid.EmailService;
+import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.model.dao.AdminDAOImpl;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
-import com.jubination.model.dao.DataAnalyticsDAOImpl;
 import com.jubination.model.dao.ProductsDAOImpl;
-import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.dao.ReportDAOImpl;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Beneficiaries;
-import com.jubination.model.pojo.ivr.exotel.Call;
+import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.model.pojo.crm.TempClient;
+import com.jubination.model.pojo.status.ReportStatus;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -53,16 +52,18 @@ public class CallMaintainService {
     ClientDAOImpl clientDao;
     @Autowired
     ProductsDAOImpl pDao;
+    @Autowired
+    ReportDAOImpl rDao;
     @Autowired 
     AdminDAOImpl adao;
     @Autowired
     CallScheduler operator;
     
-    private  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
+    private final  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
     
-    private  String excelOutputBuildDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\";
+    private final  String excelOutputBuildDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\";
   
-    private String settings="settings";
+    private final String settings="settings";
 
     
     public void sendEmailUpdate() {
@@ -112,10 +113,6 @@ public class CallMaintainService {
                     + "<br/>"
                     + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
             es4.start();
-            es1=null;
-            es2=null;
-            es3=null;
-            es4=null;
     }
  
     public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
@@ -243,8 +240,6 @@ public class CallMaintainService {
                      if(client.getAddress()==null&&storedClient.getAddress()!=null){
                          client.setAddress(storedClient.getAddress());
                      }
-                     storedClient=null;
-                     storedClientList=null;
                      
             }
             
@@ -371,7 +366,6 @@ public class CallMaintainService {
             else{
                              tempClient.setCallStatus("duplicate");
             }
-            beneficiaries=null;
         return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
    
@@ -393,12 +387,15 @@ public class CallMaintainService {
     public Boolean checkIfClientPresent(String number,String date, String leadId){
        List<TempClient> list=clientDao.readBackupEntityByNumberAndDate(number,date);
        List<TempClient> list2=clientDao.readBackupEntityByLeadId(leadId);
-       list.addAll(list2);
-       System.out.println("in check up"+number+"list size"+list.size());
-       if(list!=null&&!list.isEmpty()){
-           list=null;
-       System.out.println("present");
-           return true;
+       if(list!=null){
+            if(list2!=null){
+                 list.addAll(list2);
+            }
+            System.out.println("in check up"+number+"list size"+list.size());
+            if(!list.isEmpty()){
+                System.out.println("present");
+                return true;
+            }
        }
        return false;
    }
@@ -454,9 +451,8 @@ public class CallMaintainService {
                             ben.setAge(tempClient.getAge());
                             client.getLead().get(0).getBeneficiaries().add(ben);
             }
-            clientList.add(client);
-            if(client!=null){
-                                System.out.println("Client not null");
+             clientList.add(client);
+            System.out.println("Client not null");
                 if(client.getLead()!=null){
                                 System.out.println("Lead not null, leads : "+client.getLead().size());
                     if(client.getLead().get(0)!=null){
@@ -470,7 +466,7 @@ public class CallMaintainService {
                         }
                     }
                 }
-            }
+            
             System.out.println(client.getLead().get(0).getBeneficiaries().get(0).getName()+"::::::::::::::::::::BENTO");
         }
         return clientList;
@@ -482,6 +478,39 @@ public class CallMaintainService {
     
     public Client addClient(Client client){
         return (Client) clientDao.buildEntity(client);
+    }
+    
+    public boolean addMissedAppointment(ReportStatus rStatus){
+                Lead lead=new Lead();
+                lead.setLeadId(rStatus.getLeadId());
+                lead=readLead(lead);
+                if(rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED")){
+                        if(lead.getCount()<1){
+                                lead.setCount(7);
+                        }
+                        lead.setMissedAppointment(true);
+                        lead.setMissedAppointmentStatus(rStatus.getStatus());
+                        updateLeadOnly(lead);
+                }
+                else if(rStatus.getStatus().contains("DONE")||rStatus.getStatus().contains("SERVICED")||rStatus.getStatus().contains("APPOINTMENT")||rStatus.getStatus().contains("REVISED")||rStatus.getStatus().contains("YET TO ASSIGN")){
+                        lead.setMissedAppointment(false);
+                        lead.setMissedAppointmentStatus(rStatus.getStatus());
+                        updateLeadOnly(lead);
+                }
+                return rDao.buildReportStatus(rStatus)!=null;
+    }
+    
+    public boolean addTodaysMissedAppointment(){
+               List<Lead> leads= (List<Lead>) clientDao.fetchInnerEntities("MissedAppointmentStatusToday", "YET TO ASSIGN");
+               for(Lead lead:leads){
+                        lead.setMissedAppointment(true);
+                        lead.setMissedAppointmentStatus("Missed Appointment on "+new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                        if(lead.getCount()<1){
+                                lead.setCount(7);
+                        }
+                        updateLeadOnly(lead);
+               }
+               return true;
     }
     
     public boolean updateClientOnly(Client client) {
@@ -584,14 +613,12 @@ public class CallMaintainService {
     }
     
     public List<Lead> readNotifiedLead() {
-        List<Lead> list = null;
-        list= (List<Lead>) clientDao.fetchInnerEntities("Lead","Pending");
+        List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Lead","Pending");
         return list;
     }
 
     public List<Lead> getDuplicateLeads(String number) {
-        List<Lead> list = null;
-        list= (List<Lead>) clientDao.fetchInnerEntities("Number",number);
+        List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Number",number);
         return list;
     }
     
@@ -673,13 +700,9 @@ public class CallMaintainService {
                                                            flag=true;
 			System.out.println("Excel written successfully..");
 			
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}catch(Exception e){
-                                                        e.printStackTrace();
-                                   }
+		} 
                 finally{
                     try{
                         if(workbook!=null){
@@ -742,13 +765,9 @@ public class CallMaintainService {
                                                            flag=true;
 			System.out.println("Excel written successfully..");
 			
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}catch(Exception e){
-                                                        e.printStackTrace();
-                                   }
+		} 
                 finally{
                     try{
                         if(workbook!=null){
@@ -970,11 +989,9 @@ public class CallMaintainService {
                                                 leadDetailsArray[8],dateDetailsArray[8],leadDetailsArray[9],dateDetailsArray[9],leadDetailsArray[10],dateDetailsArray[10],leadDetailsArray[11],dateDetailsArray[11],leadDetailsArray[12],dateDetailsArray[12],leadDetailsArray[13],dateDetailsArray[13],leadDetailsArray[14],dateDetailsArray[14],leadDetailsArray[15],dateDetailsArray[15],"",lead.getLeadStatus()});
                                                 index++;
                                                 client=null;
-                                        lead=null;
                                         }
                                             
                                         }
-                                        list=null;
                                         return data;
     }
     
@@ -1180,8 +1197,11 @@ public class CallMaintainService {
                                                                                                                                            !lead.getLeadStatus().contains("Customer complained")&&
                                                                                                                                            !lead.getLeadStatus().contains("Disapproved")){
                                                                                                                                         affiliateDetails="Follow up/Call back";
-                                                                                                                                } 
-                                                                               
+                                                                                                                                }
+                                                                                                      
+                                                                                                                                if(lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
+                                                                                                                                        affiliateDetails="Missed Appointment";
+                                                                                                                                }
                                                                                
 
                                                                                 count++;
@@ -1228,13 +1248,9 @@ public class CallMaintainService {
                                                            flag=true;
 			System.out.println("Excel written successfully..");
 			
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}catch(Exception e){
-                                                        e.printStackTrace();
-                                   }
+		} 
                 finally{
                     try{
                         if(workbook!=null){
