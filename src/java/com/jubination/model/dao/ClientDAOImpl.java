@@ -335,7 +335,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
-                                            criteria.add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", ""),Restrictions.eq("l.missedAppointment", false)));
+                                            criteria.add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", ""),Restrictions.eq("l.missedAppointment", false),Restrictions.isNull("l.missedAppointment")));
                                             criteria.addOrder(Order.asc("l.count"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                                             list = criteria.list();
@@ -356,7 +356,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.add(
                                                 Restrictions.or(
                                                     Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),Restrictions.eq("l.missedAppointment", false)),
-                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),Restrictions.isNull("l.missedAppointment")
                                             ));
                                             criteria.addOrder(Order.asc("l.followUpDate"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

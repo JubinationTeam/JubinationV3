@@ -337,13 +337,18 @@ public class CallMaintainService {
                                         if(!lead.getBeneficiaries().isEmpty()){
                                                  for(Beneficiaries bens:lead.getBeneficiaries()){
                                                               bens.setLead(lead);
-                                                              
-                                                              bens.setName(bens.getName().replace("@", ""));
-                                                              bens.setAge(bens.getAge().replace("@", ""));
-                                                              bens.setGender(bens.getGender().replace("@", ""));
-                                                              bens.setName(bens.getName().replace(":", ""));
-                                                              bens.setAge(bens.getAge().replace(":", ""));
-                                                              bens.setGender(bens.getGender().replace(":", ""));
+                                                              if(bens.getName()!=null){
+                                                                bens.setName(bens.getName().replace("@", ""));
+                                                                bens.setName(bens.getName().replace(":", ""));
+                                                              }
+                                                              if(bens.getAge()!=null){
+                                                                bens.setAge(bens.getAge().replace("@", ""));
+                                                                bens.setAge(bens.getAge().replace(":", ""));
+                                                              }
+                                                              if(bens.getGender()!=null){
+                                                                bens.setGender(bens.getGender().replace("@", ""));
+                                                                bens.setGender(bens.getGender().replace(":", ""));
+                                                              }
                                                               
                                                               beneficiaries+=bens.getName()+"@"+bens.getGender()+"@"+bens.getAge()+":";
                                                  }
