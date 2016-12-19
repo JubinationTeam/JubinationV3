@@ -1,5 +1,6 @@
 package com.jubination.controller.web;
 
+import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.lms.Updater;
 import com.jubination.model.pojo.status.ReportStatus;
 import com.jubination.model.pojo.admin.Admin;
@@ -32,6 +33,8 @@ public class UpdateAndBookingController {
     ReportService reportService;
     @Autowired
     Updater updater;
+    @Autowired
+    CallScheduler operator;
     
     @RequestMapping(value="/admin/callupdates/update")
     public ModelAndView updateClient(HttpServletRequest request, Principal principal) throws IOException {
@@ -259,7 +262,7 @@ public class UpdateAndBookingController {
                                 if(!date.isEmpty()){
                                     lead.setNotification(true);
                                     lead.setFollowUpDate(date);
-                                    lead.setCount(7);
+                                    lead.setCount(operator.getCount()-4);
                                 }
                             }
                       }
