@@ -358,11 +358,13 @@ public class UpdateAndBookingController {
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             List<Lead> list=callMaintain.readLeadsBySource(request.getParameter("source"));
             for(Lead lead:list){
-                lead.setNotification(false);
-                lead.setPending(false);
-                lead.setCount(0);
-                lead.setLeadStatus("Disapproved");
-                callMaintain.updateLeadOnly(lead);
+                if(lead.isMissedAppointment()!=null&&lead.isMissedAppointment()!=true){
+                    lead.setNotification(false);
+                    lead.setPending(false);
+                    lead.setCount(0);
+                    lead.setLeadStatus("Disapproved");
+                    callMaintain.updateLeadOnly(lead);
+                }
             }
             model.addObject("lead", callMaintain.readNotifiedLead());
             return model;

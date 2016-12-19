@@ -484,7 +484,7 @@ public class CallMaintainService {
                 Lead lead=new Lead();
                 lead.setLeadId(rStatus.getLeadId());
                 lead=readLead(lead);
-                if(rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED")){
+                if(rStatus.getStatus()!=null&&rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED")){
                         if(lead.getCount()<1){
                                 lead.setCount(7);
                         }
@@ -492,7 +492,7 @@ public class CallMaintainService {
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
                         updateLeadOnly(lead);
                 }
-                else if(rStatus.getStatus().contains("DONE")||rStatus.getStatus().contains("SERVICED")||rStatus.getStatus().contains("APPOINTMENT")||rStatus.getStatus().contains("REVISED")||rStatus.getStatus().contains("YET TO ASSIGN")){
+                else if(rStatus.getStatus()!=null&&rStatus.getStatus().contains("DONE")||rStatus.getStatus().contains("SERVICED")||rStatus.getStatus().contains("APPOINTMENT")||rStatus.getStatus().contains("REVISED")||rStatus.getStatus().contains("YET TO ASSIGN")){
                         lead.setMissedAppointment(false);
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
                         updateLeadOnly(lead);
