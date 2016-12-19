@@ -42,7 +42,8 @@ public class Admin  implements java.io.Serializable{
      private int power;
      @Column(name="name", nullable=false, length=50)
      private String name;
-     
+     @Column(name="number", nullable=false, length=50)
+     private String number;
               
    @OneToMany(mappedBy="sender")
    List<MailMessage> sentMessageList = new ArrayList();
@@ -165,6 +166,14 @@ public class Admin  implements java.io.Serializable{
 
     public void setReceivedMessageList(List<MailMessage> receivedMessageList) {
         this.receivedMessageList = receivedMessageList;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
   

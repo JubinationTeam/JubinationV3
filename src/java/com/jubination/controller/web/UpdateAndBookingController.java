@@ -82,6 +82,7 @@ public class UpdateAndBookingController {
                       if(product!=null){
                            if(!product.isEmpty()){
                                lead.setProduct(product);
+                               
                            }
                        }
                        if(hardcopy!=null){

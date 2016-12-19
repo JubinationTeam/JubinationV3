@@ -24,7 +24,7 @@ public class ReportOperator {
     
     //start with 1 report at a time
     public boolean startParsing(ReportMessage msg){
-        if(pool.getActiveCount()<1&&reportMessage.size()<1){
+        if(pool.getActiveCount()<5&&reportMessage.size()<5){
             reportMessage.offer(msg);
             pool.startTask();
             return true;

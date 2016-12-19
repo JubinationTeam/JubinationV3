@@ -139,12 +139,12 @@ public class ClientDAOImpl<T> implements Serializable{
          if(param.equals("Lead")){
              if(type.equals("NotificationOn")){
                     session = getSessionFactory().getCurrentSession();
-                    list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.eq("notification", true)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+                    list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.isNotNull("followUpDate")).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
              }
              
               if(type.equals("Pending")){
                   session = getSessionFactory().getCurrentSession();
-                    list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.and(Restrictions.eq("pending", true),Restrictions.ge("count", 1))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+                    list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.ge("count", 1)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
              }
              

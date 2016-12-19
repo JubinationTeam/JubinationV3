@@ -64,9 +64,9 @@
                 <div class="col-sm-4">
                       <form  style="margin-left: 50px" class="form-signin" action="${pageContext.request.contextPath}/admin/callnotification/off/source/" >                                                               
                         <h3 class="form-signin-heading">Disapprove Records source wise</h3>
-                        <input type="text" class="form-control"  name='source' placeholder="Source" required>
+                        <input type="text" class="form-control"  name='source' placeholder="Source" required="true">
                       <br/>
-                       <button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="button">Disapprove</button>
+                       <button class="btn btn-sm" style="background-color:#ed5d0a;color:#ffffff" type="submit">Disapprove</button>
                            
                       </form>
                 </div>
@@ -88,6 +88,7 @@
                             <th>Comments</th>
                             <th>Executive</th>
                             <th>Follow ups left</th>
+                            <th>Status</th>
                             <th>Date</th>
                             <th>Follow up Date</th>
                             <th>Booking Manually</th>
@@ -105,6 +106,7 @@
                            <td>${lead.client.initialComments},${lead.comments}</td>
                            <td>${lead.admin.name}</td>
                            <td>${lead.count}</td>
+                           <td>${lead.leadStatus} - ${lead.missedAppointmentStatus}</td>
                            <td>${lead.client.dateCreation}</td>
                            <td>${lead.followUpDate}</td>
                            <c:if test="${not lead.notification}">

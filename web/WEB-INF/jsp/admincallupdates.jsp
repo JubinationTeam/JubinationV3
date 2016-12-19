@@ -153,6 +153,9 @@
                                                 <option name="leadStatus"  value="Customer complained">Customer Complained</option>
                                             </select>
                                             <br/>
+                                            <label>Missed Appointment Status</label>
+                                            <input type="text" class="form-control" placeholder="Missed appointment Status" name="missed_appointment" value="${lead.missedAppointmentStatus}" readonly="true"/>
+                                            <br/>
                                             <label>Lead Comments</label>
                                             <textarea type="text" class="form-control" placeholder="Lead Comments" rows="2" name="comment" value="">${lead.comments}</textarea>
                                             <br/>

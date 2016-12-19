@@ -20,26 +20,28 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @author MumbaiZone
  */
 @Entity
-@Table(name="report_status", catalog="jubination")
+@Table(name="status", catalog="jubination")
     @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReportStatus implements Serializable {
     
       @Id
       @GeneratedValue(strategy=GenerationType.AUTO)
-    private long orderId;
+    private long id;
       
     @Column(name="leadId")
   private String leadId;
     @Column(name="status")
     private String status; 
 
-    public long getOrderId() {
-        return orderId;
+    public long getId() {
+        return id;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setId(long id) {
+        this.id = id;
     }
+
+  
 
     public String getLeadId() {
         return leadId;

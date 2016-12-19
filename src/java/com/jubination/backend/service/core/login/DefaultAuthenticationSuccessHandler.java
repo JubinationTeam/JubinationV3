@@ -39,7 +39,8 @@ public class DefaultAuthenticationSuccessHandler implements AuthenticationSucces
     }
     @Override
     public void onAuthenticationSuccess(HttpServletRequest hsr, HttpServletResponse hsr1, Authentication a) throws IOException, ServletException {
-         defaultHandler.onAuthenticationSuccess(hsr, hsr1, a);   
+        System.out.println("LOGGED IN::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"); 
+        defaultHandler.onAuthenticationSuccess(hsr, hsr1, a);   
          
     }
      

@@ -105,10 +105,10 @@ public class AdminController {
         public  ModelAndView adminSettings(HttpServletRequest request,Principal principal) {
             ModelAndView model= new ModelAndView("adminsettings");
             if(request.getParameter("msg")!=null){
-                if(request.getParameter("msg").toString().equals("true")){
+                if(request.getParameter("msg").equals("true")){
                      model.addObject("message","Changed."); 
                 } 
-                else if(request.getParameter("msg").toString().equals("false")){
+                else if(request.getParameter("msg").equals("false")){
                     model.addObject("message","Not changed. Please try again!"); 
                 } 
              }

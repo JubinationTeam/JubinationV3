@@ -6,7 +6,6 @@
 package com.jubination.backend.service.core.report.parallel.worker;
 
 import com.jubination.backend.pojo.thyrocare.report.ReportMessage;
-import com.jubination.backend.service.core.report.parallel.worker.ReportOperator;
 import com.jubination.backend.service.thyrocare.report.parallel.worker.PDFBackendProcess;
 import com.jubination.backend.service.thyrocare.report.parallel.worker.XMLBackendProcess;
 import org.springframework.beans.factory.annotation.Autowired;

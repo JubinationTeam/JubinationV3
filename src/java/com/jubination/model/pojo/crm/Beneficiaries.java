@@ -18,8 +18,6 @@ import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 /**
  *

@@ -315,6 +315,7 @@ public class CallMaintainService {
                                 lead.setOrderBy(client.getName());
                                 lead.setDateCreation(client.getDateCreation());
                                 lead.setDateCreation(client.getDateUpdated());
+                                lead.setProduct(client.getCampaignName());
 
                                 Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
                                 if(camp!=null){
@@ -359,7 +360,7 @@ public class CallMaintainService {
                             operator.setFreshFlag(true);  
                             tempClient.setCallStatus("pending");
             }
-          else if(tempClient.getCampaignName().equals("DietChart")){
+          else if(tempClient.getProduct().equals("DietChart")||tempClient.getCampaignName().equals("DietChart")){
                 
                              tempClient.setCallStatus("diet");
             }
@@ -422,7 +423,7 @@ public class CallMaintainService {
             lead.setHardcopy(tempClient.getHardcopy());
             lead.setOrderBy(tempClient.getOrderId());
             lead.setPayType(tempClient.getPayType());
-            lead.setProduct(lead.getProduct());
+            lead.setProduct(tempClient.getCampaignName());
             lead.setRate(lead.getReportCode());
             lead.setServiceType(lead.getServiceType());
             lead.setDateCreation(tempClient.getDateCreation());

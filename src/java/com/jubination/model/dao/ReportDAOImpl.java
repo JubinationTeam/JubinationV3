@@ -48,7 +48,7 @@ private Session session=null;
          ReportStatus reportStatus=(ReportStatus) entity;
             session = getSessionFactory().getCurrentSession();
             session.save(reportStatus);
-            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getOrderId());
+            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getId());
 
         return (T) reportStatus;
     }
