@@ -368,7 +368,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setBusyToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
-                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                         counts.replace(callBackBusy, counts.get(callBackBusy)+1);
                         counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                 }
@@ -388,7 +388,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setFailedToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
-                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                             counts.replace(callBackFailed, counts.get(callBackFailed)+1);
                             counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                     }
@@ -408,7 +408,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setNoAnswerToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
-                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                             counts.replace(callBackNoAnswer, counts.get(callBackNoAnswer)+1);
                             counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                     }
@@ -429,7 +429,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setHangUpOnConnectToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
-                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                         counts.replace(callBackHangUpConnect, counts.get(callBackHangUpConnect)+1);
                         counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                 }
@@ -449,7 +449,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setGreetingsHangUpToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
-                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                             counts.replace(callBackGreetingsOnHangup, counts.get(callBackGreetingsOnHangup)+1);
                             counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                     }
@@ -469,7 +469,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setMissCallToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
-                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1&&lead.getCount()<1){
                         counts.replace(callBackMissCall, counts.get(callBackMissCall)+1);
                         counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                 }
@@ -489,7 +489,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setSpokeToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
-                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                             counts.replace(callBackSpoke, counts.get(callBackSpoke)+1);
                             counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                     }
@@ -509,7 +509,7 @@ ClientDAOImpl clientDao;
             }
             private Map<String, Long> setOthersToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
-                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0){
+                    if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
                             counts.replace(callBackOthers, counts.get(callBackOthers)+1);
                             counts.replace(callBackTotal, counts.get(callBackTotal)+1);
                     }

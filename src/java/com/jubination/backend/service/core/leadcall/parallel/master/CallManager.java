@@ -24,7 +24,7 @@ public class CallManager {
                     
                         private Boolean status=true;
                     
-                        private int executives=1;
+                        private int executives=0;
                         
                         
                         @Autowired
