@@ -60,12 +60,18 @@ private Session session=null;
         Report report=(Report) property;
             session = getSessionFactory().getCurrentSession();
             report = (Report) session.get(Report.class, report.getReportId());
-            report.getBarcodes().size();
-            report.getProfileData().size();
-            for(Profile profile:report.getProfileData()){
-                profile.getTestData().size();
-                for(Test test:profile.getTestData()){
-                    test.getRangeValues().size();
+            if(report!=null){
+                if(report.getBarcodes()!=null){
+                    report.getBarcodes().size();
+                }
+                if(report.getProfileData()!=null){
+                    report.getProfileData().size();
+                }
+                for(Profile profile:report.getProfileData()){
+                    profile.getTestData().size();
+                    for(Test test:profile.getTestData()){
+                        test.getRangeValues().size();
+                    }
                 }
             }
         return (T) report;

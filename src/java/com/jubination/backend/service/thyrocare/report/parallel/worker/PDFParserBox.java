@@ -45,9 +45,12 @@ public class PDFParserBox {
                 return Text;
        }
        finally{
+           try{
             pdDoc.close();
-            pdfStripper=null;
-            pdDoc=null;
+           }
+           catch(Exception e){
+               e.printStackTrace();
+           }
        }
    }
 
