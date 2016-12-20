@@ -310,10 +310,20 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                 Restrictions.or(
-                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.isEmpty("l.followUpDate"),Restrictions.isNull("l.followUpDate")),
-                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.isNotEmpty("l.followUpDate"),Restrictions.isNotNull("l.followUpDate"),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
-                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
-                                            ));
+                                                    Restrictions.and(
+                                                            
+                                                            Restrictions.ge("l.count", 1),
+                                                            Restrictions.eq("l.followUpDate",""),
+                                                            Restrictions.isNull("l.followUpDate")),
+                                                    
+                                                            Restrictions.and(
+                                                                Restrictions.ge("l.count", 1),
+                                                                Restrictions.ne("l.followUpDate",""),
+                                                                Restrictions.isNotNull("l.followUpDate"),
+                                                                Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
+                                                                Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                            )
+                                            );
                                             criteria.addOrder(Order.desc("l.followUpDate"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                                             list = criteria.list();
@@ -342,7 +352,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                     Restrictions.ne("l.missedAppointment", true)
                                                             ),
                                                             Restrictions.or(
-                                                                    Restrictions.isEmpty("l.followUpDate"),
+                                                                    Restrictions.eq("l.followUpDate",""),
                                                                     Restrictions.isNull("l.followUpDate")
                                                             )
                                                             
@@ -404,7 +414,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                     Restrictions.eq("l.missedAppointment", true)
                                                             ),
                                                             Restrictions.or(
-                                                                    Restrictions.isEmpty("l.followUpDate"),
+                                                                    Restrictions.eq("l.followUpDate",""),
                                                                     Restrictions.isNull("l.followUpDate")
                                                             )
                                                             

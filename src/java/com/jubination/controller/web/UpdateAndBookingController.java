@@ -274,8 +274,7 @@ public class UpdateAndBookingController {
                                               model.addObject("response", bookingResponse);
                                               System.out.println("Response:"+bookingResponse);
                                           if(leadStatus.equals("Lead sent to Thyrocare")){
-                                                if(bookingResponse.endsWith("Success")){
-                                                        lead.setBooked(true);
+                                               
                                                          List<Lead> leadList=callMaintain.getDuplicateLeads(number);
                                                         for(Lead l:leadList){
                                                              l.setNotification(false);
@@ -283,7 +282,11 @@ public class UpdateAndBookingController {
                                                              l.setCount(0);
                                                              callMaintain.updateLeadOnly(l);
                                                          }
-                                                }  
+                                                 
+                                         }
+                                         if(bookingResponse.endsWith("SUCCESS")){
+                                                        lead.setBooked(true);
+                                                        callMaintain.updateLeadOnly(lead);
                                          }
                                   }
                                 model.addObject("message", "Updated Database");
