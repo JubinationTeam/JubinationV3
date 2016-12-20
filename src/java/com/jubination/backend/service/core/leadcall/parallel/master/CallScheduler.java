@@ -162,7 +162,7 @@ CallManager eCallHandler;
                     
                      @Async
                     @Scheduled(cron = followUpCall)
-                    void followUpCustomerCallMorn() throws InterruptedException{
+                    void followUpCustomer() throws InterruptedException{
                         if(isFollowupFlag()&&eCallHandler.getStatus()){
                             System.out.println("follow up ");
                             int count=10;
@@ -180,6 +180,13 @@ CallManager eCallHandler;
                                 long pendingMa=0l;
                                 long notificationMa=0l;
                                 
+                               List<Client> listPending=service.getPendingCallsWithNotificationAndRecentLead("Pending");
+                               List<Client> listNotified=service.getPendingCallsWithNotificationAndRecentLead("Notified");
+                               listPending.removeAll(listNotified);
+                               
+                               List<Client> listPendingMa=service.getPendingCallsWithNotificationAndRecentLead("PendingMa");
+                               List<Client> listNotifiedMa=service.getPendingCallsWithNotificationAndRecentLead("NotifiedMa");
+                               listPendingMa.removeAll(listNotifiedMa);
                                
                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Pending")){
                                     client.setPriority(4);         

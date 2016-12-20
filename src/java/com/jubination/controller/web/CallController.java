@@ -88,7 +88,7 @@ public class CallController {
             return model;
     }
     
-    @RequestMapping(value="/admin/setExecs/custom")
+    @RequestMapping(value="/admin/callsettings/setExecs/custom")
     public ModelAndView setCustomExecsCustom(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
@@ -100,7 +100,18 @@ public class CallController {
             return model;
     }
     
-      @RequestMapping(value="/admin/setExecs/auto")
+     @RequestMapping(value="/admin/callsettings/followup/check")
+    public ModelAndView setFollowup(HttpServletRequest request, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallsettings");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            callMaintain.checkFollowUp();
+            getCallSettingsParam(model);
+            model.addObject("cs1", callHandler.isFlag());
+            model.addObject("cs2", callHandler.isCheckFlag());
+            return model;
+    }
+    
+      @RequestMapping(value="/admin/callsettings/setExecs/auto")
     public ModelAndView setCustomExecsAuto(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));

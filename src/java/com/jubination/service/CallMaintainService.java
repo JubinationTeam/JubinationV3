@@ -58,6 +58,8 @@ public class CallMaintainService {
     AdminDAOImpl adao;
     @Autowired
     CallScheduler operator;
+     @Autowired
+    AdminMaintainService adminService;
     
     private final  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
     
@@ -1279,5 +1281,57 @@ public class CallMaintainService {
                 }
                 return flag;	
     }
+
+    public void checkFollowUp() {
+        long pending=0l;
+                                long notification=0l;
+                                long pendingMa=0l;
+                                long notificationMa=0l;
+                                
+                               List<Client> listPending=getPendingCallsWithNotificationAndRecentLead("Pending");
+                               List<Client> listNotified=getPendingCallsWithNotificationAndRecentLead("Notified");
+                               listPending.removeAll(listNotified);
+                               
+                               List<Client> listPendingMa=getPendingCallsWithNotificationAndRecentLead("PendingMa");
+                               List<Client> listNotifiedMa=getPendingCallsWithNotificationAndRecentLead("NotifiedMa");
+                               listPendingMa.removeAll(listNotifiedMa);
+                               
+                                for(Client client:getPendingCallsWithNotificationAndRecentLead("Pending")){
+                                    
+                                    pending++;
+                                }
+                                 for(Client client:getPendingCallsWithNotificationAndRecentLead("Notified")){
+                                  
+                                    notification++;
+                                }
+                                for(Client client:getPendingCallsWithNotificationAndRecentLead("PendingMA")){
+                                    
+                                    pendingMa++;
+                                }
+                                 for(Client client:getPendingCallsWithNotificationAndRecentLead("NotifiedMA")){
+                                          
+                                    notificationMa++;
+                                }
+                              sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                             
+    }
+    
+     private void sendEmailFollowupUpdate(String email,String content){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Follow up started",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "I am call Bot!<br/>" +
+                                                "<br/>" +
+                                                "Follow u  has started" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                content+
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" + 
+                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
+
     
 }
