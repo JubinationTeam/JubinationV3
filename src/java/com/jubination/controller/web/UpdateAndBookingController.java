@@ -110,7 +110,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben0!=null&&ben0.contains(",")){
                            if(!ben0.isEmpty()){
-                               if(!ben0.equals(",,")){
+                               if(!ben0.contains(",,")){
                                         lead.getBeneficiaries().get(0).setName(ben0.split(",")[0]);
                                         lead.getBeneficiaries().get(0).setAge(ben0.split(",")[1]);
                                         lead.getBeneficiaries().get(0).setGender(ben0.split(",")[2]);
@@ -120,7 +120,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben1!=null&&ben1.contains(",")){
                            if(!ben1.isEmpty()){
-                               if(!ben1.equals(",,")){
+                               if(!ben1.contains(",,")){
                                         lead.getBeneficiaries().get(1).setName(ben1.split(",")[0]);
                                         lead.getBeneficiaries().get(1).setAge(ben1.split(",")[1]);
                                         lead.getBeneficiaries().get(1).setGender(ben1.split(",")[2]);
@@ -130,7 +130,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben2!=null&&ben2.contains(",")){
                            if(!ben2.isEmpty()){
-                               if(!ben2.equals(",,")){
+                               if(!ben2.contains(",,")){
                                     lead.getBeneficiaries().get(2).setName(ben2.split(",")[0]);
                                     lead.getBeneficiaries().get(2).setAge(ben2.split(",")[1]);
                                     lead.getBeneficiaries().get(2).setGender(ben2.split(",")[2]);
@@ -140,7 +140,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben3!=null&&ben3.contains(",")){
                            if(!ben3.isEmpty()){
-                               if(!ben3.equals(",,")){
+                               if(!ben3.contains(",,")){
                                         lead.getBeneficiaries().get(3).setName(ben3.split(",")[0]);
                                         lead.getBeneficiaries().get(3).setAge(ben3.split(",")[1]);
                                         lead.getBeneficiaries().get(3).setGender(ben3.split(",")[2]);
@@ -150,7 +150,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben4!=null&&ben4.contains(",")){
                            if(!ben4.isEmpty()){
-                               if(!ben4.equals(",,")){
+                               if(!ben4.contains(",,")){
                                         lead.getBeneficiaries().get(4).setName(ben4.split(",")[0]);
                                         lead.getBeneficiaries().get(4).setAge(ben4.split(",")[1]);
                                         lead.getBeneficiaries().get(4).setGender(ben4.split(",")[2]);
@@ -160,7 +160,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben5!=null&&ben5.contains(",")){
                            if(!ben5.isEmpty()){
-                               if(!ben5.equals(",,")){
+                               if(!ben5.contains(",,")){
                                         lead.getBeneficiaries().get(5).setName(ben5.split(",")[0]);
                                         lead.getBeneficiaries().get(5).setAge(ben5.split(",")[1]);
                                         lead.getBeneficiaries().get(5).setGender(ben5.split(",")[2]);
@@ -170,7 +170,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben6!=null&&ben6.contains(",")){
                            if(!ben6.isEmpty()){
-                               if(!ben6.equals(",,")){
+                               if(!ben6.contains(",,")){
                                     lead.getBeneficiaries().get(6).setName(ben6.split(",")[0]);
                                     lead.getBeneficiaries().get(6).setAge(ben6.split(",")[1]);
                                     lead.getBeneficiaries().get(6).setGender(ben6.split(",")[2]);
@@ -180,7 +180,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben7!=null&&ben7.contains(",")){
                            if(!ben7.isEmpty()){
-                               if(!ben7.equals(",,")){
+                               if(!ben7.contains(",,")){
                                     lead.getBeneficiaries().get(7).setName(ben7.split(",")[0]);
                                     lead.getBeneficiaries().get(7).setAge(ben7.split(",")[1]);
                                     lead.getBeneficiaries().get(7).setGender(ben7.split(",")[2]);
@@ -190,7 +190,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben8!=null&&ben8.contains(",")){
                            if(!ben8.isEmpty()){
-                               if(!ben8.equals(",,")){
+                               if(!ben8.contains(",,")){
                                     lead.getBeneficiaries().get(8).setName(ben8.split(",")[0]);
                                     lead.getBeneficiaries().get(8).setAge(ben8.split(",")[1]);
                                     lead.getBeneficiaries().get(8).setGender(ben8.split(",")[2]);
@@ -200,7 +200,7 @@ public class UpdateAndBookingController {
                        }
                        if(ben9!=null&&ben9.contains(",")){
                            if(!ben9.isEmpty()){
-                               if(!ben9.equals(",,")){
+                               if(!ben9.contains(",,")){
                                     lead.getBeneficiaries().get(9).setName(ben9.split(",")[0]);
                                     lead.getBeneficiaries().get(9).setAge(ben9.split(",")[1]);
                                     lead.getBeneficiaries().get(9).setGender(ben9.split(",")[2]);

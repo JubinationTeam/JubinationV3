@@ -365,7 +365,7 @@ public class CallMaintainService {
                             operator.setFreshFlag(true);  
                             tempClient.setCallStatus("pending");
             }
-          else if(tempClient.getProduct().equals("DietChart")||tempClient.getCampaignName().equals("DietChart")){
+          else if(tempClient.getProduct().contains("DietChart")||tempClient.getCampaignName().contains("DietChart")){
                 
                              tempClient.setCallStatus("diet");
             }
