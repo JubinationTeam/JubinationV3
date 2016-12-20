@@ -306,12 +306,12 @@ public class ClientDAOImpl<T> implements Serializable{
                  switch (paramVal) {
                       case "PendingAndNotified":
                                             session = getSessionFactory().getCurrentSession();
-                                            Criteria criteria = session.createCriteria(Client.class);
-                                            criteria.createAlias("lead", "l");
+                                            Criteria criteria = session.createCriteria(Client.class,"c");
+                                            criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                 Restrictions.or(
-                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("l.followUpDate", "")),
-                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
+                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.isEmpty("l.followUpDate"),Restrictions.isNull("l.followUpDate")),
+                                                    Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.isNotEmpty("l.followUpDate"),Restrictions.isNotNull("l.followUpDate"),Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
                                                     Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             ));
                                             criteria.addOrder(Order.desc("l.followUpDate"));
@@ -333,16 +333,19 @@ public class ClientDAOImpl<T> implements Serializable{
                     
                      case "Pending":
                                             session = getSessionFactory().getCurrentSession();
-                                            criteria = session.createCriteria(Client.class);
-                                            criteria.createAlias("lead", "l");
+                                            criteria = session.createCriteria(Client.class, "c");
+                                            criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.and(
-                                                            Restrictions.ge("l.count", 1),
+                                                            Restrictions.and(
+                                                                    Restrictions.ge("l.count", 1),
+                                                                    Restrictions.ne("l.missedAppointment", true)
+                                                            ),
                                                             Restrictions.or(
                                                                     Restrictions.isEmpty("l.followUpDate"),
                                                                     Restrictions.isNull("l.followUpDate")
-                                                            ),
-                                                            Restrictions.ne("l.missedAppointment", true)
+                                                            )
+                                                            
                                                     )
                                             );
                                             criteria.addOrder(Order.asc("l.count"));
@@ -360,14 +363,17 @@ public class ClientDAOImpl<T> implements Serializable{
                          break;
                          case "Notified":
                                             session = getSessionFactory().getCurrentSession();
-                                            criteria = session.createCriteria(Client.class);
-                                            criteria.createAlias("lead", "l");
+                                            criteria = session.createCriteria(Client.class,"c");
+                                            criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.and(
-                                                            Restrictions.ge("l.count", 1),
-                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
-                                                            Restrictions.isNotEmpty("l.followUpDate"),
-                                                            Restrictions.isNotNull("l.followUpDate"),
+                                                            Restrictions.and(
+                                                                    Restrictions.ge("l.count", 1),
+                                                                    Restrictions.and(
+                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                    )
+                                                            ),
                                                             Restrictions.ne("l.missedAppointment", true)
                                                     )
                                             );
@@ -386,16 +392,19 @@ public class ClientDAOImpl<T> implements Serializable{
                          break;
                          case "PendingMA":
                                             session = getSessionFactory().getCurrentSession();
-                                            criteria = session.createCriteria(Client.class);
-                                            criteria.createAlias("lead", "l");
+                                            criteria = session.createCriteria(Client.class,"c");
+                                            criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.and(
-                                                            Restrictions.ge("l.count", 1),
+                                                            Restrictions.and(
+                                                                    Restrictions.ge("l.count", 1),
+                                                                    Restrictions.eq("l.missedAppointment", true)
+                                                            ),
                                                             Restrictions.or(
                                                                     Restrictions.isEmpty("l.followUpDate"),
                                                                     Restrictions.isNull("l.followUpDate")
-                                                            ),
-                                                            Restrictions.eq("l.missedAppointment", true)
+                                                            )
+                                                            
                                                     )
                                             );
                                             criteria.addOrder(Order.desc("l.count"));
@@ -415,14 +424,17 @@ public class ClientDAOImpl<T> implements Serializable{
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
-                                            criteria.add(
-                                              Restrictions.and(
-                                                        Restrictions.ge("l.count", 1),
-                                                        Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
-                                                        Restrictions.isNotEmpty("l.followUpDate"),
-                                                        Restrictions.isNotNull("l.followUpDate"),
-                                                        Restrictions.eq("l.missedAppointment", true)
-                                              )
+                                             criteria.add(
+                                                    Restrictions.and(
+                                                            Restrictions.and(
+                                                                    Restrictions.ge("l.count", 1),
+                                                                    Restrictions.and(
+                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                    )
+                                                            ),
+                                                            Restrictions.eq("l.missedAppointment", true)
+                                                    )
                                             );
                                             criteria.addOrder(Order.asc("l.followUpDate"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
