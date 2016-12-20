@@ -93,8 +93,6 @@ public class CallController {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             callHandler.setExecutives(Integer.parseInt(request.getParameter("exc")));
-            model.addObject("ex", eCallHandler.getExecutives());
-            model.addObject("exc",callHandler.getExecutives());
             model.addObject("message","Processed");
             getCallSettingsParam(model);
             model.addObject("cs1", callHandler.isFlag());
@@ -107,10 +105,7 @@ public class CallController {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
-            List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
-            model.addObject("callrecords",list);
-            model.addObject("ex", eCallHandler.getExecutives());
-            model.addObject("exc",callHandler.getExecutives());
+           
             model.addObject("message","Processed");
             getCallSettingsParam(model);
             model.addObject("cs1", callHandler.isFlag());
@@ -303,6 +298,8 @@ public class CallController {
             model.addObject("sCountCC3", callHandler.getStageThreeUpdates().size());
             model.addObject("followUpCount", operator.getCount());
             model.addObject("followupFlag", operator.isFollowupFlag());
+             model.addObject("ex", eCallHandler.getExecutives());
+            model.addObject("exc",callHandler.getExecutives());
             return model;
     }
     
