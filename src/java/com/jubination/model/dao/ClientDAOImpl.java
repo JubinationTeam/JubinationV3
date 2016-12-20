@@ -347,16 +347,24 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.and(
-                                                            Restrictions.and(
-                                                                    Restrictions.ge("l.count", 1),
-                                                                    Restrictions.ne("l.missedAppointment", true)
-                                                            ),
-                                                            Restrictions.or(
-                                                                    Restrictions.eq("l.followUpDate",""),
-                                                                    Restrictions.isNull("l.followUpDate")
-                                                            )
-                                                            
-                                                    )
+                                                        Restrictions.ge("l.count", 1),
+                                                        Restrictions.ne("l.missedAppointment", true),
+                                                        Restrictions.not(
+                                                                Restrictions.or(
+                                                                    Restrictions.and(
+                                                                            Restrictions.and(
+                                                                                    Restrictions.ge("l.count", 1),
+                                                                                    Restrictions.and(
+                                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                                    )
+                                                                            ),
+                                                                            Restrictions.ne("l.missedAppointment", true)
+                                                                    ),
+                                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                                )
+                                                       )   
+                                                  )
                                             );
                                             criteria.addOrder(Order.asc("l.count"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -409,15 +417,23 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.and(
-                                                            Restrictions.and(
-                                                                    Restrictions.ge("l.count", 1),
-                                                                    Restrictions.eq("l.missedAppointment", true)
-                                                            ),
-                                                            Restrictions.or(
-                                                                    Restrictions.eq("l.followUpDate",""),
-                                                                    Restrictions.isNull("l.followUpDate")
-                                                            )
-                                                            
+                                                            Restrictions.ge("l.count", 1),
+                                                            Restrictions.eq("l.missedAppointment", true),
+                                                            Restrictions.not(
+                                                                    Restrictions.or(
+                                                                    Restrictions.and(
+                                                                            Restrictions.and(
+                                                                                    Restrictions.ge("l.count", 1),
+                                                                                    Restrictions.and(
+                                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                                    )
+                                                                            ),
+                                                                            Restrictions.ne("l.missedAppointment", true)
+                                                                    ),
+                                                                    Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                                )
+                                                            )  
                                                     )
                                             );
                                             criteria.addOrder(Order.desc("l.count"));
