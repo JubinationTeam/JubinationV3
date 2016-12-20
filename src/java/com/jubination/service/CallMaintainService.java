@@ -459,11 +459,11 @@ public class CallMaintainService {
             }
              clientList.add(client);
             System.out.println("Client not null");
-                if(client.getLead()!=null){
+                if(client.getLead()!=null&&client.getLead().size()>0){
                                 System.out.println("Lead not null, leads : "+client.getLead().size());
                     if(client.getLead().get(0)!=null){
                                 System.out.println("Lead not null, "+client.getLead().get(0).getLeadId());
-                        if(client.getLead().get(0).getBeneficiaries()!=null){
+                        if(client.getLead().get(0).getBeneficiaries()!=null&&client.getLead().get(0).getBeneficiaries().size()>0){
                                 System.out.println("Beneficiaries not null, bens : "+client.getLead().get(0).getBeneficiaries().size());
                             if(client.getLead().get(0).getBeneficiaries().get(0)!=null){
                                 
