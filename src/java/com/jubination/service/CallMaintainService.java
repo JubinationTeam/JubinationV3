@@ -357,6 +357,36 @@ public class CallMaintainService {
                                         }
                                 }
 
+            }else{
+                
+                                lead.setLeadId(client.getTempLeadDetails());
+                                lead.setOrderId("JUBI0000"+lead.getLeadId());
+                                lead.setOrderBy(client.getName());
+                                lead.setDateCreation(client.getDateCreation());
+                                lead.setDateCreation(client.getDateUpdated());
+                                lead.setProduct(client.getCampaignName());
+                                Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
+                                if(camp!=null){
+                                    lead.setMargin(camp.getMargin());
+                                    lead.setHandlingCharges(camp.getHc());
+                                    lead.setPasson(camp.getPasson());
+                                    lead.setProduct(camp.getProducts());
+                                    lead.setRate(camp.getRate());
+                                    lead.setReportCode(camp.getReportCode());
+                                    lead.setServiceType(camp.getServiceType());
+                                }
+                                
+                                int count=0;
+                                        while(count<10){
+                                            lead.getBeneficiaries().add(new Beneficiaries());
+                                            if(count==0){
+                                                lead.getBeneficiaries().get(0).setName(client.getName());
+                                                lead.getBeneficiaries().get(0).setAge(client.getAge());
+                                                lead.getBeneficiaries().get(0).setGender(client.getGender());
+                                            }
+                                            count++;
+                                        }
+                                
             }
             
             TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
