@@ -182,32 +182,52 @@ CallManager eCallHandler;
                                 
                                List<Client> listPending=service.getPendingCallsWithNotificationAndRecentLead("Pending");
                                List<Client> listNotified=service.getPendingCallsWithNotificationAndRecentLead("Notified");
-                               listPending.removeAll(listNotified);
                                
                                List<Client> listPendingMa=service.getPendingCallsWithNotificationAndRecentLead("PendingMa");
                                List<Client> listNotifiedMa=service.getPendingCallsWithNotificationAndRecentLead("NotifiedMa");
-                               listPendingMa.removeAll(listNotifiedMa);
                                
-                                for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Pending")){
-                                    client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
+                                if(listPending!=null){
+                                    if(listNotified!=null){   
+                                        listPending.removeAll(listNotified);
+                                    }
+                               for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Pending")){
+                                        client.setPriority(4);         
+                                        eCallHandler.getClientStage1().push(client);
+                                    
                                     pending++;
                                 }
-                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Notified")){
-                                    client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    notification++;
-                                }
-                                for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingMA")){
-                                    client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    pendingMa++;
-                                }
-                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("NotifiedMA")){
-                                    client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    notificationMa++;
-                                }
+                               }
+                               
+                               if(listNotified!=null){
+                                        for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Notified")){
+                                        client.setPriority(4);         
+                                        eCallHandler.getClientStage1().push(client);
+                                        
+                                           notification++;
+                                       }
+                               }
+                                 if(listPendingMa!=null){
+                                    if(listNotifiedMa!=null){   
+                                        listPendingMa.removeAll(listNotifiedMa);
+                                    }
+                                    for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingMa")){
+                                        client.setPriority(4);         
+                                        eCallHandler.getClientStage1().push(client);
+                                         pendingMa++;
+                                     }
+                               }
+                               
+                               if(listNotifiedMa!=null){
+                                        for(Client client:service.getPendingCallsWithNotificationAndRecentLead("NotifiedMa")){
+                                           client.setPriority(4);         
+                                        eCallHandler.getClientStage1().push(client);
+                                        
+                                           notificationMa++;
+                                       }
+                               }
+                                 
+                                 
+                                 
                                   sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
                                 sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
                                 sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);

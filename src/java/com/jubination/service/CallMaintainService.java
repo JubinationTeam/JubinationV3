@@ -1290,28 +1290,44 @@ public class CallMaintainService {
                                 
                                List<Client> listPending=getPendingCallsWithNotificationAndRecentLead("Pending");
                                List<Client> listNotified=getPendingCallsWithNotificationAndRecentLead("Notified");
-                               listPending.removeAll(listNotified);
                                
                                List<Client> listPendingMa=getPendingCallsWithNotificationAndRecentLead("PendingMa");
                                List<Client> listNotifiedMa=getPendingCallsWithNotificationAndRecentLead("NotifiedMa");
-                               listPendingMa.removeAll(listNotifiedMa);
+                              
                                
-                                for(Client client:getPendingCallsWithNotificationAndRecentLead("Pending")){
+                               if(listPending!=null){
+                                    if(listNotified!=null){   
+                                        listPending.removeAll(listNotified);
+                                    }
+                               for(Client client:getPendingCallsWithNotificationAndRecentLead("Pending")){
                                     
                                     pending++;
                                 }
-                                 for(Client client:getPendingCallsWithNotificationAndRecentLead("Notified")){
-                                  
-                                    notification++;
-                                }
-                                for(Client client:getPendingCallsWithNotificationAndRecentLead("PendingMA")){
-                                    
-                                    pendingMa++;
-                                }
-                                 for(Client client:getPendingCallsWithNotificationAndRecentLead("NotifiedMA")){
-                                          
-                                    notificationMa++;
-                                }
+                               }
+                               
+                               if(listNotified!=null){
+                                        for(Client client:getPendingCallsWithNotificationAndRecentLead("Notified")){
+
+                                           notification++;
+                                       }
+                               }
+                                 if(listPendingMa!=null){
+                                    if(listNotifiedMa!=null){   
+                                        listPendingMa.removeAll(listNotifiedMa);
+                                    }
+                                    for(Client client:getPendingCallsWithNotificationAndRecentLead("PendingMa")){
+
+                                         pendingMa++;
+                                     }
+                               }
+                               
+                               if(listNotifiedMa!=null){
+                                        for(Client client:getPendingCallsWithNotificationAndRecentLead("NotifiedMa")){
+
+                                           notificationMa++;
+                                       }
+                               }
+                               
                               sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
                              
     }
