@@ -92,8 +92,9 @@ public class CallController {
     public ModelAndView setCustomExecsCustom(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            callHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
-            model.addObject("ex",request.getParameter("ex"));
+            callHandler.setExecutives(Integer.parseInt(request.getParameter("exc")));
+            model.addObject("ex", eCallHandler.getExecutives());
+            model.addObject("exc",callHandler.getExecutives());
             model.addObject("message","Processed");
             getCallSettingsParam(model);
             model.addObject("cs1", callHandler.isFlag());
@@ -108,7 +109,8 @@ public class CallController {
             eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
             List<Call> list=callMaintain.getAllCallRecordsByDate(request.getParameter("date"));
             model.addObject("callrecords",list);
-            model.addObject("ex",request.getParameter("ex"));
+            model.addObject("ex", eCallHandler.getExecutives());
+            model.addObject("exc",callHandler.getExecutives());
             model.addObject("message","Processed");
             getCallSettingsParam(model);
             model.addObject("cs1", callHandler.isFlag());
