@@ -481,7 +481,7 @@ public class ClientDAOImpl<T> implements Serializable{
                          break;
                      
                      default:
-                                                        System.out.println("No criteria for pending");
+                                                        System.out.println("No criteria for pending:"+paramVal);
                          break;
                  }
                 
