@@ -348,7 +348,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.add(
                                                     Restrictions.and(
                                                         Restrictions.ge("l.count", 1),
-                                                        Restrictions.ne("l.missedAppointment", true),
+//                                                        Restrictions.ne("l.missedAppointment", true),
                                                         Restrictions.not(
                                                                 Restrictions.or(
                                                                     Restrictions.and(

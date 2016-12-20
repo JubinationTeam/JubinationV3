@@ -1304,7 +1304,7 @@ public class CallMaintainService {
                                     notification++;
                                 }
                                }
-                               list=getPendingCallsWithNotificationAndRecentLead("PendingMa");
+                               list=getPendingCallsWithNotificationAndRecentLead("PendingMA");
                                if(list!=null){
                                 for(Client client:list){
                                              
@@ -1312,7 +1312,7 @@ public class CallMaintainService {
                                     pendingMa++;
                                 }
                                }
-                               list=getPendingCallsWithNotificationAndRecentLead("NotifiedMa");
+                               list=getPendingCallsWithNotificationAndRecentLead("NotifiedMA");
                                if(list!=null){
                                  for(Client client:list){
                                              
