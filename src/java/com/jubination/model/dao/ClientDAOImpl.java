@@ -366,15 +366,18 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
-                                                    Restrictions.and(
-                                                            Restrictions.and(
-                                                                    Restrictions.ge("l.count", 1),
-                                                                    Restrictions.and(
-                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
-                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
-                                                                    )
-                                                            ),
-                                                            Restrictions.ne("l.missedAppointment", true)
+                                                    Restrictions.or(
+                                                        Restrictions.and(
+                                                                Restrictions.and(
+                                                                        Restrictions.ge("l.count", 1),
+                                                                        Restrictions.and(
+                                                                                Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                                Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                        )
+                                                                ),
+                                                                Restrictions.ne("l.missedAppointment", true)
+                                                        ),
+                                                        Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                                     )
                                             );
                                             criteria.addOrder(Order.asc("l.followUpDate"));
