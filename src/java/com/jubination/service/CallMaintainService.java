@@ -468,12 +468,13 @@ public class CallMaintainService {
                             if(client.getLead().get(0).getBeneficiaries().get(0)!=null){
                                 
                                 System.out.println("Beneficiaries not null, "+client.getLead().get(0).getBeneficiaries().get(0).getName());
+                            System.out.println(client.getLead().get(0).getBeneficiaries().get(0).getName()+"::::::::::::::::::::BENTO");
+                                
                             }
                         }
                     }
                 }
             
-            System.out.println(client.getLead().get(0).getBeneficiaries().get(0).getName()+"::::::::::::::::::::BENTO");
         }
         return clientList;
    }
