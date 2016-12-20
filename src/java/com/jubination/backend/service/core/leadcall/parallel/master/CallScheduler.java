@@ -174,34 +174,38 @@ CallManager eCallHandler;
                                 }
                             }
                             if(eCallHandler.getClientStage1().isEmpty()){
-                                sendEmailFollowupUpdate("disha@jubination.com");
-                                sendEmailFollowupUpdate("trupti@jubination.com");
-                                sendEmailFollowupUpdate("vinay@jubination.com");
-                                sendEmailFollowupUpdate("tauseef@jubination.com");
-                                sendEmailFollowupUpdate("souvik@jubination.com");
-                                
+                               
+                                long pending=0l;
+                                long notification=0l;
+                                long pendingMa=0l;
+                                long notificationMa=0l;
                                 
                                
                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Pending")){
                                     client.setPriority(4);         
                                     eCallHandler.getClientStage1().push(client);
-
+                                    pending++;
                                 }
                                  for(Client client:service.getPendingCallsWithNotificationAndRecentLead("Notified")){
                                     client.setPriority(4);         
                                     eCallHandler.getClientStage1().push(client);
-
+                                    notification++;
                                 }
                                 for(Client client:service.getPendingCallsWithNotificationAndRecentLead("PendingMA")){
                                     client.setPriority(4);         
                                     eCallHandler.getClientStage1().push(client);
-
+                                    pendingMa++;
                                 }
                                  for(Client client:service.getPendingCallsWithNotificationAndRecentLead("NotifiedMA")){
                                     client.setPriority(4);         
                                     eCallHandler.getClientStage1().push(client);
-
+                                    notificationMa++;
                                 }
+                                  sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                                sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                                sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                                sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
                              }
                         }
                     }
@@ -326,9 +330,9 @@ CallManager eCallHandler;
     }
 
   
- private void sendEmailFollowupUpdate(String email){
+ private void sendEmailFollowupUpdate(String email,String content){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Your pending health checkup",
+            new EmailService(email,"Follow up started",
                                           "Hi,<br/>" +
                                                 "<br/>" +
                                                 "I am call Bot!<br/>" +
@@ -336,7 +340,7 @@ CallManager eCallHandler;
                                                 "Follow u  has started" +
                                                 "<br/>" +
                                                 "<br/>" +
-                                                "Wish you a happy & healthy day!<br/>" +
+                                                content+
                                                 "<br/>" +
                                                 "<br/>" +
                                                 "Regards,<br/>" + 
