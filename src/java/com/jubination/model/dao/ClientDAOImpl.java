@@ -348,7 +348,22 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.add(
                                                     Restrictions.and(
                                                         Restrictions.ge("l.count", 1),
-                                                        Restrictions.ne("l.missedAppointment", true)
+                                                            Restrictions.not(
+                                                                    Restrictions.or(
+                                                                        // Restrictions.and(
+                                                                                 Restrictions.and(
+                                                                                         Restrictions.ge("l.count", 1),
+                                                                                         Restrictions.and(
+                                                                                                 Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                                                                 Restrictions.gt("l.followUpDate", "2016-01-01")
+                                                                                         )
+                                                                                 ),
+                                                                                 //Restrictions.ne("l.missedAppointment", true)
+                                                                     //    ),
+                                                                         Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                                     )
+                                                            )
+                                                            
                                                   )
                                             );
                                             criteria.addOrder(Order.asc("l.count"));
@@ -370,7 +385,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                     Restrictions.or(
-                                                        Restrictions.and(
+                                                       // Restrictions.and(
                                                                 Restrictions.and(
                                                                         Restrictions.ge("l.count", 1),
                                                                         Restrictions.and(
@@ -378,8 +393,8 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                                 Restrictions.gt("l.followUpDate", "2016-01-01")
                                                                         )
                                                                 ),
-                                                                Restrictions.ne("l.missedAppointment", true)
-                                                        ),
+                                                                //Restrictions.ne("l.missedAppointment", true)
+                                                    //    ),
                                                         Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                                     )
                                             );
@@ -396,58 +411,58 @@ public class ClientDAOImpl<T> implements Serializable{
                                                 }
                                             }
                          break;
-                         case "PendingMA":
-                                            session = getSessionFactory().getCurrentSession();
-                                            criteria = session.createCriteria(Client.class,"c");
-                                            criteria.createAlias("c.lead", "l");
-                                            criteria.add(
-                                                    Restrictions.and(
-                                                            Restrictions.ge("l.count", 1),
-                                                            Restrictions.eq("l.missedAppointment", true)
-                                                    )
-                                            );
-                                            criteria.addOrder(Order.desc("l.count"));
-                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-                                            list = criteria.list();
-                                            for(Client client:(List<Client>)list){
-                                                client.getLead().size();
-                                                for(Lead lead:client.getLead()){
-                                                     if(lead.getBeneficiaries()!=null){
-                                                                      lead.getBeneficiaries().size();
-                                                     }
-                                                    lead.getCall().size();
-                                                }
-                                            }
-                         break;
-                         case "NotifiedMA":
-                                            session = getSessionFactory().getCurrentSession();
-                                            criteria = session.createCriteria(Client.class);
-                                            criteria.createAlias("lead", "l");
-                                             criteria.add(
-                                                    Restrictions.and(
-                                                            Restrictions.and(
-                                                                    Restrictions.ge("l.count", 1),
-                                                                    Restrictions.and(
-                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
-                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
-                                                                    )
-                                                            ),
-                                                            Restrictions.eq("l.missedAppointment", true)
-                                                    )
-                                            );
-                                            criteria.addOrder(Order.asc("l.followUpDate"));
-                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-                                            list = criteria.list();
-                                            for(Client client:(List<Client>)list){
-                                                client.getLead().size();
-                                                for(Lead lead:client.getLead()){
-                                                if(lead.getBeneficiaries()!=null){
-                                                                      lead.getBeneficiaries().size();
-                                                }
-                                                    lead.getCall().size();
-                                                }
-                                            }
-                         break;
+//                         case "PendingMA":
+//                                            session = getSessionFactory().getCurrentSession();
+//                                            criteria = session.createCriteria(Client.class,"c");
+//                                            criteria.createAlias("c.lead", "l");
+//                                            criteria.add(
+//                                                    Restrictions.and(
+//                                                            Restrictions.ge("l.count", 1),
+//                                                            Restrictions.eq("l.missedAppointment", true)
+//                                                    )
+//                                            );
+//                                            criteria.addOrder(Order.desc("l.count"));
+//                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+//                                            list = criteria.list();
+//                                            for(Client client:(List<Client>)list){
+//                                                client.getLead().size();
+//                                                for(Lead lead:client.getLead()){
+//                                                     if(lead.getBeneficiaries()!=null){
+//                                                                      lead.getBeneficiaries().size();
+//                                                     }
+//                                                    lead.getCall().size();
+//                                                }
+//                                            }
+//                         break;
+//                         case "NotifiedMA":
+//                                            session = getSessionFactory().getCurrentSession();
+//                                            criteria = session.createCriteria(Client.class);
+//                                            criteria.createAlias("lead", "l");
+//                                             criteria.add(
+//                                                    Restrictions.and(
+//                                                            Restrictions.and(
+//                                                                    Restrictions.ge("l.count", 1),
+//                                                                    Restrictions.and(
+//                                                                            Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+//                                                                            Restrictions.gt("l.followUpDate", "2016-01-01")
+//                                                                    )
+//                                                            ),
+//                                                            Restrictions.eq("l.missedAppointment", true)
+//                                                    )
+//                                            );
+//                                            criteria.addOrder(Order.asc("l.followUpDate"));
+//                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+//                                            list = criteria.list();
+//                                            for(Client client:(List<Client>)list){
+//                                                client.getLead().size();
+//                                                for(Lead lead:client.getLead()){
+//                                                if(lead.getBeneficiaries()!=null){
+//                                                                      lead.getBeneficiaries().size();
+//                                                }
+//                                                    lead.getCall().size();
+//                                                }
+//                                            }
+//                         break;
                          
                          case "Overnight":
                                             session = getSessionFactory().getCurrentSession();
