@@ -310,19 +310,22 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
                                                 Restrictions.or(
-                                                    Restrictions.and(
-                                                            
-                                                            Restrictions.ge("l.count", 1),
-                                                            Restrictions.eq("l.followUpDate",""),
-                                                            Restrictions.isNull("l.followUpDate")),
+                                                            Restrictions.and(
+
+                                                                    Restrictions.ge("l.count", 1),
+                                                                    Restrictions.eq("l.followUpDate",""),
+                                                                    Restrictions.isNull("l.followUpDate")
+                                                            ),
                                                     
                                                             Restrictions.and(
                                                                 Restrictions.ge("l.count", 1),
                                                                 Restrictions.ne("l.followUpDate",""),
                                                                 Restrictions.isNotNull("l.followUpDate"),
-                                                                Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))),
-                                                                Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
-                                                            )
+                                                                Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                            ),
+                                                            Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                )
+                                                            
                                             );
                                             criteria.addOrder(Order.desc("l.followUpDate"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -346,10 +349,16 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria = session.createCriteria(Client.class, "c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
+                                              Restrictions.and(
                                                     Restrictions.and(
-                                                        Restrictions.ge("l.count", 1),
-//                                                        Restrictions.ne("l.missedAppointment", true),
-                                                        Restrictions.not(
+                                                            Restrictions.ge("l.count", 1),
+                                                            Restrictions.ne("l.missedAppointment", true)
+                                                    )
+                                              )
+                                            );
+                                            
+                                              criteria.add(
+                                                      Restrictions.not(
                                                                 Restrictions.or(
                                                                     Restrictions.and(
                                                                             Restrictions.and(
@@ -363,9 +372,8 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                     ),
                                                                     Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                                                 )
-                                                       )   
-                                                  )
-                                            );
+                                                    )
+                                                );
                                             criteria.addOrder(Order.asc("l.count"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
                                             list = criteria.list();
@@ -376,6 +384,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                       lead.getBeneficiaries().size();
                                                      }
                                                     lead.getCall().size();
+                                                    
                                                 }
                                             }
                          break;
@@ -418,8 +427,11 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.add(
                                                     Restrictions.and(
                                                             Restrictions.ge("l.count", 1),
-                                                            Restrictions.eq("l.missedAppointment", true),
-                                                            Restrictions.not(
+                                                            Restrictions.eq("l.missedAppointment", true)
+                                                    )
+                                            );
+                                            criteria.add( 
+                                                    Restrictions.not(
                                                                     Restrictions.and(
                                                                             Restrictions.and(
                                                                                     Restrictions.ge("l.count", 1),
@@ -431,7 +443,6 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                             Restrictions.eq("l.missedAppointment", true)
                                                                     )
                                                             )  
-                                                    )
                                             );
                                             criteria.addOrder(Order.desc("l.count"));
                                             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -493,7 +504,9 @@ public class ClientDAOImpl<T> implements Serializable{
                          break;
                      
                      default:
-                                                        System.out.println("No criteria for pending");
+                                             if(list!=null){           
+                                                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"+list.size()+"$$$"+paramVal);
+                                             }
                          break;
                  }
                 
