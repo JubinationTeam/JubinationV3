@@ -176,7 +176,7 @@
                                 <div style="border: #0077b3 1px;border-style:solid ;border-radius: 5px;margin: 5px 5px 5px 5px" class="col-xs-3">
                                  <form action="${pageContext.request.contextPath}/admin/setExecs/custom" method="GET" class="form-signin-heading" >
                          <h3 class="form-signin-heading">Custom Calling Executives</h3>
-                         <input type="text" class="form-control"  name="ex" value="${ex}"/><br/>
+                         <input type="text" class="form-control"  name="exc" value="${exc}"/><br/>
                                <button type="submit" class="btn btn-sm"  style="background-color:#515151;color:#ffffff">Change</button>
                                 </form>
                          ${message}
