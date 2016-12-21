@@ -239,6 +239,7 @@ public class CallWorkerSlave1 {
                                     
                                     if(!saved){
                                                client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
+                                               manager.setExecutives(manager.getExecutives()-1);
                                            
                                     }
                                     
