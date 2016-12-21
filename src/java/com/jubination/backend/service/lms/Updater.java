@@ -54,9 +54,6 @@ public class Updater {
                     if(lead.getClient()!=null){
                          lead.getClient().setLead(null);
                     }
-                    else{
-                                lead.setClient(new Client());
-                    }
                     
                         if(lead.getBeneficiaries()!=null){
                             for(Beneficiaries ben:lead.getBeneficiaries()){
