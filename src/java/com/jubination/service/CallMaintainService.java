@@ -1313,10 +1313,11 @@ public class CallMaintainService {
     }
 
     public void checkFollowUp() {
-        long pending=0l;
+                                long pending=0l;
                                 long notification=0l;
                                 long pendingMa=0l;
                                 long notificationMa=0l;
+                                long pendingFresh=0l;
                                 
                                List<Client> list=getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
@@ -1351,7 +1352,11 @@ public class CallMaintainService {
                                 }
                                }
                                
-                              sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                                for(Client client:getMarkedClients()){
+                                        pendingFresh++;
+                                }
+                               
+                              sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call Pending : "+pendingFresh);
                              
     }
     

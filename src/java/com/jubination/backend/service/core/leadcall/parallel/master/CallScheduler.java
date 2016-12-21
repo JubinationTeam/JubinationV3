@@ -179,6 +179,7 @@ CallManager eCallHandler;
                                 long notification=0l;
                                 long pendingMa=0l;
                                 long notificationMa=0l;
+                                long pendingFresh=0l;
                                 
                                List<Client> list=service.getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
@@ -212,11 +213,17 @@ CallManager eCallHandler;
                                     notificationMa++;
                                 }
                                }
-                                  sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
-                                sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
-                                sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
-                                sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
-                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa);
+                               //miss call added as well
+                               System.out.println("miss call check started");
+                                for(Client client:service.getMarkedClients()){
+                                        getClients().offer(client);
+                                }
+                                setFreshFlag(true);  
+                                  sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
+                                sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
+                                sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
+                                sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
+                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
                              }
                         }
                     }
