@@ -221,7 +221,7 @@ public class CallWorkerSlave1 {
                                                             System.out.println("Tried saving client to database "+count+"th time ::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
                                                             e.printStackTrace();
                                                             
-                                                            Thread.sleep(200);
+                                                            Thread.sleep(300);
 
                                                         }    
                                                             count++;
@@ -252,7 +252,7 @@ public class CallWorkerSlave1 {
           
           private void sendEmailToFailCall(String email,String leadId,String number){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Your pending health checkup",
+            new EmailService(email,"Calls failed",
                                           "Hi,<br/>" +
                                                 "<br/>" +
                                                 "I am call Bot!<br/>" +
