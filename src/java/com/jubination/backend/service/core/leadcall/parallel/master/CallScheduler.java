@@ -50,13 +50,13 @@ CallManager eCallHandler;
                     
                     private final String settings="settings";
                     
-                    private final String  dumpOvernight="*/3 * 20-23,0-8 * * *";
-                    private final String freshCall="*/3 * 9-19 * * *";
-                    private final String retreiveDump="0 5 9 * * *";
-                    private final String missedCallCheck="0 */8 9-19 * * *";
-                    private final String missedAppointmentScheduling="0 59 */2 * * *";
-                    private final String followUpCall="0 */30 10-19 * * *";
-                    private final String calculateAnalytics="0 30 23 * * *";
+                    private final String  dumpOvernight="*/4 * 20-23,0-8 * * *";
+                    private final String freshCall="*/4 * 9-19 * * *";
+                    private final String retreiveDump="0/10 5 9 * * *";
+                    private final String missedCallCheck="0/10 */8 9-19 * * *";
+                    private final String missedAppointmentScheduling="0/10 59 */2 * * *";
+                    private final String followUpCall="0/10 */30 10-19 * * *";
+                    private final String calculateAnalytics="0/10 30 23 * * *";
                     
                     private final String appIdLead="102261";
                     private final String appIdReEngage="107784";
@@ -162,19 +162,9 @@ CallManager eCallHandler;
                     
                      @Async
                     @Scheduled(cron = followUpCall)
-                    void followUpCustomerCallMorn() throws InterruptedException{
-                        if(isFollowupFlag()&&eCallHandler.getStatus()){
+                    void followUpCustomern() throws InterruptedException{
+                        if(isFollowupFlag()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()){
                             System.out.println("follow up ");
-                            int count=10;
-                            while(!eCallHandler.getClientStage1().isEmpty()){
-                                Thread.sleep(60000);
-                                count--;
-                                if(count==0){
-                                    break;
-                                }
-                            }
-                            if(eCallHandler.getClientStage1().isEmpty()){
-                               
                                 long pending=0l;
                                 long notification=0l;
                                 long pendingMa=0l;
@@ -224,7 +214,7 @@ CallManager eCallHandler;
                                 sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
                                 sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
                                 sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
-                             }
+                             
                         }
                     }
                     

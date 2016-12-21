@@ -5,7 +5,6 @@
  */
 package com.jubination.backend.service.exotel.leadcall.parallel.worker;
 
-import com.jubination.backend.service.exotel.leadcall.parallel.worker.CallWorkerSlave2;
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
@@ -146,6 +145,7 @@ public class CallWorkerSlave1 {
           
           private Client readAndSaveMessage(ExotelMessage eMessage, Client client) {
               boolean saved=false;
+              boolean leadsAttached=false;
                  try{
                           
                      //exotel message to call details
@@ -183,46 +183,68 @@ public class CallWorkerSlave1 {
                                         }
                                     }
                                 //Settings to make objects ready
-                                
-                                    Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    lead.setCount(lead.getCount()-1);
-                                    client.setOvernight(false);
+                                 client.setOvernight(false);
                                  
+                                 
+                                    if(client.getLead()!=null&&client.getLead().size()>0){
+                                        leadsAttached=true;
+                                            Lead lead=client.getLead().get(client.getLead().size()-1);
+                                            lead.setCount(lead.getCount()-1);
                                     
                                     //If count zero, make all the leads count zero
-                                    if(lead.getCount()==0){
-                                       lead.setPending(false);
-                                        lead.setNotification(false);
-                                       List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                            for(Lead l:leadList){
-                                                            l.setNotification(false);
-                                                            l.setPending(false);
-                                                            l.setCount(0);
-                                                            service.updateLeadOnly(l);
+                                        if(lead.getCount()==0){
+                                            lead.setPending(false);
+                                            lead.setNotification(false);
+                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                 for(Lead l:leadList){
+                                                                 l.setNotification(false);
+                                                                 l.setPending(false);
+                                                                 l.setCount(0);
+                                                                 service.updateLeadOnly(l);
+                                                 }
                                             }
+                                            //Try Saving to database 10 times
+                                            System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
+
+                                            int count=0;
+
+                                            while(!saved&&count<10){
+                                                        try{
+                                                            saved=service.addClientAndUnmarkBackupClient(client, lead, call);
+                                                            if(passOn){
+                                                                            client.getLead().get(client.getLead().size()-1).getCall().add(call);
+                                                                            manager.getClientStage2().offer(client);
+                                                             }
+                                                        }
+                                                        catch(Exception e){
+                                                            
+                                                            System.out.println("Tried saving client to database "+count+"th time ::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                                                            e.printStackTrace();
+                                                            
+                                                            Thread.sleep(200);
+
+                                                        }    
+                                                            count++;
+                                            }
+                                            System.out.println(Thread.currentThread().getName()+" "+"Stage 1:Call out of queue");
+                                            
+                                           
+                                     }
+                                    else{
+                                        System.err.println("NO LEAD ATTACHED::::::::::::::::::::::::::::::::::::::::::::::::: Slave1");
                                     }
-                                    //Saving to database
-                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
-                                    if(service.addClientAndUnmarkBackupClient(client, lead, call)){
-                                        saved=true;        
-                                        if(passOn){
-                                                       client.getLead().get(client.getLead().size()-1).getCall().add(call);
-                                                       manager.getClientStage2().offer(client);
-                                        }
-                                    }
-                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 1:Call out of queue");
                           
                             }
                             catch(Exception e){
-                                    client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
                                     
-                                    e.printStackTrace();
                                     if(!saved){
-//                                        service.saveTemporaryClient(client);
-                                            System.err.println("Failed to save object to database in Stage 1");
-                                            e.printStackTrace();
-                                        //    throw new Exception("Failed to save object to database in Stage 1");
+                                               client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
+                                           
                                     }
+                                    
+                                            System.err.println("Failed to save object to database in Stage 1::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+                                     e.printStackTrace();
+                                            
                             } 
                  return client;
           }
