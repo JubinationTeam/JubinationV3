@@ -39,8 +39,8 @@ public class DataAnalyticsService {
  private ClientDAOImpl clientDao;
              @Autowired
     private AdminMaintainService adminService;
-                    private final String settings="settings";
-          
+           
+             private final String settings="settings";
           private final String freshTotal="freshTotal";
           private final String freshBusy=  "freshBusy";
             private final String freshFailed="freshFailed";
@@ -536,11 +536,12 @@ public class DataAnalyticsService {
     public void mailSpokeAnalytics() {
         
         
-        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-01-01", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
-                long total=counts.get(freshTotal);
-                long spoke=counts.get(freshSpoke);
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-22", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                long total=10893+counts.get(freshTotal);
+                long spoke=3238+counts.get(freshSpoke);
+                //data till 21st decemner
                 float spokePercentage=(spoke*100)/total;
-          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-01-01", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                 total=counts.get(freshTotal);
                 spoke=counts.get(freshSpoke);
                 
