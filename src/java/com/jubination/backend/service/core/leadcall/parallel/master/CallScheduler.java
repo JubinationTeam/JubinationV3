@@ -50,7 +50,7 @@ CallManager eCallHandler;
                     
                     private final String settings="settings";
                     
-//                    private final String  dumpOvernight="*/4 * 20-23,0-8 * * *";
+                    private final String  dumpOvernight="*/4 * 20-23,0-8 * * *";
                     private final String freshCall="*/4 * 9-19 * * *";
 //                    private final String retreiveDump="0/10 5 9 * * *";
                     private final String missedCallCheck="0/10 */8 8-19 * * *";
@@ -96,12 +96,12 @@ CallManager eCallHandler;
                     
                    
                     
-//                    @Async
-//                    @Scheduled(cron = dumpOvernight)//7pm to 8am save temp daa
-//                    void freshCustomerCallSave(){
-//                        if(isFreshFlag()||!clients.isEmpty()&&eCallHandler.getStatus()){
-//                            while(!clients.isEmpty()){
-//                                                            System.out.println("In 19-9 overnight save dump");
+                    @Async
+                    @Scheduled(cron = dumpOvernight)//7pm to 8am save temp daa
+                    void freshCustomerCallSave(){
+                        if(isFreshFlag()||!clients.isEmpty()&&eCallHandler.getStatus()){
+                            while(!clients.isEmpty()){
+                                                            System.out.println("In 19-9 overnight save dump");
 //                                                            clients.peek().setOvernight(true);
 //                                                            clients.peek().setPriority(6);
 //                                                            if(clients.peek().getLead()==null||clients.peek().getLead().isEmpty()){
@@ -110,12 +110,12 @@ CallManager eCallHandler;
 //                                                                        clients.peek().setLead(leadList);
 //                                                                }
 //                                                           if(service.updateTemporaryClient(clients.peek(),clients.peek().getLead().get(0))){
-//                                                               clients.poll();
+                                                               clients.poll();
 //                                                           }
-//                                      } 
-//                        }
-//                        setFreshFlag(!clients.isEmpty());
-//                    }
+                                      } 
+                        }
+                        setFreshFlag(!clients.isEmpty());
+                    }
 //                    @Async
 //                    @Scheduled(cron = retreiveDump)//9.05 am get overnight dump
 //                    void updateCustomerData(){
