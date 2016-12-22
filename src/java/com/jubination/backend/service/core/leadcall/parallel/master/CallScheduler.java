@@ -227,6 +227,7 @@ CallManager eCallHandler;
                         }
                         
                         eCallHandler.getRealTimeInCall().clear();
+                        analyticsService.mailSpokeAnalytics();
                         analyticsService.doAnalytics();
                     }
 

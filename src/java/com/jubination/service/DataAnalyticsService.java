@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package com.jubination.service;
+import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.model.dao.CallAPIMessageDAOImpl;
 import com.jubination.model.dao.ClientDAOImpl;
 import com.jubination.model.dao.DataAnalyticsDAOImpl;
+import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.DataAnalytics;
 import com.jubination.model.pojo.crm.Lead;
@@ -30,11 +32,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class DataAnalyticsService {
     
     @Autowired
-            DataAnalyticsDAOImpl daDao;
+ private DataAnalyticsDAOImpl daDao;
      @Autowired
-CallAPIMessageDAOImpl callDao;
+ private CallAPIMessageDAOImpl callDao;
           @Autowired
-ClientDAOImpl clientDao;
+ private ClientDAOImpl clientDao;
+             @Autowired
+    private AdminMaintainService adminService;
+                    private final String settings="settings";
           
           private final String freshTotal="freshTotal";
           private final String freshBusy=  "freshBusy";
@@ -172,7 +177,7 @@ ClientDAOImpl clientDao;
                daCustom.setOthers(others);
                daDao.buildEntity(daCustom);
 
-               Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(fromDate, toDate, time));
+               Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(fromDate, toDate));
 
 
                //CallBack
@@ -527,4 +532,54 @@ ClientDAOImpl clientDao;
                     }
                 return counts;
             }
+
+    public void mailSpokeAnalytics() {
+        
+        
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-01-01", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                long total=counts.get(freshTotal);
+                long spoke=counts.get(freshSpoke);
+                float spokePercentage=(spoke*100)/total;
+          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-01-01", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                total=counts.get(freshTotal);
+                spoke=counts.get(freshSpoke);
+                
+                spokePercentage=(((spoke*100)/total)*100)/spokePercentage-100;
+                
+                if(spokePercentage>0){
+                    
+                                sendEmailLeadQuality("trupti@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("souvik@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
+                }
+                else{
+                            spokePercentage=-spokePercentage;    
+                            sendEmailLeadQuality("disha@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("trupti@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("vinay@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("tauseef@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("souvik@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                                 sendEmailLeadQuality("subhadeep@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                }
+                
+                     
+                             
+                
+               
+    }
+    
+    
+     private void sendEmailLeadQuality(String email,String content){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Lead quality of affiliates",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "I am call Bot! <br/>" +
+                                                "<br/>" +
+                                                content+
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" + 
+                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
+
 }

@@ -605,7 +605,7 @@ public class ClientDAOImpl<T> implements Serializable{
         }
      
         @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public List<Object> fetchFreshCallEntity(String fromDate,String toDate, String type) {
+    public List<Object> fetchFreshCallEntity(String fromDate,String toDate) {
         List list=null;
                     session = getSessionFactory().getCurrentSession();
                      Criteria criteria =session.createCriteria(Client.class,"client")
