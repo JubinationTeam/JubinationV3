@@ -42,6 +42,16 @@ public class AnalyticsController {
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             return model;
     }
+   
+     @RequestMapping(value = "/admin/callanalytics/getquality")
+    public  ModelAndView adminmailSpoke(HttpServletRequest request,Principal principal) {
+            ModelAndView model= new ModelAndView("adminpage");
+            analyticsMaintain.mailSpokeAnalytics();
+            model.addObject("fDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            model.addObject("tDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            return model;
+    }
     
     @RequestMapping(value = "/admin/callanalytics/get")
     public  ModelAndView readAnalytics(HttpServletRequest request,Principal principal) {
