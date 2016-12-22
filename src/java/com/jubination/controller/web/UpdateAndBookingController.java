@@ -75,8 +75,8 @@ public class UpdateAndBookingController {
                 lead = new Lead();
                 lead.setLeadId(id);
                 lead=callMaintain.readLead(lead);
-                System.out.println("BEN SIZE::::::::::::::::::::::::::::::::::::::::::;"+lead.getBeneficiaries().size());
                 if(lead!=null){
+                System.out.println("BEN SIZE::::::::::::::::::::::::::::::::::::::::::;"+lead.getBeneficiaries().size());
                     Client client=lead.getClient();
                     lead.setAdmin(admin);
                     lead.setNotification(false);
@@ -257,24 +257,17 @@ public class UpdateAndBookingController {
                         if(leadStatus!=null&&!leadStatus.isEmpty()){
                                lead.setLeadStatus(leadStatus);
                         }
-                        if(leadStatus!=null){ 
-                            if(leadStatus.contains("Follow")&&date!=null){
-                                if(!date.isEmpty()){
-                                    lead.setNotification(true);
-                                    lead.setFollowUpDate(date);
-                                    lead.setCount(operator.getCount()-4);
-                                }
-                            }
-                      }
+                       
                        lead.setBenCount(benCount);
                       
-                        if(callMaintain.updateClientOnly(client)&&callMaintain.updateLeadOnly(lead)){
+                        if(callMaintain.updateClientOnly(client)){
                                         if(leadStatus!=null&&!leadStatus.isEmpty()){
-                                          String bookingResponse=updater.sendAutomatedUpdate(id);
-                                              model.addObject("response", bookingResponse);
-                                              System.out.println("Response:"+bookingResponse);
                                           if(leadStatus.equals("Lead sent to Thyrocare")){
                                                
+                                                            lead.setNotification(false);
+                                                             lead.setPending(false);
+                                                             lead.setCount(0);
+                                                             callMaintain.updateLeadOnly(lead);
                                                          List<Lead> leadList=callMaintain.getDuplicateLeads(number);
                                                         for(Lead l:leadList){
                                                              l.setNotification(false);
@@ -284,8 +277,26 @@ public class UpdateAndBookingController {
                                                          }
                                                  
                                          }
+                                          else if(leadStatus.contains("Follow")&&date!=null){
+                                                    if(!date.isEmpty()){
+                                                        lead.setNotification(true);
+                                                        lead.setFollowUpDate(date);
+                                                        lead.setCount(operator.getCount()-4);
+                                                        callMaintain.updateLeadOnly(lead);
+                                                    }
+                                         }
+                                          else{
+                                              callMaintain.updateLeadOnly(lead);
+                                          }
+                                          
+                                                String bookingResponse=updater.sendAutomatedUpdate(id);
+                                              model.addObject("response", bookingResponse);
+                                              System.out.println("Response:"+bookingResponse);
                                          if(bookingResponse.endsWith("SUCCESS")){
                                                         lead.setBooked(true);
+                                                        lead.setNotification(false);
+                                                             lead.setPending(false);
+                                                             lead.setCount(0);
                                                         callMaintain.updateLeadOnly(lead);
                                          }
                                   }

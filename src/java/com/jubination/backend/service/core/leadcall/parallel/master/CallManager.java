@@ -1,8 +1,11 @@
 package com.jubination.backend.service.core.leadcall.parallel.master;
 
 import com.jubination.backend.service.core.leadcall.parallel.worker.CallWorkerPool;
+import com.jubination.backend.service.sendgrid.EmailService;
+import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
+import com.jubination.service.AdminMaintainService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +22,15 @@ import org.springframework.stereotype.Component;
 public class CallManager {
     
                     
-                        
+                         @Autowired
+                        AdminMaintainService adminService;
                         private static final long time=100;
                     
                         private Boolean status=true;
                     
                         private int executives=0;
                         
+                        private final String settings="settings";
                         
                         @Autowired
                         private CallWorkerPool workerPool;
@@ -108,10 +113,32 @@ public class CallManager {
             return executives;
     }
 
-    public void setExecutives(int executives) {
+    public void setExecutives(int executives, String name) {
+        
+                                                 sendEmailToFailCall("disha@jubination.com", executives,this.executives, name);
+                                                 sendEmailToFailCall("trupti@jubination.com", executives,this.executives, name);
+                                                 sendEmailToFailCall("vinay@jubination.com", executives,this.executives, name);
+                                                 sendEmailToFailCall("tauseef@jubination.com", executives,this.executives, name);
+                                                 sendEmailToFailCall("souvik@jubination.com", executives,this.executives, name);
         this.executives = executives;
     }
 
-
+private void sendEmailToFailCall(String email,int numberPrev,int numberNew, String name){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService(email,"Executives changed",
+                                          "Hi,<br/>" +
+                                                "<br/>" +
+                                                "I am call Bot!<br/>" +
+                                                "<br/>" +
+                                                "Number of executive is changed from" +numberPrev +" to "+numberNew+" by "+name+
+                                                
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Wish you a happy & healthy day!<br/>" +
+                                                "<br/>" +
+                                                "<br/>" +
+                                                "Regards,<br/>" + 
+                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
                     
 }

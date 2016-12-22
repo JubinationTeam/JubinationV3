@@ -149,6 +149,9 @@ public class CallMaintainService {
             }
             
                 //if new lead
+                if(lead.getLeadId()==null||lead.getLeadId().isEmpty()){
+                    lead.setLeadId(client.getTempLeadDetails());
+                }
                  Lead storedLead=(Lead)clientDao.readInnerPropertyList(lead);
                  if(storedLead==null){
                             System.out.println("Lead not present");
@@ -607,6 +610,10 @@ public class CallMaintainService {
     public List<Client> getClientsById(long id){
         return (List<Client>) clientDao.getByProperty(id, "Id");
     }  
+    
+     public List<Client> getClientsByLeadId(String id){
+        return (List<Client>) clientDao.getByProperty(id, "LeadId");
+    } 
     
     public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
         

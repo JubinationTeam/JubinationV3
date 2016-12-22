@@ -127,7 +127,7 @@ public class ClientDAOImpl<T> implements Serializable{
                 }
                  if(lead.getBeneficiaries()!=null){
                                                                       lead.getBeneficiaries().size();
-                                                }
+                 }
             }
                  System.out.println("READ LEAD WITH INNER ELEMENTS :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
         return (T) lead;
@@ -220,7 +220,17 @@ public class ClientDAOImpl<T> implements Serializable{
             case "Id":
                     Long orderId= (Long) entity;
                         session = getSessionFactory().getCurrentSession();
-                        list.add((Client) session.get(Client.class, (Long)orderId));
+                        list.add((Client) session.get(Client.class, orderId));
+                       
+                
+                break;
+                
+                 case "LeadId":
+                    String leadId= (String) entity;
+                        session = getSessionFactory().getCurrentSession();
+                        criteria = session.createCriteria(Client.class, "client");
+                      criteria.add(Restrictions.eq("tempLeadDetails", leadId));
+                      list=criteria.list();
                        
                 
                 break;

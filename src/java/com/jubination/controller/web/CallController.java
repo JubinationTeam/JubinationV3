@@ -114,8 +114,9 @@ public class CallController {
       @RequestMapping(value="/admin/callsettings/setExecs/auto")
     public ModelAndView setCustomExecsAuto(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallsettings");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")));
+            Admin admin=adminMaintain.checkPresence(new Admin(principal.getName()));
+            model.addObject("admin",admin);
+            eCallHandler.setExecutives(Integer.parseInt(request.getParameter("ex")),admin.getName());
            
             model.addObject("message","Processed");
             getCallSettingsParam(model);

@@ -14,6 +14,7 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
@@ -53,6 +54,12 @@ public class Updater {
                 if(lead!=null){
                     if(lead.getClient()!=null){
                          lead.getClient().setLead(null);
+                    }
+                    else{
+                       List<Client> clients= service.getClientsByLeadId(lead.getLeadId());
+                       if(clients!=null&&clients.size()>0){
+                           lead.setClient(clients.get(0));
+                       }
                     }
                     
                         if(lead.getBeneficiaries()!=null){
@@ -104,7 +111,7 @@ public class Updater {
     
      private void sendEmailToFailUpdate(String email,String leadId){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Your pending health checkup",
+            new EmailService(email,"Failed to updatein LMS",
                                           "Hi,<br/>" +
                                                 "<br/>" +
                                                 "I am call Bot!<br/>" +
