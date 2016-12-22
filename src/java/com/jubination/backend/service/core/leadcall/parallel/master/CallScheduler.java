@@ -52,8 +52,8 @@ CallManager eCallHandler;
                     
                     private final String  dumpOvernight="*/4 * 20-23,0-8 * * *";
                     private final String freshCall="*/4 * 9-19 * * *";
-//                    private final String retreiveDump="0/10 5 9 * * *";
-                    private final String missedCallCheck="0/10 */8 8-19 * * *";
+                    private final String retreiveDump="2 0 9 * * *";
+                    private final String missedCallCheck="0/10 */8 9-19 * * *";
                     private final String missedAppointmentScheduling="0/10 59 */2 * * *";
                     private final String followUpCall="0/10 */30 10-19 * * *";
                     private final String calculateAnalytics="0/10 30 23 * * *";
@@ -110,16 +110,17 @@ CallManager eCallHandler;
 //                                                                        clients.peek().setLead(leadList);
 //                                                                }
 //                                                           if(service.updateTemporaryClient(clients.peek(),clients.peek().getLead().get(0))){
+                                                                
                                                                clients.poll();
 //                                                           }
                                       } 
                         }
                         setFreshFlag(!clients.isEmpty());
                     }
-//                    @Async
-//                    @Scheduled(cron = retreiveDump)//9.05 am get overnight dump
-//                    void updateCustomerData(){
-//                   System.out.println("Retreiving overnight dump");
+                    @Async
+                    @Scheduled(cron = retreiveDump)//9.05 am get overnight dump
+                    void updateCustomerData(){
+                   System.out.println("Retreiving overnight dump");
 //                                     for(Client client:service.getAllTemporaryClients()){
 //                                            if(client!=null){
 //                                                        if(client.getLead()==null||client.getLead().isEmpty()){
@@ -133,7 +134,17 @@ CallManager eCallHandler;
 //                                                        eCallHandler.getClientStage1().push(client);
 //                                            }
 //                                     }
-//                    }
+                                     
+                                     if(clients.isEmpty()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()){
+                            
+                                            System.out.println("overnight calls added");
+                                            for(Client client:service.getMarkedClients()){
+                                                    getClients().offer(client);
+                                            }
+
+                                            setFreshFlag(true);     
+                                        }
+                    }
                     
                     
                      @Async
