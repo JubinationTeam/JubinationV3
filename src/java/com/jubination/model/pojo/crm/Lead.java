@@ -99,7 +99,7 @@ public class Lead implements Serializable {
      @Transient
  boolean persistent;
      
-     @JsonBackReference  
+   //  @JsonBackReference  
         @ManyToOne
    private Client client;
       @JsonManagedReference 
