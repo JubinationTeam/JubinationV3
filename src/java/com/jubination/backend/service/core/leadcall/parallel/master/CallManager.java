@@ -114,13 +114,14 @@ public class CallManager {
     }
 
     public void setExecutives(int executives, String name) {
-        
+            if(this.executives!=executives){
                                                  sendEmailToFailCall("disha@jubination.com", executives,this.executives, name);
                                                  sendEmailToFailCall("trupti@jubination.com", executives,this.executives, name);
                                                  sendEmailToFailCall("vinay@jubination.com", executives,this.executives, name);
                                                  sendEmailToFailCall("tauseef@jubination.com", executives,this.executives, name);
                                                  sendEmailToFailCall("souvik@jubination.com", executives,this.executives, name);
-        this.executives = executives;
+                                                 this.executives = executives;
+            }
     }
 
 private void sendEmailToFailCall(String email,int numberPrev,int numberNew, String name){
@@ -131,7 +132,6 @@ private void sendEmailToFailCall(String email,int numberPrev,int numberNew, Stri
                                                 "I am call Bot!<br/>" +
                                                 "<br/>" +
                                                 "Number of executive is changed from" +numberPrev +" to "+numberNew+" by "+name+
-                                                
                                                 "<br/>" +
                                                 "<br/>" +
                                                 "Wish you a happy & healthy day!<br/>" +
