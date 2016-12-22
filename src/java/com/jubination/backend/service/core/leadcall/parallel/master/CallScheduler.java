@@ -110,8 +110,8 @@ CallManager eCallHandler;
 //                                                                        clients.peek().setLead(leadList);
 //                                                                }
 //                                                           if(service.updateTemporaryClient(clients.peek(),clients.peek().getLead().get(0))){
-                                                                
-                                                               clients.poll();
+                                                               service.updateOvernightClient(clients.poll().getTempLeadDetails());
+//                                                               clients.poll();
 //                                                           }
                                       } 
                         }
@@ -135,15 +135,14 @@ CallManager eCallHandler;
 //                                            }
 //                                     }
                                      
-                                     if(clients.isEmpty()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()){
-                            
+                                    
                                             System.out.println("overnight calls added");
-                                            for(Client client:service.getMarkedClients()){
+                                            for(Client client:service.getOvernightClients()){
                                                     getClients().offer(client);
                                             }
 
                                             setFreshFlag(true);     
-                                        }
+                                        
                     }
                     
                     

@@ -83,6 +83,7 @@ public class ClientDAOImpl<T> implements Serializable{
                       session = getSessionFactory().getCurrentSession();
                       Criteria criteria = session.createCriteria(TempClient.class, "client");
                       criteria.add(Restrictions.eq("tempLeadDetails", leadId));
+                      criteria.addOrder(Order.asc("clientId"));
                       list=criteria.list();
                      return list;
     }
@@ -114,6 +115,19 @@ public class ClientDAOImpl<T> implements Serializable{
                   return list;
                     
     }
+         //read temp client with a status
+        @Transactional(propagation = Propagation.REQUIRED)  
+        public List<TempClient> readClientOvernight() {
+                    session = getSessionFactory().getCurrentSession();
+                    Criteria criteria = session.createCriteria(TempClient.class);
+                    criteria.add(Restrictions.eq("overnight", true));
+                     criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                  List<TempClient>  list = criteria.list();
+                 System.out.println("READ TEMP CLIENT OVERNIGHT :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
+                  return list;
+                    
+    }
+        
         //  read lead and its inner elements
         @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
         public Object readInnerPropertyList(Object entity) {
