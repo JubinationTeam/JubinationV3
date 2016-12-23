@@ -124,7 +124,7 @@ public class CallManager {
             }
     }
 
-private void sendEmailToFailCall(String email,int numberPrev,int numberNew, String name){
+private void sendEmailToFailCall(String email,int numberNew, int numberPrev,String name){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Executives changed",
                                           "Hi,<br/>" +

@@ -66,6 +66,16 @@ public class Updater {
                             for(Beneficiaries ben:lead.getBeneficiaries()){
                                 ben.setLead(null);
                             }
+                            if(lead.getBenCount()<=1){
+                                lead.setBeneficiaries(null);
+                            }
+                            else{
+                                for(int i=0;i<lead.getBeneficiaries().size();i++){
+                                    if(lead.getBeneficiaries().get(i).getName().equals("")||lead.getBeneficiaries().get(i).getAge().equals("")||lead.getBeneficiaries().get(i).getGender().equals("")){
+                                        lead.getBeneficiaries().remove(i);
+                                    }
+                                }
+                            }
                         }
                          if(lead.getAdmin()!=null){
                                 lead.getAdmin().setReceivedMessageList(null);

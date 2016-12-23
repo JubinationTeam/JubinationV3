@@ -536,23 +536,26 @@ public class DataAnalyticsService {
     public void mailSpokeAnalytics() {
         
         
-        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-22", new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-22 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 long total=10893+counts.get(freshTotal);
                 long spoke=3238+counts.get(freshSpoke);
                 //data till 21st decemner
                 float spokePercentage=(spoke*100)/total;
-          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 total=counts.get(freshTotal);
                 spoke=counts.get(freshSpoke);
-                
-                spokePercentage=(((spoke*100)/total)*100)/spokePercentage-100;
-                
+                if(spokePercentage!=0&&total!=0){
+                    spokePercentage=(((spoke*100)/total)*100)/spokePercentage-100;
+                }
                 if(spokePercentage>0){
                     
-                                sendEmailLeadQuality("trupti@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("souvik@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
+                    sendEmailLeadQuality("disha@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");            
+                    sendEmailLeadQuality("trupti@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("souvik@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("vinay@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");
+                                sendEmailLeadQuality("tauseef@jubination.com"," Lead quality has improved by "+spokePercentage+"% today.");
                 }
-                else{
+                else if (spokePercentage<0){
                             spokePercentage=-spokePercentage;    
                             sendEmailLeadQuality("disha@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
                                 sendEmailLeadQuality("trupti@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
@@ -561,7 +564,9 @@ public class DataAnalyticsService {
                                 sendEmailLeadQuality("souvik@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
                                  sendEmailLeadQuality("subhadeep@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
                 }
-                
+                else {
+                                sendEmailLeadQuality("souvik@jubination.com","Calls not made yet.");
+                }
                      
                              
                 
