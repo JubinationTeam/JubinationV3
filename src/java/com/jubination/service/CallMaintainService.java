@@ -608,7 +608,7 @@ public class CallMaintainService {
                 Lead lead=new Lead();
                 lead.setLeadId(rStatus.getLeadId());
                 lead=readLead(lead);
-                if(rStatus.getStatus()!=null&&rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED")){
+                if(lead!=null&&rStatus.getStatus()!=null&&rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED")){
                         if(lead.getCount()<1){
                                 lead.setCount(operator.getCount()-4);
                         }
