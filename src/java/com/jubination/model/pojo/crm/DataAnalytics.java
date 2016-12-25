@@ -48,6 +48,15 @@ public class DataAnalytics implements Serializable {
     String fromDate;
     String toDate;
     String type;
+    
+      Long booked;
+            Long  done;
+             Long cancelled;
+             Long serviced;
+             Long revised;
+             Long deferredStatus;
+             Long  appointment;
+            Long yetToAssign;
 
     String requestedTime;
     
@@ -177,6 +186,70 @@ public class DataAnalytics implements Serializable {
 
     public void setRequestedTime(String requestedTime) {
         this.requestedTime = requestedTime;
+    }
+
+    public Long getBooked() {
+        return booked;
+    }
+
+    public void setBooked(Long booked) {
+        this.booked = booked;
+    }
+
+    public Long getDone() {
+        return done;
+    }
+
+    public void setDone(Long done) {
+        this.done = done;
+    }
+
+    public Long getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(Long cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public Long getServiced() {
+        return serviced;
+    }
+
+    public void setServiced(Long serviced) {
+        this.serviced = serviced;
+    }
+
+    public Long getRevised() {
+        return revised;
+    }
+
+    public void setRevised(Long revised) {
+        this.revised = revised;
+    }
+
+    public Long getDeferredStatus() {
+        return deferredStatus;
+    }
+
+    public void setDeferredStatus(Long deferredStatus) {
+        this.deferredStatus = deferredStatus;
+    }
+
+    public Long getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Long appointment) {
+        this.appointment = appointment;
+    }
+
+    public Long getYetToAssign() {
+        return yetToAssign;
+    }
+
+    public void setYetToAssign(Long yetToAssign) {
+        this.yetToAssign = yetToAssign;
     }
 
   

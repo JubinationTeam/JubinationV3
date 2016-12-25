@@ -151,6 +151,48 @@
                                </table>
                       </div>
                         </div>
+                       
+                       
+                       
+                         <div class="row">
+                             <div class="col-sm-12 table-responsive">
+
+                          <table  class="table table-bordered table-striped">
+
+                                  <thead>
+                                  
+                                   <th>Booked</th>
+                                   <th>Done</th>
+                                   <th>Serviced</th>
+                                   <th>Revised</th>
+                                  <th>Appointment</th>
+                                  <th>Yet to Assign</th>
+                                  <th>Deferred</th>
+                                  <th>Canceled</th>
+                                  
+                                  </thead>
+                                  <tbody>
+                           <c:if test="${fn:length(analytics)>0}">
+                                <c:forEach items="${analytics}" var="item" >
+                                     <c:if test="${item.type=='fresh'}">
+                                   <tr>
+                                          <td>${item.booked}</td>
+                                           <td>${item.done}</td>
+                                            <td>${item.serviced}</td>
+                                             <td>${item.revised}</td>
+                                              <td>${item.appointment}</td>
+                                               <td>${item.yetToAssign}</td>
+                                                <td>${item.deferredStatus}</td>
+                                                 <td>${item.cancelled}</td>
+
+                                    </tr>
+                                     </c:if>
+                                </c:forEach>
+                                </c:if>
+                               </tbody>
+                               </table>
+                      </div>
+                        </div>
                  </c:if>
                
                    

@@ -82,6 +82,15 @@ public class DataAnalyticsService {
             private final String missedRequestedCallBack="missedRequestedCallBack";
             private final String missedOthers="missedOthers";
             
+            private final String booked="booked";
+            private final String done="done";
+            private final String cancelled="cancelled";
+            private final String serviced="serviced";
+            private final String revised="revised";
+            private final String deferred="deferred";
+             private final String appointment="appointment";
+            private final String yetToAssign="yetToAssign";
+            
 
             public List<DataAnalytics> readAnalytics(String date){
                 List<DataAnalytics> listTemp=(List<DataAnalytics>) daDao.readPropertyByDate(date);
@@ -204,6 +213,15 @@ public class DataAnalyticsService {
                daFresh.setSpoke(counts.get(freshSpoke));
                daFresh.setRequestedCallBack(counts.get(freshRequestedCallBack));
                daFresh.setOthers(counts.get(freshOthers));
+               
+               daFresh.setAppointment(counts.get(appointment));
+               daFresh.setBooked(counts.get(booked));
+               daFresh.setCancelled(counts.get(cancelled));
+               daFresh.setDeferredStatus(counts.get(deferred));
+               daFresh.setDone(counts.get(done));
+               daFresh.setRevised(counts.get(revised));
+               daFresh.setServiced(counts.get(serviced));
+               daFresh.setYetToAssign(counts.get(yetToAssign));
                daDao.buildEntity(daFresh);
 
                //Follow up
@@ -236,7 +254,18 @@ public class DataAnalyticsService {
             public Map<String, Long> doReportingOperationSize(List<Client> list){
 
                     Map<String,Long> counts =new LinkedHashMap<>();
-
+                    
+                    counts.put(appointment,0l);
+                    counts.put(booked,0l);
+                    counts.put(done,0l);
+                    counts.put(yetToAssign,0l);
+                    counts.put(deferred,0l);
+                    counts.put(cancelled,0l);
+                    counts.put(revised,0l);
+                    counts.put(serviced,0l);
+                    
+                    
+                    
                     counts.put(freshTotal,0l);
                     counts.put(freshBusy,0l);
                     counts.put(freshFailed,0l);
@@ -281,8 +310,12 @@ public class DataAnalyticsService {
                     for(Client client:list){
                         int count=0;
                         if(client!=null&&client.getLead()!=null&&client.getLead().size()>=1){
+                            
+                           
+                            
+                            
                             Lead lead = client.getLead().get(client.getLead().size()-1);
-                            if(lead.getCall().size()>0){     
+                            if(lead!=null&&lead.getCall().size()>0){     
                                     for(int i=lead.getCall().size()-1;i>=0;i--){
                                         System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::REPORTING");
                                                     Call call=lead.getCall().get(i);
@@ -290,7 +323,7 @@ public class DataAnalyticsService {
                                                         break;
                                                     }
                                                     System.out.println(count+" "+i+" "+call.getDateCreated());
-                                        System.out.println("STARTED OPERATION ::::::::::::::::::::::::::::::::::::::::::::REPORTING");
+                                                    System.out.println("STARTED OPERATION ::::::::::::::::::::::::::::::::::::::::::::REPORTING");
 
                                                 if(call.getStatus()!=null&&call.getStatus().contains("busy")){
 
@@ -314,6 +347,7 @@ public class DataAnalyticsService {
                                                        setMissCallToCount(counts, lead, call, i);
                                                 }
                                             else if(call.getTrackStatus()!=null&&call.getTrackStatus().contains("spoke")){
+                                                   setConverstionCount(counts, lead);
                                                     setSpokeToCount(counts, lead, call, i);
                                                 }
                                             else{
@@ -330,6 +364,7 @@ public class DataAnalyticsService {
                                                                                lead.getLeadStatus().contains("Lead sent to Thyrocare")||
                                                                                lead.getLeadStatus().contains("Spoke but not updated")
                                                                                )){
+                                                                        setConverstionCount(counts, lead);
                                                                         setSpokeToCount(counts, lead, call, i);
                                                                     }
                                                                     else if(lead.getLeadStatus().contains("Busy")){
@@ -362,9 +397,15 @@ public class DataAnalyticsService {
                                             }
                                         
                                    }
+                                    
+                                   
+                                    
+                                    
+                                    
+                                    
                         }
-                    client=null;
-                    lead=null;
+                            
+                    
                     }
                     }
             }
@@ -536,39 +577,61 @@ public class DataAnalyticsService {
     public void mailSpokeAnalytics() {
         
         
-        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-22 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
-                long total=10893+counts.get(freshTotal);
-                long spoke=3238+counts.get(freshSpoke);
-                //data till 21st decemner
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-01 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                long total=8766+counts.get(freshTotal);
+                long spoke=2605+counts.get(freshSpoke);
+                long book=2330+counts.get(booked);
+                //data till november
                 float spokePercentage=(spoke*100)/total;
-          counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                float bookPercentage=(book*100)/total;
+                
+                counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 total=counts.get(freshTotal);
                 spoke=counts.get(freshSpoke);
+                book=counts.get(booked);
+                
                 if(spokePercentage!=0&&total!=0){
                     spokePercentage=(((spoke*100)/total)*100)/spokePercentage-100;
                 }
+                
+                if(bookPercentage!=0&&total!=0){
+                    bookPercentage=(((book*100)/total)*100)/bookPercentage-100;
+                }
+                
+                String message="";
                 if(spokePercentage>0){
                     
-                    sendEmailLeadQuality("disha@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");            
-                    sendEmailLeadQuality("trupti@jubination.com","Good job Trupti! Lead quality has improved by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("souvik@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("vinay@jubination.com","Lead quality has improved by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("tauseef@jubination.com"," Lead quality has improved by "+spokePercentage+"% today.");
+                                message=message+"Spoke rate has improved by "+spokePercentage+"% today. ";
                 }
                 else if (spokePercentage<0){
                             spokePercentage=-spokePercentage;    
-                            sendEmailLeadQuality("disha@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("trupti@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("vinay@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("tauseef@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
-                                sendEmailLeadQuality("souvik@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
-                                 sendEmailLeadQuality("subhadeep@jubination.com","Lead quality has detoriated by "+spokePercentage+"% today.");
+                               message=message+"Spoke rate has detoriated by "+spokePercentage+"% today. ";
                 }
                 else {
-                                sendEmailLeadQuality("souvik@jubination.com","Calls not made yet.");
+                                message=message+"Calls not made yet. ";
                 }
                      
-                             
+                  if(bookPercentage>0){
+                    
+                      message=message+"Lead quality has improved by "+bookPercentage+"% today.";
+                }
+                else if (bookPercentage<0){
+                            bookPercentage=-bookPercentage;    
+                           message=message+"Lead quality has detoriated by "+bookPercentage+"% today.";
+                              
+                }
+                else {
+                                message=message+"Bookings not made yet. ";
+                }   
+                  
+                  
+                                 sendEmailLeadQuality("subhadeep@jubination.com",message);
+                                 sendEmailLeadQuality("disha@jubination.com",message);
+                                 sendEmailLeadQuality("trupti@jubination.com",message);
+                                 sendEmailLeadQuality("vinay@jubination.com",message);
+                                 sendEmailLeadQuality("tauseef@jubination.com",message);
+                                 sendEmailLeadQuality("souvik@jubination.com",message);
+                                 
                 
                
     }
@@ -587,5 +650,45 @@ public class DataAnalyticsService {
                                                 "Regards,<br/>" + 
                                                 "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
+
+    private Map<String, Long> setConverstionCount(Map<String, Long> counts, Lead lead) {
+          if(lead!=null&&lead.isMissedAppointment()!=null){
+                                        if(lead.getMissedAppointmentStatus().contains("DONE")){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::DONE");
+                                            counts.replace(done, counts.get(done)+1);
+                                        }
+                                        else if(lead.getMissedAppointmentStatus().contains("CANCELLED")){
+                                            
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::CANCELED");
+                                                counts.replace(cancelled, counts.get(cancelled)+1);
+                                                }
+                                          else if(lead.getMissedAppointmentStatus().contains("DEFERRED")||(lead.getMissedAppointmentStatus().contains("YET TO ASSIGN")&&lead.getCount()>0)){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::DEFERED");
+                                                counts.replace(deferred, counts.get(deferred)+1);
+                                                }
+                                          else if(lead.getMissedAppointmentStatus().contains("REVISED")){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::REVISED");
+                                                counts.replace(revised, counts.get(revised)+1);
+                                                }
+                                          else if(lead.getMissedAppointmentStatus().contains("SERVICED")){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::SERVICED");
+                                                counts.replace(serviced, counts.get(serviced)+1);
+                                                }
+                                          else if(lead.getMissedAppointmentStatus().contains("APPOINTMENT")){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::APPOINTMENT");
+                                                counts.replace(appointment, counts.get(appointment)+1);
+                                                }
+                                          else if(lead.getMissedAppointmentStatus().contains("YET TO ASSIGN")){
+                                             System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::YET TO ASSIGN");
+                                                counts.replace(yetToAssign, counts.get(yetToAssign)+1);
+                                                }
+                                    }
+                                    if(lead!=null&&lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                          
+                                        System.out.println("In FOR LOOP ::::::::::::::::::::::::::::::::::::::::::::BOOKED");
+                                        counts.replace(booked, counts.get(booked)+1);
+                                    }
+                                    return counts;
+    }
 
 }

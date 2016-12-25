@@ -618,6 +618,7 @@ public class CallMaintainService {
                 }
                 else if(lead!=null&&rStatus.getStatus()!=null&&rStatus.getStatus()!=null&&(rStatus.getStatus().contains("DONE")||rStatus.getStatus().contains("SERVICED")||rStatus.getStatus().contains("APPOINTMENT")||rStatus.getStatus().contains("REVISED")||rStatus.getStatus().contains("YET TO ASSIGN"))){
                         lead.setMissedAppointment(false);
+                        lead.setCount(0);
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
                         updateLeadOnly(lead);
                 }
