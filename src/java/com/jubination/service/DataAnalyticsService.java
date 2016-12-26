@@ -599,6 +599,7 @@ public class DataAnalyticsService {
                 }
                 
                 String message="";
+                  message=message+"Total number of unique leads today till now is "+total+". ";
                 if(spokePercentage>0){
                     
                                 message=message+"Spoke rate has improved by "+spokePercentage+"% today. ";
