@@ -362,7 +362,8 @@ public class DataAnalyticsService {
                                                                                lead.getLeadStatus().contains("Customer complained")||
                                                                                lead.getLeadStatus().contains("Disapproved")||
                                                                                lead.getLeadStatus().contains("Lead sent to Thyrocare")||
-                                                                               lead.getLeadStatus().contains("Spoke but not updated")
+                                                                               lead.getLeadStatus().contains("Spoke but not updated")||
+                                                                               lead.getLeadStatus().contains("Rescheduled")
                                                                                )){
                                                                         setConverstionCount(counts, lead);
                                                                         setSpokeToCount(counts, lead, call, i);

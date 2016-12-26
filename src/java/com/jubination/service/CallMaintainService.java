@@ -1008,10 +1008,12 @@ public class CallMaintainService {
                                                                                                                         lead.getLeadStatus().contains("Language not recognizable")||
                                                                                                                         lead.getLeadStatus().contains("No Service")||
                                                                                                                         lead.getLeadStatus().contains("Customer complained")||
-                                                                                                                        lead.getLeadStatus().contains("Disapproved")
+                                                                                                                        lead.getLeadStatus().contains("Disapproved")||
+                                                                                                                        lead.getLeadStatus().contains("Rescheduled")
                                                                                                                         )){
                                                                                                                                              leadDetailsArray[count]=lead.getLeadStatus();
-                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                                                                                                     lead.getLeadStatus().contains("Rescheduled")){
                                                                                                                                                      affiliateDetails="Interested";
                                                                                                                                              }
                                                                                                                                              else{
@@ -1051,7 +1053,8 @@ public class CallMaintainService {
                                                                                                                                         affiliateDetails=lead.getLeadStatus();
 
                                                                                                                                 }
-                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                                                                    lead.getLeadStatus().contains("Rescheduled")){
 
                                                                                                                                   affiliateDetails="Interested";
                                                                                                                                 }
@@ -1095,7 +1098,8 @@ public class CallMaintainService {
                                                                                                                                             
                                                                                                                                             
                                                                                                         }
-                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                            lead.getLeadStatus().contains("Rescheduled")){
                                                                                                                                         affiliateDetails="Interested";
                                                                                                                                 }
                                                                                                  if(lead.getFollowUpDate()!=null&&!affiliateDetails.contains("")&&!lead.getLeadStatus().contains("Follow up/Call back")&&
@@ -1226,10 +1230,12 @@ public class CallMaintainService {
                                                                                                                         lead.getLeadStatus().contains("Language not recognizable")||
                                                                                                                         lead.getLeadStatus().contains("No Service")||
                                                                                                                         lead.getLeadStatus().contains("Customer complained")||
-                                                                                                                        lead.getLeadStatus().contains("Disapproved")
+                                                                                                                        lead.getLeadStatus().contains("Disapproved")||
+                                                                                                                        lead.getLeadStatus().contains("Rescheduled")
                                                                                                                         )){
                                                                                                                                              leadDetailsArray[count]=lead.getLeadStatus();
-                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                             if(lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                                                                                lead.getLeadStatus().contains("Rescheduled")){
                                                                                                                                                  affiliateDetails="Interested";
                                                                                                                                                 
                                                                                                                                              }
@@ -1270,7 +1276,8 @@ public class CallMaintainService {
                                                                                                                                         affiliateDetails=lead.getLeadStatus();
 
                                                                                                                                 }
-                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                                                else if( lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                                                             lead.getLeadStatus().contains("Rescheduled")){
 
                                                                                                                                   affiliateDetails="Interested";
                                                                                                                                 }
@@ -1314,7 +1321,8 @@ public class CallMaintainService {
                                                                                                                                             
                                                                                                                                             
                                                                                                         }
-                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")){
+                                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                    lead.getLeadStatus().contains("Rescheduled")){
                                                                                                                                         affiliateDetails="Interested";
                                                                                                                                 }
                                                                                

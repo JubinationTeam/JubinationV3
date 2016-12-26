@@ -127,6 +127,7 @@
                         <c:if test="${
                               (not empty item.recordingUrl &&not empty item.lead.leadId &&  empty item.lead.followUpDate &&
                                       item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
+                                      item.lead.leadStatus ne 'Rescheduled'&&
                                       item.lead.leadStatus ne 'Follow up/Call back'&&
                                       item.lead.leadStatus ne 'Not interested'&&
                                       item.lead.leadStatus ne 'Not registered'&&
@@ -137,6 +138,7 @@
                                       
                                       (not empty item.recordingUrl && not empty item.lead.leadId&& not empty item.lead.followUpDate && 
                                       item.lead.leadStatus ne 'Lead sent to Thyrocare'&&
+                                      item.lead.leadStatus ne 'Rescheduled'&&
                                       item.lead.leadStatus ne 'Busy'&&
                                       item.lead.leadStatus ne 'No Answer'&&
                                       item.lead.leadStatus ne 'Failed'&&
