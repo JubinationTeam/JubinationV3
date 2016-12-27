@@ -46,7 +46,9 @@ public class PDFParserBox {
        }
        finally{
            try{
-            pdDoc.close();
+               if(pdDoc!=null){
+                    pdDoc.close();
+               }
            }
            catch(Exception e){
                e.printStackTrace();
