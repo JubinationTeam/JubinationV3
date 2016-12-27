@@ -77,7 +77,28 @@ private Session session=null;
         return (T) report;
     }
 
-    
+        @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public List<Report> fetchAllEntity() {
+            session = getSessionFactory().getCurrentSession();
+           List<Report> list=session.createCriteria(Report.class).list();
+           for(Report report:list){
+            if(report!=null){
+                if(report.getBarcodes()!=null){
+                    report.getBarcodes().size();
+                }
+                if(report.getProfileData()!=null){
+                    report.getProfileData().size();
+                }
+                for(Profile profile:report.getProfileData()){
+                    profile.getTestData().size();
+                    for(Test test:profile.getTestData()){
+                        test.getRangeValues().size();
+                    }
+                }
+            }
+           }
+        return list;
+    }
      
     public SessionFactory getSessionFactory() {
         return sessionFactory;

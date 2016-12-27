@@ -7,7 +7,9 @@ package com.jubination.service;
 
 
 import com.jubination.model.dao.ReportDAOImpl;
+import com.jubination.model.pojo.report.Profile;
 import com.jubination.model.pojo.report.Report;
+import com.jubination.model.pojo.report.Test;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +48,39 @@ public class ReportService {
                           ////////////////
  
     
-    
+     public  void test(){
+                                           
+                                            List<Report> list=reportDAO.fetchAllEntity();
+                                           
+                                            for(Report report:list){
+                                                int count=0;
+                                                String values=report.getGender()+"-"+report.getAge()+"-";
+                                                String hba="";
+                                                String ldl="";
+                                                String hdl="";
+                                                for(Profile profile:report.getProfileData()){
+                                                    for(Test test:profile.getTestData()){
+                                                        if(test.getName().startsWith("HbA1c")){
+                                                            hba=test.getValue()+"-";
+                                                            count++;
+                                                        }
+                                                         if(test.getName().contains("LDL CHOLESTEROL - DIRECT")){
+                                                            ldl=test.getValue()+"-";
+                                                            count++;
+                                                        }
+                                                          if(test.getName().contains("HDL CHOLESTEROL - DIRECT")){
+                                                            hdl=test.getValue()+"-";
+                                                            count++;
+                                                        }
+                                                    }
+                                                }
+                                                if(count==3){
+                                                        System.out.println(values+hba+ldl+hdl);
+                                                }
+                                            }
+                                            
+                                            
+                           }
  
    
  //Save Pdf////////////////////////////

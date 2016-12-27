@@ -17,7 +17,7 @@ import com.jubination.model.pojo.admin.Admin;
  *
  * @author Welcome
  */
-public class AdvancedTest {
+public class Init {
    
     public static void main(String[] args) {
        

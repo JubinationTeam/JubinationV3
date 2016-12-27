@@ -96,6 +96,13 @@ public class ReportAPIController {
             return report;
     }
     
+    
+    @RequestMapping(value="/rep",method=RequestMethod.POST,  headers="Accept=*/*")
+    public ResponseEntity  getReportViewPdf(HttpServletRequest request,Principal principal) {
+        service.test();
+                return new ResponseEntity(HttpStatus.OK);
+    }
+    
      @RequestMapping(value="/report/pdf/{reportId}",method=RequestMethod.POST,  headers="Accept=*/*")
     public ResponseEntity  getReportViewPdf(HttpServletRequest request,@PathVariable("reportId") String reportId,Principal principal) {
             if(service.getPdf(reportId)){

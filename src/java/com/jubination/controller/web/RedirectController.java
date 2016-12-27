@@ -2,7 +2,7 @@ package com.jubination.controller.web;
 
 
 
-import com.jubination.init.AdvancedTest;
+import com.jubination.init.Init;
 import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
 
@@ -16,7 +16,7 @@ public class RedirectController {
     
     @PostConstruct
     public void init() {
-        AdvancedTest.main(null);
+        Init.main(null);
     }
     
 }

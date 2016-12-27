@@ -286,7 +286,10 @@ public class UpdateAndBookingController {
                                                     }
                                          }
                                           else{
-                                              callMaintain.updateLeadOnly(lead);
+                                              lead.setNotification(false);
+                                                lead.setPending(false);
+                                                lead.setCount(0);
+                                                callMaintain.updateLeadOnly(lead);
                                           }
                                           
                                                 String bookingResponse=updater.sendAutomatedUpdate(id);
