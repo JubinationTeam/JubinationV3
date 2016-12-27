@@ -601,7 +601,7 @@ public class DataAnalyticsService {
                 
                 String message="";
                   message=message+"Total number of unique leads today till now is "+total+". <br/>";
-                  message=message+"Spoke today : "+spoke+"  (" +spokePercentage+"%)<br/>";
+                  message=message+"Fresh Spoke today : "+spoke+"  (" +spokePercentage+"%)<br/>";
                   message=message+"Booked today : "+book+"  (" +bookPercentage+"%)<br/>";
                   
                 if(spokePercentage>0){
