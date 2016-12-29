@@ -217,8 +217,9 @@ public class CallWorkerSlave1 {
                                                              }
                                                         }
                                                         catch(Exception e){
-                                                            
-                                                            System.out.println("Tried saving client to database "+count+"th time ::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                                                            if(lead!=null){
+                                                                System.out.println("Tried saving client to database "+count+"th time "+lead.getLeadId()+"::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                                                            }
                                                             e.printStackTrace();
                                                             
                                                             Thread.sleep(300);
