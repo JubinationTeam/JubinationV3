@@ -13,6 +13,7 @@ import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.model.pojo.products.Products;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -83,5 +84,21 @@ public class ProductService {
     
     public Boolean updateCampaign(Campaigns camp){
         return pdao.updateCampaignEntity(camp);
+    }
+
+    public List<String> autoCompleteProducts(String productsTag) {
+       List<String> listP= pdao.fetchProductNames(productsTag);
+       List<String> listC= pdao.fetchCampaignNames(productsTag);
+       List<String> list=new ArrayList<>();
+       if(listC!=null){
+            list.addAll(listC);
+       }
+       if(listP!=null){
+                list.addAll(listP);
+       }
+     
+       
+       return list;
+       
     }
 }

@@ -11,6 +11,10 @@ import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -88,8 +92,21 @@ public class ProductsDAOImpl<T> implements Serializable {
         return (T) camp;
            
     }
- 
-    
+   @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<String> fetchProductNames(String name) {
+            session = getSessionFactory().getCurrentSession();
+            return session.createCriteria(Products.class)
+                    .setProjection(Projections.projectionList().add(Projections.property("name"))).add(Restrictions.ilike("name", name, MatchMode.START))
+                    .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+            
+    }
+     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<String> fetchCampaignNames(String name) {
+            session = getSessionFactory().getCurrentSession();
+            return session.createCriteria(Campaigns.class)
+                    .setProjection(Projections.projectionList().add(Projections.property("name"))).add(Restrictions.ilike("name", name, MatchMode.START))
+                    .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+    }
   
      public SessionFactory getSessionFactory() {
         return sessionFactory;

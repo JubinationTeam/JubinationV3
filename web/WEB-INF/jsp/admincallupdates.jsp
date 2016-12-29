@@ -22,41 +22,40 @@
             <meta name="description" content="">
             <meta name="author" content="Souvik Das">
             <title>Call Updates</title>
-             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-            
+             
                <link type="text/css" href="<c:url value="/resources/css/jquery-ui-1.10.4.css" />" rel="stylesheet">
             
              <link type="text/css" href="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />" rel="stylesheet">
-          <script async type="text/javascript" src="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" />"></script>
+         
             
             <link type="text/css" href="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" />" rel="stylesheet">            
             
          
              <script  type="text/javascript" src="<c:url value="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"/>"></script>
-          
             <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-            
+             <script async type="text/javascript" src="<c:url value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" />"></script>
               <script async type="text/javascript" src="<c:url value="/resources/js/adminmail.js" />"></script>
           
             <script async type="text/javascript" src="<c:url value="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js" />"></script>
-           
-            <%--
-           
-           <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-           <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
-           <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
-            --%>
-            
-           
-           
-           <%--
-            <script type="text/javascript" src="<c:url value="/resources/js/doc.js" />"></script> 
-            <script type="text/javascript" src="<c:url value="/resources/js/respond.js" />"></script>
-                 --%>
-            
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+                    
            <link type="text/css" href="<c:url value="/resources/css/dashboard.css" />" rel="stylesheet">
                                     <script src="<c:url value="/resources/js/dashboard.js" />" type="text/javascript"></script>
             
+              <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    
+    $( "#product-field" ).autocomplete({
+      source: "${pageContext.request.contextPath}/getProducts"
+    });
+  } );
+  </script>
+          
+    
     </head>
     <body>
        <tiles:insertAttribute name="navigation"/>
@@ -70,6 +69,10 @@
                                     <h2 >Get Lead Details</h2>
                                     <br/>
                                     <p>${message}, ${response}</p>
+                                    <div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>
                           <form action="${pageContext.request.contextPath}/admin/callupdates/values" method="GET" class="form-signin-heading" >
                                     <input type="text" class="form-control" placeholder="Lead Id" name="leadId"/><br/>
                                <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff" >Submit</button>
@@ -163,7 +166,7 @@
                                             <input type="text" class="form-control" placeholder="Follow up date (yyyy-mm-dd)" name="date" value="${lead.followUpDate}"/>
                                           <br/>
                                             <label>Product</label>
-                                            <input type="text" class="form-control" placeholder="Product" name="product" value="${lead.client.campaignName}"/>
+                                            <input type="text" class="form-control"  id="product-field"  placeholder="Product" name="product" value="${lead.client.campaignName}"/>
                                             <br/>
                                             <label>Hardcopy</label>
                                             <input type="text" class="form-control" placeholder="Hardcopy" name="hardcopy" value="${lead.hardcopy}"/>

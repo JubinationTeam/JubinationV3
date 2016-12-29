@@ -598,11 +598,12 @@ public class DataAnalyticsService {
                 if(bookPercentage!=0&&total!=0){
                     bookPercentage=(((book*100)/total)*100)/bookPercentage-100;
                 }
-                
+                float spokeToday=((spoke*100)/total);
+                float bookToday=((book*100)/total);
                 String message="";
                   message=message+"Total number of unique leads today till now is "+total+". <br/>";
-                  message=message+"Fresh Spoke today : "+spoke+"  (" +spokePercentage+"%)<br/>";
-                  message=message+"Booked today : "+book+"  (" +bookPercentage+"%)<br/>";
+                  message=message+"Fresh Spoke today : "+spoke+"  (" +spokeToday+"%)<br/>";
+                  message=message+"Total Booked today : "+book+"  (" +bookToday+"%)<br/>";
                   
                 if(spokePercentage>0){
                     
