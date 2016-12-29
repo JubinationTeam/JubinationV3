@@ -412,7 +412,10 @@ public class ClientDAOImpl<T> implements Serializable{
                                                                 ),
                                                                 Restrictions.isNull("l.missedAppointment")
                                                         ),
-                                                        Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                         Restrictions.and(
+                                                            Restrictions.eq("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())),
+                                                            Restrictions.eq("l.leadStatus", "Follow up/Call back")
+                                                        )
                                                     )
                                             );
                                             criteria.addOrder(Order.asc("l.followUpDate"));
