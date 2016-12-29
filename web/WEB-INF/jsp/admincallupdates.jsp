@@ -69,10 +69,7 @@
                                     <h2 >Get Lead Details</h2>
                                     <br/>
                                     <p>${message}, ${response}</p>
-                                    <div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
+                  
                           <form action="${pageContext.request.contextPath}/admin/callupdates/values" method="GET" class="form-signin-heading" >
                                     <input type="text" class="form-control" placeholder="Lead Id" name="leadId"/><br/>
                                <button type="submit" class="btn btn-sm" style="background-color:#515151;color:#ffffff" >Submit</button>
