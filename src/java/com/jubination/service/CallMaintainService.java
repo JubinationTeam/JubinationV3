@@ -611,6 +611,7 @@ public class CallMaintainService {
                 if(lead!=null&&lead.getLeadId().compareTo("46841")>=0&&rStatus.getStatus()!=null&&(rStatus.getStatus().contains("DEFERRED")||rStatus.getStatus().contains("CANCELLED"))){
                         if(lead.getCount()<1){
                                 lead.setCount(operator.getCount()-4);
+                                lead.setLeadStatus("Lead sent to Thyrocare");
                         }
                         lead.setMissedAppointment(true);
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
@@ -619,6 +620,7 @@ public class CallMaintainService {
                 else if(lead!=null&&rStatus.getStatus()!=null&&rStatus.getStatus()!=null&&(rStatus.getStatus().contains("DONE")||rStatus.getStatus().contains("SERVICED")||rStatus.getStatus().contains("APPOINTMENT")||rStatus.getStatus().contains("REVISED")||rStatus.getStatus().contains("YET TO ASSIGN"))){
                         lead.setMissedAppointment(false);
                         lead.setCount(0);
+                        lead.setLeadStatus("Lead sent to Thyrocare");
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
                         updateLeadOnly(lead);
                 }
