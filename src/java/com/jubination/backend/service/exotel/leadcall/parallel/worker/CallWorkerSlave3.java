@@ -132,7 +132,7 @@ public class CallWorkerSlave3 {
                             if(clientList==null||clientList.isEmpty()){
                                 System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
                                     service.buildCallAPIMessage(callUpdatedFromList);
-                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")){
+                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
                                         System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
                                                     callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
                                                     callBox.setFlag(true);
@@ -159,7 +159,7 @@ public class CallWorkerSlave3 {
                                                         service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdatedFromList);
                                                         callUpdatedFromList.setLead(client.getLead().get(client.getLead().size()-1));
                                                                  service.updateCallAPIMessage(callUpdatedFromList);
-                                                     if(callUpdatedFromList.getTrackStatus().contains("requested for callback")){
+                                                     if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
                                                          System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
                                                                         manager.getClientStage1().push(clientList.get(0));
                                                      }

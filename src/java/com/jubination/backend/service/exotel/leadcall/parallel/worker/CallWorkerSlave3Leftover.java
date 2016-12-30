@@ -193,7 +193,7 @@ public class CallWorkerSlave3Leftover {
                                                                                             if(clientList==null||clientList.isEmpty()){
                                                                                                 System.out.println("Stage 3 : Client not present");
                                                                                                     service.buildCallAPIMessage(callUpdated);
-                                                                                                    if(callUpdated.getTrackStatus().contains("requested for callback")){
+                                                                                                    if(callUpdated.getTrackStatus().contains("requested for callback")||callUpdated.getTrackStatus().contains("Customer did not speak to us")){
                                                                                                         System.out.println("Request Callback");
                                                                                                                     callBox.getNumbers().push(callUpdated.getCallFrom());
                                                                                                                     callBox.setFlag(true);
@@ -220,7 +220,7 @@ public class CallWorkerSlave3Leftover {
                                                                                                     callUpdated.setLead(client.getLead().get(client.getLead().size()-1));
                                                                                                              service.updateCallAPIMessage(callUpdated);
                                                                                                 }
-                                                                                                 if(callUpdated.getTrackStatus().contains("requested for callback")){
+                                                                                                 if(callUpdated.getTrackStatus().contains("requested for callback")||callUpdated.getTrackStatus().contains("Customer did not speak to us")){
                                                                                                      System.out.println("Request Callback");
                                                                                                                     manager.getClientStage1().push(clientList.get(0));
                                                                                                  }
