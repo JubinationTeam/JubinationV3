@@ -32,10 +32,10 @@ $(function(){
                      
                  ];
                  
-                 var templateQuestionDiv="<div class='bxuser_question'></div>";
-                 var templateInnerQuestionDiv="<h1 class='wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1s'></h1>";
+                 var templateQuestionDiv="<div class='bxuser_question bxLeftchat'></div>";
+                 var templateInnerQuestionDiv="<div class='leftInput wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1s'></div>";
                  var templateAnswerDiv="<div class='bxuser_output'></div>";
-                 var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0.1s'><span class='label label-default' ></h1>";
+                 var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0.1s'><span  ></h1>";
                  var templateThinkingDiv="<div class='bxuser_question bxloadgif'></div>";
                  var templateInnerThinkingDiv="<img src='resources/images/dots.GIF'  data-wow-delay='0s'>";
 
@@ -75,7 +75,7 @@ $(function(){
 
                                 var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -121,7 +121,7 @@ $(function(){
                                          
                               var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+textInput.val()+"</span>");
+                                var answer= $("<span  >"+textInput.val()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);
@@ -166,7 +166,7 @@ $(function(){
                                                      if(presentAnswerType==="text"){textInput.val("");
                                                         var questionDiv=$(templateQuestionDiv);
                                                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                                                 savedInput.before(questionDiv);
                                                                  questionInnerDiv.appendTo(questionDiv);
                                                                  question.appendTo(questionInnerDiv);
@@ -180,7 +180,7 @@ $(function(){
                                                          else if(presentAnswerType==="options"){
                                                           var questionDiv=$(templateQuestionDiv);
                                                             var questionInnerDiv=$(templateInnerQuestionDiv);
-                                                            var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                                            var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                                             savedInput.before(questionDiv);
                                                              questionInnerDiv.appendTo(questionDiv);
                                                              question.appendTo(questionInnerDiv);
@@ -231,7 +231,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[0]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[0]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -271,7 +271,7 @@ $(function(){
                                                    //create html for present question and answer with an presentid
                                  var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -329,7 +329,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[1]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[1]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -370,7 +370,7 @@ $(function(){
 
                                                    var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -423,7 +423,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[2]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[2]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -464,7 +464,7 @@ $(function(){
 
                                                     var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -517,7 +517,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[3]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[3]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -558,7 +558,7 @@ $(function(){
 
                                                    var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -611,7 +611,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[4]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[4]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -652,7 +652,7 @@ $(function(){
 
                                                   var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -706,7 +706,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[5]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[5]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -747,7 +747,7 @@ $(function(){
 
                                                     var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -800,7 +800,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[6]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[6]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -841,7 +841,7 @@ $(function(){
 
                                                    var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -894,7 +894,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[7]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[7]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -935,7 +935,7 @@ $(function(){
 
                                                     var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -989,7 +989,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[8]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[8]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -1030,7 +1030,7 @@ $(function(){
 
                                                     var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
@@ -1083,7 +1083,7 @@ $(function(){
                                      
                                 var answerDiv=$(templateAnswerDiv);
                                 var answerInnerDiv=$(templateInnerAnswerDiv);
-                                var answer= $("<span class='label label-default' >"+$(options[9]).text()+"</span>");
+                                var answer= $("<span  >"+$(options[9]).text()+"</span>");
                                 savedInput.before(answerDiv);
                                  answerInnerDiv.appendTo(answerDiv);
                                  answer.appendTo(answerInnerDiv);         
@@ -1124,7 +1124,7 @@ $(function(){
 
                                                   var questionDiv=$(templateQuestionDiv);
                                 var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                 savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);

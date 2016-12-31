@@ -39,16 +39,16 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
     
     public List<ChatBotResponse> generateFlow(){
         List<ChatBotResponse> responses =new ArrayList<>();
-        responses.add(new ChatBotResponse(1, "Hi, I am Ruhi and today I want to help you get in the habit of clean eating. Lets generate a diet chart for you. Would you help me with your name?", "text", null));
+        responses.add(new ChatBotResponse(1, "Hi, I am Ruhi and today I want to help you get in the habit of clean eating. Lets generate a diet chart for you. Can I get your name?", "text", null));
         
         List<String> optionsGender = new ArrayList<>();
         optionsGender.add("Male");
         optionsGender.add("Female");
         responses.add(new ChatBotResponse(2, ", wish you avery healthy and happy new year. Your gender? ", "options", optionsGender));
         
-        responses.add(new ChatBotResponse(3, "What's your weight? (in kg)", "text", null));
+        responses.add(new ChatBotResponse(3, "How much do you weigh? (in kgs)", "text", null));
         
-        responses.add(new ChatBotResponse(4, "What's your height? (ft.inches)", "text", null));
+        responses.add(new ChatBotResponse(4, ", what's your height? (ft.inches)", "text", null));
         
         responses.add(new ChatBotResponse(5, "How old are you? (in years)", "text", null));
         
@@ -96,31 +96,7 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
             answerMap.get(sessionId).add(request.getLastAnswer());
             
             
-           switch (countId-1) {
-               case 0:
-                   break;
-               case 1: map.get(sessionId).get(countId-1).setQuestion("Hi "+map.get(sessionId).get(0)+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-               case 2:
-                   break;
-                   case 3:
-                   break;
-               case 4:
-                   break;
-               case 5:
-                   break;
-                   case 6:
-                   break;
-               case 7: map.get(sessionId).get(countId-1).setQuestion("Oooh, I love "+map.get(sessionId).get(6)+" too, "+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-               case 8:map.get(sessionId).get(countId-1).setQuestion(map.get(sessionId).get(0)+","+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-                   case 9:
-                   break;
-               default:
-                   break;
-           }
-            
+          
             
             
             if(answerMap.get(sessionId).size()==10){
@@ -134,6 +110,34 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                     map.get(sessionId).get(countId-1).setQuestion("Oops! Seems like you have not registered. Click me to register.");
                 }
             }
+           
+            
+             switch (countId-1) {
+               case 0:
+                   break;
+               case 1: map.get(sessionId).get(countId-1).setQuestion("Hi "+answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+               case 2:
+                   break;
+                   case 3:map.get(sessionId).get(countId-1).setQuestion(answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+               case 4:
+                   break;
+               case 5:
+                   break;
+                   case 6:map.get(sessionId).get(countId-1).setQuestion("Oooh, I love "+answerMap.get(sessionId).get(6)+" too"+map.get(sessionId).get(countId-1).getQuestion());
+                   
+                   break;
+               case 7: map.get(sessionId).get(countId-1).setQuestion(answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+               case 8:
+                   break;
+                   case 9:
+                   break;
+               default:
+                   break;
+           }
+            
             
             System.out.println(answerMap.toString());
             return map.get(sessionId).get(countId-1);
