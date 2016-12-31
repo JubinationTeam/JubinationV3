@@ -93,13 +93,18 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 map.put(sessionId, generateFlow());
                 answerMap.put(sessionId, new ArrayList<String>());
             }
+            else if( answerMap.get(sessionId)==null){
+                map.put(sessionId, generateFlow());
+                answerMap.put(sessionId, new ArrayList<String>());
+                
+            }
             answerMap.get(sessionId).add(request.getLastAnswer());
             
             
           
             
             
-            if(answerMap.get(sessionId).size()==10){
+            if(answerMap.get(sessionId).size()==11){
               //send to lms
                 System.out.println("send to lms");
                 DietChart diet = new DietChart();
