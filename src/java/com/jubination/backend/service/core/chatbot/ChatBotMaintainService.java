@@ -7,6 +7,7 @@ package com.jubination.backend.service.core.chatbot;
 
 import com.jubination.backend.pojo.core.chatbot.ChatBotRequest;
 import com.jubination.backend.pojo.core.chatbot.ChatBotResponse;
+import com.jubination.backend.pojo.core.chatbot.DietChart;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.service.AdminMaintainService;
@@ -26,6 +27,9 @@ public class ChatBotMaintainService {
     
        @Autowired
      private  AdminMaintainService adminService;
+        @Autowired
+     private  DietChartUpdater updater;
+       
        
        private String settings="settings";
     private HashMap<String,List<ChatBotResponse>> map = new HashMap<>();
@@ -35,30 +39,30 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
     
     public List<ChatBotResponse> generateFlow(){
         List<ChatBotResponse> responses =new ArrayList<>();
-        responses.add(new ChatBotResponse(1, "What is your name?", "text", null));
+        responses.add(new ChatBotResponse(1, "Hi, I am Ruhi and today I want to help you get in the habit of clean eating. Lets generate a diet chart for you. Would you help me with your name?", "text", null));
         
         List<String> optionsGender = new ArrayList<>();
         optionsGender.add("Male");
         optionsGender.add("Female");
-        responses.add(new ChatBotResponse(2, "Your gender?", "options", optionsGender));
+        responses.add(new ChatBotResponse(2, ", wish you avery healthy and happy new year. Your gender? ", "options", optionsGender));
         
-        responses.add(new ChatBotResponse(3, "What's your weight?", "text", null));
+        responses.add(new ChatBotResponse(3, "What's your weight? (in kg)", "text", null));
         
         responses.add(new ChatBotResponse(4, "What's your height? (ft.inches)", "text", null));
         
-        responses.add(new ChatBotResponse(5, "What is your age?", "text", null));
+        responses.add(new ChatBotResponse(5, "How old are you? (in years)", "text", null));
         
          List<String> optionsFood = new ArrayList<>();
         optionsFood.add("Veg");
         optionsFood.add("Non veg");
-        responses.add(new ChatBotResponse(6, "What is your food habit?", "options", optionsFood));
+        responses.add(new ChatBotResponse(6, "What is your meal preference?", "options", optionsFood));
         
         
         List<String> optionsLifestyle = new ArrayList<>();
         optionsLifestyle.add("Sedentary");
         optionsLifestyle.add("Moderately Active");
         optionsLifestyle.add("Active");
-        responses.add(new ChatBotResponse(7, "Lifestyle?", "options", optionsLifestyle));
+        responses.add(new ChatBotResponse(7, ", how active are you?", "options", optionsLifestyle));
 
         List<String> optionsDiseases = new ArrayList<>();
         optionsDiseases.add("Diabetes");
@@ -68,9 +72,9 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
         optionsDiseases.add("PCOS / PCOD");
         optionsDiseases.add("Hyperthyroidism (Low TSH levels)");
         optionsDiseases.add("None");
-        responses.add(new ChatBotResponse(8, "Existing diseases?", "options", optionsDiseases));
+        responses.add(new ChatBotResponse(8, ", do you have any existing diseases?", "options", optionsDiseases));
         
-        responses.add(new ChatBotResponse(9, "Your email id?", "text", null));
+        responses.add(new ChatBotResponse(9, "Can I get your email id?", "text", null));
         responses.add(new ChatBotResponse(10, "Your phone number?", "text", null));
         
         responses.add(new ChatBotResponse(11, "Click me to get your diet chart", "link", null));
@@ -91,25 +95,50 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
             }
             answerMap.get(sessionId).add(request.getLastAnswer());
             
-            if(answerMap.get(sessionId).size()==11){
+            
+           switch (countId-1) {
+               case 0:
+                   break;
+               case 1: map.get(sessionId).get(countId-1).setQuestion("Hi "+map.get(sessionId).get(0)+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+               case 2:
+                   break;
+                   case 3:
+                   break;
+               case 4:
+                   break;
+               case 5:
+                   break;
+                   case 6:
+                   break;
+               case 7: map.get(sessionId).get(countId-1).setQuestion("Oooh, I love "+map.get(sessionId).get(6)+" too, "+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+               case 8:map.get(sessionId).get(countId-1).setQuestion(map.get(sessionId).get(0)+","+map.get(sessionId).get(countId-1).getQuestion());
+                   break;
+                   case 9:
+                   break;
+               default:
+                   break;
+           }
+            
+            
+            
+            if(answerMap.get(sessionId).size()==10){
               //send to lms
                 System.out.println("send to lms");
+                DietChart diet = new DietChart();
+                diet.setDietChart(answerMap.get(sessionId));
+                String response=updater.sendAutomatedUpdate(diet);
+                System.out.println(response+":::::::::::::::::::::::::::");
+                if(response.equalsIgnoreCase("Failed")){
+                    map.get(sessionId).get(countId-1).setQuestion("Oops! Seems like you have not registered. Click me to register.");
+                }
             }
             
             System.out.println(answerMap.toString());
             return map.get(sessionId).get(countId-1);
 
     }
-    private void sendEmail(String email, String content){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Your pending health checkup",
-                                          "Hi,<br/>" +
-                                                "<br/>" +
-                                                "Greetings from Jubination!<br/>" +
-                                                "<br/>" +
-                                                  content+"<br/><b/>"+
-                                                "Trupti<br/>" +
-                                                "Diet Chat Bot" ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
+   
     
 }

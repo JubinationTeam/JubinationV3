@@ -1,30 +1,43 @@
+
+ 
+
+
 $(function(){
 
-                var presentId=0;
+               var presentId=0;
                 var presentQuestion;
                 var presentAnswerType;
                 var presentOptions;
                 
                 
                 var container= $("#block");
-
-                var questionDiv=$("<div class='bxuser_question'></div>");
-                var questionInnerDiv=$("<h1 class='wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='0.5s'></h1>");
-                var question;
-
-                 var inputDiv=$("<div class='bxuser_output'> </div>");
-                 var inputInnerDiv=$("<div class='form-group wow fadeInDown'  style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1s'> </div>");
-                 var input;
-
-
-                 var thinkingDiv=$("<div class='bxuser_question bxloadgif'></div>");
-                 var thinkingImage=$("<img src='resources/images/dots.GIF'  data-wow-delay='1s'>");   
-
-                 var optionDiv=$(" <div class='bxCheckOPtion' style='visibility: visible; animation-name: fadeInUp;' data-wow-delay='1s'></div>");
-                 var optionInnerDiv=$("<ul></ul>");
-                 var option1;
-                 var option2;
-
+                 
+                 var savedInput=$("#answer-div");
+                 var savedOptions=$("#options");
+                 
+                 var savedLink=$("#linkit-div");
+                 var savedLinkText=$("#linkit");
+                 
+                 var options=[
+                     "#option-0",
+                     "#option-1",
+                     "#option-2",
+                     "#option-3",
+                     "#option-4",
+                     "#option-5",
+                     "#option-6",
+                     "#option-7",
+                     "#option-8",
+                     "#option-9"
+                     
+                 ];
+                 
+                 var templateQuestionDiv="<div class='bxuser_question'></div>";
+                 var templateInnerQuestionDiv="<h1 class='wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1s'></h1>";
+                 var templateAnswerDiv="<div class='bxuser_output'></div>";
+                 var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0.1s'><span class='label label-default' ></h1>";
+                 var templateThinkingDiv="<div class='bxuser_question bxloadgif'></div>";
+                 var templateInnerThinkingDiv="<img src='resources/images/dots.GIF'  data-wow-delay='0s'>";
 
                 //init
                  var request={
@@ -43,41 +56,54 @@ $(function(){
                                                        xhr.setRequestHeader("Content-Type", "application/json");
                                                        //create html for typing
 
-
-                                                      thinkingDiv.appendTo(container);
+                                                       var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
 
 
                               },
                               success:function(response){
-                                  alert(response.id);
                                 presentId=response.id;
                                 presentQuestion=response.question;
                                 presentAnswerType=response.answerType;
                                 presentOptions=response.options;
                                 console.log(presentId+presentQuestion);
-                                $(".bxloadgif").fadeOut(500);
+                                $(".bxloadgif").fadeOut(800);
                                 //destroy html for typing
                                 //create html for present question and answer with an presentid
 
-                                question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span></h1></div>");
-                                questionDiv.appendTo(container);
+                                var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
                                  questionInnerDiv.appendTo(questionDiv);
                                  question.appendTo(questionInnerDiv);
 
 
-                                  if(presentAnswerType==="text"){
+                                  if(presentAnswerType==="text"){textInput.val("");
 
                                          $("#question-"+presentId).ready(function(){
 
-                                                  input=$("<input class='form-control input-lg' id='answer-"+presentId+"' type='text' placeholder='Type your first name and hit enter'>");
-                                                  inputDiv.appendTo(container);
-                                                  inputInnerDiv.appendTo(inputDiv);
-                                                  input.appendTo(inputInnerDiv);
+                                                 $("#init-answer").fadeIn(2500);
 
 
                                          });
                                   } 
+                                  else if(presentAnswerType==="options"){
+                                      $("#question-"+presentId).ready(function(){
+
+                                        savedOptions.fadeIn(3500);
+                                                presentOptions.forEach(function (value, i) {
+                                                     $("#option-"+i).text(value);
+                                                    $("#option-"+i).fadeIn(3500);
+                                                    
+                                                   
+                                                });
+
+
+                                         });
+                                  }
 
                      },
                      error: function(xhr, status, error) {
@@ -87,14 +113,1059 @@ $(function(){
 
                 });
 
-                
-                    $(document).on("click","#answer-"+presentId,function(){
-                        alert("#answer-"+presentId);
-                        alert("sf");
-                    }) ;                    
-                                                                            
+//text entered
+                var textInput=$("#init-answer");
+                    textInput.on("keydown",function(e){
+                                if(e.which==13){
+                                         $(textInput).hide(100);
+                                         
+                              var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+textInput.val()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);
+                                         
+                                        
+                                                                                                        
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:textInput.val(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                    
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+                                                        var questionDiv=$(templateQuestionDiv);
+                                                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                                                savedInput.before(questionDiv);
+                                                                 questionInnerDiv.appendTo(questionDiv);
+                                                                 question.appendTo(questionInnerDiv);
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                          var questionDiv=$(templateQuestionDiv);
+                                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                                            var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                                            savedInput.before(questionDiv);
+                                                             questionInnerDiv.appendTo(questionDiv);
+                                                             question.appendTo(questionInnerDiv);
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+                                                         else if(presentAnswerType==="link"){
+                                                             
+                                                               savedLink.fadeIn(500);
+                                                               savedLinkText.text(presentQuestion);
+                                                               
+
+                                                              
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            }
+                    }) ;              
+                  
+    
+
                                      
+       //option clicked
+                 
+                 $(options[0]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[0]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[0]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                         var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+                                 var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+                                                    
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+                                                     
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                  
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+                                                         
+                                                         
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+             
+       //option clicked
+             
+                 
+                 $(options[1]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[1]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[1]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                         var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                   var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
                           
-                     
-	
+       //option clicked
+             
+                 
+                 $(options[2]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[2]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[2]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                    var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                                 
+          //option clicked
+             
+                 
+                 $(options[3]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[3]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[3]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                   var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                            
+	//option clicked
+             
+                 
+                 $(options[4]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[4]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[4]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                  var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                 
+                 
+                 //option clicked
+             
+                 
+                 $(options[5]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[5]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[5]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                    var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                 
+               //option clicked
+             
+                 
+                 $(options[6]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[6]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[6]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                   var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                   
+               //option clicked
+             
+                 
+                 $(options[7]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[7]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[7]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                        var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                    var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                   
+                   
+                   //option clicked
+             
+                 
+                 $(options[8]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[8]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[8]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                    var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                 
+                 //option clicked
+             
+                 
+                 $(options[9]).on("click",function(e){
+                                
+                                    savedOptions.fadeOut(100);
+                                    for(var option in options){
+                                         $(option).fadeOut(100);
+                                     }
+                                     
+                                var answerDiv=$(templateAnswerDiv);
+                                var answerInnerDiv=$(templateInnerAnswerDiv);
+                                var answer= $("<span class='label label-default' >"+$(options[9]).text()+"</span>");
+                                savedInput.before(answerDiv);
+                                 answerInnerDiv.appendTo(answerDiv);
+                                 answer.appendTo(answerInnerDiv);         
+                                 
+                                 
+                                      var request={
+                                                serialNumber:0,
+                                                lastAnswer:$(options[9]).text(),//change this
+                                                lastId:presentId
+                                        };
+
+
+                                   $.ajax({
+                                           url:"http://localhost:16916/jubination/chatbot",
+                                           data:JSON.stringify(request),
+                                           type:"POST",
+                                           beforeSend: function (xhr) {
+                                                                          xhr.setRequestHeader("Accept", "application/json");
+                                                                          xhr.setRequestHeader("Content-Type", "application/json");
+                                                                          //create html for typing
+
+                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                        var thinkingImage=$(templateInnerThinkingDiv);   
+                                                      savedInput.before(thinkingDiv);
+                                                      thinkingImage.appendTo(thinkingDiv);
+
+
+                                                 },
+                                                 success:function(response){
+                                                   presentId=response.id;
+                                                   presentQuestion=response.question;
+                                                   presentAnswerType=response.answerType;
+                                                   presentOptions=response.options;
+                                                   console.log(presentId+presentQuestion);
+                                                   $(".bxloadgif").fadeOut(800);
+                                                   //destroy html for typing
+                                                   //create html for present question and answer with an presentid
+
+                                                  var questionDiv=$(templateQuestionDiv);
+                                var questionInnerDiv=$(templateInnerQuestionDiv);
+                                var question= $("<span  id='question-"+presentId+"' class='label label-default'>"+presentQuestion+"</span>");
+                                savedInput.before(questionDiv);
+                                 questionInnerDiv.appendTo(questionDiv);
+                                 question.appendTo(questionInnerDiv);
+
+                                                     if(presentAnswerType==="text"){textInput.val("");
+
+                                                                $("#question-"+presentId).ready(function(){
+
+                                                                        $("#init-answer").fadeIn(2500);
+
+
+                                                                });
+                                                         } 
+                                                         else if(presentAnswerType==="options"){
+                                                             
+                                                             $("#question-"+presentId).ready(function(){
+
+                                                               savedOptions.fadeIn(3500);
+                                                                       presentOptions.forEach(function (value, i) {
+                                                                            $("#option-"+i).text(value);
+                                                                           $("#option-"+i).fadeIn(3500);
+
+
+                                                                       });
+
+
+                                                                });
+                                                         }
+
+                                        },
+                                        error: function(xhr, status, error) {
+                                                alert(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                                console.log(xhr.status+" "+xhr.responseText+" "+status.length+" "+error.toString());
+                                        } 
+
+                                   });
+                                    
+                            
+                    }) ;       
+                 
+                 
 });
+
+ 
