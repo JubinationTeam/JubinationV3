@@ -71,8 +71,9 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
         responses.add(new ChatBotResponse(8, "Existing diseases?", "options", optionsDiseases));
         
         responses.add(new ChatBotResponse(9, "Your email id?", "text", null));
+        responses.add(new ChatBotResponse(10, "Your phone number?", "text", null));
         
-        responses.add(new ChatBotResponse(10, "We have mailed you the diet chart. Thank you. See you around later.", "end", null));
+        responses.add(new ChatBotResponse(11, "Click me to get your diet chart", "link", null));
         return responses;
     }
     
@@ -81,16 +82,22 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
     
     public ChatBotResponse getResponse(ChatBotRequest request, String sessionId){
             int countId=request.getLastId();
+            System.out.println("Service"+countId);
             countId++;
+            System.out.println("Service after"+countId);
             if(countId==1){
                 map.put(sessionId, generateFlow());
                 answerMap.put(sessionId, new ArrayList<String>());
             }
             answerMap.get(sessionId).add(request.getLastAnswer());
-            if(answerMap.get(sessionId).size()==10){
-                sendEmail(answerMap.get(sessionId).get(9),answerMap.get(sessionId).toString());
+            
+            if(answerMap.get(sessionId).size()==11){
+              //send to lms
+                System.out.println("send to lms");
             }
-            return map.get(sessionId).get(countId);
+            
+            System.out.println(answerMap.toString());
+            return map.get(sessionId).get(countId-1);
 
     }
     private void sendEmail(String email, String content){
