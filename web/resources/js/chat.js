@@ -136,7 +136,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -245,7 +245,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -343,7 +343,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -437,7 +437,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -531,7 +531,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -625,7 +625,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -720,7 +720,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -814,7 +814,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -908,7 +908,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -1003,7 +1003,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -1097,7 +1097,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://localhost:16916/jubination/chatbot",
+                                           url:"http://162.246.21.98/jubination/chatbot",
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
