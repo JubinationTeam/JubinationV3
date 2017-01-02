@@ -3,7 +3,7 @@
 
 
 $(function(){
-
+                var myUrl="http://localhost:16916/jubination/chatbot";
                var presentId=0;
                 var presentQuestion;
                 var presentAnswerType;
@@ -48,7 +48,7 @@ $(function(){
 
 
                 $.ajax({
-                        url:"http://162.246.21.98/jubination/chatbot",
+                        url:myUrl,
                         data:JSON.stringify(request),
                         type:"POST",
                         beforeSend: function (xhr) {
@@ -64,26 +64,40 @@ $(function(){
 
                               },
                               success:function(response){
+                                  alert(JSON.stringify(response));
                                 presentId=response.id;
                                 presentQuestion=response.question;
                                 presentAnswerType=response.answerType;
                                 presentOptions=response.options;
-                                console.log(presentId+presentQuestion);
-                                $(".bxloadgif").fadeOut(800);
+                                setTimeout(function(){$(".bxloadgif").fadeOut(200);  },1000);
                                 //destroy html for typing
                                 //create html for present question and answer with an presentid
+                                var index=0;
+                                for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
 
-                                var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
 
                                   if(presentAnswerType==="text"){textInput.val("");
 
-                                         $("#question-"+presentId).ready(function(){
+                                         $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                  $("#init-answer").fadeIn(2500);
 
@@ -91,7 +105,7 @@ $(function(){
                                          });
                                   } 
                                   else if(presentAnswerType==="options"){
-                                      $("#question-"+presentId).ready(function(){
+                                      $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                         savedOptions.fadeIn(3500);
                                                 presentOptions.forEach(function (value, i) {
@@ -136,7 +150,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -165,12 +179,31 @@ $(function(){
 
                                                      if(presentAnswerType==="text"){textInput.val("");
                                                         var questionDiv=$(templateQuestionDiv);
-                                                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                                                savedInput.before(questionDiv);
-                                                                 questionInnerDiv.appendTo(questionDiv);
-                                                                 question.appendTo(questionInnerDiv);
-                                                                $("#question-"+presentId).ready(function(){
+                                                                
+                                                                 
+                                                                  var index=0;
+                                                                  for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
+                                                                 
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -178,13 +211,28 @@ $(function(){
                                                                 });
                                                          } 
                                                          else if(presentAnswerType==="options"){
-                                                          var questionDiv=$(templateQuestionDiv);
-                                                            var questionInnerDiv=$(templateInnerQuestionDiv);
-                                                            var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                                            savedInput.before(questionDiv);
-                                                             questionInnerDiv.appendTo(questionDiv);
-                                                             question.appendTo(questionInnerDiv);
-                                                             $("#question-"+presentId).ready(function(){
+                                                          var index=0;
+                               for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -245,7 +293,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -269,18 +317,32 @@ $(function(){
                                                    $(".bxloadgif").fadeOut(800);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
-                                 var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
-                                                    
+                                  var index=0;
+                                for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
                                                      
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -290,7 +352,7 @@ $(function(){
                                                          else if(presentAnswerType==="options"){
                                                   
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -343,7 +405,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -368,16 +430,30 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                   var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                     var index=0;
+                                                            for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
 
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -386,7 +462,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -437,7 +513,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -462,16 +538,30 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                    var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                    var index=0;
+                            for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
 
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -480,7 +570,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -531,7 +621,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -556,16 +646,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                   var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                   var index=0;
+                              for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -574,7 +679,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -625,7 +730,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -650,16 +755,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                  var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                   var index=0;
+                               for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -668,7 +788,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -720,7 +840,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -745,16 +865,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                    var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                    var index=0;
+                                for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -763,7 +898,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -814,7 +949,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -839,16 +974,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                   var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                  var index=0;
+                               for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -857,7 +1007,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -908,7 +1058,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -933,16 +1083,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                    var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                   var index=0;
+                                for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -951,7 +1116,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -1003,7 +1168,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -1028,16 +1193,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                    var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                                    var index=0;
+                              for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -1046,7 +1226,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {
@@ -1097,7 +1277,7 @@ $(function(){
 
 
                                    $.ajax({
-                                           url:"http://162.246.21.98/jubination/chatbot",
+                                           url:myUrl,
                                            data:JSON.stringify(request),
                                            type:"POST",
                                            beforeSend: function (xhr) {
@@ -1122,16 +1302,31 @@ $(function(){
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
-                                                  var questionDiv=$(templateQuestionDiv);
-                                var questionInnerDiv=$(templateInnerQuestionDiv);
-                                var question= $("<p  id='question-"+presentId+"' >"+presentQuestion+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                savedInput.before(questionDiv);
-                                 questionInnerDiv.appendTo(questionDiv);
-                                 question.appendTo(questionInnerDiv);
+                                             var index=0;
+                              for(index=0;index<presentQuestion.length;index++){
+                                    
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                          
+                                            
+                                            
+                                
+                             }
 
                                                      if(presentAnswerType==="text"){textInput.val("");
 
-                                                                $("#question-"+presentId).ready(function(){
+                                                                $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                         $("#init-answer").fadeIn(2500);
 
@@ -1140,7 +1335,7 @@ $(function(){
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                              
-                                                             $("#question-"+presentId).ready(function(){
+                                                             $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
                                                                savedOptions.fadeIn(3500);
                                                                        presentOptions.forEach(function (value, i) {

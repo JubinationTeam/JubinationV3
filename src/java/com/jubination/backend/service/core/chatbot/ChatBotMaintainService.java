@@ -39,30 +39,52 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
     
     public List<ChatBotResponse> generateFlow(){
         List<ChatBotResponse> responses =new ArrayList<>();
-        responses.add(new ChatBotResponse(1, "Hi, I am Ruhi and today I want to help you get in the habit of clean eating. Lets generate a diet chart for you. Can I get your name?", "text", null));
+        List<String> questions = new ArrayList<>();
         
+        questions.add("Hi, I am Ruhi.Today I want to help you get in the habit of clean eating. Lets create a diet-chart for you.");
+        questions.add( "Let's get started");
+        questions.add("Can I get your name?");
+        responses.add(new ChatBotResponse(1, questions, "text", null));
+        
+        
+        questions = new ArrayList<>();
+        questions.add(", wish you a very healthy and happy new year. ");
+        questions.add( "Help me with your gender please ");
         List<String> optionsGender = new ArrayList<>();
         optionsGender.add("Male");
         optionsGender.add("Female");
-        responses.add(new ChatBotResponse(2, ", wish you avery healthy and happy new year. Your gender? ", "options", optionsGender));
+        responses.add(new ChatBotResponse(2,  questions, "options", optionsGender));
         
-        responses.add(new ChatBotResponse(3, "How much do you weigh? (in kgs)", "text", null));
         
-        responses.add(new ChatBotResponse(4, ", what's your height? (ft.inches)", "text", null));
+         questions = new ArrayList<>();
+        questions.add("Knowing your weight is important to me ");
+        questions.add( "How much do you weigh? (please answer in kgs)");
+        responses.add(new ChatBotResponse(3, questions , "text", null));
         
-        responses.add(new ChatBotResponse(5, "How old are you? (in years)", "text", null));
+         questions = new ArrayList<>();
+        questions.add(", what's your height? (please answer in ft.inches)");
+        responses.add(new ChatBotResponse(4, questions , "text", null));
+        
+        questions = new ArrayList<>();
+        questions.add("What's your age? (please answer 'in years')");
+        responses.add(new ChatBotResponse(5, questions, "text", null));
         
          List<String> optionsFood = new ArrayList<>();
         optionsFood.add("Veg");
         optionsFood.add("Non veg");
-        responses.add(new ChatBotResponse(6, "What is your meal preference?", "options", optionsFood));
+         questions = new ArrayList<>();
+        questions.add("What is your diet-preference?");
+        responses.add(new ChatBotResponse(6, questions, "options", optionsFood));
         
         
         List<String> optionsLifestyle = new ArrayList<>();
         optionsLifestyle.add("Sedentary");
         optionsLifestyle.add("Moderately Active");
         optionsLifestyle.add("Active");
-        responses.add(new ChatBotResponse(7, ", how active are you?", "options", optionsLifestyle));
+         questions = new ArrayList<>();
+        questions.add(", wanted to know a little more about your daily lifestyle" );
+        questions.add("how active are you?" );
+        responses.add(new ChatBotResponse(7, questions  , "options", optionsLifestyle));
 
         List<String> optionsDiseases = new ArrayList<>();
         optionsDiseases.add("Diabetes");
@@ -72,12 +94,28 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
         optionsDiseases.add("PCOS / PCOD");
         optionsDiseases.add("Hyperthyroidism (Low TSH levels)");
         optionsDiseases.add("None");
-        responses.add(new ChatBotResponse(8, ", do you have any existing diseases?", "options", optionsDiseases));
+        questions = new ArrayList<>();
+        questions.add(", do you have any existing lifestyle conditions? I shall get the diet-chart prepared accordingly in that case." );
+        responses.add(new ChatBotResponse(8, questions , "options", optionsDiseases));
         
-        responses.add(new ChatBotResponse(9, "Can I get your email id?", "text", null));
-        responses.add(new ChatBotResponse(10, "Your phone number?", "text", null));
         
-        responses.add(new ChatBotResponse(11, "Click me to get your diet chart", "link", null));
+        questions = new ArrayList<>();
+        questions.add(  " Thank you. We are almost there"  );
+         questions.add(  "Help me with  your email id pls. I need to send you your customized clean-eating chart when ready"  );
+        responses.add(new ChatBotResponse(9, questions , "text", null));
+        
+        
+         questions = new ArrayList<>();
+        questions.add(  " And what's your phone number. We shall use this to create your account" );
+        responses.add(new ChatBotResponse(10, questions  , "text", null));
+        
+        
+        questions = new ArrayList<>();
+        questions.add(" Thanks for being so supportive");
+        questions.add( "Here's where you access your diet-chart");
+        questions.add("Please let me know if you have any queries on your chart");
+        questions.add("You can drop me an email to at support@jubination.com. I will get everything sorted");
+        responses.add(new ChatBotResponse(11, questions , "link", null));
         return responses;
     }
     
@@ -98,10 +136,118 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 answerMap.put(sessionId, new ArrayList<String>());
                 
             }
-            answerMap.get(sessionId).add(request.getLastAnswer());
-            
+          
             
           
+            
+            
+            
+           String answer=request.getLastAnswer();
+            
+             switch (countId-1) {
+               case 0:
+                   answerMap.get(sessionId).add(answer);
+                   break;
+                   //name
+               case 1: 
+                   if(answer!=null&&answer.contains(" ")){
+                            answer=answer.split(" ")[answer.split(" ").length-1];
+                   }
+                   answerMap.get(sessionId).add(answer);
+                   map.get(sessionId).get(countId-1).getQuestion().set(0,"Hi "+answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion().get(0));
+                   break;
+                   //gender
+               case 2:
+                   if(answer.equals("Male")){
+                           answer="male";
+                       }
+                       else if(answer.equals("Female")){
+                           answer="female";
+                       }
+                   answerMap.get(sessionId).add(answer);
+                   break;
+                   //weight
+                   case 3:
+                   answerMap.get(sessionId).add(answer);
+                   map.get(sessionId).get(countId-1).getQuestion().set(0,answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion().get(0));
+                   break;
+                   //height
+               case 4:
+                   answerMap.get(sessionId).add(answer);
+                   break;
+                   //age
+               case 5:
+                   answerMap.get(sessionId).add(answer);
+                   break;
+                   //meal preference
+                   case 6:
+                       if(answer.equals("Veg")){
+                           answer="veg";
+                       }
+                       else if(answer.equals("Non veg")){
+                           answer="non-veg";
+                       }
+                   answerMap.get(sessionId).add(answer);
+                   map.get(sessionId).get(countId-1).getQuestion().set(0,"Oooh, I love "+answerMap.get(sessionId).get(6)+" too"+map.get(sessionId).get(countId-1).getQuestion().get(0));
+                   break;
+                   //active
+               case 7: 
+                   
+        if(answer.equals("Sedentary")){
+            answer="sedentary";
+        }
+        else if(answer.equals("Moderately Active")){
+            answer="moderately-active";
+        }
+        else if(answer.equals("Active")){
+            answer="very-active";
+        }
+
+
+                   answerMap.get(sessionId).add(answer);
+                   map.get(sessionId).get(countId-1).getQuestion().set(0,answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion().get(0));
+                   break;
+                   //diseases
+               case 8:
+             
+        
+             if(answer.equals("Diabetes")){
+            answer="diabetes";
+        }
+        else if(answer.equals("High Lipid (Cholesterol) level")){
+            answer="high-lipid-cholesterol-level";
+        }
+        else if(answer.equals("High Blood Pressure")){
+            answer="high-blood-pressure";
+        }
+              else if(answer.equals("Hypothyroidism (High TSH levels)")){
+            answer="hypothyroidism-high-tsh-levels";
+        }
+        else if(answer.equals("Hyperthyroidism (Low TSH levels)")){
+            answer="hypothyroidism-high-tsh-levels";
+        }
+              else if(answer.equals("PCOS / PCOD")){
+            answer="pcos-pcod";
+        }
+        else if(answer.equals("None")){
+            answer="none";
+        }
+                   answerMap.get(sessionId).add(answer);
+                   
+                   break;
+                   //email
+                   case 9:
+                   answerMap.get(sessionId).add(answer);
+                   
+                   break;
+                   //phone num
+               default:
+                   answerMap.get(sessionId).add(answer);
+                   
+                   break;
+           }
+            
+            
             
             
             if(answerMap.get(sessionId).size()==11){
@@ -111,39 +257,7 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 diet.setDietChart(answerMap.get(sessionId));
                 String response=updater.sendAutomatedUpdate(diet);
                 System.out.println(response+":::::::::::::::::::::::::::");
-                if(response.equalsIgnoreCase("Failed")){
-                    map.get(sessionId).get(countId-1).setQuestion("Oops! Seems like you have not registered. Click me to register.");
-                }
             }
-           
-            
-             switch (countId-1) {
-               case 0:
-                   break;
-               case 1: map.get(sessionId).get(countId-1).setQuestion("Hi "+answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-               case 2:
-                   break;
-                   case 3:map.get(sessionId).get(countId-1).setQuestion(answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-               case 4:
-                   break;
-               case 5:
-                   break;
-                   case 6:map.get(sessionId).get(countId-1).setQuestion("Oooh, I love "+answerMap.get(sessionId).get(6)+" too"+map.get(sessionId).get(countId-1).getQuestion());
-                   
-                   break;
-               case 7: map.get(sessionId).get(countId-1).setQuestion(answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion());
-                   break;
-               case 8:
-                   break;
-                   case 9:
-                   break;
-               default:
-                   break;
-           }
-            
-            
             System.out.println(answerMap.toString());
             return map.get(sessionId).get(countId-1);
 

@@ -21,7 +21,7 @@ public class ChatBotResponse {
     
     private int serialNumber;
     private int id;
-    private String question;
+    private List<String> question = new ArrayList<>();
     private String answerType;
     private String answer;
     private String sessionId;
@@ -31,7 +31,7 @@ public class ChatBotResponse {
         
     }
     
-    public ChatBotResponse(int id, String question, String answerType, List<String> options) {
+    public ChatBotResponse(int id, List<String> question, String answerType, List<String> options) {
         this.id = id;
         this.question = question;
         this.answerType = answerType;
@@ -80,13 +80,15 @@ public class ChatBotResponse {
         this.id = id;
     }
 
-    public String getQuestion() {
+    public List<String> getQuestion() {
         return question;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestion(List<String> question) {
         this.question = question;
     }
+
+   
 
     public String getAnswerType() {
         return answerType;
