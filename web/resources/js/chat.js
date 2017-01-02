@@ -3,7 +3,7 @@
 
 
 $(function(){
-                var myUrl="http://localhost:16916/jubination/chatbot";
+                var myUrl="http://162.246.21.98/jubination/chatbot";
                var presentId=0;
                 var presentQuestion;
                 var presentAnswerType;
