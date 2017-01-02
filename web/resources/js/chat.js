@@ -64,7 +64,7 @@ $(function(){
 
                               },
                               success:function(response){
-                                  alert(JSON.stringify(response));
+//                                  alert(JSON.stringify(response));
                                 presentId=response.id;
                                 presentQuestion=response.question;
                                 presentAnswerType=response.answerType;
@@ -247,8 +247,50 @@ $(function(){
                                                          }
                                                          else if(presentAnswerType==="link"){
                                                              
-                                                               savedLink.fadeIn(500);
-                                                               savedLinkText.text(presentQuestion);
+                                                              
+                                                               
+                                                                 var index=0;
+                               for(index=0;index<presentQuestion.length;index++){
+                                    if(index<1){
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.before(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                    }
+                                    else if(index===1){
+                                         savedLink.fadeIn(500);
+                                                               savedLinkText.text(presentQuestion[index]);
+                                    }
+                                    
+                                    else {
+                                            console.log(presentQuestion[index]);
+                                            var questionDiv=$(templateQuestionDiv);
+                                            var questionInnerDiv=$(templateInnerQuestionDiv);
+                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
+                                            savedInput.after(questionDiv);
+                                             questionInnerDiv.appendTo(questionDiv);
+                                             question.appendTo(questionInnerDiv);
+
+//                                             var thinkingDiv=$(templateThinkingDiv);
+//                                            var thinkingImage=$(templateInnerThinkingDiv);   
+//                                            savedInput.before(thinkingDiv);
+//                                            thinkingImage.appendTo(thinkingDiv);
+//                                          $(".bxloadgif").fadeOut(200); 
+                                  
+                                    }
+                                            
+                                            
+                                
+                             }
                                                                
 
                                                               
