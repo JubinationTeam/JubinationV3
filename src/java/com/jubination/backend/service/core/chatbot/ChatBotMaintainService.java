@@ -83,7 +83,7 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
         optionsLifestyle.add("Active");
          questions = new ArrayList<>();
         questions.add(", wanted to know a little more about your daily lifestyle" );
-        questions.add("how active are you?" );
+        questions.add("How active are you?" );
         responses.add(new ChatBotResponse(7, questions  , "options", optionsLifestyle));
 
         List<String> optionsDiseases = new ArrayList<>();
