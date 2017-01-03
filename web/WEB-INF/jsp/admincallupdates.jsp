@@ -175,10 +175,10 @@
                                             <input type="text" class="form-control" placeholder="Appointment Time" name="appt_time" value="${lead.appointmentTime}"/>
                                            <br/>
                                             <label>Pay Type</label>
-                                            <c:if test="${not empty lead.payType}"
+                                            <c:if test="${not empty lead.payType}">
                                             <input type="text" class="form-control" placeholder="Pay Type" name="pay_type" value="${lead.payType}"/>
                                             </c:if>
-                                            <c:if test="${empty lead.payType}"
+                                            <c:if test="${empty lead.payType}">
                                             <input type="text" class="form-control" placeholder="Pay Type" name="pay_type" value="post"/>
                                             </c:if>
                                             
