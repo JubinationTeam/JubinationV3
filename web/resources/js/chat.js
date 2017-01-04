@@ -90,7 +90,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -206,7 +206,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -242,7 +242,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -292,7 +292,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -393,7 +393,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -512,7 +512,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -627,7 +627,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -742,7 +742,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -857,7 +857,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -973,7 +973,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -1088,7 +1088,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -1203,7 +1203,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -1319,7 +1319,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
@@ -1434,7 +1434,7 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   $("#bxloadgif-"+presentId+"-"+index).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(2400));
