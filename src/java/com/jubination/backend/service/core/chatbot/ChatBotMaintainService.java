@@ -150,8 +150,13 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                    break;
                    //name
                case 1: 
-                   if(answer!=null&&answer.contains(" ")){
+                   
+                   if(answer!=null){
+                       answer=answer.trim();
+                       if(answer.contains(" ")){
                             answer=answer.split(" ")[answer.split(" ").length-1];
+                            answer=answer.substring(0, 1).toUpperCase()+answer.substring(1).toLowerCase();
+                         }    
                    }
                    answerMap.get(sessionId).add(answer);
                    map.get(sessionId).get(countId-1).getQuestion().set(0,"Hi "+answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion().get(0));

@@ -3,7 +3,7 @@
 
 
 $(function(){
-                var myUrl="http://162.246.21.98/jubination/chatbot";
+                var myUrl="http://localhost:16916/jubination/chatbot";
                var presentId=0;
                 var presentQuestion;
                 var presentAnswerType;
@@ -33,10 +33,14 @@ $(function(){
                  ];
                  
                  var templateQuestionDiv="<div class='bxuser_question bxLeftchat'></div>";
-                 var templateInnerQuestionDiv="<div class='leftInput wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1s'></div>";
-                 var templateAnswerDiv="<div class='bxuser_output'></div>";
+                 var templateInnerQuestionDiv="<div class='leftInput' style='display:none' data-wow-delay='0s'></div>";
+                var templateInnerQuestionDiv1="<div class='leftInput wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1";
+                var templateInnerQuestionDiv2="s'></div>";
+                var templateAnswerDiv="<div class='bxuser_output'></div>";
                  var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0.1s'><span  ></h1>";
-                 var templateThinkingDiv="<div class='bxuser_question bxloadgif'></div>";
+                 var templateThinkingDiv="<div  style='display:none'  class='bxuser_question bxloadgif'></div>";
+                 var templateThinkingDiv1="<div  style='display:none' id='bxloadgif-";
+                 var templateThinkingDiv2="'  class='bxuser_question bxloadgif'></div>";
                  var templateInnerThinkingDiv="<img src='resources/images/dots.GIF'  data-wow-delay='0s'>";
 
                 //init
@@ -56,7 +60,7 @@ $(function(){
                                                        xhr.setRequestHeader("Content-Type", "application/json");
                                                        //create html for typing
 
-                                                       var thinkingDiv=$(templateThinkingDiv);
+                                                       var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -64,42 +68,50 @@ $(function(){
 
                               },
                               success:function(response){
+                                 
 //                                  alert(JSON.stringify(response));
                                 presentId=response.id;
                                 presentQuestion=response.question;
                                 presentAnswerType=response.answerType;
                                 presentOptions=response.options;
-                                setTimeout(function(){$(".bxloadgif").fadeOut(200);  },1000);
+                               $("#bxloadgif-"+presentId).fadeOut(10);
                                 //destroy html for typing
                                 //create html for present question and answer with an presentid
+//                                setTimeout(800);
                                 var index=0;
+                                 var j=0;
                                 for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
 
-
-                                  if(presentAnswerType==="text"){textInput.val("");
+                                
+                                   j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                          $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                 $("#init-answer").fadeIn(2500);
+                                             
+                                                 $("#init-answer").delay(j).fadeIn(2500);
 
 
                                          });
@@ -107,10 +119,10 @@ $(function(){
                                   else if(presentAnswerType==="options"){
                                       $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                        savedOptions.fadeIn(3500);
+                                        savedOptions.fadeIn(2500);
                                                 presentOptions.forEach(function (value, i) {
                                                      $("#option-"+i).text(value);
-                                                    $("#option-"+i).fadeIn(3500);
+                                                    $("#option-"+i).delay(j).fadeIn(2500);
                                                     
                                                    
                                                 });
@@ -158,7 +170,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                                          var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -171,73 +183,86 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                     
+                                
 
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
                                                         var questionDiv=$(templateQuestionDiv);
                                                                 
                                                                  
-                                                                  var index=0;
-                                                                  for(index=0;index<presentQuestion.length;index++){
+                                                      var index=0;
+                                 var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
                                                                  
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
                                                          } 
                                                          else if(presentAnswerType==="options"){
                                                           var index=0;
-                               for(index=0;index<presentQuestion.length;index++){
+                                 var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -247,44 +272,41 @@ $(function(){
                                                          }
                                                          else if(presentAnswerType==="link"){
                                                              
-                                                              
-                                                               
-                                                                 var index=0;
+                                                              var index=0;
+                                                              var j=0;
                                for(index=0;index<presentQuestion.length;index++){
-                                    if(index<1){
+                                   
+                                if(index===1){
+                                         savedLink.fadeIn(500);
+                                                               savedLinkText.text(presentQuestion[index]);
+                                    }
+                                    
+                                    else {
+                                              
+                                    
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                    }
-                                    else if(index===1){
-                                         savedLink.fadeIn(500);
-                                                               savedLinkText.text(presentQuestion[index]);
-                                    }
-                                    
-                                    else {
-                                            console.log(presentQuestion[index]);
-                                            var questionDiv=$(templateQuestionDiv);
-                                            var questionInnerDiv=$(templateInnerQuestionDiv);
-                                            var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
-                                            savedInput.after(questionDiv);
-                                             questionInnerDiv.appendTo(questionDiv);
-                                             question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
+                                
+                             
                                   
                                     }
                                             
@@ -314,9 +336,9 @@ $(function(){
                  
                  $(options[0]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -343,7 +365,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                         var thinkingDiv=$(templateThinkingDiv);
+                                                                         var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -356,37 +378,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
                                   var index=0;
+                                 var j=0;
                                 for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
+                                
 
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
                                                      
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -396,10 +424,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -426,9 +454,9 @@ $(function(){
                  
                  $(options[1]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -455,7 +483,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                         var thinkingDiv=$(templateThinkingDiv);
+                                                                         var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -468,36 +496,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                      var index=0;
-                                                            for(index=0;index<presentQuestion.length;index++){
+                                                      var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -506,10 +541,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -534,9 +569,9 @@ $(function(){
                  
                  $(options[2]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -563,7 +598,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                                           var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -576,36 +611,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                     var index=0;
-                            for(index=0;index<presentQuestion.length;index++){
+                             var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -614,10 +656,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -642,9 +684,9 @@ $(function(){
                  
                  $(options[3]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -671,7 +713,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                                           var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -684,37 +726,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                    var index=0;
-                              for(index=0;index<presentQuestion.length;index++){
+                              var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                                
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -723,10 +771,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -751,9 +799,9 @@ $(function(){
                  
                  $(options[4]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -780,7 +828,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                                          var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -793,37 +841,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                    var index=0;
-                               for(index=0;index<presentQuestion.length;index++){
+                              var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -832,10 +886,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -861,9 +915,9 @@ $(function(){
                  
                  $(options[5]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -890,7 +944,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                                           var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -903,37 +957,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                     var index=0;
+                                 var j=0;
                                 for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -942,10 +1002,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -970,9 +1030,9 @@ $(function(){
                  
                  $(options[6]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -999,7 +1059,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                                           var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -1012,37 +1072,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                   var index=0;
-                               for(index=0;index<presentQuestion.length;index++){
+                              var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -1051,10 +1117,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -1079,9 +1145,9 @@ $(function(){
                  
                  $(options[7]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -1108,7 +1174,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                        var thinkingDiv=$(templateThinkingDiv);
+                                                                        var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -1121,37 +1187,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                    var index=0;
+                                var j=0;
                                 for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                                                
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -1160,10 +1232,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -1189,9 +1261,9 @@ $(function(){
                  
                  $(options[8]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -1218,7 +1290,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                           var thinkingDiv=$(templateThinkingDiv);
+                                                                           var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -1231,37 +1303,43 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                                     var index=0;
-                              for(index=0;index<presentQuestion.length;index++){
+                               var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                                        
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -1270,10 +1348,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
@@ -1298,9 +1376,9 @@ $(function(){
                  
                  $(options[9]).on("click",function(e){
                                 
-                                    savedOptions.fadeOut(100);
+                                    savedOptions.hide(0);
                                     for(var option in options){
-                                         $(option).fadeOut(100);
+                                         $(option).hide(0);
                                      }
                                      
                                 var answerDiv=$(templateAnswerDiv);
@@ -1327,7 +1405,7 @@ $(function(){
                                                                           xhr.setRequestHeader("Content-Type", "application/json");
                                                                           //create html for typing
 
-                                                                          var thinkingDiv=$(templateThinkingDiv);
+                                                                          var thinkingDiv=$(templateThinkingDiv1+presentId+templateThinkingDiv2);
                                                         var thinkingImage=$(templateInnerThinkingDiv);   
                                                       savedInput.before(thinkingDiv);
                                                       thinkingImage.appendTo(thinkingDiv);
@@ -1340,37 +1418,44 @@ $(function(){
                                                    presentAnswerType=response.answerType;
                                                    presentOptions=response.options;
                                                    console.log(presentId+presentQuestion);
-                                                   $(".bxloadgif").fadeOut(800);
+                                                   $("#bxloadgif-"+presentId).fadeOut(10);
                                                    //destroy html for typing
                                                    //create html for present question and answer with an presentid
 
                                              var index=0;
-                              for(index=0;index<presentQuestion.length;index++){
+                               var j=0;
+                                for(index=0;index<presentQuestion.length;index++){
                                     
                                             console.log(presentQuestion[index]);
+                                     
+                                                    var thinkingDiv=$(templateThinkingDiv1+presentId+"-"+index+templateThinkingDiv2);
+                                                    var thinkingImage=$(templateInnerThinkingDiv);   
+                                                    savedInput.before(thinkingDiv);
+                                                    thinkingImage.appendTo(thinkingDiv);
+                                                    var i=parseInt(parseInt(index)*parseInt(1600));
+                                                   // alert(i);
+                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    console.log(i+"i");
+                                                    j=parseInt(parseInt(i)+parseInt(2400));
+                                                    
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
                                             var question= $("<p  id='question-"+presentId+"-"+index+"' >"+presentQuestion[index]+"</p><div class='pointLeftchat'><img src='resources/images/leftUserPoint.png' class='img-responsive'>  </div><div class='leftUserimg'><img src='resources/images/user.png' class='img-responsive'></div>");
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-
-//                                             var thinkingDiv=$(templateThinkingDiv);
-//                                            var thinkingImage=$(templateInnerThinkingDiv);   
-//                                            savedInput.before(thinkingDiv);
-//                                            thinkingImage.appendTo(thinkingDiv);
-//                                          $(".bxloadgif").fadeOut(200); 
-                                          
-                                            
-                                            
+                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             console.log(j+"j");    
                                 
                              }
-
-                                                     if(presentAnswerType==="text"){textInput.val("");
+                             
+                                                        
+                                                      j=parseInt(1000)+parseInt(j);if(presentAnswerType==="text"){textInput.val("");
 
                                                                 $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
-
-                                                                        $("#init-answer").fadeIn(2500);
+                                                                    
+                                                                        $("#init-answer").delay(j).fadeIn(2500);
 
 
                                                                 });
@@ -1379,10 +1464,10 @@ $(function(){
                                                              
                                                              $("#question-"+presentId+"-"+(presentQuestion.length-1)).ready(function(){
 
-                                                               savedOptions.fadeIn(3500);
+                                                               savedOptions.fadeIn(2500);
                                                                        presentOptions.forEach(function (value, i) {
                                                                             $("#option-"+i).text(value);
-                                                                           $("#option-"+i).fadeIn(3500);
+                                                                           $("#option-"+i).delay(j).fadeIn(2500);
 
 
                                                                        });
