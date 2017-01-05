@@ -91,7 +91,12 @@ $(function(){
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
-                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                    if(index===1){
+                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(300);
+                                                    }
+                                                    else{
+                                                            $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                        }
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
                                                     if(index===1){
