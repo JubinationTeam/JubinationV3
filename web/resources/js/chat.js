@@ -93,7 +93,7 @@ $(function(){
                                                    $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
-                                                    j=parseInt(parseInt(i)+parseInt(800));
+                                                    j=parseInt(parseInt(i)+parseInt(900));
                                                     
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
