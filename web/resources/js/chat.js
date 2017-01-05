@@ -101,8 +101,12 @@ $(function(){
                                                         }
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
-                                                    if(index===1||index===2){
+                                                    if(index===1){
                                                         j=parseInt(parseInt(j)+parseInt(600));
+                                                    }
+                                                    
+                                                     if(index===2){
+                                                        j=parseInt(parseInt(j)+parseInt(800));
                                                     }
                                                     
                                             var questionDiv=$(templateQuestionDiv);
