@@ -92,7 +92,7 @@ $(function(){
                                                    // alert(i);
                                                    
                                                     if(index===1||index===2){
-                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(0);
                                                         $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(0);
                                                     }
                                                     else{
