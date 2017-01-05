@@ -111,7 +111,7 @@ $(function(){
                                             savedInput.before(questionDiv);
                                              questionInnerDiv.appendTo(questionDiv);
                                              question.appendTo(questionInnerDiv);
-                                             questionInnerDiv.delay(j).fadeIn(100);
+                                             questionInnerDiv.delay(j).fadeIn(200);
                                              console.log(j+"j");    
                                 
                              }
