@@ -97,7 +97,7 @@ $(function(){
 //                                                    }
 //                                                    else{
                                                         $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
-                                                            $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
+                                                            $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(300);
 //                                                        }
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
