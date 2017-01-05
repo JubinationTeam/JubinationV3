@@ -37,7 +37,7 @@ $(function(){
                 var templateInnerQuestionDiv1="<div class='leftInput wow fadeInDown' style='visibility: visible; animation-name: fadeInDown;' data-wow-delay='1";
                 var templateInnerQuestionDiv2="s'></div>";
                 var templateAnswerDiv="<div class='bxuser_output'></div>";
-                 var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0.1s'><span  ></h1>";
+                 var templateInnerAnswerDiv=" <h1   class='form-group wow fadeInDown' data-wow-delay='0s'><span  ></h1>";
                  var templateThinkingDiv="<div  style='display:none'  class='bxuser_question bxloadgif'></div>";
                  var templateThinkingDiv1="<div  style='display:none' id='bxloadgif-";
                  var templateThinkingDiv2="'  class='bxuser_question bxloadgif'></div>";
@@ -91,14 +91,14 @@ $(function(){
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
                                                    
-                                                    if(index===1||index===2){
-                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(0);
-                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(0);
-                                                    }
-                                                    else{
+//                                                    if(index===1||index===2){
+//                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(0);
+//                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(0);
+//                                                    }
+//                                                    else{
                                                         $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
                                                             $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
-                                                        }
+//                                                        }
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
                                                     if(index===1){
