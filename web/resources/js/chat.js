@@ -91,7 +91,7 @@ $(function(){
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
                                                    
-                                                    if(index===1){
+                                                    if(index===1||index===2){
                                                         $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
                                                         $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(0);
                                                     }
