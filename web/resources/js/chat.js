@@ -90,11 +90,13 @@ $(function(){
                                                     thinkingImage.appendTo(thinkingDiv);
                                                     var i=parseInt(parseInt(index)*parseInt(1600));
                                                    // alert(i);
-                                                   $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                   
                                                     if(index===1){
-                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(100);
+                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
+                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(0);
                                                     }
                                                     else{
+                                                        $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeIn(10);
                                                             $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                         }
                                                     console.log(i+"i");
