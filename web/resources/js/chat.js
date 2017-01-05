@@ -94,6 +94,9 @@ $(function(){
                                                     $("#bxloadgif-"+presentId+"-"+index).delay(i).fadeOut(500);
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
+                                                    if(index===1){
+                                                        j=parseInt(parseInt(j)+parseInt(100));
+                                                    }
                                                     
                                             var questionDiv=$(templateQuestionDiv);
                                             var questionInnerDiv=$(templateInnerQuestionDiv);
