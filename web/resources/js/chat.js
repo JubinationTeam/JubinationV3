@@ -106,7 +106,7 @@ $(function(){
                                                     }
                                                     
                                                      if(index===2){
-                                                        j=parseInt(parseInt(j)+parseInt(800));
+                                                        j=parseInt(parseInt(j)+parseInt(1200));
                                                     }
                                                     
                                             var questionDiv=$(templateQuestionDiv);
