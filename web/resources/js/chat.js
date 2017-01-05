@@ -95,7 +95,7 @@ $(function(){
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
                                                     if(index===1){
-                                                        j=parseInt(parseInt(j)+parseInt(900));
+                                                        j=parseInt(parseInt(j)+parseInt(600));
                                                     }
                                                     
                                             var questionDiv=$(templateQuestionDiv);
