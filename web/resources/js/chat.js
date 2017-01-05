@@ -101,7 +101,7 @@ $(function(){
                                                         }
                                                     console.log(i+"i");
                                                     j=parseInt(parseInt(i)+parseInt(900));
-                                                    if(index===1){
+                                                    if(index===1||index===2){
                                                         j=parseInt(parseInt(j)+parseInt(600));
                                                     }
                                                     
