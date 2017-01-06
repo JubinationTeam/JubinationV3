@@ -382,11 +382,11 @@ public class CallMaintainService {
                                 int count=0;
                                         while(count<10){
                                             lead.getBeneficiaries().add(new Beneficiaries());
-                                            if(count==0){
-                                                lead.getBeneficiaries().get(0).setName(client.getName());
-                                                lead.getBeneficiaries().get(0).setAge(client.getAge());
-                                                lead.getBeneficiaries().get(0).setGender(client.getGender());
-                                            }
+//                                            if(count==0){
+//                                                lead.getBeneficiaries().get(0).setName(client.getName());
+//                                                lead.getBeneficiaries().get(0).setAge(client.getAge());
+//                                                lead.getBeneficiaries().get(0).setGender(client.getGender());
+//                                            }
                                             count++;
                                         }
                                 
@@ -501,11 +501,11 @@ public class CallMaintainService {
                         }
             }
             else{
-                            Beneficiaries ben= new Beneficiaries();
-                            ben.setName(tempClient.getName());
-                            ben.setGender(tempClient.getGender());
-                            ben.setAge(tempClient.getAge());
-                            client.getLead().get(0).getBeneficiaries().add(ben);
+//                            Beneficiaries ben= new Beneficiaries();
+//                            ben.setName(tempClient.getName());
+//                            ben.setGender(tempClient.getGender());
+//                            ben.setAge(tempClient.getAge());
+//                            client.getLead().get(0).getBeneficiaries().add(ben);
             }
              clientList.add(client);
             System.out.println("Client not null");
@@ -568,11 +568,11 @@ public class CallMaintainService {
                         }
             }
             else{
-                            Beneficiaries ben= new Beneficiaries();
-                            ben.setName(tempClient.getName());
-                            ben.setGender(tempClient.getGender());
-                            ben.setAge(tempClient.getAge());
-                            client.getLead().get(0).getBeneficiaries().add(ben);
+//                            Beneficiaries ben= new Beneficiaries();
+//                            ben.setName(tempClient.getName());
+//                            ben.setGender(tempClient.getGender());
+//                            ben.setAge(tempClient.getAge());
+//                            client.getLead().get(0).getBeneficiaries().add(ben);
             }
              clientList.add(client);
             System.out.println("Client not null");

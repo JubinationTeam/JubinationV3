@@ -34,7 +34,7 @@ public class ChatBotAPIController {
     public @ResponseBody ChatBotResponse getDump(@RequestBody ChatBotRequest cRequest,HttpServletRequest request) throws IOException{
             System.out.println("Chatbot request"+cRequest.getLastId());
             
-        return service.getResponse(cRequest, request.getSession().getId());
+        return service.getResponse(cRequest, cRequest.getSessionId());
             
         
     }

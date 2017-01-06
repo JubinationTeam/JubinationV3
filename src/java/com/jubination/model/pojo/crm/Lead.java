@@ -5,6 +5,7 @@
  */
 package com.jubination.model.pojo.crm;
 
+import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
@@ -152,6 +153,16 @@ public class Lead implements Serializable {
     }
 
     public void setCount(int count) {
+        if(count<0){
+            try{
+                    String val=null;
+                    val.toCharArray();
+            }
+            catch(Exception e){
+                System.out.println("CULPRIT::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+                e.printStackTrace();
+            }
+        }
         this.count = count;
     }
 
