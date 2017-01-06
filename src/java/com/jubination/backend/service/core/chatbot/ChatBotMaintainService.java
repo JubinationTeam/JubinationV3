@@ -264,6 +264,7 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 System.out.println(response+":::::::::::::::::::::::::::");
             }
             System.out.println(answerMap.toString());
+            map.get(sessionId).get(countId-1).setSessionId(sessionId);
             return map.get(sessionId).get(countId-1);
 
     }
