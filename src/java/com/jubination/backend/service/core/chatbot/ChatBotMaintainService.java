@@ -210,6 +210,10 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
 
 
                    answerMap.get(sessionId).add(answer);
+                   System.out.println("");
+                   for(String val:answerMap.get(sessionId)){
+                       System.out.println(val+" ::::::::::::::::::::::ANSWER");
+                   }
                    map.get(sessionId).get(countId-1).getQuestion().set(0,answerMap.get(sessionId).get(1)+map.get(sessionId).get(countId-1).getQuestion().get(0));
                    break;
                    //diseases
