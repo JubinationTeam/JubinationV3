@@ -258,7 +258,7 @@ public class UpdateAndBookingController {
                                lead.setLeadStatus(leadStatus);
                         }
                        
-                       lead.setBenCount(benCount+1);
+                       lead.setBenCount(benCount);
                       
                         if(callMaintain.updateClientOnly(client)){
                                         if(leadStatus!=null&&!leadStatus.isEmpty()){

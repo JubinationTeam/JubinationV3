@@ -29,6 +29,9 @@ public class ChatBotMaintainService {
      private  AdminMaintainService adminService;
         @Autowired
      private  DietChartUpdater updater;
+        
+               @Autowired
+     private  DashBotUpdater analyzeUpdater;
        
        
        private String settings="settings";
@@ -132,17 +135,12 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 answerMap.put(sessionId, new ArrayList<String>());
             }
             else if( answerMap.get(sessionId)==null){
+                
                 map.put(sessionId, generateFlow());
                 answerMap.put(sessionId, new ArrayList<String>());
                 
             }
-          
-            
-          
-            
-            
-            
-           String answer=request.getLastAnswer();
+            String answer=request.getLastAnswer();
             
              switch (countId-1) {
                case 0:
@@ -267,8 +265,24 @@ private HashMap<String,List<String>> answerMap = new HashMap<>();
                 String response=updater.sendAutomatedUpdate(diet);
                 System.out.println(response+":::::::::::::::::::::::::::");
             }
+            
+            
             System.out.println(answerMap.toString());
             map.get(sessionId).get(countId-1).setSessionId(sessionId);
+            
+            
+            
+           if(countId!=1){
+                analyzeUpdater.sendAutomatedUpdate(new DashBot(request.getLastAnswer(),sessionId), "incoming");
+                
+            }
+              
+            String questionSent="";
+                  for(String question:map.get(sessionId).get(countId-1).getQuestion()){
+                      questionSent+=question;
+                  }
+              analyzeUpdater.sendAutomatedUpdate(new DashBot(questionSent,sessionId), "outgoing");
+              
             return map.get(sessionId).get(countId-1);
 
     }

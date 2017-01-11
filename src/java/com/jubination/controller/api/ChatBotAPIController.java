@@ -33,8 +33,11 @@ public class ChatBotAPIController {
     @RequestMapping(value="/chatbot",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public @ResponseBody ChatBotResponse getDump(@RequestBody ChatBotRequest cRequest,HttpServletRequest request) throws IOException{
             System.out.println("Chatbot request"+cRequest.getLastId());
-            
-        return service.getResponse(cRequest, cRequest.getSessionId());
+       
+            if(cRequest.getSessionId()!=null){
+                return service.getResponse(cRequest, cRequest.getSessionId());
+            }
+              return service.getResponse(cRequest, request.getSession().getId());
             
         
     }
