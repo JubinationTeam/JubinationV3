@@ -50,6 +50,7 @@ CallManager eCallHandler;
                     
                     private final String settings="settings";
                     
+                    
                     private final String  dumpOvernight="*/4 * 20-23,0-8 * * *";
                     private final String freshCall="*/4 * 9-19 * * *";
                     private final String retreiveDump="2 0 9 * * *";
@@ -83,8 +84,9 @@ CallManager eCallHandler;
                                                                 leadList.add(new Lead(clients.peek().getTempLeadDetails()));
                                                                 clients.peek().setLead(leadList);
                                                         }
-                                                        
-                                                        clients.peek().getLead().get(0).setCount(count);
+                                                        if(service.readLead(clients.peek().getLead().get(0))==null){
+                                                                clients.peek().getLead().get(0).setCount(count);
+                                                        }
                                                         clients.peek().getLead().get(0).setPending(true);
                                                         clients.peek().setPriority(5);
                                                         eCallHandler.getClientStage1().push(clients.poll());
