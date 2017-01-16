@@ -86,9 +86,10 @@ CallManager eCallHandler;
                                                         }
                                                         if(service.readLead(clients.peek().getLead().get(0))==null){
                                                                 clients.peek().getLead().get(0).setCount(count);
+                                                                clients.peek().getLead().get(0).setPending(true);
+                                                                clients.peek().setPriority(5);
                                                         }
-                                                        clients.peek().getLead().get(0).setPending(true);
-                                                        clients.peek().setPriority(5);
+                                                        
                                                         eCallHandler.getClientStage1().push(clients.poll());
                                                 }
                                         setFreshFlag(false);
@@ -186,33 +187,79 @@ CallManager eCallHandler;
                                List<Client> list=service.getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
                                     for(Client client:list){
-                                        client.setPriority(4);         
-                                        eCallHandler.getClientStage1().push(client);
-                                        pending++;
+                                        client.setPriority(4); 
+                                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                                    if(lead.getCount()!=(getCount()-lead.getCall().size())){
+                                                                lead.setCount(getCount()-lead.getCall().size());
+                                                                service.updateLeadOnly(lead);
+                                                    }
+                                                    
+                                                     if(lead.getCount()>0&&lead.getLeadStatus()!=null&&(!lead.getLeadStatus().contains("Follow up/Call back")&&
+                                                        !lead.getLeadStatus().contains("Not interested")&&
+                                                        !lead.getLeadStatus().contains("Not registered")&&
+                                                        !lead.getLeadStatus().contains("Language not recognizable")&&
+                                                        !lead.getLeadStatus().contains("No Service")&&
+                                                        !lead.getLeadStatus().contains("Customer complained")&&
+                                                        !lead.getLeadStatus().contains("Disapproved")
+                                                        )){
+                                                         
+                                                            eCallHandler.getClientStage1().push(client);
+                                                            pending++;
+                                                    }
+                                                     else{
+                                                                lead.setCount(0);
+                                                                service.updateLeadOnly(lead);
+                                                     }
+                                        
+                                        
                                     }
                                }
                                list=service.getPendingCallsWithNotificationAndRecentLead("Notified");
                                if(list!=null){
                                  for(Client client:list){
-                                    client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    notification++;
+                                    client.setPriority(4);    
+                                     Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=getCount()+4){
+                                                lead.setCount(0);
+                                                service.updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                            eCallHandler.getClientStage1().push(client);
+                                             notification++;
+                                    }
+                                   
                                 }
                                }
                                list=service.getPendingCallsWithNotificationAndRecentLead("PendingMA");
                                if(list!=null){
                                 for(Client client:list){
                                     client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    pendingMa++;
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=getCount()+4){
+                                                lead.setCount(0);
+                                                service.updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                            eCallHandler.getClientStage1().push(client);
+                                            pendingMa++;
+                                    }
+                                    
                                 }
                                }
                                list=service.getPendingCallsWithNotificationAndRecentLead("NotifiedMA");
                                if(list!=null){
                                  for(Client client:list){
                                     client.setPriority(4);         
-                                    eCallHandler.getClientStage1().push(client);
-                                    notificationMa++;
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=getCount()+4){
+                                                lead.setCount(0);
+                                                service.updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                            eCallHandler.getClientStage1().push(client);
+                                             notificationMa++;
+                                    }
+                                   
                                 }
                                }
                                //miss call added as well
