@@ -63,7 +63,6 @@ public class Updater {
                     }
                     
                         if(lead.getBeneficiaries()!=null){
-                            lead.setBenCount(lead.getBenCount()-1);
                             for(Beneficiaries ben:lead.getBeneficiaries()){
                                 ben.setLead(null);
                             }
@@ -71,7 +70,7 @@ public class Updater {
                                 lead.setBeneficiaries(null);
                             }
                             else{
-                                for(int i=0;i<lead.getBenCount();i++){
+                                for(int i=0;i<lead.getBenCount()-1;i++){
                                      if(lead.getBeneficiaries().get(i).getName()==null||lead.getBeneficiaries().get(i).getAge()==null||lead.getBeneficiaries().get(i).getGender()==null){
                                         lead.getBeneficiaries().remove(i);
                                         lead.setBenCount(lead.getBenCount()-1);
