@@ -183,6 +183,7 @@ CallManager eCallHandler;
                                 long pendingMa=0l;
                                 long notificationMa=0l;
                                 long pendingFresh=0l;
+                                long pendingMinusOne=0l;
                                 
                                List<Client> list=service.getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
@@ -262,17 +263,32 @@ CallManager eCallHandler;
                                    
                                 }
                                }
+                                 list=service.getPendingCallsWithNotificationAndRecentLead("PendingMinusOne");
+                               if(list!=null){
+                                 for(Client client:list){
+                                    client.setPriority(4);         
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()<=getCount()&&lead.getCount()<0){
+                                             lead.setCount(getCount()-lead.getCall().size());
+                                           service.updateLeadOnly(lead);
+                                            eCallHandler.getClientStage1().push(client);
+                                             pendingMinusOne++;
+                                    }
+                                   
+                                }
+                               }
                                //miss call added as well
                                System.out.println("miss call check started");
                                 for(Client client:service.getMarkedClients()){
                                         getClients().offer(client);
+                                        pendingFresh++;
                                 }
                                 setFreshFlag(true);  
-                                  sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
-                                sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
-                                sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
-                                sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
-                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh);
+                                  sendEmailFollowupUpdate("disha@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne);
+                                sendEmailFollowupUpdate("trupti@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne);
+                                sendEmailFollowupUpdate("vinay@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne);
+                                sendEmailFollowupUpdate("tauseef@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne);
+                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne);
                              
                         }
                     }
