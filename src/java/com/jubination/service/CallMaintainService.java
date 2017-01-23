@@ -1409,51 +1409,129 @@ public class CallMaintainService {
     }
 
     public void checkFollowUp() {
+        
+                            System.out.println("follow up ");
                                 long pending=0l;
                                 long notification=0l;
                                 long pendingMa=0l;
                                 long notificationMa=0l;
                                 long pendingFresh=0l;
+                                long pendingMinusOne=0l;
+                                long inProgress=0l;
                                 
                                List<Client> list=getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
                                     for(Client client:list){
-                                                 
+                                        client.setPriority(4); 
+                                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                                    if(lead.getCount()!=(operator.getCount()-lead.getCall().size())){
+                                                                lead.setCount(operator.getCount()-lead.getCall().size());
+                                                                updateLeadOnly(lead);
+                                                    }
+                                                    
+                                                     if(lead.getCount()>0&&lead.getLeadStatus()!=null&&(!lead.getLeadStatus().contains("Follow up/Call back")&&
+                                                        !lead.getLeadStatus().contains("Not interested")&&
+                                                        !lead.getLeadStatus().contains("Not registered")&&
+                                                        !lead.getLeadStatus().contains("Language not recognizable")&&
+                                                        !lead.getLeadStatus().contains("No Service")&&
+                                                        !lead.getLeadStatus().contains("Customer complained")&&
+                                                        !lead.getLeadStatus().contains("Disapproved")
+                                                        )){
+                                                         
+                                                            pending++;
+                                                    }
+                                                     else{
+                                                                lead.setCount(0);
+                                                                updateLeadOnly(lead);
+                                                     }
                                         
-                                        pending++;
+                                        
                                     }
                                }
                                list=getPendingCallsWithNotificationAndRecentLead("Notified");
                                if(list!=null){
                                  for(Client client:list){
-                                             
-                                    
-                                    notification++;
+                                    client.setPriority(4);    
+                                     Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=operator.getCount()+4){
+                                                lead.setCount(0);
+                                                updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                        
+                                             notification++;
+                                    }
+                                   
                                 }
                                }
                                list=getPendingCallsWithNotificationAndRecentLead("PendingMA");
                                if(list!=null){
                                 for(Client client:list){
-                                             
+                                    client.setPriority(4);         
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=operator.getCount()+4){
+                                                lead.setCount(0);
+                                                updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                            pendingMa++;
+                                    }
                                     
-                                    pendingMa++;
                                 }
                                }
                                list=getPendingCallsWithNotificationAndRecentLead("NotifiedMA");
                                if(list!=null){
                                  for(Client client:list){
-                                             
-                                    
-                                    notificationMa++;
+                                    client.setPriority(4);         
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()>=operator.getCount()+4){
+                                                lead.setCount(0);
+                                                updateLeadOnly(lead);
+                                    }
+                                    if(lead.getCount()>0){
+                                        
+                                             notificationMa++;
+                                    }
+                                   
+                                }
+                               }
+                                 list=getPendingCallsWithNotificationAndRecentLead("PendingMinusOne");
+                               if(list!=null){
+                                 for(Client client:list){
+                                    client.setPriority(4);         
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()<=operator.getCount()&&lead.getCount()<0){
+                                             lead.setCount(operator.getCount()-lead.getCall().size());
+                                            updateLeadOnly(lead);
+                                             pendingMinusOne++;
+                                    }
+                                   
                                 }
                                }
                                
+                               list=getPendingCallsWithNotificationAndRecentLead("PendingInProgress");
+                               if(list!=null){
+                                 for(Client client:list){
+                                    client.setPriority(4);         
+                                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                                    if(lead.getCall().size()<=operator.getCount()&&lead.getCount()<0){
+                                             lead.setCount(operator.getCount()-lead.getCall().size());
+                                           updateLeadOnly(lead);
+                                             inProgress++;
+                                    }
+                                   
+                                }
+                               }
+                               
+                               //miss call added as well
+                               System.out.println("miss call check started");
                                 for(Client client:getMarkedClients()){
                                         pendingFresh++;
                                 }
-                               
-                              sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call Pending : "+pendingFresh);
+                           
+                                sendEmailFollowupUpdate("souvik@jubination.com","Fresh Followup : "+pending+", Fresh Callback : "+notification+"Followup Missed Appointment : "+pendingMa+" CallBack Missed Appointment : "+notificationMa+" Fresh Call pending : "+pendingFresh+" Minus One pending : "+pendingMinusOne+" In progress leads : "+inProgress);
                              
+                              
     }
     
      private void sendEmailFollowupUpdate(String email,String content){

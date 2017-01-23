@@ -354,6 +354,33 @@ public class ClientDAOImpl<T> implements Serializable{
                                                 }
                                             }
                          break;
+                         case "PendingInProgress":
+                                            session = getSessionFactory().getCurrentSession();
+                                            criteria = session.createCriteria(Client.class,"c");
+                                            criteria.createAlias("c.lead", "l");
+                                            criteria.createAlias("l.call", "call");
+                                            criteria.add(
+                                                            Restrictions.and(
+                                                                    Restrictions.lt("l.count", 0),
+                                                                    Restrictions.isNull("l.followUpDate"),
+                                                                    Restrictions.gt("l.leadId", "50000"),
+                                                                    Restrictions.eq("call.Status", "in-progress")
+                                                            ));
+                                            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+                                            list = criteria.list();
+                                            
+                                            
+                                            
+                                            for(Client client:(List<Client>)list){
+                                                client.getLead().size();
+                                                for(Lead lead:client.getLead()){
+                                                if(lead.getBeneficiaries()!=null){
+                                                                      lead.getBeneficiaries().size();
+                                                }
+                                                    lead.getCall().size();
+                                                }
+                                            }
+                         break;
                       case "PendingAndNotified":
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
