@@ -361,7 +361,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                             criteria.createAlias("l.call", "call");
                                             criteria.add(
                                                             Restrictions.and(
-                                                                    Restrictions.lt("l.count", 0),
+                                                                    Restrictions.le("l.count", 0),
                                                                     Restrictions.isNull("l.followUpDate"),
                                                                     Restrictions.gt("l.leadId", "50000"),
                                                                     Restrictions.eq("call.Status", "in-progress")
