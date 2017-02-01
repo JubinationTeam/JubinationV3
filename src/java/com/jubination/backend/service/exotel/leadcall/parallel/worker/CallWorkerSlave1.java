@@ -208,10 +208,11 @@ public class CallWorkerSlave1 {
                                                                      service.updateLeadOnly(l);
                                                      }
                                                 }
-                                            }
                                             else{
                                                 sendTestEmail("Stage 1 line 213");
                                             }
+                                            }
+                                            
                                             //Try Saving to database 10 times
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
 
