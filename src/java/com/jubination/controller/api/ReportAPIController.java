@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.jubination.backend.service.core.report.parallel.worker.ReportOperator;
+import java.util.List;
 
 
 @Controller
@@ -80,6 +81,9 @@ public class ReportAPIController {
     
     @RequestMapping(value="/report/json/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
     public @ResponseBody Report  getReportViewJson(HttpServletRequest request,@PathVariable("reportId") String reportId,Principal principal) {
+        
+        
+        
             Report report=service.getReport(reportId);
             if(report.getBarcodes()!=null){
                     for(Barcode b:report.getBarcodes()){
@@ -100,6 +104,12 @@ public class ReportAPIController {
             return report;
     }
     
+    
+     @RequestMapping(value="/report/all/json",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
+    public @ResponseBody List<Report>  getReportViewJson(HttpServletRequest request,Principal principal) {
+        
+        return service.getAllReport();
+    }
     
     @RequestMapping(value="/rep",method=RequestMethod.POST,  headers="Accept=*/*")
     public ResponseEntity  getReportViewPdf(HttpServletRequest request,Principal principal) {

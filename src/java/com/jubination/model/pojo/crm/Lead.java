@@ -96,6 +96,8 @@ public class Lead implements Serializable {
     private String payType;
     @Column(name="handling_charges")
     private String handlingCharges;
+    @Column(name="last_calling_thread")
+    private String lastCallingThread;
     
      @Transient
  boolean persistent;
@@ -378,6 +380,14 @@ public boolean isPersistent() {
 
     public void setMissedAppointmentStatus(String missedAppointmentStatus) {
         this.missedAppointmentStatus = missedAppointmentStatus;
+    }
+
+    public String getLastCallingThread() {
+        return lastCallingThread;
+    }
+
+    public void setLastCallingThread(String lastCallingThread) {
+        this.lastCallingThread = lastCallingThread;
     }
 
    

@@ -142,6 +142,10 @@ public class ReportService {
         }
     }
     /////////////////////////////////////////////
+
+    public List<Report> getAllReport() {
+        return reportDAO.fetchAllEntity();
+    }
     
     
 
