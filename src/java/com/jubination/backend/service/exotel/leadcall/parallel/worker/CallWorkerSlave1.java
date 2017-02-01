@@ -70,8 +70,17 @@ public class CallWorkerSlave1 {
                           if(!manager.getClientStage1().empty()){
                               
                              Client client=manager.getClientStage1().pop();
-                             
-                             worker2.work(readAndSaveMessage(makeCall(client), client));
+                               if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
+                                Lead lead=client.getLead().get(client.getLead().size()-1);
+                                 lead.setLastCallingThread(Thread.currentThread().getName());
+                                    service.updateLeadOnly(lead);
+                                    if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
+
+                                    worker2.work(readAndSaveMessage(makeCall(client), client));
+                                    }
+                               }else{
+                                                sendTestEmail("Stage 1 line 80");
+                                            }
                        }
             }
             catch(Exception e){
@@ -149,8 +158,7 @@ public class CallWorkerSlave1 {
               boolean leadsAttached=false;
             if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
               Lead lead=client.getLead().get(client.getLead().size()-1);
-              lead.setLastCallingThread(Thread.currentThread().getName());
-              service.updateLeadOnly(lead);
+             
                  try{
                           
                      //exotel message to call details

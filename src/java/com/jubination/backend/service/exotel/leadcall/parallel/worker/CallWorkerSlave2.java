@@ -81,6 +81,7 @@ public class CallWorkerSlave2 {
                    if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
                        int count=0;
                         Lead lead=client.getLead().get(client.getLead().size()-1);
+                        if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
                         String  sid=tryFetchingSid(lead);
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {
@@ -214,6 +215,11 @@ public class CallWorkerSlave2 {
                     sendTestEmail("Stage 2 Line 91 lead");
                     System.out.println("Stage 2 : ERROR FECHING SIDS");
                 }
+                        
+                   }
+                   else{
+                                                sendTestEmail("Stage 1 line 221");
+                                            }
                        }
             catch(Exception e){
                 System.out.println("Error @ outer work Slave 2");
