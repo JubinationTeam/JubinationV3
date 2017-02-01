@@ -71,7 +71,7 @@
                          
 
                             <textarea name="numbers" class="form-control" rows="10" placeholder="Add lead ids here...(Each in new line)" id="comment"></textarea>
-                            <input name="count" class="form-control" placeholder="Count" id="count"/>
+                            <input name="count" class="form-control" placeholder="count" id="count"/>
                             </br>
                             <button type="submit" class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff" id="button-submit">Change count</button>
                        </form>                       
