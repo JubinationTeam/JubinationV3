@@ -59,6 +59,7 @@ public class CallController {
                      Lead lead=callMaintain.readLead(number);
                      if(lead!=null){
                          lead.setCount(Integer.parseInt(count));
+                         callMaintain.updateLeadOnly(lead);
                      }
                  }
                 model.addObject("message", "Keep Calm and attend calls..:P");
