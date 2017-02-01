@@ -80,8 +80,8 @@
             
             
             
-        <%--    <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callcustom"><span style="font-size: 20px;" class="glyphicon glyphicon-phone"></span>&nbsp;Custom Calling</a></li>  
-         --%>    <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callsettings"><span style="font-size: 20px;"class="glyphicon glyphicon-cog"></span>&nbsp;Call Settings</a></li>  
+     <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callcustom"><span style="font-size: 20px;" class="glyphicon glyphicon-phone"></span>&nbsp;Custom Changes</a></li>  
+            <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/callsettings"><span style="font-size: 20px;"class="glyphicon glyphicon-cog"></span>&nbsp;Call Settings</a></li>  
                     
             <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/products"><span style="font-size: 20px;" class="glyphicon glyphicon-tasks"></span>&nbsp;Products</a></li>  
              <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/campaign"><span style="font-size: 20px;"class="glyphicon glyphicon-briefcase"></span>&nbsp;Campaigns</a></li>  

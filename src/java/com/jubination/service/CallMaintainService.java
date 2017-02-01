@@ -655,6 +655,9 @@ public class CallMaintainService {
     public Lead readLead(Lead lead) {
             return (Lead) clientDao.readInnerPropertyList(lead);
     }
+     public Lead readLead(String leadId) {
+            return (Lead) clientDao.readInnerPropertyList(new Lead(leadId));
+    }
     
     public boolean updateLeadOnly(Lead lead) {
             return clientDao.updatePropertyOfList(lead,"Lead");

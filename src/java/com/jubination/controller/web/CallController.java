@@ -4,6 +4,8 @@ import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
+import com.jubination.model.pojo.crm.Client;
+import com.jubination.model.pojo.crm.Lead;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
@@ -39,6 +41,26 @@ public class CallController {
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
             if(request.getParameter("numbers")!=null){
                 operator.doLeadCall(request.getParameter("numbers"));
+                model.addObject("message", "Keep Calm and attend calls..:P");
+                return model;
+            }
+            model.addObject("message", "Error during call");
+            return model;
+    }
+    
+     @RequestMapping(value="/admin/callcustom/add/lead/count",method = RequestMethod.POST)
+    public ModelAndView changeLeadCount(HttpServletRequest request, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallcustom");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            String numbers=request.getParameter("numbers");
+            String count=request.getParameter("count");
+            if(request.getParameter("numbers")!=null){
+                 for(String number:numbers.trim().split(System.lineSeparator())){
+                     Lead lead=callMaintain.readLead(number);
+                     if(lead!=null){
+                         lead.setCount(Integer.parseInt(count));
+                     }
+                 }
                 model.addObject("message", "Keep Calm and attend calls..:P");
                 return model;
             }

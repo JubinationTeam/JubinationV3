@@ -67,12 +67,13 @@
                      
                 
                     <div id="compose" class="form-group" >
-                       <form action="${pageContext.request.contextPath}/admin/callcustom/call/lead" method="post">
+                       <form action="${pageContext.request.contextPath}/admin/callcustom/change/lead/count" method="post">
                          
 
-                            <textarea name="numbers" class="form-control" rows="10" placeholder="Add numbers here...(Each in new line)" id="comment"></textarea>
+                            <textarea name="numbers" class="form-control" rows="10" placeholder="Add lead ids here...(Each in new line)" id="comment"></textarea>
+                            <input name="count" class="form-control" placeholder="Count" id="count"/>
                             </br>
-                            <button type="submit" class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff" id="button-submit">Call Numbers</button>
+                            <button type="submit" class="btn btn-sm"  style="background-color:#0081c2;color:#ffffff" id="button-submit">Change count</button>
                        </form>                       
                     </div>
                        <hr/>
