@@ -67,7 +67,7 @@
                      
                 
                     <div id="compose" class="form-group" >
-                       <form action="${pageContext.request.contextPath}/admin/callcustom/change/lead/count" method="post">
+                       <form action="${pageContext.request.contextPath}/admin/callcustom/add/lead/count" method="post">
                          
 
                             <textarea name="numbers" class="form-control" rows="10" placeholder="Add lead ids here...(Each in new line)" id="comment"></textarea>
