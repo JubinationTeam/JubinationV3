@@ -87,11 +87,18 @@ public class CallWorkerSlave2 {
                                                
                                                 
                                         //Stage 3 Post processing
-                                         if(tryStage3PreProcessing(sid)){
+                                         if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
+                                                                                           
+                                                if(tryStage3PreProcessing(sid)){
+                                                        sendEmailToFailCall("Stage 2 Line 92 completed tryStage3"+client.getName()+client.getPhoneNumber());
                                              
-                                                                                            sendEmailToFailCall("Stage 2 Line 92 completed tryStage3"+client.getName()+client.getPhoneNumber());
-                                                       return;
+                                                                                            return;
                                                    }
+                                             }
+                                             else{
+                                                sendTestEmail("Stage 2 line 99");
+                                            
+                                             }
                                           //Check status
                                           ExotelMessage eMessage=checkStatus(sid);
                                             if(eMessage!=null&&eMessage.getSuccessMessage()!=null){
