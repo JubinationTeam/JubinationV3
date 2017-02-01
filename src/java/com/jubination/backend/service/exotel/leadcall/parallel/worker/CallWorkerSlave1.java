@@ -61,7 +61,7 @@ public class CallWorkerSlave1 {
     @Autowired
     private AdminMaintainService adminService;
     
-    private String settings="settings";
+    private static final String settings="settings";
     
       
       
@@ -139,6 +139,7 @@ public class CallWorkerSlave1 {
               catch(IOException | JAXBException e){
                   e.printStackTrace();
               }
+          
            return eMessage;
           }
           
@@ -146,6 +147,10 @@ public class CallWorkerSlave1 {
           private Client readAndSaveMessage(ExotelMessage eMessage, Client client) {
               boolean saved=false;
               boolean leadsAttached=false;
+            if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
+              Lead lead=client.getLead().get(client.getLead().size()-1);
+              lead.setLastCallingThread(Thread.currentThread().getName());
+              service.updateLeadOnly(lead);
                  try{
                           
                      //exotel message to call details
@@ -186,22 +191,26 @@ public class CallWorkerSlave1 {
                                  client.setOvernight(false);
                                  
                                  
-                                    if(client.getLead()!=null&&client.getLead().size()>0){
-                                        leadsAttached=true;
-                                            Lead lead=client.getLead().get(client.getLead().size()-1);
-                                            lead.setCount(lead.getCount()-1);
+                                leadsAttached=true;
+                                lead.setCount(lead.getCount()-1);
                                     
                                     //If count zero, make all the leads count zero
                                         if(lead.getCount()==0){
                                             lead.setPending(false);
                                             lead.setNotification(false);
-                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                 for(Lead l:leadList){
-                                                                 l.setNotification(false);
-                                                                 l.setPending(false);
-                                                                 l.setCount(0);
-                                                                 service.updateLeadOnly(l);
-                                                 }
+                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
+                                                
+                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                     for(Lead l:leadList){
+                                                                     l.setNotification(false);
+                                                                     l.setPending(false);
+                                                                     l.setCount(0);
+                                                                     service.updateLeadOnly(l);
+                                                     }
+                                                }
+                                            }
+                                            else{
+                                                sendTestEmail("Stage 1 line 213");
                                             }
                                             //Try Saving to database 10 times
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
@@ -210,13 +219,19 @@ public class CallWorkerSlave1 {
 
                                             while(!saved&&count<10){
                                                         try{
-                                                            saved=service.addClientAndUnmarkBackupClient(client, lead, call);
-                                                            if(passOn){
-                                                                            client.getLead().get(client.getLead().size()-1).getCall().add(call);
-                                                                            manager.getClientStage2().offer(client);
-                                                             }
+                                                            
+                                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
+                                                                    saved=service.addClientAndUnmarkBackupClient(client, lead, call);
+                                                                    if(passOn){
+                                                                                    lead.getCall().add(call);
+                                                                                    manager.getClientStage2().offer(client);
+                                                                     }
+                                                            }else{
+                                                                sendTestEmail("Stage 1 line 230");
+                                                            }
                                                         }
                                                         catch(Exception e){
+                                                            sendTestEmail("Stage 1 line 234"+e.toString());
                                                             if(lead!=null){
                                                                 System.out.println("Tried saving client to database "+count+"th time "+lead.getLeadId()+"::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
                                                             }
@@ -230,17 +245,20 @@ public class CallWorkerSlave1 {
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:Call out of queue");
                                             
                                            
-                                     }
-                                    else{
-                                        System.err.println("NO LEAD ATTACHED::::::::::::::::::::::::::::::::::::::::::::::::: Slave1");
-                                    }
+                                     
                           
                             }
                             catch(Exception e){
-                                    
+                                    sendTestEmail("Stage 1 line 251"+e.toString());
                                     if(!saved){
+                                        
+                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
                                                client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
                                                manager.setExecutives(manager.getExecutives()-1, "CALLBOT");
+                                            }
+                                            else{
+                                                sendTestEmail("Stage 1 line 254"+"not saved @ database");
+                                            }
                                            
                                     }
                                     
@@ -248,8 +266,23 @@ public class CallWorkerSlave1 {
                                      e.printStackTrace();
                                             
                             } 
+            }
+            else{
+                System.err.println("NO LEAD ATTACHED::::::::::::::::::::::::::::::::::::::::::::::::: Slave1");
+            }
                  return client;
           }
+          
+          private void sendTestEmail(String text){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService("souvik@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
+          
           
           private void sendEmailToFailCall(String email,String leadId,String number){
            AdminSettings adminSettings = adminService.readSettings(settings);

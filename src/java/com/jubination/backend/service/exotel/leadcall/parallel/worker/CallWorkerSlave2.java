@@ -21,6 +21,8 @@ import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
@@ -68,39 +70,35 @@ public class CallWorkerSlave2 {
      private  AdminMaintainService adminService;
         @Autowired
     Updater updater;
-    private String settings="settings";
+    private static final String settings="settings";
     
           public void work(Client client){
               try{
                 //STAGE 2-----------------------GET CALL STATUS----------------------------------------------------------------//
-                      int count=0;
                       
+                      
+                         //fetching all the sid values
+                   if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
+                       int count=0;
+                        Lead lead=client.getLead().get(client.getLead().size()-1);
+                        String  sid=tryFetchingSid(lead);
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {
-                                            String sid=null;
-                                            Lead lead=null;
-                                                 //fetching all the sid values
-                                                sid=tryFetchingSid(client);
-                                                if(sid!=null){
-                                                    lead=client.getLead().get(client.getLead().size()-1);
-
-                                                }
-                                                else{
-                                                    System.out.println("Stage 2 : ERROR FECHING SIDS");
-                                                    return;
-                                                }
+                                               
                                                 
-                                                 //Stage 3 Post processing
-                                            if(tryStage3PreProcessing(sid)){
-                                                                return;
-                                                            }
+                                        //Stage 3 Post processing
+                                         if(tryStage3PreProcessing(sid)){
+                                             
+                                                                                            sendEmailToFailCall("Stage 2 Line 92 completed tryStage3"+client.getName()+client.getPhoneNumber());
+                                                       return;
+                                                   }
                                           //Check status
                                           ExotelMessage eMessage=checkStatus(sid);
                                             if(eMessage!=null&&eMessage.getSuccessMessage()!=null){
 
                                                         Call message=eMessage.getSuccessMessage();
                                                         System.out.println(Thread.currentThread().getName()+" "+"Stage 2:xml message success "+message.getStatus()+" "+message.getCallType()+" "+message.getDialCallDuration());
-
+                                                        
                                                         if(message.getStatus().contains("queued")||message.getStatus().contains("ringing")||message.getStatus().contains("in-progress")){
                                                                             count++;
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
@@ -108,6 +106,7 @@ public class CallWorkerSlave2 {
                                                           }
                                                         else if(message.getStatus().contains("completed")){
                                                                         try {
+                                                                                        sendEmailToFailCall(sid+":::"+client.getName()+client.getPhoneNumber()+":::"+message.getStatus());
                                                                                         Thread.sleep(2000);
                                                                                         } catch (InterruptedException ex) {
                                                                                             Logger.getLogger(CallWorkerSlave2.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,6 +201,12 @@ public class CallWorkerSlave2 {
                                 manager.getClientStage2().poll();
                                     }
                       }
+                   }
+                    
+                else{
+                    sendTestEmail("Stage 2 Line 91 lead");
+                    System.out.println("Stage 2 : ERROR FECHING SIDS");
+                }
                        }
             catch(Exception e){
                 System.out.println("Error @ outer work Slave 2");
@@ -307,22 +312,21 @@ public class CallWorkerSlave2 {
                 return false;
            }
            
-          private String tryFetchingSid(Client client){
+          private String tryFetchingSid(Lead lead){
                String sid=null;
                  try{
                                 
-                                    Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    Call call= lead.getCall().get(lead.getCall().size()-1);
-                                    sid=call.getSid();
+                                    sid= lead.getCall().get(lead.getCall().size()-1).getSid();
                             }
                             catch(Exception e){
                                 
                                             e.printStackTrace();
+                                            sendTestEmail("Stage 2 line 322 lead not yet saved"+e.toString());
                                             System.out.println("#"+Thread.currentThread().getName()+"Exception 1. Stage2 out");
                                             manager.getClientStage2().poll();
                                 
-                                    if(client!=null){
-                                            System.out.println(Thread.currentThread().getName()+" "+"Problem in "+client.getTempLeadDetails());
+                                    if(lead!=null){
+                                            System.out.println(Thread.currentThread().getName()+" "+"Problem in "+lead.getLeadId());
                                     }
                             }
                  return sid;
@@ -401,5 +405,13 @@ public class CallWorkerSlave2 {
                                                 "Customer Happiness Manager<br/>" +
                                                 "02239652819 ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
-
+           private void sendTestEmail(String text){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService("souvik@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
 }
