@@ -15,6 +15,8 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,6 +88,7 @@ public class CallWorkerSlave3 {
                                                                 }
 
                                                                 manager.getStageThreeUpdates().remove(callUpdatedFromList);
+                                                                sendTestEmail(sid+":::succsess Stage 3:::"+callUpdatedFromList.getCallTo()+":::"+callUpdatedFromList.getDialWhomNumber());
                                                                 return true;
                                                     }
                                                 }
@@ -354,6 +357,14 @@ public class CallWorkerSlave3 {
      }
 
        
-
+ private void sendTestEmail(String text){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService("souvik@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
      
 }

@@ -8,8 +8,12 @@ package com.jubination.controller.api;
 import com.jubination.backend.service.backupserver.ServerUpdater;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
+import com.jubination.backend.service.lms.Updater;
+import com.jubination.backend.service.sendgrid.EmailService;
+import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.exotel.Call;
+import com.jubination.service.AdminMaintainService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -36,7 +40,10 @@ public class ExotelAPIController {
     CallManager eCallHandler;
     @Autowired
     ServerUpdater updater;
+    @Autowired
+     private  AdminMaintainService adminService;
     
+     private  String settings="settings";
     @RequestMapping(value="/exotel/{value}",method=RequestMethod.GET)
     public ResponseEntity callUpdateGet(HttpServletRequest request,@PathVariable("value") String status, Principal principal) throws IOException {
             System.out.println("@ Stage 3"); 
@@ -91,6 +98,7 @@ public class ExotelAPIController {
                   for(Client client:eCallHandler.getClientStage2()){
                       if(request.getParameter("From").contains(client.getPhoneNumber())&&request.getParameter("Status").equals("busy")){
                           client.setRealTimeData(request.getParameter("DialWhomNumber"));
+                          sendTestEmail("Picked up by "+request.getParameter("DialWhomNumber")+". Called "+client.getPhoneNumber()+", "+client.getName());
                       }
                   }
                default:
@@ -109,6 +117,32 @@ public class ExotelAPIController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
    
-    
+     private void sendTestEmail(String text){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService("souvik@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+            new EmailService("tauseef@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+            new EmailService("vinay@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+            new EmailService("ranajit@jubination.com",text,
+                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
 
 }
