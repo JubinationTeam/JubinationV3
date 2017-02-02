@@ -318,7 +318,6 @@ CallManager eCallHandler;
                           Thread.sleep(60000);
                         }
                         
-                        eCallHandler.getRealTimeInCall().clear();
                         analyticsService.mailSpokeAnalytics();
                         analyticsService.doAnalytics();
                     }

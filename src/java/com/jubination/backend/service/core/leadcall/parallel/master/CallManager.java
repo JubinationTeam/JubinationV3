@@ -39,7 +39,6 @@ public class CallManager {
                       
                          private Stack<Client> client= new Stack<>();
                         private ConcurrentLinkedQueue<Client> tempClient= new ConcurrentLinkedQueue<>();
-                        private Stack<Client> realTimeClient= new Stack<>();
                         private List<Call> message= new ArrayList<>();
                         boolean stageThreeFlag=true;
                         
@@ -100,11 +99,7 @@ public class CallManager {
         return tempClient;
     }
 
-    public Stack<Client> getRealTimeInCall() {
-        synchronized(realTimeClient){
-            return realTimeClient;
-        }
-    }
+    
        
                     
 

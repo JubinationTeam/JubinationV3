@@ -95,7 +95,7 @@ public class CallController {
     @RequestMapping(value="/admin/callinterface")
     public ModelAndView callInterface(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallinterface");
-            model.addObject("clientStage",eCallHandler.getRealTimeInCall());
+            model.addObject("clientStage",eCallHandler.getClientStage2());
             model.addObject("clientStage1",eCallHandler.getClientStage1());
             model.addObject("clientStage2",eCallHandler.getClientStage2());
             model.addObject("callStage3",eCallHandler.getStageThreeUpdates()); 
