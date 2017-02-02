@@ -56,7 +56,7 @@ CallManager eCallHandler;
                     private final String retreiveDump="2 0 9 * * *";
                     private final String missedCallCheck="0/10 */8 9-19 * * *";
                     private final String missedAppointmentScheduling="0/10 59 */2 * * *";
-                    private final String followUpCall="0/10 */2 10-19 * * *";
+                    private final String followUpCall="0/10 */15 10-19 * * *";
                     private final String calculateAnalytics="0/10 30 23 * * *";
                     
                     private final String appIdLead="102261";
