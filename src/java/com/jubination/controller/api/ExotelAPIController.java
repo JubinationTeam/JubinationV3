@@ -119,30 +119,13 @@ public class ExotelAPIController {
    
      private void sendTestEmail(String text){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com",text,
+            new EmailService("souvik@jubination.com","picked up",
                                           text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
                     adminSettings.getMyPassword(),
                     adminSettings.getAuth(),
                     adminSettings.getStarttls(),
                     adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-            new EmailService("tauseef@jubination.com",text,
-                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-            new EmailService("vinay@jubination.com",text,
-                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-            new EmailService("ranajit@jubination.com",text,
-                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+            
      }
 
 }
