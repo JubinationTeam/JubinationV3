@@ -227,14 +227,14 @@ public class CallWorkerSlave2 {
                             }
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
-                        else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
-                            message.getLead().setLeadStatus("Hanged up while greetings");
-                            service.updateLeadOnly(message.getLead());
-                             if(client!=null){
-                                sendEmailToFailCall(client.getEmailId());
-                            }
-                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-                        }
+//                        else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
+//                            message.getLead().setLeadStatus("Hanged up while greetings");
+//                            service.updateLeadOnly(message.getLead());
+//                             if(client!=null){
+//                                sendEmailToFailCall(client.getEmailId());
+//                            }
+//                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
+//                        }
 
 
                                  service.updateCallAPIMessage(message);
@@ -271,14 +271,14 @@ public class CallWorkerSlave2 {
                         }
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                     }
-                    else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
-                            message.getLead().setLeadStatus("Hanged up while greetings");
-                            service.updateLeadOnly(message.getLead());
-                             if(client!=null){
-                                sendEmailToFailCall(client.getEmailId());
-                            }
-                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-                        }
+//                    else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
+//                            message.getLead().setLeadStatus("Hanged up while greetings");
+//                            service.updateLeadOnly(message.getLead());
+//                             if(client!=null){
+//                                sendEmailToFailCall(client.getEmailId());
+//                            }
+//                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
+//                        }
 
                     service.updateCallAPIMessage(storedMessage);
            }

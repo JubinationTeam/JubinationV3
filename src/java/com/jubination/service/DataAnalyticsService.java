@@ -82,82 +82,82 @@ public class DataAnalyticsService {
             private final String missedRequestedCallBack="missedRequestedCallBack";
             private final String missedOthers="missedOthers";
             
-            private final String firstTotal="firstTotal";
-          private final String firstBusy=  "firstBusy";
-            private final String firstFailed="firstFailed";
-            private final String firstNoAnswer="firstNoAnswer";
-            private final String firstGreetingsOnHangup="firstGreetingsOnHangup";
-            private final String firstHangUpConnect="firstHangUpConnect";
-            private final String firstMissCall="firstMissCall";
-            private final String firstSpoke="firstSpoke";
-            private final String firstRequestedCallBack="firstRequestedCallBack";
-            private final String firstOthers="firstOthers";
-            
-            private final String secondTotal="secondTotal";
-          private final String secondBusy=  "secondBusy";
-            private final String secondFailed="secondFailed";
-            private final String secondNoAnswer="secondNoAnswer";
-            private final String secondGreetingsOnHangup="secondGreetingsOnHangup";
-            private final String secondHangUpConnect="secondHangUpConnect";
-            private final String secondMissCall="secondMissCall";
-            private final String secondSpoke="secondSpoke";
-            private final String secondRequestedCallBack="secondRequestedCallBack";
-            private final String secondOthers="thirdOthers";
-            
-            private final String thirdTotal="thirdTotal";
-          private final String thirdBusy=  "thirdBusy";
-            private final String thirdFailed="thirdFailed";
-            private final String thirdNoAnswer="thirdNoAnswer";
-            private final String thirdGreetingsOnHangup="thirdGreetingsOnHangup";
-            private final String thirdHangUpConnect="thirdHangUpConnect";
-            private final String thirdMissCall="thirdMissCall";
-            private final String thirdSpoke="thirdSpoke";
-            private final String thirdRequestedCallBack="thirdRequestedCallBack";
-            private final String thirdOthers="thirdOthers";
-            
-            private final String fourthTotal="fourthTotal";
-          private final String fourthBusy=  "fourthBusy";
-            private final String fourthFailed="fourthFailed";
-            private final String fourthNoAnswer="fourthNoAnswer";
-            private final String fourthGreetingsOnHangup="fourthGreetingsOnHangup";
-            private final String fourthHangUpConnect="fourthHangUpConnect";
-            private final String fourthMissCall="fourthMissCall";
-            private final String fourthSpoke="fourthSpoke";
-            private final String fourthRequestedCallBack="fourthRequestedCallBack";
-            private final String fourthOthers="fourthOthers";
-            
-            private final String fiveTotal="fiveTotal";
-          private final String fiveBusy=  "fiveBusy";
-            private final String fiveFailed="fiveFailed";
-            private final String fiveNoAnswer="fiveNoAnswer";
-            private final String fiveGreetingsOnHangup="fiveGreetingsOnHangup";
-            private final String fiveHangUpConnect="fiveHangUpConnect";
-            private final String fiveMissCall="fiveMissCall";
-            private final String fiveSpoke="fiveSpoke";
-            private final String fiveRequestedCallBack="fiveRequestedCallBack";
-            private final String fiveOthers="fiveOthers";
-            
-            private final String sixthTotal="sixthTotal";
-          private final String sixthBusy=  "sixthBusy";
-            private final String sixthFailed="sixthFailed";
-            private final String sixthNoAnswer="sixthNoAnswer";
-            private final String sixthGreetingsOnHangup="sixthGreetingsOnHangup";
-            private final String sixthHangUpConnect="sixthHangUpConnect";
-            private final String sixthMissCall="sixthMissCall";
-            private final String sixthSpoke="sixthSpoke";
-            private final String sixthRequestedCallBack="sixthRequestedCallBack";
-            private final String sixthOthers="sixthOthers";
-            
-            private final String seventhTotal="seventhTotal";
-          private final String seventhBusy=  "seventhBusy";
-            private final String seventhFailed="seventhFailed";
-            private final String seventhNoAnswer="seventhNoAnswer";
-            private final String seventhGreetingsOnHangup="seventhGreetingsOnHangup";
-            private final String seventhHangUpConnect="seventhHangUpConnect";
-            private final String seventhMissCall="seventhMissCall";
-            private final String seventhSpoke="seventhSpoke";
-            private final String seventhRequestedCallBack="seventhRequestedCallBack";
-            private final String seventhOthers="seventhOthers";
+//            private final String firstTotal="firstTotal";
+//          private final String firstBusy=  "firstBusy";
+//            private final String firstFailed="firstFailed";
+//            private final String firstNoAnswer="firstNoAnswer";
+//            private final String firstGreetingsOnHangup="firstGreetingsOnHangup";
+//            private final String firstHangUpConnect="firstHangUpConnect";
+//            private final String firstMissCall="firstMissCall";
+//            private final String firstSpoke="firstSpoke";
+//            private final String firstRequestedCallBack="firstRequestedCallBack";
+//            private final String firstOthers="firstOthers";
+//            
+//            private final String secondTotal="secondTotal";
+//          private final String secondBusy=  "secondBusy";
+//            private final String secondFailed="secondFailed";
+//            private final String secondNoAnswer="secondNoAnswer";
+//            private final String secondGreetingsOnHangup="secondGreetingsOnHangup";
+//            private final String secondHangUpConnect="secondHangUpConnect";
+//            private final String secondMissCall="secondMissCall";
+//            private final String secondSpoke="secondSpoke";
+//            private final String secondRequestedCallBack="secondRequestedCallBack";
+//            private final String secondOthers="thirdOthers";
+//            
+//            private final String thirdTotal="thirdTotal";
+//          private final String thirdBusy=  "thirdBusy";
+//            private final String thirdFailed="thirdFailed";
+//            private final String thirdNoAnswer="thirdNoAnswer";
+//            private final String thirdGreetingsOnHangup="thirdGreetingsOnHangup";
+//            private final String thirdHangUpConnect="thirdHangUpConnect";
+//            private final String thirdMissCall="thirdMissCall";
+//            private final String thirdSpoke="thirdSpoke";
+//            private final String thirdRequestedCallBack="thirdRequestedCallBack";
+//            private final String thirdOthers="thirdOthers";
+//            
+//            private final String fourthTotal="fourthTotal";
+//          private final String fourthBusy=  "fourthBusy";
+//            private final String fourthFailed="fourthFailed";
+//            private final String fourthNoAnswer="fourthNoAnswer";
+//            private final String fourthGreetingsOnHangup="fourthGreetingsOnHangup";
+//            private final String fourthHangUpConnect="fourthHangUpConnect";
+//            private final String fourthMissCall="fourthMissCall";
+//            private final String fourthSpoke="fourthSpoke";
+//            private final String fourthRequestedCallBack="fourthRequestedCallBack";
+//            private final String fourthOthers="fourthOthers";
+//            
+//            private final String fiveTotal="fiveTotal";
+//          private final String fiveBusy=  "fiveBusy";
+//            private final String fiveFailed="fiveFailed";
+//            private final String fiveNoAnswer="fiveNoAnswer";
+//            private final String fiveGreetingsOnHangup="fiveGreetingsOnHangup";
+//            private final String fiveHangUpConnect="fiveHangUpConnect";
+//            private final String fiveMissCall="fiveMissCall";
+//            private final String fiveSpoke="fiveSpoke";
+//            private final String fiveRequestedCallBack="fiveRequestedCallBack";
+//            private final String fiveOthers="fiveOthers";
+//            
+//            private final String sixthTotal="sixthTotal";
+//          private final String sixthBusy=  "sixthBusy";
+//            private final String sixthFailed="sixthFailed";
+//            private final String sixthNoAnswer="sixthNoAnswer";
+//            private final String sixthGreetingsOnHangup="sixthGreetingsOnHangup";
+//            private final String sixthHangUpConnect="sixthHangUpConnect";
+//            private final String sixthMissCall="sixthMissCall";
+//            private final String sixthSpoke="sixthSpoke";
+//            private final String sixthRequestedCallBack="sixthRequestedCallBack";
+//            private final String sixthOthers="sixthOthers";
+//            
+//            private final String seventhTotal="seventhTotal";
+//          private final String seventhBusy=  "seventhBusy";
+//            private final String seventhFailed="seventhFailed";
+//            private final String seventhNoAnswer="seventhNoAnswer";
+//            private final String seventhGreetingsOnHangup="seventhGreetingsOnHangup";
+//            private final String seventhHangUpConnect="seventhHangUpConnect";
+//            private final String seventhMissCall="seventhMissCall";
+//            private final String seventhSpoke="seventhSpoke";
+//            private final String seventhRequestedCallBack="seventhRequestedCallBack";
+//            private final String seventhOthers="seventhOthers";
             
             private final String booked="booked";
             private final String done="done";
@@ -221,21 +221,6 @@ public class DataAnalyticsService {
                 daCustom.setType("custom");
                 DataAnalytics daMissed = new DataAnalytics();
                 daMissed.setType("missed");
-                
-                DataAnalytics daFirst = new DataAnalytics();
-                daFirst.setType("first");
-                DataAnalytics daSecond = new DataAnalytics();
-                daSecond.setType("second");
-                DataAnalytics daThird = new DataAnalytics();
-                daThird.setType("third");
-                DataAnalytics daFourth = new DataAnalytics();
-                daFourth.setType("fourth");
-                DataAnalytics daFive = new DataAnalytics();
-                daFive.setType("five");
-                DataAnalytics daSixth = new DataAnalytics();
-                daSixth.setType("sixth");
-                DataAnalytics daSeventh = new DataAnalytics();
-                daSeventh.setType("seventh");
 
                 String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                 daFresh.setRequestedTime(time);
@@ -305,7 +290,6 @@ public class DataAnalyticsService {
                daFresh.setSpoke(counts.get(freshSpoke));
                daFresh.setRequestedCallBack(counts.get(freshRequestedCallBack));
                daFresh.setOthers(counts.get(freshOthers));
-              
                
                daFresh.setAppointment(counts.get(appointment));
                daFresh.setBooked(counts.get(booked));
@@ -316,102 +300,6 @@ public class DataAnalyticsService {
                daFresh.setServiced(counts.get(serviced));
                daFresh.setYetToAssign(counts.get(yetToAssign));
                daDao.buildEntity(daFresh);
-               
-               
-                
-               
-               //First Call
-               daFirst.setTotal(counts.get(firstTotal));
-               daFirst.setBusy(counts.get(firstBusy));
-               daFirst.setFailed(counts.get(firstFailed));
-               daFirst.setNoAnswer(counts.get(firstNoAnswer));
-               daFirst.setGreetingsHangup(counts.get(firstGreetingsOnHangup));
-               daFirst.setHangupOnConnect(counts.get(firstHangUpConnect));
-               daFirst.setMissCall(counts.get(firstMissCall));
-               daFirst.setSpoke(counts.get(firstSpoke));
-               daFirst.setRequestedCallBack(counts.get(firstRequestedCallBack));
-               daFirst.setOthers(counts.get(firstOthers));
-               daDao.buildEntity(daFirst);
-               
-               //Second Call
-               daSecond.setTotal(counts.get(secondTotal));
-               daSecond.setBusy(counts.get(secondBusy));
-               daSecond.setFailed(counts.get(secondFailed));
-               daSecond.setNoAnswer(counts.get(secondNoAnswer));
-               daSecond.setGreetingsHangup(counts.get(secondGreetingsOnHangup));
-               daSecond.setHangupOnConnect(counts.get(secondHangUpConnect));
-               daSecond.setMissCall(counts.get(secondMissCall));
-               daSecond.setSpoke(counts.get(secondSpoke));
-               daSecond.setRequestedCallBack(counts.get(secondRequestedCallBack));
-               daSecond.setOthers(counts.get(secondOthers));
-               daDao.buildEntity(daSecond);
-              
-               //Third Call
-               daThird.setTotal(counts.get(thirdTotal));
-               daThird.setBusy(counts.get(thirdBusy));
-               daThird.setFailed(counts.get(thirdFailed));
-               daThird.setNoAnswer(counts.get(thirdNoAnswer));
-               daThird.setGreetingsHangup(counts.get(thirdGreetingsOnHangup));
-               daThird.setHangupOnConnect(counts.get(thirdHangUpConnect));
-               daThird.setMissCall(counts.get(thirdMissCall));
-               daThird.setSpoke(counts.get(thirdSpoke));
-               daThird.setRequestedCallBack(counts.get(thirdRequestedCallBack));
-               daThird.setOthers(counts.get(thirdOthers));
-               daDao.buildEntity(daThird);
-               
-               //Fourth Call
-               daFourth.setTotal(counts.get(fourthTotal));
-               daFourth.setBusy(counts.get(fourthBusy));
-               daFourth.setFailed(counts.get(fourthFailed));
-               daFourth.setNoAnswer(counts.get(fourthNoAnswer));
-               daFourth.setGreetingsHangup(counts.get(fourthGreetingsOnHangup));
-               daFourth.setHangupOnConnect(counts.get(fourthHangUpConnect));
-               daFourth.setMissCall(counts.get(fourthMissCall));
-               daFourth.setSpoke(counts.get(fourthSpoke));
-               daFourth.setRequestedCallBack(counts.get(fourthRequestedCallBack));
-               daFourth.setOthers(counts.get(fourthOthers));
-               daDao.buildEntity(daFourth);
-               
-               //Five Call
-               daFive.setTotal(counts.get(fiveTotal));
-               daFive.setBusy(counts.get(fiveBusy));
-               daFive.setFailed(counts.get(fiveFailed));
-               daFive.setNoAnswer(counts.get(fiveNoAnswer));
-               daFive.setGreetingsHangup(counts.get(fiveGreetingsOnHangup));
-               daFive.setHangupOnConnect(counts.get(fiveHangUpConnect));
-               daFive.setMissCall(counts.get(fiveMissCall));
-               daFive.setSpoke(counts.get(fiveSpoke));
-               daFive.setRequestedCallBack(counts.get(fiveRequestedCallBack));
-               daFive.setOthers(counts.get(fiveOthers));
-               daDao.buildEntity(daFive);
-               
-               //Sixth Call
-               daSixth.setTotal(counts.get(sixthTotal));
-               daSixth.setBusy(counts.get(sixthBusy));
-               daSixth.setFailed(counts.get(sixthFailed));
-               daSixth.setNoAnswer(counts.get(sixthNoAnswer));
-               daSixth.setGreetingsHangup(counts.get(sixthGreetingsOnHangup));
-               daSixth.setHangupOnConnect(counts.get(sixthHangUpConnect));
-               daSixth.setMissCall(counts.get(sixthMissCall));
-               daSixth.setSpoke(counts.get(sixthSpoke));
-               daSixth.setRequestedCallBack(counts.get(sixthRequestedCallBack));
-               daSixth.setOthers(counts.get(sixthOthers));
-               daDao.buildEntity(daSixth);
-               
-               //Seventh Call
-               daSeventh.setTotal(counts.get(seventhTotal));
-               daSeventh.setBusy(counts.get(seventhBusy));
-               daSeventh.setFailed(counts.get(seventhFailed));
-               daSeventh.setNoAnswer(counts.get(seventhNoAnswer));
-               daSeventh.setGreetingsHangup(counts.get(seventhGreetingsOnHangup));
-               daSeventh.setHangupOnConnect(counts.get(seventhHangUpConnect));
-               daSeventh.setMissCall(counts.get(seventhMissCall));
-               daSeventh.setSpoke(counts.get(seventhSpoke));
-               daSeventh.setRequestedCallBack(counts.get(seventhRequestedCallBack));
-               daSeventh.setOthers(counts.get(seventhOthers));
-               daDao.buildEntity(daSeventh);
-               
-               
 
                //Follow up
                daFollowUp.setTotal(counts.get(followUpTotal));
@@ -438,8 +326,6 @@ public class DataAnalyticsService {
                daMissed.setRequestedCallBack(counts.get(missedRequestedCallBack));
                daMissed.setOthers(counts.get(missedOthers));
                daDao.buildEntity(daMissed);
-               
-               
 
             }
             public Map<String, Long> doReportingOperationSize(List<Client> list){
@@ -455,7 +341,9 @@ public class DataAnalyticsService {
                     counts.put(revised,0l);
                     counts.put(serviced,0l);
                     
-                     counts.put(freshTotal,0l);
+                    
+                    
+                    counts.put(freshTotal,0l);
                     counts.put(freshBusy,0l);
                     counts.put(freshFailed,0l);
                     counts.put(freshNoAnswer,0l);
@@ -465,84 +353,6 @@ public class DataAnalyticsService {
                     counts.put(freshSpoke,0l);
                     counts.put(freshRequestedCallBack,0l);
                     counts.put(freshOthers,0l);
-                    
-                    counts.put(firstTotal,0l);
-                    counts.put(firstBusy,0l);
-                    counts.put(firstFailed,0l);
-                    counts.put(firstNoAnswer,0l);
-                    counts.put(firstGreetingsOnHangup,0l);
-                    counts.put(firstHangUpConnect,0l);
-                    counts.put(firstMissCall,0l);
-                    counts.put(firstSpoke,0l);
-                    counts.put(firstRequestedCallBack,0l);
-                    counts.put(firstOthers,0l);
-                   
-                     counts.put(secondTotal,0l);
-                    counts.put(secondBusy,0l);
-                    counts.put(secondFailed,0l);
-                    counts.put(secondNoAnswer,0l);
-                    counts.put(secondGreetingsOnHangup,0l);
-                    counts.put(secondHangUpConnect,0l);
-                    counts.put(secondMissCall,0l);
-                    counts.put(secondSpoke,0l);
-                    counts.put(secondRequestedCallBack,0l);
-                    counts.put(secondOthers,0l);
-                    
-                     counts.put(thirdTotal,0l);
-                    counts.put(thirdBusy,0l);
-                    counts.put(thirdFailed,0l);
-                    counts.put(thirdNoAnswer,0l);
-                    counts.put(thirdGreetingsOnHangup,0l);
-                    counts.put(thirdHangUpConnect,0l);
-                    counts.put(thirdMissCall,0l);
-                    counts.put(thirdSpoke,0l);
-                    counts.put(thirdRequestedCallBack,0l);
-                    counts.put(thirdOthers,0l);
-                    
-                     counts.put(fourthTotal,0l);
-                    counts.put(fourthBusy,0l);
-                    counts.put(fourthFailed,0l);
-                    counts.put(fourthNoAnswer,0l);
-                    counts.put(fourthGreetingsOnHangup,0l);
-                    counts.put(fourthHangUpConnect,0l);
-                    counts.put(fourthMissCall,0l);
-                    counts.put(fourthSpoke,0l);
-                    counts.put(fourthRequestedCallBack,0l);
-                    counts.put(fourthOthers,0l);
-                    
-                     counts.put(fiveTotal,0l);
-                    counts.put(fiveBusy,0l);
-                    counts.put(fiveFailed,0l);
-                    counts.put(fiveNoAnswer,0l);
-                    counts.put(fiveGreetingsOnHangup,0l);
-                    counts.put(fiveHangUpConnect,0l);
-                    counts.put(fiveMissCall,0l);
-                    counts.put(fiveSpoke,0l);
-                    counts.put(fiveRequestedCallBack,0l);
-                    counts.put(fiveOthers,0l);
-                    
-                     counts.put(sixthTotal,0l);
-                    counts.put(sixthBusy,0l);
-                    counts.put(sixthFailed,0l);
-                    counts.put(sixthNoAnswer,0l);
-                    counts.put(sixthGreetingsOnHangup,0l);
-                    counts.put(sixthHangUpConnect,0l);
-                    counts.put(sixthMissCall,0l);
-                    counts.put(sixthSpoke,0l);
-                    counts.put(sixthRequestedCallBack,0l);
-                    counts.put(sixthOthers,0l);
-                    
-                     counts.put(seventhTotal,0l);
-                    counts.put(seventhBusy,0l);
-                    counts.put(seventhFailed,0l);
-                    counts.put(seventhNoAnswer,0l);
-                    counts.put(seventhGreetingsOnHangup,0l);
-                    counts.put(seventhHangUpConnect,0l);
-                    counts.put(seventhMissCall,0l);
-                    counts.put(seventhSpoke,0l);
-                    counts.put(seventhRequestedCallBack,0l);
-                    counts.put(seventhOthers,0l);
-                 
                     counts.put(followUpTotal,0l);
                     counts.put(followUpBusy,0l);
                     counts.put(followUpFailed,0l);
@@ -690,34 +500,6 @@ public class DataAnalyticsService {
                         counts.replace(freshBusy, counts.get(freshBusy)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
                 }
-                else if(i==1){
-                        counts.replace(firstBusy, counts.get(firstBusy)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondBusy, counts.get(secondBusy)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdBusy, counts.get(thirdBusy)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthBusy, counts.get(fourthBusy)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveBusy, counts.get(fiveBusy)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthBusy, counts.get(sixthBusy)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhBusy, counts.get(seventhBusy)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                 else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                        counts.replace(missedBusy, counts.get(missedBusy)+1);
                         counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -738,34 +520,6 @@ public class DataAnalyticsService {
                             counts.replace(freshFailed, counts.get(freshFailed)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
-                else if(i==1){
-                        counts.replace(firstFailed, counts.get(firstFailed)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondFailed, counts.get(secondFailed)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdFailed, counts.get(thirdFailed)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthFailed, counts.get(fourthFailed)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveFailed, counts.get(fiveFailed)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthFailed, counts.get(sixthFailed)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhFailed, counts.get(seventhFailed)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                     else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedFailed, counts.get(missedFailed)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -786,34 +540,6 @@ public class DataAnalyticsService {
                             counts.replace(freshNoAnswer, counts.get(freshNoAnswer)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
-                else if(i==1){
-                        counts.replace(firstNoAnswer, counts.get(firstNoAnswer)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondNoAnswer, counts.get(secondNoAnswer)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdNoAnswer, counts.get(thirdNoAnswer)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthNoAnswer, counts.get(fourthNoAnswer)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveNoAnswer, counts.get(fiveNoAnswer)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthNoAnswer, counts.get(sixthNoAnswer)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhNoAnswer, counts.get(seventhNoAnswer)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                     else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedNoAnswer, counts.get(missedNoAnswer)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -835,34 +561,6 @@ public class DataAnalyticsService {
                         counts.replace(freshHangUpConnect, counts.get(freshHangUpConnect)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
                 }
-                else if(i==1){
-                        counts.replace(firstHangUpConnect, counts.get(firstHangUpConnect)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondHangUpConnect, counts.get(secondHangUpConnect)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdHangUpConnect, counts.get(thirdHangUpConnect)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthHangUpConnect, counts.get(fourthHangUpConnect)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveHangUpConnect, counts.get(fiveHangUpConnect)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthHangUpConnect, counts.get(sixthHangUpConnect)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhHangUpConnect, counts.get(seventhHangUpConnect)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                      else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedHangUpConnect, counts.get(missedHangUpConnect)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -883,34 +581,6 @@ public class DataAnalyticsService {
                             counts.replace(freshGreetingsOnHangup, counts.get(freshGreetingsOnHangup)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
-                else if(i==1){
-                        counts.replace(firstGreetingsOnHangup, counts.get(firstGreetingsOnHangup)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondGreetingsOnHangup, counts.get(secondGreetingsOnHangup)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdGreetingsOnHangup, counts.get(thirdGreetingsOnHangup)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthGreetingsOnHangup, counts.get(fourthGreetingsOnHangup)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveGreetingsOnHangup, counts.get(fiveGreetingsOnHangup)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthGreetingsOnHangup, counts.get(sixthGreetingsOnHangup)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhGreetingsOnHangup, counts.get(seventhGreetingsOnHangup)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                      else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedGreetingsOnHangup, counts.get(missedGreetingsOnHangup)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -930,34 +600,6 @@ public class DataAnalyticsService {
                 else if(i==0){
                         counts.replace(freshMissCall, counts.get(freshMissCall)+1);
                         counts.replace(freshTotal, counts.get(freshTotal)+1);
-                }
-                else if(i==1){
-                        counts.replace(firstMissCall, counts.get(firstMissCall)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondMissCall, counts.get(secondMissCall)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdMissCall, counts.get(thirdMissCall)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthMissCall, counts.get(fourthMissCall)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveMissCall, counts.get(fiveMissCall)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthMissCall, counts.get(sixthMissCall)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhMissCall, counts.get(seventhMissCall)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
                 }
                 else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedMissCall, counts.get(missedMissCall)+1);
@@ -979,34 +621,6 @@ public class DataAnalyticsService {
                             counts.replace(freshSpoke, counts.get(freshSpoke)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
-                else if(i==1){
-                        counts.replace(firstSpoke, counts.get(firstSpoke)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondSpoke, counts.get(secondSpoke)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdSpoke, counts.get(thirdSpoke)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthSpoke, counts.get(fourthSpoke)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveSpoke, counts.get(fiveSpoke)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthSpoke, counts.get(sixthSpoke)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhSpoke, counts.get(seventhSpoke)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                 else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedSpoke, counts.get(missedSpoke)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -1027,34 +641,6 @@ public class DataAnalyticsService {
                             counts.replace(freshOthers, counts.get(freshOthers)+1);
                             counts.replace(freshTotal, counts.get(freshTotal)+1);
                     }
-                else if(i==1){
-                        counts.replace(firstOthers, counts.get(firstOthers)+1);
-                        counts.replace(firstTotal, counts.get(firstTotal)+1);
-                }
-                 else if(i==2){
-                        counts.replace(secondOthers, counts.get(secondOthers)+1);
-                        counts.replace(secondTotal, counts.get(secondTotal)+1);
-                }
-                  else if(i==3){
-                        counts.replace(thirdOthers, counts.get(thirdOthers)+1);
-                        counts.replace(thirdTotal, counts.get(thirdTotal)+1);
-                }
-                   else if(i==4){
-                        counts.replace(fourthOthers, counts.get(fourthOthers)+1);
-                        counts.replace(fourthTotal, counts.get(fourthTotal)+1);
-                }
-                   else if(i==5){
-                        counts.replace(fiveOthers, counts.get(fiveOthers)+1);
-                        counts.replace(fiveTotal, counts.get(fiveTotal)+1);
-                }
-                     else if(i==6){
-                        counts.replace(sixthOthers, counts.get(sixthOthers)+1);
-                        counts.replace(sixthTotal, counts.get(sixthTotal)+1);
-                }
-                 else if(i==7){
-                        counts.replace(seventhOthers, counts.get(seventhOthers)+1);
-                        counts.replace(seventhTotal, counts.get(seventhTotal)+1);
-                }
                     else if(i==lead.getCall().size()-1&&lead.isMissedAppointment()!=null&&lead.isMissedAppointment()&&lead.getCount()<1){
                            counts.replace(missedOthers, counts.get(missedOthers)+1);
                             counts.replace(missedTotal, counts.get(missedTotal)+1);
@@ -1104,8 +690,12 @@ public class DataAnalyticsService {
                 
                 StringBuilder text=new StringBuilder();
               
-                text.append("Hi,<br/><br/> <br/>I am Call Bot!<br/><br/>").append("Average Spoke Ratio : ").append(spokeRatio)
-                            .append("%<br/>").append("Average book to spoke Ratio : ")
+                text.append("")
+                        .append("Hi,<br/><br/> <br/>I am Call Bot!<br/><br/>")
+                        .append("Average Spoke Ratio : ")
+                        .append(spokeRatio)
+                            .append("%<br/>")
+                        .append("Average book to spoke Ratio : ")
                             .append(bookToSpokeRatio)
                             .append("%<br/>")
                             .append("Average book Ratio : ")
