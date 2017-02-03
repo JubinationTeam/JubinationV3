@@ -359,7 +359,7 @@ public class CallWorkerSlave3 {
        
  private void sendTestEmail(String text){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com",text,
+            new EmailService("souvik@jubination.com","stage 3",
                                           "stage 3"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
                     adminSettings.getMyPassword(),
                     adminSettings.getAuth(),

@@ -84,7 +84,6 @@ public class CallWorkerSlave2 {
                                                           }
                                                         else if(message.getStatus().contains("completed")){
                                                                         try {
-                                                                                        sendTestEmail(sid+":::"+client.getName()+client.getPhoneNumber()+":::"+message.getStatus());
                                                                                         Thread.sleep(2000);
                                                                                         } catch (InterruptedException ex) {
                                                                                             Logger.getLogger(CallWorkerSlave2.class.getName()).log(Level.SEVERE, null, ex);

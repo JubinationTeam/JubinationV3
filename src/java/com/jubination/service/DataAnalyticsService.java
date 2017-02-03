@@ -1066,68 +1066,78 @@ public class DataAnalyticsService {
                 return counts;
             }
 
-    public void mailSpokeAnalytics() {
+    public void mailSpokeAnalytics(String date) {
+        String tillDate="";
+        if(date==null){
+            date=new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00";
+             tillDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        }
+        else{
+            tillDate=date+" 23:30:00";
+        }
         
-        
-        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-01 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-01 00:00:00", date));
                 long total=8766+counts.get(freshTotal);
                 long spoke=2605+counts.get(freshSpoke);
                 long book=2330+counts.get(booked);
                 //data till november
-                float spokePercentage=(spoke*100)/total;
-                float bookPercentage=(book*100)/total;
+                float spokeRatio=(spoke*100)/total;
+                float bookToSpokeRatio = (book*100)/spoke;
+                float bookRatio=(book*100)/total;
                 
-                counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(date, tillDate));
                 total=counts.get(freshTotal);
                 spoke=counts.get(freshSpoke);
                 book=counts.get(booked);
                 
-                if(spokePercentage!=0&&total!=0){
-                    spokePercentage=(((spoke*100)/total)*100)/spokePercentage-100;
-                }
+                float spokeRatioToday=(spoke*100)/total;
+                float bookToSpokeRatioToday = (book*100)/spoke;
+                float bookRatioToday=(book*100)/total;
                 
-                if(bookPercentage!=0&&total!=0){
-                    bookPercentage=(((book*100)/total)*100)/bookPercentage-100;
-                }
-                float spokeToday=((spoke*100)/total);
-                float bookToday=((book*100)/total);
-                String message="";
-                  message=message+"Total number of unique leads today till now is "+total+". <br/>";
-                  message=message+"Fresh Spoke today : "+spoke+"  (" +spokeToday+"%)<br/>";
-                  message=message+"Total Booked today : "+book+"  (" +bookToday+"%)<br/>";
+                float increases=spokeRatioToday-spokeRatio;
+                float increasebs= bookToSpokeRatioToday-bookToSpokeRatio;
+                float increaseb= bookRatioToday-bookRatio;
+
+                
+                StringBuilder text=new StringBuilder();
+              
+                text.append("Hi,<br/><br/> <br/>I am Call Bot!<br/><br/>").append("Average Spoke Ratio : ").append(spokeRatio)
+                            .append("%</br>").append("Average book to spoke Ratio : ")
+                            .append(bookToSpokeRatio)
+                            .append("%</br>")
+                            .append("Average book Ratio : ")
+                            .append(bookRatio)
+                            .append("%</br>")
+                            .append("<br/>Today's Spoke Ratio : ")
+                            .append(spokeRatioToday)
+                            .append("%</br>")
+                            .append("Today's book to spoke Ratio : ")
+                            .append(bookToSpokeRatioToday)
+                            .append("%</br>")
+                            .append("Today's book Ratio : ")
+                            .append(bookRatioToday)
+                            .append("%</br>")
+                            .append("<br/>Increase in spoke ratio : ")
+                            .append(increases)
+                            .append("%</br>")
+                            .append("Increase in book ratio : ")
+                            .append(increaseb)
+                            .append("%</br>")
+                        .append("Increase in book to spoke Ratio : ")
+                        .append(increasebs)
+                        .append("%</br></br>")
+                .append("Regards,<br/>Call Bot");
+           
+                
+                
+               
                   
-                if(spokePercentage>0){
-                    
-                                message=message+"Spoke rate has improved by "+spokePercentage+"% today. ";
-                }
-                else if (spokePercentage<0){
-                            spokePercentage=-spokePercentage;    
-                               message=message+"Spoke rate has detoriated by "+spokePercentage+"% today. ";
-                }
-                else {
-                                message=message+"Calls not made yet. ";
-                }
-                     
-                  if(bookPercentage>0){
-                    
-                      message=message+"Lead quality has improved by "+bookPercentage+"% today.";
-                }
-                else if (bookPercentage<0){
-                            bookPercentage=-bookPercentage;    
-                           message=message+"Lead quality has detoriated by "+bookPercentage+"% today.";
-                              
-                }
-                else {
-                                message=message+"Bookings not made yet. ";
-                }   
-                  
-                  
-                                 sendEmailLeadQuality("subhadeep@jubination.com",message);
-                                 sendEmailLeadQuality("disha@jubination.com",message);
-                                 sendEmailLeadQuality("trupti@jubination.com",message);
-                                 sendEmailLeadQuality("vinay@jubination.com",message);
-                                 sendEmailLeadQuality("tauseef@jubination.com",message);
-                                 sendEmailLeadQuality("souvik@jubination.com",message);
+                                 sendEmailLeadQuality("subhadeep@jubination.com",text.toString());
+                                 sendEmailLeadQuality("disha@jubination.com",text.toString());
+                                 sendEmailLeadQuality("trupti@jubination.com",text.toString());
+                                 sendEmailLeadQuality("vinay@jubination.com",text.toString());
+                                 sendEmailLeadQuality("tauseef@jubination.com",text.toString());
+                                 sendEmailLeadQuality("souvik@jubination.com",text.toString());
                                  
                 
                

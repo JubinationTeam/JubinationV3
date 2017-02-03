@@ -318,7 +318,7 @@ CallManager eCallHandler;
                           Thread.sleep(60000);
                         }
                         
-                        analyticsService.mailSpokeAnalytics();
+                        analyticsService.mailSpokeAnalytics(null);
                         analyticsService.doAnalytics();
                     }
 
