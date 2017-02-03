@@ -1081,6 +1081,9 @@ public class DataAnalyticsService {
                 long spoke=2605+counts.get(freshSpoke);
                 long book=2330+counts.get(booked);
                 //data till november
+                if(total==0){
+                    total=1l;
+                }
                 float spokeRatio=(spoke*100)/total;
                 float bookToSpokeRatio = (book*100)/spoke;
                 float bookRatio=(book*100)/total;
@@ -1102,30 +1105,32 @@ public class DataAnalyticsService {
                 StringBuilder text=new StringBuilder();
               
                 text.append("Hi,<br/><br/> <br/>I am Call Bot!<br/><br/>").append("Average Spoke Ratio : ").append(spokeRatio)
-                            .append("%</br>").append("Average book to spoke Ratio : ")
+                            .append("%<br/>").append("Average book to spoke Ratio : ")
                             .append(bookToSpokeRatio)
-                            .append("%</br>")
+                            .append("%<br/>")
                             .append("Average book Ratio : ")
                             .append(bookRatio)
-                            .append("%</br>")
+                            .append("%<br/>")
                             .append("<br/>Today's Spoke Ratio : ")
                             .append(spokeRatioToday)
-                            .append("%</br>")
+                            .append("%<br/>")
                             .append("Today's book to spoke Ratio : ")
                             .append(bookToSpokeRatioToday)
-                            .append("%</br>")
+                            .append("%<br/>")
                             .append("Today's book Ratio : ")
                             .append(bookRatioToday)
-                            .append("%</br>")
+                            .append("%<br/>")
                             .append("<br/>Increase in spoke ratio : ")
                             .append(increases)
-                            .append("%</br>")
-                            .append("Increase in book ratio : ")
-                            .append(increaseb)
-                            .append("%</br>")
+                            .append("%<br/>")
                         .append("Increase in book to spoke Ratio : ")
                         .append(increasebs)
-                        .append("%</br></br>")
+                        
+                            .append("%<br/>")
+                        
+                            .append("Increase in book ratio : ")
+                            .append(increaseb)
+                        .append("%<br/></br>")
                 .append("Regards,<br/>Call Bot");
            
                 
