@@ -103,24 +103,24 @@ public class CallWorkerSlave2 {
                                                                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 2- COMPLETED");
                                                                                         }
                                                                                         
-                                                                                      else  if(message.getCallType().contains("trans")){
-                                                                                                            Call storedMessage=service.getCallRecordBySid(message.getSid());
-                                                                                                            if(storedMessage!=null){
-
-                                                                                                                System.out.println(Thread.currentThread().getName()+" "+"Stage 2:sid of the number was present already");
-
-                                                                                                                message.setOrderId(storedMessage.getOrderId());
-                                                                                                                 message.setMessage("Stage 2 Tracking");
-
-                                                                                                                //updating call details
-                                                                                                                if(!storedMessage.getMessage().equals("Stage 3 Tracking")){
-                                                                                                                                processIfStage3NotUpdated(storedMessage, message, client);
-                                                                                                                  }
-                                                                                                                 else{
-                                                                                                                           processIfStage3Updated(storedMessage, message, client);
-                                                                                                                  }
-                                                                                                                }
-                                                                                        }
+//                                                                                      else  if(message.getCallType().contains("trans")){
+//                                                                                                            Call storedMessage=service.getCallRecordBySid(message.getSid());
+//                                                                                                            if(storedMessage!=null){
+//
+//                                                                                                                System.out.println(Thread.currentThread().getName()+" "+"Stage 2:sid of the number was present already");
+//
+//                                                                                                                message.setOrderId(storedMessage.getOrderId());
+//                                                                                                                 message.setMessage("Stage 2 Tracking");
+//
+//                                                                                                                //updating call details
+//                                                                                                                if(!storedMessage.getMessage().equals("Stage 3 Tracking")){
+//                                                                                                                                processIfStage3NotUpdated(storedMessage, message, client);
+//                                                                                                                  }
+//                                                                                                                 else{
+//                                                                                                                           processIfStage3Updated(storedMessage, message, client);
+//                                                                                                                  }
+//                                                                                                                }
+//                                                                                        }
                                                                         else {
                                                                                               System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 2 - FAILED");
                                                                         }

@@ -7,6 +7,7 @@ package com.jubination.backend.service.exotel.api;
 
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.core.leadcall.parallel.worker.CallWorker;
+import com.jubination.backend.service.exotel.leadcall.parallel.worker.CallService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import org.xml.sax.SAXException;
  * @author MumbaiZone
  */
 @Component
-public class ExotelCallService {
+public class ExotelCallService{
     
     public ExotelMessage makeCall(String callerId){
               ExotelMessage eMessage=null;

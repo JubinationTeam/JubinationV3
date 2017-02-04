@@ -53,13 +53,12 @@ public class CallWorkerSlave1 {
                                 Lead lead=client.getLead().get(client.getLead().size()-1);
                                  lead.setLastCallingThread(Thread.currentThread().getName());
                                     service.updateLeadOnly(lead);
-                                    if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
-
-                                    worker2.work(readAndSaveMessage(callService.makeCall(client.getPhoneNumber()), client));
+                                    client =readAndSaveMessage(callService.makeCall(client.getPhoneNumber()), client);
+                                    if(client!=null){
+                                        worker2.work(client);
                                     }
-                               }else{
-                                                sendTestEmail("Stage 1 line 80");
-                                            }
+                                    
+                               }
                        }
             }
             catch(Exception e){
@@ -111,6 +110,7 @@ public class CallWorkerSlave1 {
                                         }
                                         else{
                                                 System.out.println(Thread.currentThread().getName()+" "+"Stage 1:xml message unknown error");
+                                                call=new Call();
                                                 call.setCallTo(callerId);
                                                 call.setTrackStatus("Call details not accepted by Exotel");
                                                 call.setDateCreated(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -119,15 +119,24 @@ public class CallWorkerSlave1 {
                                 //Settings to make objects ready
                                  client.setOvernight(false);
                                  
-                                 
-                                leadsAttached=true;
-                                lead.setCount(lead.getCount()-1);
+                                 int count=0;
+                                            //patch test
+                                            int countCheck=0;
+                                             Lead leadCheck= service.readLead(lead);
+                                             countCheck=leadCheck.getCount();
+                                             
+                                             if(countCheck==0){
+                                                  sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease of count to zero "+lead.getLeadId());
+                                                        return null;
+                                             }else{
+                                                leadsAttached=true;
+                                                lead.setCount(lead.getCount()-1);
+                                             }
                                     
                                     //If count zero, make all the leads count zero
                                         if(lead.getCount()==0){
                                             lead.setPending(false);
                                             lead.setNotification(false);
-                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
                                                 
                                                 List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
                                                      for(Lead l:leadList){
@@ -136,29 +145,32 @@ public class CallWorkerSlave1 {
                                                                      l.setCount(0);
                                                                      service.updateLeadOnly(l);
                                                      }
-                                                }
-                                            else{
-                                                sendTestEmail("Stage 1 line 213");
-                                            }
-                                            }
+                                              }
+                                        
+                                        
                                             
                                             //Try Saving to database 10 times
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
 
-                                            int count=0;
-
+                                            
                                             while(!saved&&count<10){
+                                                leadCheck = service.readLead(lead);
+                                                //patch test
+                                                if(leadCheck!=null){
+                                                    if(countCheck!=leadCheck.getCount()){
+                                                        sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease in count "+lead.getLeadId());
+                                                        return null;
+                                                    }
+                                                }
+                                                
+                                                
                                                         try{
-                                                            
-                                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
-                                                                    saved=service.addClientAndUnmarkBackupClient(client, lead, call);
+                                                              saved=service.addClientAndUnmarkBackupClient(client, lead, call);
                                                                     if(passOn){
                                                                                     lead.getCall().add(call);
                                                                                     manager.getClientStage2().offer(client);
                                                                      }
-                                                            }else{
-                                                                sendTestEmail("Stage 1 line 230");
-                                                            }
+                                                            
                                                         }
                                                         catch(Exception e){
                                                             sendTestEmail("Stage 1 line 234"+e.toString());
@@ -182,13 +194,9 @@ public class CallWorkerSlave1 {
                                     sendTestEmail("Stage 1 line 251"+e.toString());
                                     if(!saved){
                                         
-                                            if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
-                                               client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
+                                              client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
                                                manager.setExecutives(manager.getExecutives()-1, "CALLBOT");
-                                            }
-                                            else{
-                                                sendTestEmail("Stage 1 line 254"+"not saved @ database");
-                                            }
+                                            
                                            
                                     }
                                     
@@ -205,7 +213,7 @@ public class CallWorkerSlave1 {
           
           private void sendTestEmail(String text){
            AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com",text,
+            new EmailService("souvik@jubination.com","errorStage1",
                                           text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
                     adminSettings.getMyPassword(),
                     adminSettings.getAuth(),
