@@ -89,8 +89,17 @@ CallManager eCallHandler;
                                                                 clients.peek().getLead().get(0).setPending(true);
                                                                 clients.peek().setPriority(5);
                                                         }
-                                                        
-                                                        eCallHandler.getClientStage1().push(clients.poll());
+                                                        //duplicacy check
+                                                        Client clientToBeSent=clients.poll();
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(clientToBeSent.getTempLeadDetails())){
+                                                                clientToBeSent=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(clientToBeSent!=null){
+                                                                eCallHandler.getClientStage1().push(clientToBeSent);
+                                                        }
                                                 }
                                         setFreshFlag(false);
                                         
@@ -189,7 +198,7 @@ CallManager eCallHandler;
                                List<Client> list=service.getPendingCallsWithNotificationAndRecentLead("Pending");
                                if(list!=null){
                                     for(Client client:list){
-                                        client.setPriority(4); 
+                                        if(client!=null){
                                                     Lead lead=client.getLead().get(client.getLead().size()-1);
                                                     if(lead.getCount()!=(getCount()-lead.getCall().size())){
                                                                 lead.setCount(getCount()-lead.getCall().size());
@@ -204,15 +213,23 @@ CallManager eCallHandler;
                                                         !lead.getLeadStatus().contains("Customer complained")&&
                                                         !lead.getLeadStatus().contains("Disapproved")
                                                         )){
-                                                         
-                                                            eCallHandler.getClientStage1().push(client);
+                                                         //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
                                                             pending++;
+                                                        }
                                                     }
                                                      else{
                                                                 lead.setCount(0);
                                                                 service.updateLeadOnly(lead);
                                                      }
-                                        
+                                        }
                                         
                                     }
                                }
@@ -226,8 +243,17 @@ CallManager eCallHandler;
                                                 service.updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
-                                            eCallHandler.getClientStage1().push(client);
-                                             notification++;
+                                            //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
+                                                            notification++;
+                                                        }
                                     }
                                    
                                 }
@@ -242,8 +268,17 @@ CallManager eCallHandler;
                                                 service.updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
-                                            eCallHandler.getClientStage1().push(client);
-                                            pendingMa++;
+                                             //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
+                                                            pendingMa++;
+                                                        }
                                     }
                                     
                                 }
@@ -258,8 +293,17 @@ CallManager eCallHandler;
                                                 service.updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
-                                            eCallHandler.getClientStage1().push(client);
-                                             notificationMa++;
+                                              //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
+                                                            notificationMa++;
+                                                        }
                                     }
                                    
                                 }
@@ -272,8 +316,17 @@ CallManager eCallHandler;
                                     if(lead.getCall().size()<=getCount()&&lead.getCount()<0){
                                              lead.setCount(getCount()-lead.getCall().size());
                                            service.updateLeadOnly(lead);
-                                            eCallHandler.getClientStage1().push(client);
-                                             pendingMinusOne++;
+                                              //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
+                                                            pendingMinusOne++;
+                                                        }
                                     }
                                    
                                 }
@@ -288,7 +341,17 @@ CallManager eCallHandler;
                                              lead.setCount(getCount()-lead.getCall().size());
                                            service.updateLeadOnly(lead);
                                             eCallHandler.getClientStage1().push(client);
-                                             inProgress++;
+                                              //duplicacy check
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                                client=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(client!=null){
+                                                                eCallHandler.getClientStage1().push(client);
+                                                            inProgress++;
+                                                        }
                                     }
                                    
                                 }

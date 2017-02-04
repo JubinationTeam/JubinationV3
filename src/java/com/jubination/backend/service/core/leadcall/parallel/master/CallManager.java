@@ -8,6 +8,7 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.service.AdminMaintainService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -47,11 +48,13 @@ public class CallManager {
                     @Async
                     @Scheduled(fixedRate=time)
                     void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
+                        
+                                 
                                      if(getStatus()&&!getClientStage1().empty()){
                                          stageThreeFlag=true;
                                          if(executives>tempClient.size()&&executives>workerPool.getActiveCount()){
-                                             
-                                         System.out.println(workerPool.getActiveCount()+" Active count for normal operation");
+                                                
+                                                System.out.println(workerPool.getActiveCount()+" Active count for normal operation");
                                                 workerPool.startTask();
                                          }
                                      }
