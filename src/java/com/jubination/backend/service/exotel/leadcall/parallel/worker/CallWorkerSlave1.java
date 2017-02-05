@@ -126,13 +126,14 @@ public class CallWorkerSlave1 {
                                              countCheck=leadCheck.getCount();
                                              
                                              if(countCheck==0){
+                                                 lead.setCount(1);
+                                                 service.updateLeadOnly(lead);
                                                   sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease of count to zero "+lead.getLeadId());
                                                         return null;
                                              }else{
                                                 leadsAttached=true;
                                                 lead.setCount(lead.getCount()-1);
                                              }
-                                    
                                     //If count zero, make all the leads count zero
                                         if(lead.getCount()==0){
                                             lead.setPending(false);
@@ -146,25 +147,20 @@ public class CallWorkerSlave1 {
                                                                      service.updateLeadOnly(l);
                                                      }
                                               }
-                                        
-                                        
-                                            
                                             //Try Saving to database 10 times
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
-
-                                            
                                             while(!saved&&count<10){
                                                 leadCheck = service.readLead(lead);
                                                 //patch test
                                                 if(leadCheck!=null){
                                                     if(countCheck!=leadCheck.getCount()){
+                                                        lead.setCount(countCheck);
+                                                        service.updateLeadOnly(lead);
                                                         sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease in count "+lead.getLeadId());
                                                         return null;
                                                     }
                                                 }
-                                                
-                                                
-                                                        try{
+                                                 try{
                                                               saved=service.addClientAndUnmarkBackupClient(client, lead, call);
                                                                     if(passOn){
                                                                                     lead.getCall().add(call);

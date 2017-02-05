@@ -84,10 +84,9 @@ public class CallManager {
 
 
 
-                    public Stack<Client> getClientStage1() {
-                        synchronized(client){
+                    public synchronized Stack<Client> getClientStage1() {
                             return client;
-                        }
+                        
                     }
 
 
@@ -101,12 +100,7 @@ public class CallManager {
     public ConcurrentLinkedQueue<Client> getClientStage2() {
         return tempClient;
     }
-
     
-       
-                    
-
-   
     public int getExecutives() {
             return executives;
     }

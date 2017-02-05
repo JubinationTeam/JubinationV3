@@ -145,9 +145,11 @@ public class CallWorkerSlave2 {
                                                                                 if(!storedMessage.getMessage().equals("Stage 3 Tracking")){
                                                                                                 processIfStage3NotUpdated(storedMessage, message, client);
                                                                                   }
-                                                                                 else{
-                                                                                           processIfStage3Updated(storedMessage, message, client);
-                                                                                  }
+//                                                                                 else{
+                                                                                    
+//                                                                                                        worker3.work(sid);
+//                                                                                           processIfStage3Updated(storedMessage, message, client);
+//                                                                                  }
                                                                                 }
                                                                             //try stage 3
                                                                              int countInner=0;
@@ -158,7 +160,7 @@ public class CallWorkerSlave2 {
                                                                                             while(!flagInner&&countInner!=0){
                                                                                                         flagInner=worker3.work(sid);
                                                                                                         countInner--;
-                                                                                                        Thread.sleep(900);
+                                                                                                        Thread.sleep(500);
                                                                                              }
                                                                             manager.getClientStage2().poll();
                                                                             System.out.println("#"+Thread.currentThread().getName()+"Stage 2 updated. Stage2 out");
@@ -206,25 +208,19 @@ public class CallWorkerSlave2 {
                         if(message.getStatus().contains("busy")){
                             message.getLead().setLeadStatus("Busy");
                             service.updateLeadOnly(message.getLead());
-                            if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
-                            }
                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
                         else if(message.getStatus().contains("failed")){
                             message.getLead().setLeadStatus("Failed");
                             service.updateLeadOnly(message.getLead());
-                             if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
-                            }
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
                         else if(message.getStatus().contains("no-answer")){
                             message.getLead().setLeadStatus("No Answer");
                             service.updateLeadOnly(message.getLead());
-                             if(client!=null){
                                 sendEmailToFailCall(client.getEmailId());
-                            }
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
 //                        else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
@@ -240,48 +236,45 @@ public class CallWorkerSlave2 {
                                  service.updateCallAPIMessage(message);
            }
            
-          private void processIfStage3Updated(Call storedMessage,Call message, Client client){
-                    System.out.println("Stage 2:stage 3 updated already");
-                    storedMessage.setStatus(message.getStatus());
-                    storedMessage.setCallType(message.getCallType());
-                    storedMessage.setRecordingUrl(message.getRecordingUrl());
-                    //saving in database
-                    message.setLead(client.getLead().get(client.getLead().size()-1));
-                    if(message.getStatus().contains("busy")){
-                        message.getLead().setLeadStatus("Busy");
-                        service.updateLeadOnly(message.getLead());
-                        if(client!=null){
-                            sendEmailToFailCall(client.getEmailId());
-                        }
-                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-                    }
-                    else if(message.getStatus().contains("failed")){
-                        message.getLead().setLeadStatus("Failed");
-                        service.updateLeadOnly(message.getLead());
-                        if(client!=null){
-                            sendEmailToFailCall(client.getEmailId());
-                        }
-                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-                    }
-                    else if(message.getStatus().contains("no-answer")){
-                        message.getLead().setLeadStatus("No Answer");
-                        service.updateLeadOnly(message.getLead());
-                        if(client!=null){
-                            sendEmailToFailCall(client.getEmailId());
-                        }
-                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-                    }
-//                    else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
-//                            message.getLead().setLeadStatus("Hanged up while greetings");
-//                            service.updateLeadOnly(message.getLead());
-//                             if(client!=null){
-//                                sendEmailToFailCall(client.getEmailId());
-//                            }
+//          private void processIfStage3Updated(Call storedMessage,Call message, Client client){
+//                    System.out.println("Stage 2:stage 3 updated already");
+//                    storedMessage.setStatus(message.getStatus());
+//                    storedMessage.setCallType(message.getCallType());
+//                    storedMessage.setRecordingUrl(message.getRecordingUrl());
+//                    //saving in database
+//                    message.setLead(client.getLead().get(client.getLead().size()-1));
+//                    if(message.getStatus().contains("busy")){
+//                        message.getLead().setLeadStatus("Busy");
+//                        service.updateLeadOnly(message.getLead());
+//                            sendEmailToFailCall(client.getEmailId());
 //                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
-//                        }
-
-                    service.updateCallAPIMessage(storedMessage);
-           }
+//                    }
+//                    else if(message.getStatus().contains("failed")){
+//                        message.getLead().setLeadStatus("Failed");
+//                        service.updateLeadOnly(message.getLead());
+//                            sendEmailToFailCall(client.getEmailId());
+//                        
+//                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
+//                    }
+//                    else if(message.getStatus().contains("no-answer")){
+//                        message.getLead().setLeadStatus("No Answer");
+//                        service.updateLeadOnly(message.getLead());
+//                        
+//                            sendEmailToFailCall(client.getEmailId());
+//                        
+//                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
+//                    }
+////                    else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
+////                            message.getLead().setLeadStatus("Hanged up while greetings");
+////                            service.updateLeadOnly(message.getLead());
+////                             if(client!=null){
+////                                sendEmailToFailCall(client.getEmailId());
+////                            }
+////                             updater.sendAutomatedUpdate(message.getLead().getLeadId());
+////                        }
+//
+//                    service.updateCallAPIMessage(storedMessage);
+//           }
            
           private boolean tryStage3PreProcessing(String sid){
                 if(worker3.work(sid)){

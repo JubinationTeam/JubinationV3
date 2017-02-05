@@ -99,6 +99,7 @@ CallManager eCallHandler;
                                                         }
                                                         if(clientToBeSent!=null){
                                                                 eCallHandler.getClientStage1().push(clientToBeSent);
+                                                            
                                                         }
                                                 }
                                         setFreshFlag(false);
