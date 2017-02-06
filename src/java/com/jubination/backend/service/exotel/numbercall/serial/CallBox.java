@@ -93,7 +93,7 @@ public class CallBox {
                                                                                                                         //formparams.add(new BasicNameValuePair("To",callerId));
                                                                                                                         formparams.add(new BasicNameValuePair("CallerId",getCallerId()));
                                                                                                                         formparams.add(new BasicNameValuePair("CallerType","trans"));
-                                                                                                                        formparams.add(new BasicNameValuePair("Url","http://my.exotel.in/exoml/start/"+getAppId()));
+                                                                                                                        formparams.add(new BasicNameValuePair("Url","http://my.exotel.in/exoml/start/"+"102261"));
                                                                                                                         formparams.add(new BasicNameValuePair("TimeLimit","1800"));
                                                                                                                         formparams.add(new BasicNameValuePair("TimeOut","30"));
                                                                                                                         formparams.add(new BasicNameValuePair("SatusCallback",""));
