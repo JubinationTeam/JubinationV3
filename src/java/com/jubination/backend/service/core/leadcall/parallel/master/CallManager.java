@@ -47,10 +47,10 @@ public class CallManager {
 
                     @Async
                     @Scheduled(fixedRate=time)
-                    void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
+                    void callCustomer() throws IOException,InterruptedException, JAXBException{
                         
-                                 
-                                     if(getStatus()&&!getClientStage1().empty()){
+                                 if(getStatus()){
+                                     if(!getClientStage1().empty()){
                                          stageThreeFlag=true;
                                          if(executives>tempClient.size()&&executives>workerPool.getActiveCount()){
                                                 
@@ -67,6 +67,7 @@ public class CallManager {
                                          stageThreeFlag=true;
                                          
                                      }
+                                 }
                     }
 
                 public Boolean getStatus() {

@@ -55,6 +55,8 @@ public class CallWorkerSlave2 {
                         Lead lead=client.getLead().get(client.getLead().size()-1);
                         if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
                         String  sid=tryFetchingSid(lead);
+                        int countCheck=0;
+                        countCheck=lead.getCount();
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {         
                                         //Stage 3 Post processing
@@ -81,6 +83,10 @@ public class CallWorkerSlave2 {
                                                         if(message.getStatus().contains("queued")||message.getStatus().contains("ringing")||message.getStatus().contains("in-progress")){
                                                                             count++;
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
+                                                                            if(count%10==0){
+                                                                                lead.setCount(countCheck);
+                                                                                service.updateLeadOnly(lead);
+                                                                            }
                                                           }
                                                         else if(message.getStatus().contains("completed")){
                                                                         try {
