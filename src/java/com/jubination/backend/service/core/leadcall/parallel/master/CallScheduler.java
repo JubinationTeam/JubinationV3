@@ -150,7 +150,7 @@ CallManager eCallHandler;
                                      
                                     
                                             System.out.println("overnight calls added");
-                                            for(Client client:service.getOvernightClients()){
+                                            for(Client client:service.getMarkedClients()){
                                                     getClients().offer(client);
                                             }
 
