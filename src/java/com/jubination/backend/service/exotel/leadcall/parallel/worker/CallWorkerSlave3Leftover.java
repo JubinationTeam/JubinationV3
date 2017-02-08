@@ -87,25 +87,25 @@ public class CallWorkerSlave3Leftover {
                                                                                                                 if(call.getTrackStatus().contains("did not speak")){
                                                                                                                             if(call.getCallType().contains("client-hangup")){
                                                                                                                                 lead.setLeadStatus("Hanged up while connecting");
-                                                                                                                                if(client!=null){
+                                                                                                                                
                                                                                                                                     sendEmailToFailCall(client.getEmailId());
-                                                                                                                                }
+                                                                                                                                
                                                                                                                             }
                                                                                                                             else if(call.getCallType().contains("incomplete")){
                                                                                                                                 lead.setLeadStatus("We missed client's call");
                                                                                                                             }
                                                                                                                              else if(call.getCallType().contains("trans")){
                                                                                                                                 lead.setLeadStatus("Hanged up while greetings");
-                                                                                                                                        if(client!=null){
+                                                                                                                                       
                                                                                                                                             sendEmailToFailCall(client.getEmailId());
-                                                                                                                                        }
+                                                                                                                                        
                                                                                                                                 }
                                                                                                                             
                                                                                                                             else{
                                                                                                                                         lead.setLeadStatus(call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
-                                                                                                                                        if(client!=null){
+                                                                                                                                     
                                                                                                                                                 sendEmailToFailCall(client.getEmailId());
-                                                                                                                                            }
+                                                                                                                                            
                                                                                                                             }
                                                                                                                     
                                                                                                                 }
@@ -113,7 +113,7 @@ public class CallWorkerSlave3Leftover {
                                                                                                                                 lead.setFollowUpDate("");
                                                                                                                                 lead.setNotification(false);
                                                                                                                                 lead.setPending(false);
-                                                                                                                                if(lead==null||lead.getLeadStatus()==null){
+                                                                                                                                if(lead.getLeadStatus()==null){
                                                                                                                                     sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                                                                                                     sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                                                                                                     sendEmailNotUpdated("reshma@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
@@ -147,17 +147,18 @@ public class CallWorkerSlave3Leftover {
 
                                                                                                                                    lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
                                                                                                                                 }
-                                                                                                                                     client.getLead().get(client.getLead().size()-1).setPending(false);
-                                                                                                                                     client.getLead().get(client.getLead().size()-1).setNotification(false);
-                                                                                                                                    client.getLead().get(client.getLead().size()-1).setCount(0);
-                                                                                                                                    List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                                                                                                    for(Lead l:leadList){
-                                                                                                                                                    
-                                                                                                                                                    l.setNotification(false);
-                                                                                                                                                     l.setPending(false);
-                                                                                                                                                    l.setCount(0);
-                                                                                                                                                    service.updateLeadOnly(l);
-                                                                                                                                    }
+                                                                                                                                     lead.setPending(false);
+                                                                                                                                     lead.setNotification(false);
+                                                                                                                                    lead.setCount(0);
+                                                                                                                                    
+//                                                                                                                                    List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+//                                                                                                                                    for(Lead l:leadList){
+//                                                                                                                                                    
+//                                                                                                                                                    l.setNotification(false);
+//                                                                                                                                                     l.setPending(false);
+//                                                                                                                                                    l.setCount(0);
+//                                                                                                                                                    service.updateLeadOnly(l);
+//                                                                                                                                    }
                                                                                                                 }
                                                                                                                 else{
                                                                                                                         lead.setLeadStatus(call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
@@ -202,24 +203,45 @@ public class CallWorkerSlave3Leftover {
                                                                                             else{
                                                                                                 System.out.println("Stage 3 : Client present");
                                                                                                 for(Client client:clientList){
+                                                                                                    if(client.getLead().size()>0){
+                                                                                                   Lead lead=client.getLead().get(client.getLead().size()-1);
+                                                                                                   
+                                                                                                    if(callUpdated.getCallTo().equals("0"+client.getPhoneNumber())||callUpdated.getCallFrom().equals("0"+client.getPhoneNumber())||
+                                                                                                            callUpdated.getCallTo().equals(client.getPhoneNumber())||callUpdated.getCallFrom().equals(client.getPhoneNumber())){
                                                                                                     client=service.getClientDetailsWithList(client);
                                                                                                     if(callUpdated.getTrackStatus().contains("spoke to us")){
-                                                                                                        client.getLead().get(client.getLead().size()-1).setPending(false);
-                                                                                                        client.getLead().get(client.getLead().size()-1).setNotification(false);
-                                                                                                        client.getLead().get(client.getLead().size()-1).setCount(0);
-                                                                                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                                                                                for(Lead l:leadList){
-                                                                                                                                
-                                                                                                                                l.setNotification(false);
-                                                                                                                                 l.setPending(false);
-                                                                                                                                l.setCount(0);
-                                                                                                                                service.updateLeadOnly(l);
-                                                                                                                }
+                                                                                                        
+                                                                                                        lead.setPending(false);
+                                                                                                       lead.setNotification(false);
+                                                                                                        lead.setCount(0);
+                                                                                                        if(!(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                                            lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                            lead.getLeadStatus().contains("Rescheduled")||
+                                                                                                            lead.getLeadStatus().contains("Not interested")||
+                                                                                                            lead.getLeadStatus().contains("Not registered")||
+                                                                                                            lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                                            lead.getLeadStatus().contains("No Service")||
+                                                                                                            lead.getLeadStatus().contains("Customer complained")||
+                                                                                                            lead.getLeadStatus().contains("Disapproved"))){
+                                                                                                        lead.setLeadStatus("Spoke but not updated|prev-s3l-"+lead.getLeadStatus());
+                                                                                                        }
+                                                                                                                     service.updateLeadOnly(lead);
+                                                                                                        
+//                                                                                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+//                                                                                                                for(Lead l:leadList){
+//                                                                                                                                l.setNotification(false);
+//                                                                                                                                 l.setPending(false);
+//                                                                                                                                l.setCount(0);
+//                                                                                                                                service.updateLeadOnly(l);
+//                                                                                                                }
                                                                                                     }
-                                                                                                    service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdated);
-                                                                                                    callUpdated.setLead(client.getLead().get(client.getLead().size()-1));
-                                                                                                             service.updateCallAPIMessage(callUpdated);
                                                                                                 }
+                                                                                                    service.addClientCall(client,lead,callUpdated);
+                                                                                                    callUpdated.setLead(lead);
+                                                                                                      service.updateCallAPIMessage(callUpdated);
+                                                                                                }
+                                                                                                }
+                                                                                            
                                                                                                  if(callUpdated.getTrackStatus().contains("requested for callback")||callUpdated.getTrackStatus().contains("Customer did not speak to us")){
                                                                                                      System.out.println("Request Callback");
                                                                                                                     manager.getClientStage1().push(clientList.get(0));

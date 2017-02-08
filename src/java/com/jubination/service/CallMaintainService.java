@@ -660,7 +660,19 @@ public class CallMaintainService {
     }
     
     public boolean updateLeadOnly(Lead lead) {
-            return clientDao.updatePropertyOfList(lead,"Lead");
+        boolean saved=false;
+         int  i=0;
+                while(!saved&&i<10){
+                    try{
+                        System.out.println("Trying to save lead for "+i+"th time ");
+                        saved=clientDao.updatePropertyOfList(lead,"Lead");
+                    }
+                    catch(Exception e){
+                        saved=false;
+                        e.printStackTrace();
+                    }
+                }
+            return saved;
     }
     
     public Lead updateSavedCallOfLead(Lead lead,Call call) {

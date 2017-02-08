@@ -136,17 +136,32 @@ public class CallWorkerSlave3 {
                                              for(int j=0;j<callDatabase.size();j++){
 
                                                          Client client=service.getClientDetailsWithList(callDatabase.get(j).getLead().getClient());
+                                                         Lead lead =client.getLead().get(client.getLead().size()-1);
                                                         if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
-                                                            client.getLead().get(client.getLead().size()-1).setPending(false);
-                                                            client.getLead().get(client.getLead().size()-1).setCount(0);
-                                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                            for(Lead l:leadList){
-                                                                            
-                                                                            l.setNotification(false);
-                                                                            l.setPending(false);
-                                                                            l.setCount(0);
-                                                                            service.updateLeadOnly(l);
-                                                            }
+                                                            
+                                                             if(!(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                                            lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                            lead.getLeadStatus().contains("Rescheduled")||
+                                                                                                            lead.getLeadStatus().contains("Not interested")||
+                                                                                                            lead.getLeadStatus().contains("Not registered")||
+                                                                                                            lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                                            lead.getLeadStatus().contains("No Service")||
+                                                                                                            lead.getLeadStatus().contains("Customer complained")||
+                                                                                                            lead.getLeadStatus().contains("Disapproved"))){
+                                                                                                        lead.setLeadStatus("Spoke but not updated|prev-s3-"+lead.getLeadStatus());
+                                                                                                        }
+                                                            lead.setPending(false);
+                                                            lead.setNotification(false);
+                                                            lead.setCount(0);
+                                                             service.updateLeadOnly(lead);
+//                                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+//                                                            for(Lead l:leadList){
+//                                                                            
+//                                                                            l.setNotification(false);
+//                                                                            l.setPending(false);
+//                                                                            l.setCount(0);
+//                                                                            service.updateLeadOnly(l);
+//                                                            }
                                                         }
                                                         service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdatedFromList);
                                                         callUpdatedFromList.setLead(client.getLead().get(client.getLead().size()-1));
@@ -231,6 +246,7 @@ public class CallWorkerSlave3 {
                                            }
                                           else if(lead.getLeadStatus().contains("Follow up/Call back")||
                                                    lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                   lead.getLeadStatus().contains("Rescheduled")||
                                                    lead.getLeadStatus().contains("Not interested")||
                                                    lead.getLeadStatus().contains("Not registered")||
                                                    lead.getLeadStatus().contains("Language not recognizable")||
@@ -252,17 +268,18 @@ public class CallWorkerSlave3 {
                                                   lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
 
                                            }
-                                                client.getLead().get(client.getLead().size()-1).setPending(false);
-                                                client.getLead().get(client.getLead().size()-1).setNotification(false);
-                                               client.getLead().get(client.getLead().size()-1).setCount(0);
-                                               List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                    for(Lead l:leadList){
-                                                                    
-                                                                    l.setNotification(false);
-                                                                    l.setPending(false);
-                                                                    l.setCount(0);
-                                                                    service.updateLeadOnly(l);
-                                                    }
+                                               lead.setPending(false);
+                                                lead.setNotification(false);
+                                               lead.setCount(0);
+                                               service.updateLeadOnly(lead);
+//                                               List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+//                                                    for(Lead l:leadList){
+//                                                                    
+//                                                                    l.setNotification(false);
+//                                                                    l.setPending(false);
+//                                                                    l.setCount(0);
+//                                                                    service.updateLeadOnly(l);
+//                                                    }
 
                                                 call.setLead(client.getLead().get(client.getLead().size()-1));
                                                 service.updateCallAPIMessage(call);

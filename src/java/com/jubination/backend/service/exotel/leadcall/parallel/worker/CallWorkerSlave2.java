@@ -71,7 +71,12 @@ public class CallWorkerSlave2 {
                                             
                                              }
                                           //Check status
-                                          ExotelMessage eMessage=callService.checkStatus(sid);
+                                          int i=0;
+                                          ExotelMessage eMessage=null;
+                                          while(i<10&&eMessage==null){
+                                                        eMessage=callService.checkStatus(sid);
+                                                        i++;
+                                          }
                                           if(eMessage==null){
                                                     manager.getClientStage2().poll();
                                           }
@@ -85,7 +90,9 @@ public class CallWorkerSlave2 {
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
                                                                             if(count%10==0){
                                                                                 lead.setCount(countCheck);
-                                                                                service.updateLeadOnly(lead);
+                                                                               service.updateLeadOnly(lead);
+                                                                                     
+                                                                               
                                                                             }
                                                           }
                                                         else if(message.getStatus().contains("completed")){

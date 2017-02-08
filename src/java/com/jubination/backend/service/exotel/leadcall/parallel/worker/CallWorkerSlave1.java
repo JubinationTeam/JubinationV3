@@ -138,14 +138,14 @@ public class CallWorkerSlave1 {
                                         if(lead.getCount()==0){
                                             lead.setPending(false);
                                             lead.setNotification(false);
-                                                
-                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-                                                     for(Lead l:leadList){
-                                                                     l.setNotification(false);
-                                                                     l.setPending(false);
-                                                                     l.setCount(0);
-                                                                     service.updateLeadOnly(l);
-                                                     }
+                                                service.updateLeadOnly(lead);
+//                                                List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+//                                                     for(Lead l:leadList){
+//                                                                     l.setNotification(false);
+//                                                                     l.setPending(false);
+//                                                                     l.setCount(0);
+//                                                                     service.updateLeadOnly(l);
+//                                                     }
                                               }
                                             //Try Saving to database 10 times
                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 1:adding message to database");
