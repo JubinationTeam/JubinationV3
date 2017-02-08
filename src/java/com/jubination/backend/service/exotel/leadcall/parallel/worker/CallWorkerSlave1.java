@@ -52,7 +52,9 @@ public class CallWorkerSlave1 {
                                if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
                                 Lead lead=client.getLead().get(client.getLead().size()-1);
                                  lead.setLastCallingThread(Thread.currentThread().getName());
+                                 if(service.readLead(lead)!=null){
                                     service.updateLeadOnly(lead);
+                                 }
                                     client =readAndSaveMessage(callService.makeCall(client.getPhoneNumber()), client);
                                     if(client!=null){
                                         worker2.work(client);

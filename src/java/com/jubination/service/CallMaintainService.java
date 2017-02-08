@@ -666,11 +666,14 @@ public class CallMaintainService {
                     try{
                         System.out.println("Trying to save lead for "+i+"th time ");
                         saved=clientDao.updatePropertyOfList(lead,"Lead");
+                     
                     }
                     catch(Exception e){
                         saved=false;
                         e.printStackTrace();
                     }
+                    
+                           i++;
                 }
             return saved;
     }
