@@ -186,7 +186,7 @@ CallManager eCallHandler;
                      @Async
                     @Scheduled(cron = followUpCall)
                     void followUpCustomern() throws InterruptedException{
-                        if(isFollowupFlag()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()){
+                        if(isFollowupFlag()&&eCallHandler.getStatus()&&eCallHandler.getClientStage1().isEmpty()&&eCallHandler.getClientStage2().isEmpty()&&eCallHandler.getStageThreeUpdates().isEmpty()){
                             System.out.println("follow up ");
                                 long pending=0l;
                                 long notification=0l;
@@ -228,7 +228,7 @@ CallManager eCallHandler;
                                                     }
                                                      else{
                                                                 lead.setCount(0);
-                                                                service.updateLeadOnly(lead);
+                                                               service.updateLeadOnly(lead);
                                                      }
                                         }
                                         
@@ -266,7 +266,7 @@ CallManager eCallHandler;
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
                                     if(lead.getCall().size()>=getCount()+4){
                                                 lead.setCount(0);
-                                                service.updateLeadOnly(lead);
+                                               service.updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
                                              //duplicacy check

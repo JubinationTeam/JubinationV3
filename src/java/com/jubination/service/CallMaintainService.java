@@ -60,6 +60,8 @@ public class CallMaintainService {
     CallScheduler operator;
      @Autowired
     AdminMaintainService adminService;
+     
+     String errorFlag="NA";
     
     private final  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
     
@@ -1460,7 +1462,7 @@ public class CallMaintainService {
                                                     }
                                                      else{
                                                                 lead.setCount(0);
-                                                                updateLeadOnly(lead);
+                                                          //      updateLeadOnly(lead);
                                                      }
                                         
                                         
@@ -1473,7 +1475,7 @@ public class CallMaintainService {
                                      Lead lead=client.getLead().get(client.getLead().size()-1);
                                     if(lead.getCall().size()>=operator.getCount()+4){
                                                 lead.setCount(0);
-                                                updateLeadOnly(lead);
+                                               // updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
                                         
@@ -1489,7 +1491,7 @@ public class CallMaintainService {
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
                                     if(lead.getCall().size()>=operator.getCount()+4){
                                                 lead.setCount(0);
-                                                updateLeadOnly(lead);
+                                            //    updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
                                             pendingMa++;
@@ -1504,7 +1506,7 @@ public class CallMaintainService {
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
                                     if(lead.getCall().size()>=operator.getCount()+4){
                                                 lead.setCount(0);
-                                                updateLeadOnly(lead);
+                                         //       updateLeadOnly(lead);
                                     }
                                     if(lead.getCount()>0){
                                         
@@ -1569,5 +1571,14 @@ public class CallMaintainService {
                                                 "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
 
+    public String getErrorFlag() {
+        return errorFlag;
+    }
+
+    public void setErrorFlag(String errorFlag) {
+        this.errorFlag = errorFlag;
+    }
+
+   
     
 }

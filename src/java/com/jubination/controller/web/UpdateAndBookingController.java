@@ -268,13 +268,13 @@ public class UpdateAndBookingController {
                                                              lead.setPending(false);
                                                              lead.setCount(0);
                                                              callMaintain.updateLeadOnly(lead);
-                                                         List<Lead> leadList=callMaintain.getDuplicateLeads(number);
-                                                        for(Lead l:leadList){
-                                                             l.setNotification(false);
-                                                             l.setPending(false);
-                                                             l.setCount(0);
-                                                             callMaintain.updateLeadOnly(l);
-                                                         }
+//                                                         List<Lead> leadList=callMaintain.getDuplicateLeads(number);
+//                                                        for(Lead l:leadList){
+//                                                             l.setNotification(false);
+//                                                             l.setPending(false);
+//                                                             l.setCount(0);
+//                                                             callMaintain.updateLeadOnly(l);
+//                                                         }
                                                  
                                          }
                                           else if(leadStatus.contains("Follow")&&date!=null){

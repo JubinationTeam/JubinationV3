@@ -90,6 +90,7 @@ public class CallWorkerSlave2 {
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
                                                                             if(count%10==0){
                                                                                 lead.setCount(countCheck);
+                                                                                lead.setLeadStatus(message.getStatus());
                                                                                service.updateLeadOnly(lead);
                                                                                      
                                                                                

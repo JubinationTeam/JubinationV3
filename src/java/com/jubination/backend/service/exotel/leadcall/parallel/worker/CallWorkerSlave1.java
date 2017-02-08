@@ -8,6 +8,7 @@ package com.jubination.backend.service.exotel.leadcall.parallel.worker;
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
+import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.exotel.api.ExotelCallService;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.exotel.Call;
@@ -39,6 +40,8 @@ public class CallWorkerSlave1 {
     private AdminMaintainService adminService;
     @Autowired
     private  ExotelCallService callService;
+    @Autowired
+    private CallScheduler operator;
     
     private static final String settings="settings";
     
@@ -54,6 +57,9 @@ public class CallWorkerSlave1 {
                                  lead.setLastCallingThread(Thread.currentThread().getName());
                                   if(service.readLead(lead)!=null){
                                     service.updateLeadOnly(lead);
+                                  }
+                                  else{
+                                      lead.setCount(operator.getCount());
                                   }
                                     client =readAndSaveMessage(callService.makeCall(client.getPhoneNumber()), client);
                                     if(client!=null){
@@ -129,8 +135,6 @@ public class CallWorkerSlave1 {
                                                         countCheck=leadCheck.getCount();
 
                                                         if(countCheck==0){
-                                                            lead.setCount(1);
-                                                            service.updateLeadOnly(lead);
                                                              sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease of count to zero "+lead.getLeadId());
                                                                    return null;
                                                         }else{
@@ -158,8 +162,6 @@ public class CallWorkerSlave1 {
                                                 //patch test
                                                 if(leadCheck!=null){
                                                     if(countCheck!=leadCheck.getCount()){
-                                                        lead.setCount(countCheck);
-                                                        service.updateLeadOnly(lead);
                                                         sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease in count "+lead.getLeadId());
                                                         return null;
                                                     }
