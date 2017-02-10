@@ -13,6 +13,7 @@ import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.status.ReportStatus;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,14 @@ public class LMSAPIController {
                 if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
                     if(client.getSource().trim().equalsIgnoreCase("iceberg")){
                         client.setEmailId(client.getEmailId()+getId());
+                        client.setAge("24");
+                        client.setCampaignName("SMS Campaign");
+                        client.setCity("NA");
+                        client.setGender("NA");
+                        if(client.getLead()==null){
+                            client.setLead(new ArrayList<Lead>());
+                        }
+                        client.setPincode("NA");
                     }
                     try{
                         if(eCallHandler.getStatus()){        
