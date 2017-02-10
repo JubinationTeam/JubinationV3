@@ -48,9 +48,11 @@ public class LMSAPIController {
                     if(client.getSource().trim().equalsIgnoreCase("iceberg")){
                         client.setEmailId(client.getEmailId()+getId());
                         client.setAge("24");
+                        client.setName("Iceberg");
                         client.setCampaignName("SMS Campaign");
-                        client.setCity("NA");
+                        client.setCity("Mumbai");
                         client.setGender("Male");
+                        client.setAddress("Address");
                         if(client.getLead()==null){
                             client.setLead(new ArrayList<Lead>());
                         }
