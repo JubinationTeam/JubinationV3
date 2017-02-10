@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.exotel.leadcall.parallel.worker;
+package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
@@ -88,12 +88,12 @@ public class CallWorkerSlave3 {
                                                                 }
 
                                                                 manager.getStageThreeUpdates().remove(callUpdatedFromList);
-                                                                sendTestEmail(sid+":::succsess Stage 3:::"+callUpdatedFromList.getCallTo()+":::"+callUpdatedFromList.getDialWhomNumber());
                                                                 return true;
                                                     }
                                                 }
                                         }
                                         catch(Exception e){
+                                             sendTestEmail("Stage 3 Line 96 lead"+e);
                                         e.printStackTrace();
                                                         return false; 
                                           }
@@ -104,6 +104,7 @@ public class CallWorkerSlave3 {
                             ////////////////////////////////////////////////////////////////////////////////////////////////////////
                                }
             catch(Exception e){
+                 sendTestEmail("Stage 3 Line 107 lead"+e);
                 System.out.println("Error @ outer work Slave 3");
                 e.printStackTrace();
                 return false; 

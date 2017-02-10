@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.exotel.leadcall.parallel.worker;
+package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 import com.jubination.backend.service.core.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.sendgrid.EmailService;
@@ -18,6 +18,8 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -265,6 +267,7 @@ public class CallWorkerSlave3Leftover {
                                                         }
                                                         }
                                                         catch(Exception e){
+                                                             sendTestEmail("Stage 3 leftover Line 268 lead"+e);
                                                                 e.printStackTrace();
                                                                 }
                                                         }
@@ -272,6 +275,7 @@ public class CallWorkerSlave3Leftover {
                             }            
                                }
             catch(Exception e){
+                                                             sendTestEmail("Stage 3leftover Line 279 lead"+e);
                 System.out.println("Error @ outer work Slave 3 Leftover");
                 e.printStackTrace();
             }
@@ -321,6 +325,15 @@ public class CallWorkerSlave3Leftover {
                                                 "Customer Happiness Manager<br/>" +
                                                 "02239652819 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
-
+      
+ private void sendTestEmail(String text){
+           AdminSettings adminSettings = adminService.readSettings(settings);
+            new EmailService("souvik@jubination.com","stage 3",
+                                          "stage 3"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                    adminSettings.getMyPassword(),
+                    adminSettings.getAuth(),
+                    adminSettings.getStarttls(),
+                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+     }
        
 }

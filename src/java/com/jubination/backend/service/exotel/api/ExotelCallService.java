@@ -7,7 +7,7 @@ package com.jubination.backend.service.exotel.api;
 
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.core.leadcall.parallel.worker.CallWorker;
-import com.jubination.backend.service.exotel.leadcall.parallel.worker.CallService;
+import com.jubination.backend.service.core.leadcall.parallel.worker.CallService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.exotel.leadcall.parallel.worker;
+package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 
 import com.jubination.backend.service.sendgrid.EmailService;
@@ -59,17 +59,7 @@ public class CallWorkerSlave2 {
                         countCheck=lead.getCount();
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {         
-                                        //Stage 3 Post processing
-                                         if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
-                                                if(tryStage3PreProcessing(sid)){
-                                                        sendTestEmail("Stage 2 Line 92 completed tryStage3"+client.getName()+client.getPhoneNumber());
-                                                                                            return;
-                                                   }
-                                             }
-                                             else{
-                                                sendTestEmail("Stage 2 line 99");
-                                            
-                                             }
+                                       
                                           //Check status
                                           int i=0;
                                           ExotelMessage eMessage=null;
@@ -201,9 +191,6 @@ public class CallWorkerSlave2 {
                 }
                         
                    }
-                   else{
-                                                sendTestEmail("Stage 1 line 221");
-                                            }
                        }
             catch(Exception e){
                 System.out.println("Error @ outer work Slave 2");

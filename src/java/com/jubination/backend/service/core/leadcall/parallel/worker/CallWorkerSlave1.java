@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.backend.service.exotel.leadcall.parallel.worker;
+package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.sendgrid.EmailService;
@@ -162,7 +162,6 @@ public class CallWorkerSlave1 {
                                                 //patch test
                                                 if(leadCheck!=null){
                                                     if(countCheck!=leadCheck.getCount()){
-                                                        sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease in count "+lead.getLeadId());
                                                         return null;
                                                     }
                                                 }

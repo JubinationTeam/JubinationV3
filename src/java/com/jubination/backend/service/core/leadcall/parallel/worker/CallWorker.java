@@ -6,8 +6,6 @@
 package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
-import com.jubination.backend.service.exotel.leadcall.parallel.worker.CallWorkerSlave1;
-import com.jubination.backend.service.exotel.leadcall.parallel.worker.CallWorkerSlave3Leftover;
 import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
