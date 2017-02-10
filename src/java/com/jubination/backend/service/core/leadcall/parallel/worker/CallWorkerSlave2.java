@@ -157,15 +157,17 @@ public class CallWorkerSlave2 {
                                                                                 }
                                                                             //try stage 3
                                                                              int countInner=0;
-                                                                                            boolean flagInner=false;
-                                                                                             if(client.getRealTimeData()!=null){
-                                                                                                countInner=100;
-                                                                                            }
-                                                                                            while(!flagInner&&countInner!=0){
-                                                                                                        flagInner=worker3.work(sid);
-                                                                                                        countInner--;
-                                                                                                        Thread.sleep(500);
-                                                                                             }
+                                                                            boolean flagInner=false;
+                                                                             if(client.getRealTimeData()!=null){
+                                                                                countInner=100;
+                                                                            }
+                                                                            while(!flagInner&&countInner!=0){
+                                                                                        flagInner=worker3.work(sid);
+                                                                                        countInner--;
+                                                                                        Thread.sleep(500);
+                                                                             }
+                                                                            lead.setLeadStatus("Hung up while greetings");
+                                                                            service.updateLeadOnly(lead);
                                                                             manager.getClientStage2().poll();
                                                                             System.out.println("#"+Thread.currentThread().getName()+"Stage 2 updated. Stage2 out");
                                                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 2:Sid out of queue");

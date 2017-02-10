@@ -293,6 +293,7 @@ public class CallWorkerSlave3 {
           
           
           private void updateNotSpoken(Client client, Lead lead, Call call){
+              
                if(call.getCallType().contains("client-hangup")){
                                            lead.setLeadStatus("Hanged up while connecting");
 
@@ -330,6 +331,7 @@ public class CallWorkerSlave3 {
                            
                         call.setLead(client.getLead().get(client.getLead().size()-1));
                         service.updateCallAPIMessage(call);
+       
           }
           
           private void sendEmailNotUpdated(String email,String number,String exec) {
@@ -378,7 +380,7 @@ public class CallWorkerSlave3 {
  private void sendTestEmail(String text){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService("souvik@jubination.com","stage 3",
-                                          "stage 3"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+                                          text+" "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
                     adminSettings.getMyPassword(),
                     adminSettings.getAuth(),
                     adminSettings.getStarttls(),

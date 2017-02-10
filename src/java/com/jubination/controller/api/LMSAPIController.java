@@ -13,6 +13,7 @@ import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.status.ReportStatus;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,17 @@ public class LMSAPIController {
     CallMaintainService callMaintain;
     @Autowired
     CallManager eCallHandler;
+       private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";// "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+       private static final long BASE = 36;
+
     
      @RequestMapping(value="/API/freshCall/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity freshCalls(@RequestBody Client client,HttpServletRequest request) throws IOException{
            if(client!=null){
                 if(client.getTempLeadDetails()!=null&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
+                    if(client.getSource().trim().equalsIgnoreCase("iceberg")){
+                        client.setEmailId(client.getEmailId()+getId());
+                    }
                     try{
                         if(eCallHandler.getStatus()){        
                             if(callMaintain.buildBackupClient(client)!=null){
@@ -81,4 +88,23 @@ public class LMSAPIController {
             }
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
+    
+ 
+	private String encode(long num) {
+		StringBuilder sb = new StringBuilder();
+
+		while (num > 0) {
+			sb.append(ALPHABET.charAt((int) (num % BASE)));
+			num /= BASE;
+		}
+
+		return sb.reverse().toString();
+	}
+        
+        public String getId() {
+		Date date = new Date();
+		String id = encode(date.getTime());
+		return id;
+	}
+	
 }
