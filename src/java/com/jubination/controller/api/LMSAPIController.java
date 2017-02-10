@@ -50,7 +50,7 @@ public class LMSAPIController {
                         client.setAge("24");
                         client.setCampaignName("SMS Campaign");
                         client.setCity("NA");
-                        client.setGender("NA");
+                        client.setGender("Male");
                         if(client.getLead()==null){
                             client.setLead(new ArrayList<Lead>());
                         }
