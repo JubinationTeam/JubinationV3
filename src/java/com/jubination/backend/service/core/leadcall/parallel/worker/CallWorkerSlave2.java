@@ -126,6 +126,18 @@ public class CallWorkerSlave2 {
 //                                                                                                                }
 //                                                                                        }
                                                                         else {
+                                                                                             int countInner1=0;
+                                                                                            boolean flagInner1=false;
+                                                                                             if(client.getRealTimeData()!=null){
+                                                                                                countInner1=10;
+                                                                                            }
+                                                                                            while(!flagInner1&&countInner1!=0){
+                                                                                                        flagInner1=worker3.work(sid);
+                                                                                                        countInner1--;
+                                                                                                        Thread.sleep(500);
+                                                                                             }
+                                                                                            lead.setLeadStatus("Hung up while greetings");
+                                                                                            service.updateLeadOnly(lead);
                                                                                               System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 2 - FAILED");
                                                                         }
                                                                          manager.getClientStage2().poll();
@@ -137,6 +149,7 @@ public class CallWorkerSlave2 {
 
                                                         }
                                                         else {
+                                                            sendTestEmail(message.getStatus());
                                                                             Call storedMessage=service.getCallRecordBySid(message.getSid());
                                                                             if(storedMessage!=null){
 
@@ -159,15 +172,13 @@ public class CallWorkerSlave2 {
                                                                              int countInner=0;
                                                                             boolean flagInner=false;
                                                                              if(client.getRealTimeData()!=null){
-                                                                                countInner=100;
+                                                                                countInner=10;
                                                                             }
                                                                             while(!flagInner&&countInner!=0){
                                                                                         flagInner=worker3.work(sid);
                                                                                         countInner--;
                                                                                         Thread.sleep(500);
                                                                              }
-                                                                            lead.setLeadStatus("Hung up while greetings");
-                                                                            service.updateLeadOnly(lead);
                                                                             manager.getClientStage2().poll();
                                                                             System.out.println("#"+Thread.currentThread().getName()+"Stage 2 updated. Stage2 out");
                                                                             System.out.println(Thread.currentThread().getName()+" "+"Stage 2:Sid out of queue");
