@@ -52,7 +52,9 @@ public class UpdateAndBookingController {
         String city =request.getParameter("city");
         String pincode =request.getParameter("pincode");
         String leadStatus =request.getParameter("leadStatus");
+        String name =request.getParameter("name");
         String number =request.getParameter("number");
+        
         String product =request.getParameter("product");
         String hardcopy =request.getParameter("hardcopy");
         String apptDate =request.getParameter("appt_date");
@@ -259,9 +261,12 @@ public class UpdateAndBookingController {
                         }
                        
                        lead.setBenCount(benCount);
+                      client.setName(name);
+                      client.setPhoneNumber(number);
                       
                         if(callMaintain.updateClientOnly(client)){
                                         if(leadStatus!=null&&!leadStatus.isEmpty()){
+                                            
                                           if(leadStatus.equals("Lead sent to Thyrocare")){
                                                
                                                             lead.setNotification(false);

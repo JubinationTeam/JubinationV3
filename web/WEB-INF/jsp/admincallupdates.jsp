@@ -109,7 +109,7 @@
                                             <input type="text" class="form-control" placeholder="Count" name="count" readonly="true" value="${lead.count}"/>
                                             <br/>
                                             <label>Phone number</label>
-                                            <input type="text" class="form-control" placeholder="Number" name="number" readonly="true" value="${lead.client.phoneNumber}"/>
+                                            <input type="text" class="form-control" placeholder="Number" name="number" value="${lead.client.phoneNumber}"/>
                                          <br/>
                                             <label>Name</label>
                                              <input type="text" class="form-control" placeholder="Name" name="name" value="${lead.client.name}"/>
