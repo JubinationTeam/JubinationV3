@@ -43,7 +43,7 @@ private Session session=null;
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Object getByProperty(Object entity, String listType) {
-        List<Call> list = new ArrayList<Call>();
+        List<Call> list = new ArrayList<>();
         switch(listType){
             case "Number":
                     String number= (String) entity;
