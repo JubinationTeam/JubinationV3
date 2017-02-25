@@ -229,9 +229,9 @@ public class CallWorkerSlave3 {
           
           private void updateSpoke(Client client, Lead lead, Call call){
                                            
-                                            lead.setFollowUpDate("");
-                                            lead.setNotification(false);
-                                            lead.setPending(false);
+                                           // lead.setFollowUpDate("");
+                                           // lead.setNotification(false);
+                                           // lead.setPending(false);
                                            if((lead.getLeadStatus()==null||lead.getLeadStatus().isEmpty())){
                                                sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());

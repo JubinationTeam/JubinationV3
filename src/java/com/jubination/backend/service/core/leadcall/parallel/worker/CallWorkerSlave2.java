@@ -80,9 +80,22 @@ public class CallWorkerSlave2 {
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
                                                                             if(count%10==0){
                                                                                 lead.setCount(countCheck);
-                                                                                lead.setLeadStatus(message.getStatus());
-                                                                               service.updateLeadOnly(lead);
-                                                                                     
+                                                                                if(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                            lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                            lead.getLeadStatus().contains("Rescheduled")||
+                                                                                            lead.getLeadStatus().contains("Not interested")||
+                                                                                            lead.getLeadStatus().contains("Not registered")||
+                                                                                            lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                            lead.getLeadStatus().contains("No Service")||
+                                                                                            lead.getLeadStatus().contains("Customer complained")||
+                                                                                            lead.getLeadStatus().contains("Disapproved")){
+                                                                                           System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 2: SPOKE AND UPDATED");
+                                                                                    }
+                                                                                else{
+                                                                                    lead.setLeadStatus(message.getStatus());
+                                                                                    lead.setCount(countCheck);
+                                                                                    service.updateLeadOnly(lead);
+                                                                                }
                                                                                
                                                                             }
                                                           }
@@ -136,8 +149,22 @@ public class CallWorkerSlave2 {
                                                                                                         countInner1--;
                                                                                                         Thread.sleep(500);
                                                                                              }
-                                                                                            lead.setLeadStatus("Hung up while greetings");
-                                                                                            service.updateLeadOnly(lead);
+                                                                                             if(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                                    lead.getLeadStatus().contains("Lead sent to Thyrocare")||
+                                                                                                    lead.getLeadStatus().contains("Rescheduled")||
+                                                                                                    lead.getLeadStatus().contains("Not interested")||
+                                                                                                    lead.getLeadStatus().contains("Not registered")||
+                                                                                                    lead.getLeadStatus().contains("Language not recognizable")||
+                                                                                                    lead.getLeadStatus().contains("No Service")||
+                                                                                                    lead.getLeadStatus().contains("Customer complained")||
+                                                                                                    lead.getLeadStatus().contains("Disapproved")){
+                                                                                                        System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 2: SPOKE AND UPDATED");
+                                                                                                }
+                                                                                            else{
+                                                                                                 lead.setLeadStatus("Hung up while greetings");
+                                                                                                        service.updateLeadOnly(lead);
+                                                                                            }
+                                                                                           
                                                                                               System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 2 - FAILED");
                                                                         }
                                                                          manager.getClientStage2().poll();
@@ -237,6 +264,7 @@ public class CallWorkerSlave2 {
                                 sendEmailToFailCall(client.getEmailId());
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
+                                                                 
 //                        else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
 //                            message.getLead().setLeadStatus("Hanged up while greetings");
 //                            service.updateLeadOnly(message.getLead());

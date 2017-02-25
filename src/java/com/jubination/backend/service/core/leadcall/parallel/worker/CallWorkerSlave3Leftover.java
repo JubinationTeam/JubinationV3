@@ -112,9 +112,9 @@ public class CallWorkerSlave3Leftover {
                                                                                                                     
                                                                                                                 }
                                                                                                                 else if(call.getTrackStatus().contains("spoke")){
-                                                                                                                                lead.setFollowUpDate("");
-                                                                                                                                lead.setNotification(false);
-                                                                                                                                lead.setPending(false);
+                                                                                                               //                 lead.setFollowUpDate("");
+                                                                                                                  //              lead.setNotification(false);
+                                                                                                                     //           lead.setPending(false);
                                                                                                                                 if(lead.getLeadStatus()==null){
                                                                                                                                     sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                                                                                                     sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
