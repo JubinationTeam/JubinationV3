@@ -17,8 +17,6 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +55,7 @@ public class CallWorkerSlave2 {
                         String  sid=tryFetchingSid(lead);
                         int countCheck=0;
                         countCheck=lead.getCount();
+                        int nullCount=0;
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {         
                                        
@@ -68,8 +67,15 @@ public class CallWorkerSlave2 {
                                                         i++;
                                           }
                                           if(eMessage==null){
+                                                if(nullCount==100){
                                                     manager.getClientStage2().poll();
+
+                                               }
+                                               nullCount++;
+                                               break;
                                           }
+                                          
+                                          nullCount=0;
                                           
                                             if(eMessage!=null&&eMessage.getSuccessMessage()!=null){
 
@@ -176,7 +182,6 @@ public class CallWorkerSlave2 {
 
                                                         }
                                                         else {
-                                                            sendTestEmail(message.getStatus());
                                                                             Call storedMessage=service.getCallRecordBySid(message.getSid());
                                                                             if(storedMessage!=null){
 
@@ -226,7 +231,6 @@ public class CallWorkerSlave2 {
                    }
                     
                 else{
-                    sendTestEmail("Stage 2 Line 91 lead");
                     System.out.println("Stage 2 : ERROR FECHING SIDS");
                 }
                         
@@ -318,15 +322,15 @@ public class CallWorkerSlave2 {
 //                    service.updateCallAPIMessage(storedMessage);
 //           }
            
-          private boolean tryStage3PreProcessing(String sid){
-                if(worker3.work(sid)){
-                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 1- COMPLETED");
-                                                                                                                                         
-                                manager.getClientStage2().poll();
-                                return true;
-                            }
-                return false;
-           }
+//          private boolean tryStage3PreProcessing(String sid){
+//                if(worker3.work(sid)){
+//                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 1- COMPLETED");
+//                                                                                                                                         
+//                                manager.getClientStage2().poll();
+//                                return true;
+//                            }
+//                return false;
+//           }
            
           private String tryFetchingSid(Lead lead){
                String sid=null;
@@ -337,7 +341,6 @@ public class CallWorkerSlave2 {
                             catch(Exception e){
                                 
                                             e.printStackTrace();
-                                            sendTestEmail("Stage 2 line 322 lead not yet saved"+e.toString());
                                             System.out.println("#"+Thread.currentThread().getName()+"Exception 1. Stage2 out");
                                             manager.getClientStage2().poll();
                                 
@@ -374,13 +377,13 @@ public class CallWorkerSlave2 {
                                                 "Customer Happiness Manager<br/>" +
                                                 "02239652819 ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
-           private void sendTestEmail(String text){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com","stage 2",
-                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
+//           private void sendTestEmail(String text){
+//           AdminSettings adminSettings = adminService.readSettings(settings);
+//            new EmailService("souvik@jubination.com","stage 2",
+//                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+//                    adminSettings.getMyPassword(),
+//                    adminSettings.getAuth(),
+//                    adminSettings.getStarttls(),
+//                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+//     }
 }

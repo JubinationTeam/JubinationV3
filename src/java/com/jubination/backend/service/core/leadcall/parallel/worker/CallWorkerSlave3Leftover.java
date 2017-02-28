@@ -116,12 +116,6 @@ public class CallWorkerSlave3Leftover {
                                                                                                                   //              lead.setNotification(false);
                                                                                                                      //           lead.setPending(false);
                                                                                                                                 if(lead.getLeadStatus()==null){
-                                                                                                                                    sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                    sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                    sendEmailNotUpdated("reshma@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                    sendEmailNotUpdated("tauseef@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                    sendEmailNotUpdated("vinay@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                    sendEmailNotUpdated("souvik@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
                                                                                                                                     
                                                                                                                                 }
                                                                                                                                 else if(lead.getLeadStatus().contains("Follow up/Call back")||
@@ -140,13 +134,6 @@ public class CallWorkerSlave3Leftover {
                                                                                                                                        lead.setLeadStatus("Spoke but not updated");
                                                                                                                                    }
                                                                                                                                 else{
-                                                                                                                                  sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                sendEmailNotUpdated("reshma@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                sendEmailNotUpdated("tauseef@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                sendEmailNotUpdated("vinay@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                                                                                                                sendEmailNotUpdated("souvik@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-
                                                                                                                                    lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
                                                                                                                                 }
                                                                                                                                      lead.setPending(false);
@@ -262,12 +249,9 @@ public class CallWorkerSlave3Leftover {
                                                                 
                                                                                              manager.getStageThreeUpdates().remove(callUpdated);
                                                             }
-                                                        if(manager.getStageThreeUpdates().isEmpty()){
-                                                            service.sendEmailUpdate();
-                                                        }
+                                                      
                                                         }
                                                         catch(Exception e){
-                                                             sendTestEmail("Stage 3 leftover Line 268 lead"+e);
                                                                 e.printStackTrace();
                                                                 }
                                                         }
@@ -275,7 +259,6 @@ public class CallWorkerSlave3Leftover {
                             }            
                                }
             catch(Exception e){
-                                                             sendTestEmail("Stage 3leftover Line 279 lead"+e);
                 System.out.println("Error @ outer work Slave 3 Leftover");
                 e.printStackTrace();
             }
@@ -284,22 +267,7 @@ public class CallWorkerSlave3Leftover {
               }           
             }
     
-       private void sendEmailNotUpdated(String email,String number,String exec) {
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Spoke But Not Updated",
-                                          "Hi,<br/>" +
-                                                "<br/>"+
-                                                   "<br/>"+
-                                                  "Spoke to "+number+". Not updated yet."+
-                                                  "<br/>"+
-                                                  "Call routed to "+exec+
-                                                  "<br/>"+
-                                                   "<br/>"+
-                                                   "Regards,"+
-                                                  "<br/>"+
-                                                  "Jubination"
-                                        ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-    }
+  
      private void sendEmailToFailCall(String email){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Your pending health checkup",
@@ -326,14 +294,14 @@ public class CallWorkerSlave3Leftover {
                                                 "02239652819 " ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
       
- private void sendTestEmail(String text){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com","stage 3",
-                                          text+" "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
+// private void sendTestEmail(String text){
+//           AdminSettings adminSettings = adminService.readSettings(settings);
+//            new EmailService("souvik@jubination.com","stage 3",
+//                                          text+" "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+//                    adminSettings.getMyPassword(),
+//                    adminSettings.getAuth(),
+//                    adminSettings.getStarttls(),
+//                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+//     }
        
 }

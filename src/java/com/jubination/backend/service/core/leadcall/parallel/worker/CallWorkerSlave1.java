@@ -134,10 +134,7 @@ public class CallWorkerSlave1 {
                                              if(leadCheck!=null){
                                                         countCheck=leadCheck.getCount();
 
-                                                        if(countCheck==0){
-                                                             sendTestEmail(Thread.currentThread()+"found the culprit. sudden decrease of count to zero "+lead.getLeadId());
-                                                                   return null;
-                                                        }else{
+                                                        if(countCheck!=0){
                                                            leadsAttached=true;
                                                            lead.setCount(lead.getCount()-1);
                                                         }
@@ -174,7 +171,6 @@ public class CallWorkerSlave1 {
                                                             
                                                         }
                                                         catch(Exception e){
-                                                            sendTestEmail("Stage 1 line 234"+e.toString());
                                                             if(lead!=null){
                                                                 System.out.println("Tried saving client to database "+count+"th time "+lead.getLeadId()+"::::::::::::::::::::::%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
                                                             }
@@ -192,7 +188,6 @@ public class CallWorkerSlave1 {
                           
                             }
                             catch(Exception e){
-                                    sendTestEmail("Stage 1 line 251"+e.toString());
                                     if(!saved){
                                         
                                               client.setTempLeadDetails(client.getTempLeadDetails()+"|Error");
@@ -212,15 +207,15 @@ public class CallWorkerSlave1 {
                  return client;
           }
           
-          private void sendTestEmail(String text){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com","errorStage1",
-                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
+//          private void sendTestEmail(String text){
+//           AdminSettings adminSettings = adminService.readSettings(settings);
+//            new EmailService("souvik@jubination.com","errorStage1",
+//                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+//                    adminSettings.getMyPassword(),
+//                    adminSettings.getAuth(),
+//                    adminSettings.getStarttls(),
+//                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+//     }
           
           
           private void sendEmailToFailCall(String email,String leadId,String number){

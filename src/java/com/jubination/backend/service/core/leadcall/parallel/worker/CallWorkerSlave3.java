@@ -83,9 +83,6 @@ public class CallWorkerSlave3 {
                                                                                  updateCallStatusOfUnexpectedSids(callUpdatedFromList);
                                                                 }
 
-                                                                if(manager.getStageThreeUpdates().isEmpty()){
-                                                                    service.sendEmailUpdate();
-                                                                }
 
                                                                 manager.getStageThreeUpdates().remove(callUpdatedFromList);
                                                                 return true;
@@ -93,7 +90,6 @@ public class CallWorkerSlave3 {
                                                 }
                                         }
                                         catch(Exception e){
-                                             sendTestEmail("Stage 3 Line 96 lead"+e);
                                         e.printStackTrace();
                                                         return false; 
                                           }
@@ -104,7 +100,6 @@ public class CallWorkerSlave3 {
                             ////////////////////////////////////////////////////////////////////////////////////////////////////////
                                }
             catch(Exception e){
-                 sendTestEmail("Stage 3 Line 107 lead"+e);
                 System.out.println("Error @ outer work Slave 3");
                 e.printStackTrace();
                 return false; 
@@ -233,13 +228,7 @@ public class CallWorkerSlave3 {
                                            // lead.setNotification(false);
                                            // lead.setPending(false);
                                            if((lead.getLeadStatus()==null||lead.getLeadStatus().isEmpty())){
-                                               sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("reshma@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("tauseef@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("vinay@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("souvik@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               
+                                          
 
                                                    System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : SPOKE BUT NOT UPDATED");
                                                   lead.setLeadStatus("Spoke but not updated");
@@ -258,13 +247,7 @@ public class CallWorkerSlave3 {
                                                   System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3: SPOKE AND UPDATED");
                                            }
                                            else{
-                                               sendEmailNotUpdated("disha@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("trupti@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("reshma@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("tauseef@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("vinay@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-                                               sendEmailNotUpdated("souvik@jubination.com",call.getCallFrom(),call.getDialWhomNumber());
-
+                                               
                                                    System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : SPOKE BUT NOT UPDATED");
                                                   lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
 
@@ -334,22 +317,7 @@ public class CallWorkerSlave3 {
        
           }
           
-          private void sendEmailNotUpdated(String email,String number,String exec) {
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Spoke But Not Updated",
-                                          "Hi,<br/>" +
-                                                "<br/>"+
-                                                   "<br/>"+
-                                                  "Spoke to "+number+". Not updated yet."+
-                                                  "<br/>"+
-                                                  "Call routed to "+exec+
-                                                  "<br/>"+
-                                                   "<br/>"+
-                                                   "Regards,"+
-                                                  "<br/>"+
-                                                  "Jubination"
-                                        ,adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-    }
+      
      private void sendEmailToFailCall(String email){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Your pending health checkup",
@@ -377,14 +345,14 @@ public class CallWorkerSlave3 {
      }
 
        
- private void sendTestEmail(String text){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService("souvik@jubination.com","stage 3",
-                                          text+" "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
-                    adminSettings.getMyPassword(),
-                    adminSettings.getAuth(),
-                    adminSettings.getStarttls(),
-                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
+// private void sendTestEmail(String text){
+//           AdminSettings adminSettings = adminService.readSettings(settings);
+//            new EmailService("souvik@jubination.com","stage 3",
+//                                          text+" "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
+//                    adminSettings.getMyPassword(),
+//                    adminSettings.getAuth(),
+//                    adminSettings.getStarttls(),
+//                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
+//     }
      
 }

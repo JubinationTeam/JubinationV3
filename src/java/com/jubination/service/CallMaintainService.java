@@ -70,54 +70,6 @@ public class CallMaintainService {
     private final String settings="settings";
 
     
-    public void sendEmailUpdate() {
-          
-           AdminSettings adminSettings=(AdminSettings) adao.readSettingsProperty(settings);
-            EmailService es1=new EmailService("disha@jubination.com","Call records updated!",
-                    "Hi, "
-                    + "<br/>"
-                    + "<br/>"
-                    +" Call records are updated. <br/>"
-                    + "<br/> "
-                    + "check http://162.246.21.98/jubination/admin"
-                    + "<br/>"
-                    + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
-            es1.start();
-            EmailService es2=new EmailService("trupti@jubination.com","Call records updated!",
-                    "Hi, "
-                    + "<br/>"
-                    + "<br/>"
-                    +" Call records are updated. <br/>"
-                    + "<br/> "
-                    + "check http://162.246.21.98/jubination/admin"
-                    + "<br/>"
-                    + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
-            es2.start();
-            EmailService es3=new EmailService("souvik@jubination.com","Call records updated!",
-                    "Hi, "
-                    + "<br/>"
-                    + "<br/>"
-                   +" Call records are updated. <br/>"
-                    + "<br/> "
-                    + "check http://162.246.21.98/jubination/admin"
-                    + "<br/>"
-                    + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
-            es3.start(); 
-            EmailService es4=new EmailService("subhadeep@jubination.com","Call records updated!",
-                    "Hi, "
-                    + "<br/>"
-                    + "<br/>"
-                   +" Call records are updated. <br/>"
-                    + "<br/> "
-                    + "check http://162.246.21.98/jubination/admin"
-                    + "<br/>"
-                    + "<br/>"
-                    + "Regards,<br/>Jubination Support",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi());
-            es4.start();
-    }
  
     public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
      if(addClientCall(client,lead,call)){
