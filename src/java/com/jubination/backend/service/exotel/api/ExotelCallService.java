@@ -32,6 +32,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -43,6 +44,7 @@ import org.xml.sax.SAXException;
  * @author MumbaiZone
  */
 @Component
+@Scope("prototype")
 public class ExotelCallService{
     
     public ExotelMessage makeCall(String callerId){
