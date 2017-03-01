@@ -286,7 +286,7 @@ public class UpdateAndBookingController {
                                                     if(!date.isEmpty()){
                                                         lead.setNotification(true);
                                                         lead.setFollowUpDate(date);
-                                                        lead.setCount(operator.getCount());
+                                                        lead.setCount(operator.getCount()-4);
                                                         callMaintain.updateLeadOnly(lead);
                                                     }
                                          }
