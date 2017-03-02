@@ -123,7 +123,7 @@ public class CallController {
             return model;
     }
     
-     @RequestMapping(value="/admin/callsettings/followup/check")
+     @RequestMapping(value="/admin/callsettings/followup/start")
     public ModelAndView setFollowup(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallsettings");
             model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
