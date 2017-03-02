@@ -227,9 +227,10 @@ CallManager eCallHandler;
                                                         }
                                                     }
                                                      else{
-                                                                lead.setCount(0);
-                                                               service.updateLeadOnly(lead);
+                                                          eCallHandler.getClientStage1().push(client);
+                                                            pending++;
                                                      }
+                                                   
                                         }
                                         
                                     }
@@ -239,7 +240,7 @@ CallManager eCallHandler;
                                  for(Client client:list){
                                     client.setPriority(4);    
                                      Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                 service.updateLeadOnly(lead);
                                     }
@@ -264,7 +265,7 @@ CallManager eCallHandler;
                                 for(Client client:list){
                                     client.setPriority(4);         
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                service.updateLeadOnly(lead);
                                     }
@@ -289,7 +290,7 @@ CallManager eCallHandler;
                                  for(Client client:list){
                                     client.setPriority(4);         
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                 service.updateLeadOnly(lead);
                                     }
@@ -479,9 +480,9 @@ CallManager eCallHandler;
                                                             pending++;
                                                         }
                                                     }
-                                                     else{
-                                                                lead.setCount(0);
-                                                               service.updateLeadOnly(lead);
+                                                      else{
+                                                          eCallHandler.getClientStage1().push(client);
+                                                            pending++;
                                                      }
                                         }
                                         
@@ -492,7 +493,7 @@ CallManager eCallHandler;
                                  for(Client client:list){
                                     client.setPriority(4);    
                                      Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                 service.updateLeadOnly(lead);
                                     }
