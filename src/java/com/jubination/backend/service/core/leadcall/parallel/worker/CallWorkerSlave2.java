@@ -17,6 +17,8 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,7 @@ public class CallWorkerSlave2 {
                       while(count<2000&&!manager.getClientStage2().isEmpty()){
                               try {         
                                        
-                                          //Check status
+                                           //Check status
                                           int i=0;
                                           ExotelMessage eMessage=null;
                                           while(i<10&&eMessage==null){
@@ -110,7 +112,6 @@ public class CallWorkerSlave2 {
                                                                                         service.updateLeadOnly(lead);
                                                                                     }
                                                                                 }
-                                                                               
                                                                             }
                                                           }
                                                         else if(message.getStatus().contains("completed")){
@@ -163,22 +164,8 @@ public class CallWorkerSlave2 {
                                                                                                         countInner1--;
                                                                                                         Thread.sleep(500);
                                                                                              }
-                                                                                             if(lead.getLeadStatus().contains("Follow up/Call back")||
-                                                                                                    lead.getLeadStatus().contains("Lead sent to Thyrocare")||
-                                                                                                    lead.getLeadStatus().contains("Rescheduled")||
-                                                                                                    lead.getLeadStatus().contains("Not interested")||
-                                                                                                    lead.getLeadStatus().contains("Not registered")||
-                                                                                                    lead.getLeadStatus().contains("Language not recognizable")||
-                                                                                                    lead.getLeadStatus().contains("No Service")||
-                                                                                                    lead.getLeadStatus().contains("Customer complained")||
-                                                                                                    lead.getLeadStatus().contains("Disapproved")){
-                                                                                                        System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 2: SPOKE AND UPDATED");
-                                                                                                }
-                                                                                            else{
-                                                                                                 lead.setLeadStatus("Hung up while greetings");
-                                                                                                        service.updateLeadOnly(lead);
-                                                                                            }
-                                                                                           
+                                                                                            lead.setLeadStatus("Hung up while greetings");
+                                                                                            service.updateLeadOnly(lead);
                                                                                               System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 2 - FAILED");
                                                                         }
                                                                          manager.getClientStage2().poll();
@@ -190,6 +177,7 @@ public class CallWorkerSlave2 {
 
                                                         }
                                                         else {
+                                                            sendTestEmail(message.getStatus());
                                                                             Call storedMessage=service.getCallRecordBySid(message.getSid());
                                                                             if(storedMessage!=null){
 
@@ -239,6 +227,7 @@ public class CallWorkerSlave2 {
                    }
                     
                 else{
+                    sendTestEmail("Stage 2 Line 91 lead");
                     System.out.println("Stage 2 : ERROR FECHING SIDS");
                 }
                         
@@ -276,7 +265,6 @@ public class CallWorkerSlave2 {
                                 sendEmailToFailCall(client.getEmailId());
                              updater.sendAutomatedUpdate(message.getLead().getLeadId());
                         }
-                                                                 
 //                        else if(message.getStatus().contains("completed")&&message.getCallType().contains("trans")){
 //                            message.getLead().setLeadStatus("Hanged up while greetings");
 //                            service.updateLeadOnly(message.getLead());
@@ -330,15 +318,15 @@ public class CallWorkerSlave2 {
 //                    service.updateCallAPIMessage(storedMessage);
 //           }
            
-//          private boolean tryStage3PreProcessing(String sid){
-//                if(worker3.work(sid)){
-//                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 1- COMPLETED");
-//                                                                                                                                         
-//                                manager.getClientStage2().poll();
-//                                return true;
-//                            }
-//                return false;
-//           }
+          private boolean tryStage3PreProcessing(String sid){
+                if(worker3.work(sid)){
+                                    System.out.println(Thread.currentThread().getName()+" "+"Stage 2 : STAGE 3 ROUND 1- COMPLETED");
+                                                                                                                                         
+                                manager.getClientStage2().poll();
+                                return true;
+                            }
+                return false;
+           }
            
           private String tryFetchingSid(Lead lead){
                String sid=null;
@@ -349,6 +337,7 @@ public class CallWorkerSlave2 {
                             catch(Exception e){
                                 
                                             e.printStackTrace();
+                                            sendTestEmail("Stage 2 line 322 lead not yet saved"+e.toString());
                                             System.out.println("#"+Thread.currentThread().getName()+"Exception 1. Stage2 out");
                                             manager.getClientStage2().poll();
                                 
@@ -385,7 +374,7 @@ public class CallWorkerSlave2 {
                                                 "Customer Happiness Manager<br/>" +
                                                 "02239652819 ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
-//           private void sendTestEmail(String text){
+           private void sendTestEmail(String text){
 //           AdminSettings adminSettings = adminService.readSettings(settings);
 //            new EmailService("souvik@jubination.com","stage 2",
 //                                          text+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),adminSettings.getMyUsername(),
@@ -393,5 +382,5 @@ public class CallWorkerSlave2 {
 //                    adminSettings.getAuth(),
 //                    adminSettings.getStarttls(),
 //                    adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-//     }
+     }
 }

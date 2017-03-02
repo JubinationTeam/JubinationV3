@@ -105,11 +105,11 @@ public class ReportAPIController {
     }
     
     
-     @RequestMapping(value="/report/all/json",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
-    public @ResponseBody List<Report>  getReportViewJson(HttpServletRequest request,Principal principal) {
+  //   @RequestMapping(value="/report/all/json",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
+    //public @ResponseBody List<Report>  getReportViewJson(HttpServletRequest request,Principal principal) {
         
-        return service.getAllReport();
-    }
+       // return service.getAllReport();
+    //}
     
     @RequestMapping(value="/rep",method=RequestMethod.POST,  headers="Accept=*/*")
     public ResponseEntity  getReportViewPdf(HttpServletRequest request,Principal principal) {
