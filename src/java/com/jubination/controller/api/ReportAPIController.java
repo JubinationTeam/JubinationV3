@@ -35,31 +35,31 @@ public class ReportAPIController {
     
     @RequestMapping(value="/pdf/parser/{clinic}/{test}/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public   @ResponseBody ReportMessage startReportParsing(@RequestBody ReportMessage msg, HttpServletRequest request,@PathVariable("clinic") String clinic,@PathVariable("test") String test,@PathVariable("reportId") String reportId,Principal principal) {
-        msg.setReportId(reportId);
-        if(clinic.equalsIgnoreCase("thyrocare")){   
-                if(test.equalsIgnoreCase("blood")){  
-                    try{
-                        System.out.println("Thyrocare Blood");
-                        if(rOperator.startParsing(msg)){
-                            System.out.println("Parsing started");
-                            msg.setBody("Success");
-                             return msg;
-                        }
-                        else {
-                             msg.setBody("Error "+"Multiple files at a time.");
-                            System.out.println("Parsing not Done : Multiple files at a time");
-                             return msg;
-                         }
-                    }
-                    catch(Exception e){
-                         msg.setBody("Error "+e.toString());
-                         e.printStackTrace();
-                         return msg;
-                     }
-                }
-            }
+       msg.setReportId(reportId);
+//        if(clinic.equalsIgnoreCase("thyrocare")){   
+//                if(test.equalsIgnoreCase("blood")){  
+//                    try{
+//                        System.out.println("Thyrocare Blood");
+//                        if(rOperator.startParsing(msg)){
+//                            System.out.println("Parsing started");
+//                            msg.setBody("Success");
+//                             return msg;
+//                        }
+//                        else {
+//                             msg.setBody("Error "+"Multiple files at a time.");
+//                            System.out.println("Parsing not Done : Multiple files at a time");
+//                             return msg;
+//                         }
+//                    }
+//                    catch(Exception e){
+//                         msg.setBody("Error "+e.toString());
+//                         e.printStackTrace();
+//                         return msg;
+//                     }
+//                }
+//            }
             msg.setBody("No proper Value");
-            return msg;
+          return msg;
 }
     
     @RequestMapping(value="/report/{reportId}",method=RequestMethod.GET,headers="Accept=*/*")
