@@ -517,7 +517,7 @@ CallManager eCallHandler;
                                 for(Client client:list){
                                     client.setPriority(4);         
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                service.updateLeadOnly(lead);
                                     }
@@ -542,7 +542,7 @@ CallManager eCallHandler;
                                  for(Client client:list){
                                     client.setPriority(4);         
                                     Lead lead=client.getLead().get(client.getLead().size()-1);
-                                    if(lead.getCall().size()>=getCount()+4){
+                                    if(lead.getCall().size()>=2*getCount()){
                                                 lead.setCount(0);
                                                 service.updateLeadOnly(lead);
                                     }

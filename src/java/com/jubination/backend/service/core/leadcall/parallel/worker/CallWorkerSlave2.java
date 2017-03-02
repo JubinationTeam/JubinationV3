@@ -71,6 +71,10 @@ public class CallWorkerSlave2 {
                                                     manager.getClientStage2().poll();
 
                                                }
+                                                if(countCheck!=0){
+                                                    lead.setCount(countCheck);
+                                                    service.updateLeadOnly(lead);
+                                                }
                                                nullCount++;
                                                break;
                                           }
@@ -85,7 +89,9 @@ public class CallWorkerSlave2 {
                                                                             count++;
                                                                             System.out.println("Stage 2:sid out of queue. Trying for"+count+"th time");
                                                                             if(count%10==0){
-                                                                                lead.setCount(countCheck);
+                                                                                if(countCheck!=0){
+                                                                                    lead.setCount(countCheck);
+                                                                                }
                                                                                 if(lead.getLeadStatus().contains("Follow up/Call back")||
                                                                                             lead.getLeadStatus().contains("Lead sent to Thyrocare")||
                                                                                             lead.getLeadStatus().contains("Rescheduled")||
@@ -99,8 +105,10 @@ public class CallWorkerSlave2 {
                                                                                     }
                                                                                 else{
                                                                                     lead.setLeadStatus(message.getStatus());
-                                                                                    lead.setCount(countCheck);
-                                                                                    service.updateLeadOnly(lead);
+                                                                                     if(countCheck!=0){
+                                                                                        lead.setCount(countCheck);
+                                                                                        service.updateLeadOnly(lead);
+                                                                                    }
                                                                                 }
                                                                                
                                                                             }
