@@ -106,7 +106,7 @@ public class CallWorkerSlave2 {
                                                                                            System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 2: SPOKE AND UPDATED");
                                                                                     }
                                                                                 else{
-                                                                                    lead.setLeadStatus(message.getStatus());
+                                                                          //          lead.setLeadStatus(message.getStatus());
                                                                                      if(countCheck!=0){
                                                                                         lead.setCount(countCheck);
                                                                                         service.updateLeadOnly(lead);
