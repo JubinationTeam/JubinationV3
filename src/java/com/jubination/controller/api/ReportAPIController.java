@@ -79,30 +79,30 @@ public class ReportAPIController {
      }
   
     
-    @RequestMapping(value="/report/json/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
-    public @ResponseBody Report  getReportViewJson(HttpServletRequest request,@PathVariable("reportId") String reportId,Principal principal) {
-        
-        
-        
-            Report report=service.getReport(reportId);
-            if(report.getBarcodes()!=null){
-                    for(Barcode b:report.getBarcodes()){
-                        b.setReport(new Report());
-                    }
-            }
-            if(report.getProfileData()!=null){
-                for(Profile profile:report.getProfileData()){
-                    profile.setReport(new Report());
-                    for(Test test:profile.getTestData()){
-                        test.setProfile(new Profile());
-                        for(ReferenceRange ref:test.getRangeValues()){
-                            ref.setTest(new Test());
-                        }
-                    }
-                }
-            }
-            return report;
-    }
+//    @RequestMapping(value="/report/json/{reportId}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
+//    public @ResponseBody Report  getReportViewJson(HttpServletRequest request,@PathVariable("reportId") String reportId,Principal principal) {
+//        
+//        
+//        
+//            Report report=service.getReport(reportId);
+//            if(report.getBarcodes()!=null){
+//                    for(Barcode b:report.getBarcodes()){
+//                        b.setReport(new Report());
+//                    }
+//            }
+//            if(report.getProfileData()!=null){
+//                for(Profile profile:report.getProfileData()){
+//                    profile.setReport(new Report());
+//                    for(Test test:profile.getTestData()){
+//                        test.setProfile(new Profile());
+//                        for(ReferenceRange ref:test.getRangeValues()){
+//                            ref.setTest(new Test());
+//                        }
+//                    }
+//                }
+//            }
+//            return report;
+//    }
     
     
   //   @RequestMapping(value="/report/all/json",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers="Accept=*/*")
