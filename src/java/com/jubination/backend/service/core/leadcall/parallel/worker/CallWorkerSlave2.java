@@ -69,7 +69,7 @@ public class CallWorkerSlave2 {
                                                         i++;
                                           }
                                           if(eMessage==null){
-                                                if(nullCount==100){
+                                                if(nullCount==1000){
                                                     manager.getClientStage2().poll();
 
                                                }

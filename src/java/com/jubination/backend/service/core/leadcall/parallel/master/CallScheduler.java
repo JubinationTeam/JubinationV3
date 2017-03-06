@@ -216,7 +216,7 @@ CallManager eCallHandler;
                                                         )){
                                                          //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -247,7 +247,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                             //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -272,7 +272,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                              //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -297,7 +297,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -320,7 +320,7 @@ CallManager eCallHandler;
                                            service.updateLeadOnly(lead);
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -345,7 +345,7 @@ CallManager eCallHandler;
                                             eCallHandler.getClientStage1().push(client);
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -470,7 +470,7 @@ CallManager eCallHandler;
                                                         )){
                                                          //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -500,7 +500,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                             //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -525,7 +525,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                              //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -550,7 +550,7 @@ CallManager eCallHandler;
                                     if(lead.getCount()>0){
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -573,7 +573,7 @@ CallManager eCallHandler;
                                            service.updateLeadOnly(lead);
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
@@ -598,7 +598,7 @@ CallManager eCallHandler;
                                             eCallHandler.getClientStage1().push(client);
                                               //duplicacy check
                                                         for(Client clientPresent:eCallHandler.getClientStage1()){
-                                                            if(clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
+                                                            if(clientPresent.getTempLeadDetails()!=null&&clientPresent.getTempLeadDetails().equals(client.getTempLeadDetails())){
                                                                 client=null;
                                                                 break;
                                                             }
