@@ -53,7 +53,6 @@ public class CallWorkerSlave2 {
                    if(client!=null&&client.getLead()!=null&&client.getLead().size()>0){
                        int count=0;
                         Lead lead=client.getLead().get(client.getLead().size()-1);
-                        if(lead.getLastCallingThread().equals(Thread.currentThread().getName())){
                         String  sid=tryFetchingSid(lead);
                         int countCheck=0;
                         countCheck=lead.getCount();
@@ -94,7 +93,7 @@ public class CallWorkerSlave2 {
                                                                                 if(countCheck!=0){
                                                                                     lead.setCount(countCheck);
                                                                                 }
-                                                                                if(lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Follow up/Call back")||
                                                                                             lead.getLeadStatus().contains("Lead sent to Thyrocare")||
                                                                                             lead.getLeadStatus().contains("Rescheduled")||
                                                                                             lead.getLeadStatus().contains("Not interested")||
@@ -224,12 +223,7 @@ public class CallWorkerSlave2 {
                                 manager.getClientStage2().poll();
                                     }
                       }
-                   }
-                    
-                else{
-                    sendTestEmail("Stage 2 Line 91 lead");
-                    System.out.println("Stage 2 : ERROR FECHING SIDS");
-                }
+                 
                         
                    }
                        }
@@ -331,8 +325,12 @@ public class CallWorkerSlave2 {
           private String tryFetchingSid(Lead lead){
                String sid=null;
                  try{
-                                
+                                if(lead.getCall()!=null){
                                     sid= lead.getCall().get(lead.getCall().size()-1).getSid();
+                                }
+                                else{
+                                    break;
+                                }
                             }
                             catch(Exception e){
                                 
