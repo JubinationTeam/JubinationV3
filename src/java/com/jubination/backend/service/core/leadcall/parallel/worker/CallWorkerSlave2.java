@@ -57,7 +57,7 @@ public class CallWorkerSlave2 {
                         int countCheck=0;
                         countCheck=lead.getCount();
                         int nullCount=0;
-                      while(count<2000&&!manager.getClientStage2().isEmpty()){
+                      while(sid!=null&&count<2000&&!manager.getClientStage2().isEmpty()){
                               try {         
                                        
                                            //Check status
@@ -327,9 +327,6 @@ public class CallWorkerSlave2 {
                  try{
                                 if(lead.getCall()!=null){
                                     sid= lead.getCall().get(lead.getCall().size()-1).getSid();
-                                }
-                                else{
-                                    break;
                                 }
                             }
                             catch(Exception e){
