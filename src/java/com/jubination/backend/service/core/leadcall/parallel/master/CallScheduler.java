@@ -260,7 +260,7 @@ CallManager eCallHandler;
                                    
                                 }
                                }
-                               list=service.getPendingCallsWithNotificationAndRecentLead("PendingMA");
+                               list=service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedMA");
                                if(list!=null){
                                 for(Client client:list){
                                     client.setPriority(4);         
@@ -513,7 +513,7 @@ CallManager eCallHandler;
                                    
                                 }
                                }
-                               list=service.getPendingCallsWithNotificationAndRecentLead("PendingMA");
+                               list=service.getPendingCallsWithNotificationAndRecentLead("PendingAndNotifiedMA");
                                if(list!=null){
                                 for(Client client:list){
                                     client.setPriority(4);         

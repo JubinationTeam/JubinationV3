@@ -483,7 +483,7 @@ public class ClientDAOImpl<T> implements Serializable{
                                                 }
                                             }
                          break;
-                         case "PendingMA":
+                         case "PendingAndNotifiedMA":
                                             session = getSessionFactory().getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
@@ -491,7 +491,10 @@ public class ClientDAOImpl<T> implements Serializable{
                                                     Restrictions.and(
                                                             Restrictions.ge("l.count", 1),
                                                             Restrictions.eq("l.missedAppointment", true),
-                                                            Restrictions.isNull("l.followUpDate")
+                                                             Restrictions.or(
+                                                                     Restrictions.isNull("l.followUpDate"),
+                                                                    Restrictions.le("l.followUpDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                                             )
                                                     )
                                             );
                                           
