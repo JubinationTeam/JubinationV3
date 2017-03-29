@@ -93,7 +93,7 @@ public class CallWorkerSlave2 {
                                                                                 if(countCheck!=0){
                                                                                     lead.setCount(countCheck);
                                                                                 }
-                                                                                if(lead.getLeadStatus()!=null&&lead.getLeadStatus().contains("Follow up/Call back")||
+                                                                                if(lead!=null&&lead.getLeadStatus()!=null&&(lead.getLeadStatus().contains("Follow up/Call back")||
                                                                                             lead.getLeadStatus().contains("Lead sent to Thyrocare")||
                                                                                             lead.getLeadStatus().contains("Rescheduled")||
                                                                                             lead.getLeadStatus().contains("Not interested")||
@@ -101,7 +101,7 @@ public class CallWorkerSlave2 {
                                                                                             lead.getLeadStatus().contains("Language not recognizable")||
                                                                                             lead.getLeadStatus().contains("No Service")||
                                                                                             lead.getLeadStatus().contains("Customer complained")||
-                                                                                            lead.getLeadStatus().contains("Disapproved")){
+                                                                                            lead.getLeadStatus().contains("Disapproved"))){
                                                                                            System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 2: SPOKE AND UPDATED");
                                                                                     }
                                                                                 else{

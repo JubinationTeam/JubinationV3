@@ -316,7 +316,9 @@ public class CallMaintainService {
 
             }else{
                 
-                                lead.setLeadId(client.getTempLeadDetails());
+                                if(lead.getLeadId()==null||lead.getLeadId().isEmpty()){
+                                        lead.setLeadId(client.getTempLeadDetails());
+                                }
                                 lead.setOrderId("JUBI0000"+lead.getLeadId());
                                 lead.setOrderBy(client.getName());
                                 lead.setDateCreation(client.getDateCreation());

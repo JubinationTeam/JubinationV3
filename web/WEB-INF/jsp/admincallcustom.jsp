@@ -77,7 +77,7 @@
                        </form>                       
                     </div>
                        <hr/>
-              <%--       <div id="compose" class="form-group" >
+                     <div id="compose" class="form-group" >
                        <form action="${pageContext.request.contextPath}/admin/callcustom/call/cust" method="post">
 
 
@@ -85,7 +85,7 @@
                             </br>
                             <button type="submit" class="btn btn-lg btn-info" id="button-submit">Customer Call</button>
                        </form>                       
-                    </div>--%>
+                    </div>
                             
                </div>
                             
