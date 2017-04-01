@@ -94,6 +94,12 @@ public class ExotelAPIController {
                case "13":
                  call.setTrackStatus("Pressed pressed 1. Confirmed booking");
                    break;
+               case "14":
+                 call.setTrackStatus("Repeat Client pick up");
+                   break;   
+                case "15":
+                call.setTrackStatus("Repeat Client did not pick up");
+                   break;    
                case "agent":
                   for(Client client:eCallHandler.getClientStage2()){
                       if(request.getParameter("From").contains(client.getPhoneNumber())&&request.getParameter("Status").equals("busy")){
