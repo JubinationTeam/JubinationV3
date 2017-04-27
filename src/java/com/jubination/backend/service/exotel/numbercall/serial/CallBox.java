@@ -2,6 +2,7 @@ package com.jubination.backend.service.exotel.numbercall.serial;
 
 
 import com.jubination.backend.pojo.exotel.ExotelMessage;
+import com.jubination.backend.service.exotel.api.ExotelCallService;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
@@ -55,10 +56,10 @@ public class CallBox {
                     
                     private int executives=0;
                     private String appId;
-                    private String callerId;
                    
                     
-
+                    @Autowired
+                    ExotelCallService callService;
                     @Autowired
                     AdminMaintainService adminMaintain;
                     @Autowired
@@ -71,8 +72,11 @@ public class CallBox {
                                             System.out.println("CUSTOM CALLING ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
                                             Long startTime=System.currentTimeMillis();
                                             if(!numbers.isEmpty()&&sids.size()<getExecutives()){
-                                                System.out.println("NOT EMPTY ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-                                                                    String callerId=numbers.peek();
+                                                   String callerId=numbers.peek();
+                                                    
+                                                 if(callerId!=null){
+                                                      System.out.println("NOT EMPTY ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"+callerId);
+                                                              
                                                                     if(numbers.isEmpty()){
                                                                                     flag=false;
                                                                                 }
@@ -83,50 +87,8 @@ public class CallBox {
                                                                     String responseText="NA";
                                                                     Document doc=null;
                                                                     //System.out.println("Stage 1:"+numbers.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
-                                                                    if(callerId!=null){
-                                                                                            CloseableHttpResponse response=null;
-                                                                                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                                                                                            DocumentBuilder builder;
-                                                                                            InputSource is;
-                                                                                            try { 
-                                                                                                                        //requesting exotel to initiate call
-                                                                                                                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                                                                                                                        HttpPost httpPost = new HttpPost("https://jubination:ce5e307d58d8ec07c8d8456e42ed171ff8322fd0@twilix.exotel.in/v1/Accounts/jubination/Calls/connect");
-                                                                                                                        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-                                                                                                                        formparams.add(new BasicNameValuePair("From",callerId));
-                                                                                                                        //formparams.add(new BasicNameValuePair("To",callerId));
-                                                                                                                        formparams.add(new BasicNameValuePair("CallerId",getCallerId()));
-                                                                                                                        formparams.add(new BasicNameValuePair("CallerType","trans"));
-                                                                                                                        formparams.add(new BasicNameValuePair("Url","http://my.exotel.in/exoml/start/"+"102261"));
-                                                                                                                //        formparams.add(new BasicNameValuePair("TimeLimit","1800"));
-                                                                                                                  //      formparams.add(new BasicNameValuePair("TimeOut","30"));
-                                                                                                                        formparams.add(new BasicNameValuePair("SatusCallback",""));
-                                                                                                                        formparams.add(new BasicNameValuePair("CustomField","customCall"));
-                                                                                                                        UrlEncodedFormEntity uEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
-                                                                                                                        httpPost.setEntity(uEntity);
-                                                                                                                        response = httpclient.execute(httpPost);
-                                                                                                                        //System.out.println("Stage 1:Number sent to exotel");
-                                                                                                                        HttpEntity entity = response.getEntity();
-
-                                                                                                                        responseText = EntityUtils.toString(entity, "UTF-8");
-                                                                                                                        builder = factory.newDocumentBuilder();
-                                                                                                                        is = new InputSource(new StringReader(responseText));
-                                                                                                                        doc = builder.parse(is);
-                                                                                                                        doc.getDocumentElement().normalize();
-                                                                                            } 
-                                                                                            catch(IOException | ParseException | ParserConfigurationException | SAXException | DOMException e){
-                                                                                                                        e.printStackTrace();
-                                                                                            }
-                                                                                            finally {
-                                                                                                                        if(response!=null){
-                                                                                                                                                response.close();
-                                                                                                                        }
-                                                                                           }
-                                                                    }
-                                                                    //parsing xml response from exotel
-                                                                    JAXBContext jaxbContext = JAXBContext.newInstance(ExotelMessage.class);
-                                                                    Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                                                                    ExotelMessage eMessage = (ExotelMessage) jaxbUnmarshaller.unmarshal(doc);
+                                                                   
+                                                                     ExotelMessage eMessage =callService.makeCall(callerId);
                                                                     Call message=null;
                                                                     //System.out.println("Stage 1:Got xml message");
                                                                     if(eMessage!=null){
@@ -170,7 +132,7 @@ public class CallBox {
                                             float tt=timeTaken/1000;
                                             //System.out.println("Time Taken "+tt+" seconds");
                                             }
-                                            
+                    }
                     }
 
    
@@ -189,35 +151,7 @@ public class CallBox {
                                                                                     checkFlag=false;
                                                                                 }
                                                                                 
-                                                             CloseableHttpResponse response=null;
-                                                             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                                                             DocumentBuilder builder;
-                                                             InputSource is;
-                                                             try { 
-                                                                         //checking sid details with exotel
-                                                                         CloseableHttpClient httpclient = HttpClients.createDefault();
-                                                                         HttpGet httpGet = new HttpGet("https://jubination:ce5e307d58d8ec07c8d8456e42ed171ff8322fd0@twilix.exotel.in/v1/Accounts/jubination/Calls/"+sid);
-                                                                         response = httpclient.execute(httpGet);
-                                                                         //System.out.println("Stage 2:Sid sent to exotel");
-                                                                         HttpEntity entity = response.getEntity();
-                                                                         responseText = EntityUtils.toString(entity, "UTF-8");
-                                                                         builder = factory.newDocumentBuilder();
-                                                                         is = new InputSource(new StringReader(responseText));
-                                                                         doc = builder.parse(is);
-                                                                         doc.getDocumentElement().normalize();
-                                                              } 
-                                                             catch(IOException | ParseException | ParserConfigurationException | SAXException | DOMException e){
-                                                                        e.printStackTrace();
-                                                              }
-                                                             finally {
-                                                                        if(response!=null){
-                                                                                            response.close();
-                                                                        }
-                                                              }
-                                                             //parsing xml response from exotel
-                                                             JAXBContext jaxbContext = JAXBContext.newInstance(ExotelMessage.class);
-                                                             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                                                             ExotelMessage eMessage = (ExotelMessage) jaxbUnmarshaller.unmarshal(doc);
+                                                             ExotelMessage eMessage=callService.checkStatus(sid);
                                                              Call message=null;
                                                              //System.out.println("Stage 2:Got xml message");
                                                              if(eMessage!=null){
@@ -388,15 +322,6 @@ public class CallBox {
     public void setAppId(String appId) {
         this.appId = appId;
     }
-
-    public String getCallerId() {
-        return callerId;
-    }
-
-    public void setCallerId(String callerId) {
-        this.callerId = callerId;
-    }
-
-                   
+              
         
 }

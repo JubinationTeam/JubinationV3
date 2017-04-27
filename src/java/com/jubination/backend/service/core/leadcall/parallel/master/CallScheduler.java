@@ -417,7 +417,6 @@ CallManager eCallHandler;
                                                                     number="0"+number;
                                                 }
                                                                              callHandler.setAppId(appIdReEngage);
-                                                                             callHandler.setCallerId(callerIdCust);
                                                                             callHandler.getNumbers().push(number);
 
                                                                             if(!callHandler.isFlag()){
