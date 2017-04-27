@@ -35,6 +35,19 @@ public class CallController {
     @Autowired
     CallBox callHandler;
 
+     @RequestMapping(value="/admin/callcustom/call/cust",method = RequestMethod.POST)
+    public ModelAndView callCustomCustomers(HttpServletRequest request, Principal principal) throws IOException {
+            ModelAndView model= new ModelAndView("admincallcustom");
+            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
+            if(request.getParameter("numbers")!=null){
+                operator.doCustCall(request.getParameter("numbers"));
+                model.addObject("message", "Keep Calm and attend calls..:P");
+                return model;
+            }
+            model.addObject("message", "Error during call");
+            return model;
+    }
+    
     @RequestMapping(value="/admin/callcustom/call/lead",method = RequestMethod.POST)
     public ModelAndView callCustomLeads(HttpServletRequest request, Principal principal) throws IOException {
             ModelAndView model= new ModelAndView("admincallcustom");
@@ -69,18 +82,7 @@ public class CallController {
             return model;
     }
     
-    @RequestMapping(value="/admin/callcustom/call/cust",method = RequestMethod.POST)
-    public ModelAndView callCustomCustomers(HttpServletRequest request, Principal principal) throws IOException {
-            ModelAndView model= new ModelAndView("admincallcustom");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            if(request.getParameter("numbers")!=null){
-                operator.doCustCall(request.getParameter("numbers"));
-                model.addObject("message", "Keep Calm and attend calls..:P");
-                return model;
-            }
-            model.addObject("message", "Error during call");
-            return model;
-    }
+   
      
     @RequestMapping(value="/admin/callcustom")
     public ModelAndView customCallInterface(HttpServletRequest request, Principal principal) throws IOException {

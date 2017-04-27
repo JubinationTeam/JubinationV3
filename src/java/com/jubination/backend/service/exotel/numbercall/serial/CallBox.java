@@ -66,8 +66,12 @@ public class CallBox {
                     @Async
                     @Scheduled(fixedRate=2500)
                     void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
+                        
+                        
+                                            System.out.println("CUSTOM CALLING ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
                                             Long startTime=System.currentTimeMillis();
                                             if(!numbers.isEmpty()&&sids.size()<getExecutives()){
+                                                System.out.println("NOT EMPTY ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
                                                                     String callerId=numbers.peek();
                                                                     if(numbers.isEmpty()){
                                                                                     flag=false;
