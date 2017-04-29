@@ -48,42 +48,27 @@ public class CallWorkerSlave3 {
               try{
                            //STAGE 3-----------------------UPDATE CALL STATUS----------------------------------------------------------------//    
                             //see if passthru update available
-                            
                             if(!manager.getStageThreeUpdates().isEmpty()){
                             try{
-
                                             //get all the list of updates
                                             List<Call> callList=manager.getStageThreeUpdates();
-                                            
                                                 //see through the list of updates
                                                 for(int i=0;i<callList.size();i++){
-                                                    
                                                     Call callUpdatedFromList=callList.get(i);
-                                                    
                                                     //if the sids match
                                                     if(callUpdatedFromList.getSid().equals(sid)){
-                                                                
-                                                                System.out.println("##########"+Thread.currentThread().getName()+" "+"Got the sid matched");
-                                                                
                                                                 //get the call data stored with same sid
                                                                 List<Call> callDatabase=service.getCallBySid(sid);
-                                                                
                                                                 //Expected sids
                                                                 if(callDatabase!=null&&!callDatabase.isEmpty()){
-                                                                    
                                                                         for(int j=0;j<callDatabase.size();j++){
-                                                                            
                                                                               updateCallStatusOfExpectedSids(callUpdatedFromList,callDatabase.get(j));
-                                                                              
                                                                         }
-
                                                                 }
                                                                 //Unexpected sids
                                                                 else{
                                                                                  updateCallStatusOfUnexpectedSids(callUpdatedFromList);
                                                                 }
-
-
                                                                 manager.getStageThreeUpdates().remove(callUpdatedFromList);
                                                                 return true;
                                                     }
@@ -94,19 +79,13 @@ public class CallWorkerSlave3 {
                                                         return false; 
                                           }
                             }
-                            System.out.println("############"+Thread.currentThread().getName()+" "+"Stage 3:Could not find sid.");
-                           return false; 
-                            
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                               }
+                            return false; 
+              }
             catch(Exception e){
                 System.out.println("Error @ outer work Slave 3");
                 e.printStackTrace();
                 return false; 
             }
-              finally{
-            
-              }
                             
            }
           
@@ -178,78 +157,66 @@ public class CallWorkerSlave3 {
           
           
             private void updateCallStatusOfUnexpectedSids(Call callUpdatedFromList) {
-                                     System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
-                                    service.buildCallAPIMessage(callUpdatedFromList);
-                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
-                                        System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
-                                          System.out.println("Request Callback");
-                                                    callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
-                                                    callBox.setFlag(true);
-                                 }
-         }
+                    System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
+                    service.buildCallAPIMessage(callUpdatedFromList);
+                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
+                            System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
+                            System.out.println("Request Callback");
+                            callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
+                            callBox.setFlag(true);
+                    }
+                    else{
+                            System.out.println("Failed:::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+                    }
+             }
+            
           private void updateCallStatusOfExpectedSids(Call callUpdatedFromList,Call callDatabase) {
-              System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call message present in database already and not null");
-            //change the call details
-             callDatabase.setMessage("Stage 3 Tracking");
-             callDatabase.setStatus("completed");
-             callDatabase.setDialCallDuration(callUpdatedFromList.getDialCallDuration());
-             callDatabase.setCallType(callUpdatedFromList.getCallType());
-             callDatabase.setTrackStatus(callUpdatedFromList.getTrackStatus());
-             callDatabase.setDialWhomNumber(callUpdatedFromList.getDialWhomNumber());
-             callDatabase.setRecordingUrl(callUpdatedFromList.getRecordingUrl());
-             callDatabase.setStartTime(callUpdatedFromList.getStartTime());
-             callDatabase.setDirection(callUpdatedFromList.getDirection());
-             //get client details from database
-           
-                           Client client=service.getClientDetailsWithList(callDatabase.getLead().getClient());
-
-                           Lead lead=client.getLead().get(client.getLead().size()-1);
-                           if(callDatabase.getTrackStatus().contains("Automated")){
-                                                lead.setLeadStatus("Automated Booking");
-                                                lead.setCount(0);
-                                                service.updateLeadOnly(lead);
-                                              updater.sendAutomatedUpdate(lead.getLeadId());
-                           }
-                           if(callDatabase.getTrackStatus().contains("did not speak")){
-                                      updateNotSpoken(client,lead,callDatabase);
-                                      
-
-                           }
-                           else if(callDatabase.getTrackStatus().contains("spoke")){
-                               updateSpoke(client, lead, callDatabase);
-                           }
-                           else{
-                               updateUnpredictableScenario(client, lead, callDatabase);
-                           }
-                        
-                        
-                      System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call Message out of queue");
+                    System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call message present in database already and not null");
+                  //change the call details
+                   callDatabase.setMessage("Stage 3 Tracking");
+                   callDatabase.setStatus("completed");
+                   callDatabase.setDialCallDuration(callUpdatedFromList.getDialCallDuration());
+                   callDatabase.setCallType(callUpdatedFromList.getCallType());
+                   callDatabase.setTrackStatus(callUpdatedFromList.getTrackStatus());
+                   callDatabase.setDialWhomNumber(callUpdatedFromList.getDialWhomNumber());
+                   callDatabase.setRecordingUrl(callUpdatedFromList.getRecordingUrl());
+                   callDatabase.setStartTime(callUpdatedFromList.getStartTime());
+                   callDatabase.setDirection(callUpdatedFromList.getDirection());
+                   //get client details from database
+                    Client client=service.getClientDetailsWithList(callDatabase.getLead().getClient());
+                    Lead lead=client.getLead().get(client.getLead().size()-1);
+                    if(callDatabase.getTrackStatus().contains("Automated")){
+                                         lead.setLeadStatus("Automated Booking");
+                                         lead.setCount(0);
+                                         service.updateLeadOnly(lead);
+                                       updater.sendAutomatedUpdate(lead.getLeadId());
+                    }
+                    if(callDatabase.getTrackStatus().contains("did not speak")){
+                               updateNotSpoken(client,lead,callDatabase);
+                    }
+                    else if(callDatabase.getTrackStatus().contains("spoke")){
+                                updateSpoke(client, lead, callDatabase);
+                    }
+                    else{
+                        updateRestStatus(client, lead, callDatabase);
+                    }
+                    System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call Message out of queue");
           }
           
           
-          private void updateUnpredictableScenario(Client client, Lead lead, Call call){
+          private void updateRestStatus(Client client, Lead lead, Call call){
                 System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : "+lead.getLeadStatus()+"|"+call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
-
-                                   lead.setLeadStatus(call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
-
-                           service.updateLeadOnly(lead);
-
-                        call.setLead(client.getLead().get(client.getLead().size()-1));
-                        service.updateCallAPIMessage(call);
+                lead.setLeadStatus(call.getStatus()+"|"+call.getTrackStatus()+"|"+call.getCallType());
+                service.updateLeadOnly(lead);
+                call.setLead(client.getLead().get(client.getLead().size()-1));
+                service.updateCallAPIMessage(call);
           }
           
           
           private void updateSpoke(Client client, Lead lead, Call call){
-                                           
-                                           // lead.setFollowUpDate("");
-                                           // lead.setNotification(false);
-                                           // lead.setPending(false);
                                            if((lead.getLeadStatus()==null||lead.getLeadStatus().isEmpty())){
-                                          
-
-                                                   System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : SPOKE BUT NOT UPDATED");
-                                                  lead.setLeadStatus("Spoke but not updated");
-
+                                                    System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : SPOKE BUT NOT UPDATED");
+                                                    lead.setLeadStatus("Spoke but not updated");
                                            }
                                           else if(lead.getLeadStatus().contains("Follow up/Call back")||
                                                    lead.getLeadStatus().contains("Lead sent to Thyrocare")||
@@ -264,24 +231,13 @@ public class CallWorkerSlave3 {
                                                   System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3: SPOKE AND UPDATED");
                                            }
                                            else{
-                                               
                                                    System.out.println("##########"+Thread.currentThread().getName()+" "+"Stage 3 : SPOKE BUT NOT UPDATED");
                                                   lead.setLeadStatus("Spoke but not updated|prev-"+lead.getLeadStatus());
-
                                            }
                                                lead.setPending(false);
                                                 lead.setNotification(false);
                                                lead.setCount(0);
                                                service.updateLeadOnly(lead);
-//                                               List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-//                                                    for(Lead l:leadList){
-//                                                                    
-//                                                                    l.setNotification(false);
-//                                                                    l.setPending(false);
-//                                                                    l.setCount(0);
-//                                                                    service.updateLeadOnly(l);
-//                                                    }
-
                                                 call.setLead(client.getLead().get(client.getLead().size()-1));
                                                 service.updateCallAPIMessage(call);
                                                 try {
