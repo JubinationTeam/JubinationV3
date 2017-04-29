@@ -2,7 +2,6 @@ package com.jubination.controller.web;
 
 
 
-import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.MailMessage;
@@ -30,8 +29,6 @@ public class AdminController {
     AdminMaintainService adminMaintain;
     @Autowired
     CallMaintainService callMaintain;
-    @Autowired
-    CallBox callBox;
     @Autowired
     CallManager eCallBox;
 

@@ -455,14 +455,13 @@ CallManager eCallHandler;
                                             if(!number.startsWith("0")){
                                                                     number="0"+number;
                                                 }
-                                                                             callHandler.setAppId(appIdReEngage);
-                                                                            callHandler.getNumbers().push(number);
+                                                               callHandler.getNumbers().push(number);
 
-                                                                            if(!callHandler.isFlag()){
-                                                                                    callHandler.setFlag(true);
-                                                                               }
+                                                               if(!callHandler.isFlag()){
+                                                                       callHandler.setFlag(true);
+                                                                  }
 
-                                                        }
+                                                }
                                         }
                                         }
 

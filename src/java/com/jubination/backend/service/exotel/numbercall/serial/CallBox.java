@@ -7,39 +7,16 @@ import com.jubination.model.pojo.exotel.Call;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -55,7 +32,6 @@ public class CallBox {
                     private Stack<Call> stageThreeUpdates = new Stack<>();
                     
                     private int executives=0;
-                    private String appId;
                    
                     
                     @Autowired
@@ -69,7 +45,7 @@ public class CallBox {
                     void callDicyCustomer() throws IOException,InterruptedException, JAXBException{
                         
                         
-                                            System.out.println("CUSTOM CALLING ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+                                      //      System.out.println("CUSTOM CALLING ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
                                             Long startTime=System.currentTimeMillis();
                                             if(!numbers.isEmpty()&&sids.size()<getExecutives()){
                                                    String callerId=numbers.peek();
@@ -140,7 +116,7 @@ public class CallBox {
                     @Scheduled(fixedDelay=3000)
                     void checkCalledCustomers() throws IOException, JAXBException{
                                         Long startTime=System.currentTimeMillis();
-                                        if(isCheckFlag()||sids.size()>=getExecutives()){
+                                        if(isCheckFlag()||(sids.size()>=getExecutives()&&sids.size()>=0)){
                                                             String sid=null;
                                                             String responseText="NA";
                                                             Document doc=null;
@@ -293,7 +269,8 @@ public class CallBox {
 
      public Stack<String> getNumbers() {
        synchronized(numbers){
-        return numbers;
+           
+                return numbers;
        }
     }
 
@@ -315,13 +292,6 @@ public class CallBox {
         this.executives = executives;
     }
 
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-              
+    
         
 }
