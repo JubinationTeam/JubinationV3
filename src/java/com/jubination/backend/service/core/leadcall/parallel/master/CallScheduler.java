@@ -6,7 +6,7 @@
 package com.jubination.backend.service.core.leadcall.parallel.master;
 
 import com.jubination.backend.service.sendgrid.EmailService;
-import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
+import com.jubination.backend.service.core.numbercall.serial.CallBox;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;

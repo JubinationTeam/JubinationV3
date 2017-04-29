@@ -7,7 +7,7 @@ package com.jubination.backend.service.core.leadcall.parallel.worker;
 
 import com.jubination.backend.service.core.leadcall.parallel.worker.CallWorker;
 import com.jubination.backend.service.sendgrid.EmailService;
-import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
+import com.jubination.backend.service.core.numbercall.serial.CallBox;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.lms.Updater;
 import com.jubination.controller.web.UpdateAndBookingController;

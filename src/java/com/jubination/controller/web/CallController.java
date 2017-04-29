@@ -1,6 +1,6 @@
 package com.jubination.controller.web;
 
-import com.jubination.backend.service.exotel.numbercall.serial.CallBox;
+import com.jubination.backend.service.core.numbercall.serial.CallBox;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;

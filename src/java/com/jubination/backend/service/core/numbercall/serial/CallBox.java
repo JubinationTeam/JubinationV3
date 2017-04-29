@@ -1,4 +1,4 @@
-package com.jubination.backend.service.exotel.numbercall.serial;
+package com.jubination.backend.service.core.numbercall.serial;
 
 
 import com.jubination.backend.pojo.exotel.ExotelMessage;
@@ -55,13 +55,7 @@ public class CallBox {
                                                               
                                                                     if(numbers.isEmpty()){
                                                                                     flag=false;
-                                                                                }
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    String responseText="NA";
-                                                                    Document doc=null;
+                                                                    }
                                                                     //System.out.println("Stage 1:"+numbers.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
                                                                    
                                                                      ExotelMessage eMessage =callService.makeCall(callerId);
@@ -116,10 +110,8 @@ public class CallBox {
                     @Scheduled(fixedDelay=3000)
                     void checkCalledCustomers() throws IOException, JAXBException{
                                         Long startTime=System.currentTimeMillis();
-                                        if(isCheckFlag()||(sids.size()>=getExecutives()&&sids.size()>=0)){
+                                        if(isCheckFlag()||(sids.size()>=getExecutives()&&sids.size()>0)){
                                                             String sid=null;
-                                                            String responseText="NA";
-                                                            Document doc=null;
                                                             //System.out.println("Stage 2:"+sids.size()+" Sids in queue to be sent to exotel to process "+Thread.currentThread());
                                                                                 //fetching all the sid values
                                                                                 sid=sids.peek();
