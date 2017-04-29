@@ -133,10 +133,7 @@ public class CallWorkerSlave3 {
 //
                                                          Client client=service.getClientDetailsWithList(callDatabase.get(j).getLead().getClient());
                                                          Lead lead =client.getLead().get(client.getLead().size()-1);
-                                                         if(callUpdatedFromList.getTrackStatus().contains("Automated")){
-                                                                                                                    
-                                                        }
-                                                      else  if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
+                                                         if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
                                                             
                                                              if(!(lead.getLeadStatus().contains("Follow up/Call back")||
                                                                                                             lead.getLeadStatus().contains("Lead sent to Thyrocare")||
@@ -207,6 +204,9 @@ public class CallWorkerSlave3 {
 
                            Lead lead=client.getLead().get(client.getLead().size()-1);
                            if(callDatabase.getTrackStatus().contains("Automated")){
+                                                lead.setLeadStatus("Automated Booking");
+                                                lead.setCount(0);
+                                                service.updateLeadOnly(lead);
                                               updater.sendAutomatedUpdate(lead.getLeadId());
                            }
                            if(callDatabase.getTrackStatus().contains("did not speak")){

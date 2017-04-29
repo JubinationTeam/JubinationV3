@@ -47,7 +47,7 @@ CallManager eCallHandler;
                     private boolean dumpRetriever=true;
                     private boolean missedAppointment=true;
                    
-                    private int count=7;
+                    private int count=0;
                     
                     private final String settings="settings";
                     

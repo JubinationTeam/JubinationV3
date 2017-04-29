@@ -87,6 +87,10 @@ public class CallWorkerSlave3Leftover {
                                                                                                                 
                                                                                                                 Lead lead=client.getLead().get(client.getLead().size()-1);
                                                                                                                 if(call.getTrackStatus().contains("Automated")){
+                                                                                                                    
+                                                                                                                        lead.setLeadStatus("Automated Booking");
+                                                                                                                        lead.setCount(0);
+                                                                                                                        service.updateLeadOnly(lead);
                                                                                                                         updater.sendAutomatedUpdate(lead.getLeadId());
                                                                                                                     
                                                                                                                 }
@@ -203,6 +207,10 @@ public class CallWorkerSlave3Leftover {
                                                                                                             callUpdated.getCallTo().equals(client.getPhoneNumber())||callUpdated.getCallFrom().equals(client.getPhoneNumber())){
                                                                                                     client=service.getClientDetailsWithList(client);
                                                                                                        if(callUpdated.getTrackStatus().contains("Automated")){
+                                                                                                                        
+                                                                                                                        lead.setLeadStatus("Automated Booking");
+                                                                                                                        lead.setCount(0);
+                                                                                                                        service.updateLeadOnly(lead);
                                                                                                                         updater.sendAutomatedUpdate(lead.getLeadId());
                                                                                                                     
                                                                                                                 }
