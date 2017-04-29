@@ -61,30 +61,15 @@ public class LMSAPIController {
     }
     
 
-     @RequestMapping(value="/API/reportStatus/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
-    public ResponseEntity reportStatusEntry(@RequestBody ReportStatus reportStatus,HttpServletRequest request) throws IOException{
-            if(callMaintain.addMissedAppointment(reportStatus)){
-                return new ResponseEntity(HttpStatus.OK);
-            }
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
+//     @RequestMapping(value="/API/reportStatus/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
+//    public ResponseEntity reportStatusEntry(@RequestBody ReportStatus reportStatus,HttpServletRequest request) throws IOException{
+//            if(callMaintain.addMissedAppointment(reportStatus)){
+//                return new ResponseEntity(HttpStatus.OK);
+//            }
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//    }
     
  
-	private String encode(long num) {
-		StringBuilder sb = new StringBuilder();
-
-		while (num > 0) {
-			sb.append(ALPHABET.charAt((int) (num % BASE)));
-			num /= BASE;
-		}
-
-		return sb.reverse().toString();
-	}
-        
-        public String getId() {
-		Date date = new Date();
-		String id = encode(date.getTime());
-		return id;
-	}
+	
 	
 }
