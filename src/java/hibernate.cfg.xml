@@ -38,12 +38,5 @@
     <mapping class="com.jubination.model.pojo.status.ReportStatus"/>
     
     
-    <mapping class="com.jubination.model.pojo.report.Report"/>
-    <mapping class="com.jubination.model.pojo.report.Test"/>
-    <mapping class="com.jubination.model.pojo.report.Barcode"/>
-    <mapping class="com.jubination.model.pojo.report.ReferenceRange"/>
-    <mapping class="com.jubination.model.pojo.report.Profile"/>
-    
-    
   </session-factory>
 </hibernate-configuration>
