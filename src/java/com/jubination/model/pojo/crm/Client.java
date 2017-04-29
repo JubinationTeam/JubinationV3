@@ -292,6 +292,11 @@ public class Client implements Serializable {
         this.persistent = true;
     }
 
+    @Override
+    public String toString() {
+        return "Client{" + "clientId=" + clientId + ", emailId=" + emailId + ", name=" + name + ", campaignName=" + campaignName + ", age=" + age + ", gender=" + gender + ", phoneNumber=" + phoneNumber + ", address=" + address + ", city=" + city + ", pincode=" + pincode + ", dateCreation=" + dateCreation + ", dateUpdated=" + dateUpdated + ", ipAddress=" + ipAddress + ", initialComments=" + initialComments + ", source=" + source + ", pubId=" + pubId + ", priority=" + priority + ", overnight=" + overnight + ", tempLeadDetails=" + tempLeadDetails + ", realTimeData=" + realTimeData + ", persistent=" + persistent + ", lead=" + lead + '}';
+    }
+
    
  
  
