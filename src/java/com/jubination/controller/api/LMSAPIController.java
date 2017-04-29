@@ -36,9 +36,6 @@ public class LMSAPIController {
     CallMaintainService callMaintain;
     @Autowired
     CallManager eCallHandler;
-       private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-       private static final long BASE = 36;
-
     
      @RequestMapping(value="/API/freshCall/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity freshCalls(@RequestBody Client client,HttpServletRequest request) throws IOException{
