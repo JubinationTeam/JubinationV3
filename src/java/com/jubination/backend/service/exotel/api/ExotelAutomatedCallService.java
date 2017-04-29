@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
  */
 @Component
 @Scope("prototype")
-public class ExotelCallService {
+public class ExotelAutomatedCallService {
     
     public ExotelMessage makeCall(String callerId){
               ExotelMessage eMessage=null;
@@ -66,7 +66,7 @@ public class ExotelCallService {
                                    // formparams.add(new BasicNameValuePair("To",callerId));
                                     formparams.add(new BasicNameValuePair("CallerId","02239698495"));
                                     formparams.add(new BasicNameValuePair("CallerType","trans"));
-                                    formparams.add(new BasicNameValuePair("Url","http://my.exotel.in/exoml/start/102261"));
+                                    formparams.add(new BasicNameValuePair("Url","http://my.exotel.in/exoml/start/131163"));
                 //                    formparams.add(new BasicNameValuePair("TimeLimit","1800"));
                    //                 formparams.add(new BasicNameValuePair("TimeOut","30"));
                                     formparams.add(new BasicNameValuePair("SatusCallback",""));

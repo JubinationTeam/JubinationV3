@@ -29,7 +29,7 @@ public class CallManager {
                     
                         private Boolean status=true;
                     
-                        private int executives=0;
+                        private int executives=10;
                         
                         private final String settings="settings";
                         

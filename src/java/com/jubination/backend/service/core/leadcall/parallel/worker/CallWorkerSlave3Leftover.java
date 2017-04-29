@@ -86,7 +86,11 @@ public class CallWorkerSlave3Leftover {
                                                                                                                 client=service.getClientDetailsWithList(client);
                                                                                                                 
                                                                                                                 Lead lead=client.getLead().get(client.getLead().size()-1);
-                                                                                                                if(call.getTrackStatus().contains("did not speak")){
+                                                                                                                if(call.getTrackStatus().contains("Automated")){
+                                                                                                                        updater.sendAutomatedUpdate(lead.getLeadId());
+                                                                                                                    
+                                                                                                                }
+                                                                                                                else if(call.getTrackStatus().contains("did not speak")){
                                                                                                                             if(call.getCallType().contains("client-hangup")){
                                                                                                                                 lead.setLeadStatus("Hanged up while connecting");
                                                                                                                                 
@@ -198,6 +202,10 @@ public class CallWorkerSlave3Leftover {
                                                                                                     if(callUpdated.getCallTo().equals("0"+client.getPhoneNumber())||callUpdated.getCallFrom().equals("0"+client.getPhoneNumber())||
                                                                                                             callUpdated.getCallTo().equals(client.getPhoneNumber())||callUpdated.getCallFrom().equals(client.getPhoneNumber())){
                                                                                                     client=service.getClientDetailsWithList(client);
+                                                                                                       if(callUpdated.getTrackStatus().contains("Automated")){
+                                                                                                                        updater.sendAutomatedUpdate(lead.getLeadId());
+                                                                                                                    
+                                                                                                                }
                                                                                                     if(callUpdated.getTrackStatus().contains("spoke to us")){
                                                                                                         
                                                                                                         lead.setPending(false);

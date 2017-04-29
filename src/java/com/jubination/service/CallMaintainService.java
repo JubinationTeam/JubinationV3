@@ -338,25 +338,19 @@ public class CallMaintainService {
                                 int count=0;
                                         while(count<10){
                                             lead.getBeneficiaries().add(new Beneficiaries());
-//                                            if(count==0){
-//                                                lead.getBeneficiaries().get(0).setName(client.getName());
-//                                                lead.getBeneficiaries().get(0).setAge(client.getAge());
-//                                                lead.getBeneficiaries().get(0).setGender(client.getGender());
-//                                            }
                                             count++;
                                         }
                                 
             }
             
             TempClient tempClient=new TempClient(client.getEmailId(), client.getName(), client.getCampaignName(), client.getAge(), client.getGender(), client.getPhoneNumber(), client.getAddress(), client.getCity(), client.getPincode(), client.getDateCreation(), client.getDateUpdated(), client.getIpAddress(), client.getInitialComments(), client.getSource(), client.getPubId(), null, false, client.getTempLeadDetails(), lead.getHardcopy(), lead.getOrderId() , lead.getProduct(), lead.getServiceType(), lead.getOrderBy(), lead.getAppointmentDate(), lead.getAppointmentTime(), lead.getBenCount(),lead.getReportCode(),lead.getRate() , lead.getMargin(), lead.getPasson(),lead.getPayType(), lead.getHandlingCharges(), beneficiaries);
-
-       //     if(!checkIfClientPresent(client.getPhoneNumber(),new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
-          if(!checkIfClientPresent(client.getPhoneNumber(),client.getDateCreation().split(" ")[0],client.getTempLeadDetails())){
-                            operator.getClients().offer(client);
-                            operator.setFreshFlag(true);  
+          
+              if(!checkIfClientPresent(tempClient.getPhoneNumber(),tempClient.getDateCreation().split(" ")[0],tempClient.getTempLeadDetails())){
+                            startAutomatedCalling(client);
                             tempClient.setCallStatus("pending");
             }
-          else if(tempClient.getProduct().contains("DietChart")||tempClient.getCampaignName().contains("DietChart")){
+            
+           else if(tempClient.getProduct().contains("DietChart")||tempClient.getCampaignName().contains("DietChart")){
                 
                              tempClient.setCallStatus("diet");
             }
@@ -366,6 +360,18 @@ public class CallMaintainService {
         return (TempClient) clientDao.buildBackupEntity(tempClient);
        }
    
+    public void startCalling(Client client){
+      
+                            operator.getClients().offer(client);
+                            operator.setFreshFlag(true);  
+    }
+    
+     public void startAutomatedCalling(Client client){
+      
+                            operator.getClientsAutomated().offer(client);
+                            operator.setAutomatedFreshFlag(true);  
+    }
+     
     public TempClient readBackupClient(String leadId){
        List<TempClient> list=clientDao.readBackupEntity(leadId);
        if(list!=null){

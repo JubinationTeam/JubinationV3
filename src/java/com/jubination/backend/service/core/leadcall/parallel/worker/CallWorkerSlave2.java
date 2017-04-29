@@ -9,6 +9,7 @@ package com.jubination.backend.service.core.leadcall.parallel.worker;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.pojo.exotel.ExotelMessage;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
+import com.jubination.backend.service.exotel.api.ExotelAutomatedCallService;
 import com.jubination.backend.service.exotel.api.ExotelCallService;
 import com.jubination.backend.service.lms.Updater;
 import com.jubination.model.pojo.admin.AdminSettings;
@@ -36,7 +37,7 @@ public class CallWorkerSlave2 {
         @Autowired
         private CallWorkerSlave3 worker3;
         @Autowired
-        private  ExotelCallService callService;
+        private  ExotelAutomatedCallService callService;
         @Autowired
         private  AdminMaintainService adminService;
         @Autowired

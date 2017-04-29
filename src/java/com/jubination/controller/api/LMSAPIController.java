@@ -25,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -37,7 +36,7 @@ public class LMSAPIController {
     CallMaintainService callMaintain;
     @Autowired
     CallManager eCallHandler;
-       private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";// "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+       private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
        private static final long BASE = 36;
 
     
@@ -45,19 +44,7 @@ public class LMSAPIController {
     public ResponseEntity freshCalls(@RequestBody Client client,HttpServletRequest request) throws IOException{
            if(client!=null){
                 if(client.getTempLeadDetails()!=null&&!client.getTempLeadDetails().isEmpty()&&client.getPhoneNumber()!=null&&client.getEmailId()!=null){
-                    if(client.getSource().trim().equalsIgnoreCase("iceberg")){
-                        client.setEmailId(client.getEmailId()+getId());
-                        client.setAge("24");
-                        client.setName("Iceberg");
-                        client.setCampaignName("SMS Campaign");
-                        client.setCity("Mumbai");
-                        client.setGender("Male");
-                        client.setAddress("Address");
-                        if(client.getLead()==null){
-                            client.setLead(new ArrayList<Lead>());
-                        }
-                        client.setPincode("NA");
-                    }
+                   
                     try{
                         if(eCallHandler.getStatus()){        
                             if(callMaintain.buildBackupClient(client)!=null){
@@ -73,25 +60,7 @@ public class LMSAPIController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
     
-    @RequestMapping(value="/API/getDump/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
-    public @ResponseBody List<Client> getDump(HttpServletRequest request) throws IOException{
-            System.out.println(request.getParameter("Date"));
-            List<Client> list=callMaintain.getClientDump(request.getParameter("Date"));
-            for(Client c:list){
-               for(Lead l:c.getLead()){
-                   l.setClient(null);
-                   l.setAdmin(null);
-                   for(Call call:l.getCall()){
-                       call.setLead(null);
-                   }
-                   for(Beneficiaries ben:l.getBeneficiaries()){
-                       ben.setLead(null);
-                   }
-               }
-            }
-            return list;
-    }
-    
+
      @RequestMapping(value="/API/reportStatus/Asdf7984sdfkjsdhfKFHDJFhshksdjflSFDAKHDfsjdhfrww",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,headers="Accept=*/*")
     public ResponseEntity reportStatusEntry(@RequestBody ReportStatus reportStatus,HttpServletRequest request) throws IOException{
             if(callMaintain.addMissedAppointment(reportStatus)){

@@ -6,11 +6,8 @@
 package com.jubination.model.dao;
 
 
-import com.jubination.model.pojo.report.Report;
-import com.jubination.model.pojo.report.Profile;
-import com.jubination.model.pojo.report.Test;
+
 import com.jubination.model.pojo.status.ReportStatus;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +27,6 @@ private Session session=null;
 
 
     
-    @Transactional(propagation = Propagation.REQUIRED)
-    public Object buildEntity(Object entity) {
-         Report report=(Report) entity;
-            session = getSessionFactory().getCurrentSession();
-            Report reportTemp = (Report) session.get(Report.class, report.getReportId());
-            if(reportTemp!=null){
-                session.delete(reportTemp);
-            }
-            session.save(report);
-        
-        return (T) report;
-    }
     
     @Transactional(propagation = Propagation.REQUIRED)
     public Object buildReportStatus(Object entity) {
@@ -55,50 +40,6 @@ private Session session=null;
 
     
     
-    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public Object fetchEntity(Object property) {
-        Report report=(Report) property;
-            session = getSessionFactory().getCurrentSession();
-            report = (Report) session.get(Report.class, report.getReportId());
-            if(report!=null){
-                if(report.getBarcodes()!=null){
-                    report.getBarcodes().size();
-                }
-                if(report.getProfileData()!=null){
-                    report.getProfileData().size();
-                }
-                for(Profile profile:report.getProfileData()){
-                    profile.getTestData().size();
-                    for(Test test:profile.getTestData()){
-                        test.getRangeValues().size();
-                    }
-                }
-            }
-        return (T) report;
-    }
-
-        @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public List<Report> fetchAllEntity() {
-            session = getSessionFactory().getCurrentSession();
-           List<Report> list=session.createCriteria(Report.class).list();
-           for(Report report:list){
-            if(report!=null){
-                if(report.getBarcodes()!=null){
-                    report.getBarcodes().size();
-                }
-                if(report.getProfileData()!=null){
-                    report.getProfileData().size();
-                }
-                for(Profile profile:report.getProfileData()){
-                    profile.getTestData().size();
-                    for(Test test:profile.getTestData()){
-                        test.getRangeValues().size();
-                    }
-                }
-            }
-           }
-        return list;
-    }
      
     public SessionFactory getSessionFactory() {
         return sessionFactory;

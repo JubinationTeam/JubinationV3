@@ -42,6 +42,7 @@ CallManager eCallHandler;
                     
                     
                     private boolean freshFlag=false;
+                    
                     private boolean followupFlag=false;
                     private boolean dumpRetriever=true;
                     private boolean missedAppointment=true;
@@ -66,11 +67,50 @@ CallManager eCallHandler;
                     
   
                     private ConcurrentLinkedQueue<Client> clients = new ConcurrentLinkedQueue<>();
+                    
+                    
+                    private boolean automatedFreshFlag=true;
+                    private ConcurrentLinkedQueue<Client> clientsAutomated = new ConcurrentLinkedQueue<>();
 
     public CallScheduler() {
         count=count+1;
     }
                      
+    
+    
+                     @Async
+                    @Scheduled(fixedRate=2500)//All the time
+                    void freshAutomatedCustomerCall(){
+                        if(isFreshFlag()||!clients.isEmpty()&&eCallHandler.getStatus()){
+                                        while(!clients.isEmpty()){
+                                             if(clients.peek().getLead()==null||clients.peek().getLead().isEmpty()){
+                                                                List<Lead> leadList = new ArrayList<>();
+                                                                leadList.add(new Lead(clients.peek().getTempLeadDetails()));
+                                                                clients.peek().setLead(leadList);
+                                                        }
+                                                        if(service.readLead(clients.peek().getLead().get(0))==null){
+                                                                clients.peek().getLead().get(0).setCount(count);
+                                                                clients.peek().getLead().get(0).setPending(true);
+                                                        }
+                                                        //duplicacy check
+                                                        Client clientToBeSent=clients.poll();
+                                                        for(Client clientPresent:eCallHandler.getClientStage1()){
+                                                            if(clientPresent.getTempLeadDetails().equals(clientToBeSent.getTempLeadDetails())){
+                                                                clientToBeSent=null;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(clientToBeSent!=null){
+                                                                eCallHandler.getClientStage1().push(clientToBeSent);
+                                                            
+                                                        }
+                                                }
+                                        setFreshFlag(false);
+                                        
+                        }             
+                    }
+    
+    
   
                     
                     @Async
@@ -87,7 +127,6 @@ CallManager eCallHandler;
 //                                                        if(service.readLead(clients.peek().getLead().get(0))==null){
 //                                                                clients.peek().getLead().get(0).setCount(count);
 //                                                                clients.peek().getLead().get(0).setPending(true);
-//                                                                clients.peek().setPriority(5);
 //                                                        }
 //                                                        //duplicacy check
 //                                                        Client clientToBeSent=clients.poll();
@@ -680,6 +719,22 @@ CallManager eCallHandler;
 
     public void setMissedAppointment(boolean missedAppointment) {
         this.missedAppointment = missedAppointment;
+    }
+
+    public boolean isAutomatedFreshFlag() {
+        return automatedFreshFlag;
+    }
+
+    public void setAutomatedFreshFlag(boolean automatedFreshFlag) {
+        this.automatedFreshFlag = automatedFreshFlag;
+    }
+
+    public ConcurrentLinkedQueue<Client> getClientsAutomated() {
+        return clientsAutomated;
+    }
+
+    public void setClientsAutomated(ConcurrentLinkedQueue<Client> clientsAutomated) {
+        this.clientsAutomated = clientsAutomated;
     }
 
   

@@ -110,30 +110,33 @@ public class CallWorkerSlave3 {
                             
            }
           
-          private void updateCallStatusOfUnexpectedSids(Call callUpdatedFromList) {
+          private void updateCallStatusOfUnexpectedSidsDepricated(Call callUpdatedFromList) {
                         System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call message not present in database");
                             callUpdatedFromList.setMessage("Incoming Tracking");
 
                             //saving to databse
                             List<Client> clientList=service.getClientsByPhoneNumber(callUpdatedFromList.getCallFrom());
 
-                            if(clientList==null||clientList.isEmpty()){
-                                System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
-                                    service.buildCallAPIMessage(callUpdatedFromList);
-                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
-                                        System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
-                                                    callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
-                                                    callBox.setFlag(true);
-                                 }
-                            }
-                            else{
-                                System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client present");
+//                            if(clientList==null||clientList.isEmpty()){
+//                                System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
+//                                    service.buildCallAPIMessage(callUpdatedFromList);
+//                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
+//                                        System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
+//                                                    callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
+//                                                    callBox.setFlag(true);
+//                                 }
+//                            }
+//                            else{
+//                                System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client present");
                                    List<Call> callDatabase=service.getCallBySid(callUpdatedFromList.getSid());
                                              for(int j=0;j<callDatabase.size();j++){
-
+//
                                                          Client client=service.getClientDetailsWithList(callDatabase.get(j).getLead().getClient());
                                                          Lead lead =client.getLead().get(client.getLead().size()-1);
-                                                        if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
+                                                         if(callUpdatedFromList.getTrackStatus().contains("Automated")){
+                                                                                                                    
+                                                        }
+                                                      else  if(callUpdatedFromList.getTrackStatus().contains("spoke to us")){
                                                             
                                                              if(!(lead.getLeadStatus().contains("Follow up/Call back")||
                                                                                                             lead.getLeadStatus().contains("Lead sent to Thyrocare")||
@@ -150,32 +153,42 @@ public class CallWorkerSlave3 {
                                                             lead.setNotification(false);
                                                             lead.setCount(0);
                                                              service.updateLeadOnly(lead);
-//                                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
-//                                                            for(Lead l:leadList){
-//                                                                            
-//                                                                            l.setNotification(false);
-//                                                                            l.setPending(false);
-//                                                                            l.setCount(0);
-//                                                                            service.updateLeadOnly(l);
-//                                                            }
+                                                            List<Lead> leadList=service.getDuplicateLeads(client.getPhoneNumber());
+                                                            for(Lead l:leadList){
+                                                                            
+                                                                            l.setNotification(false);
+                                                                            l.setPending(false);
+                                                                            l.setCount(0);
+                                                                            service.updateLeadOnly(l);
+                                                            }
                                                         }
-                                                        service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdatedFromList);
-                                                        callUpdatedFromList.setLead(client.getLead().get(client.getLead().size()-1));
-                                                                 service.updateCallAPIMessage(callUpdatedFromList);
+                                                     service.addClientCall(client,client.getLead().get(client.getLead().size()-1),callUpdatedFromList);
+                                                     callUpdatedFromList.setLead(client.getLead().get(client.getLead().size()-1));
+                                                     service.updateCallAPIMessage(callUpdatedFromList);
                                                      if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
                                                          System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
                                                                         manager.getClientStage1().push(clientList.get(0));
                                                      }
-                                             }
+//                                             }
                             }
 
 
 
                             //removing all the call values
-                             System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call Message out of queue");
-                            System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Built new CallMessage");
+//                             System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call Message out of queue");
+//                            System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Built new CallMessage");
           }
           
+          
+            private void updateCallStatusOfUnexpectedSids(Call callUpdatedFromList) {
+                                     System.out.println(Thread.currentThread().getName()+" "+"Stage 3 : Client not present");
+                                    service.buildCallAPIMessage(callUpdatedFromList);
+                                    if(callUpdatedFromList.getTrackStatus().contains("requested for callback")||callUpdatedFromList.getTrackStatus().contains("Customer did not speak to us")){
+                                        System.out.println(Thread.currentThread().getName()+" "+"Request Callback");
+                                                    callBox.getNumbers().push(callUpdatedFromList.getCallFrom());
+                                                    callBox.setFlag(true);
+                                 }
+         }
           private void updateCallStatusOfExpectedSids(Call callUpdatedFromList,Call callDatabase) {
               System.out.println(Thread.currentThread().getName()+" "+"Stage 3:Call message present in database already and not null");
             //change the call details
@@ -193,6 +206,9 @@ public class CallWorkerSlave3 {
                            Client client=service.getClientDetailsWithList(callDatabase.getLead().getClient());
 
                            Lead lead=client.getLead().get(client.getLead().size()-1);
+                           if(callDatabase.getTrackStatus().contains("Automated")){
+                                              updater.sendAutomatedUpdate(lead.getLeadId());
+                           }
                            if(callDatabase.getTrackStatus().contains("did not speak")){
                                       updateNotSpoken(client,lead,callDatabase);
                                       

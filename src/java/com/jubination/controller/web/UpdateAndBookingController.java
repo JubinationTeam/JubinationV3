@@ -8,7 +8,6 @@ import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
-import com.jubination.service.ReportService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -29,8 +28,6 @@ public class UpdateAndBookingController {
     AdminMaintainService adminMaintain; 
     @Autowired
     CallMaintainService callMaintain;
-    @Autowired 
-    ReportService reportService;
     @Autowired
     Updater updater;
     @Autowired

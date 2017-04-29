@@ -100,6 +100,10 @@ public class ExotelAPIController {
                 case "15":
                 call.setTrackStatus("Repeat Client did not pick up");
                    break;    
+                   
+                 case "freshleadBook":
+                call.setTrackStatus("Automated Booking Order");
+                   break;  
                case "agent":
                   for(Client client:eCallHandler.getClientStage2()){
                       if(request.getParameter("From").contains(client.getPhoneNumber())&&request.getParameter("Status").equals("busy")){
@@ -114,7 +118,6 @@ public class ExotelAPIController {
            }
             
            updater.forwardToBackupServer(request);
-                           
                     
             if(flag){
                 operator.doStageThreeCall(call);
