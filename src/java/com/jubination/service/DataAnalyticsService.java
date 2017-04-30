@@ -5,9 +5,9 @@
  */
 package com.jubination.service;
 import com.jubination.backend.service.sendgrid.EmailService;
-import com.jubination.model.dao.CallAPIMessageDAOImpl;
-import com.jubination.model.dao.ClientDAOImpl;
-import com.jubination.model.dao.DataAnalyticsDAOImpl;
+import com.jubination.model.dao.impl.CallAPIMessageDAO;
+import com.jubination.model.dao.impl.ClientDAO;
+import com.jubination.model.dao.impl.DataAnalyticsDAO;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.DataAnalytics;
@@ -32,11 +32,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class DataAnalyticsService {
     
     @Autowired
- private DataAnalyticsDAOImpl daDao;
+ private DataAnalyticsDAO daDao;
      @Autowired
- private CallAPIMessageDAOImpl callDao;
+ private CallAPIMessageDAO callDao;
           @Autowired
- private ClientDAOImpl clientDao;
+ private ClientDAO clientDao;
              @Autowired
     private AdminMaintainService adminService;
            

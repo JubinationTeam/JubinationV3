@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.dao;
+package com.jubination.model.dao.impl;
 
 import com.jubination.model.pojo.exotel.Call;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Welcome
  */
 @Repository
-public class CallAPIMessageDAOImpl<T> implements java.io.Serializable {
+public class CallAPIMessageDAO<T> implements java.io.Serializable {
 private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;

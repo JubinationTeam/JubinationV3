@@ -102,7 +102,12 @@
                                  
                                  
                 </td>
-                
+                  <td>
+                                <c:if test="${not empty entity.number}"/>
+                                 <p  class="view-${entity.number}"><c:out value="${entity.number}"/></p>
+                                 
+                                 
+                </td>
                 <td>
                     <c:if test="${not empty entity.power}">  
                     <c:if test="${admin.work=='CEO'}">  
@@ -138,6 +143,7 @@
                 <input type="text" class="form-control" name='username' placeholder="Email Id" required autofocus>
                 <input type="text" class="form-control" name='name' placeholder="Name" required>
                 <input type="text" class="form-control" name='work' placeholder="Role" required>
+                 <input type="text" class="form-control" name='number' placeholder="Number" required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Assign</button>
               </form>
             </div>

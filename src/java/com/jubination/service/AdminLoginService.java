@@ -6,12 +6,13 @@
 
 package com.jubination.service;
 
-import com.jubination.model.dao.AdminDAOImpl;
+import com.jubination.model.dao.plan.AdminDAOAbstract;
 import com.jubination.model.pojo.admin.Admin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminLoginService implements UserDetailsService {
      
     @Autowired
-    private AdminDAOImpl adminDAO;   
+    @Qualifier("adminDAO")
+    private AdminDAOAbstract adminDAO;   
     private Admin domainUser;
     
     

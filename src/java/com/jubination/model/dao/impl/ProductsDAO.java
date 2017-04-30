@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.dao;
+package com.jubination.model.dao.impl;
 
 import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.model.pojo.products.Products;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author MumbaiZone
  */
 @Repository
-public class ProductsDAOImpl<T> implements Serializable {
+public class ProductsDAO<T> implements Serializable {
     
     @Autowired
     private SessionFactory sessionFactory;

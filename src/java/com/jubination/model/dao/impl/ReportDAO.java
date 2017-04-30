@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.dao;
+package com.jubination.model.dao.impl;
 
 
 
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author MumbaiZone
  */
 @Repository
-public class ReportDAOImpl<T> implements java.io.Serializable{
+public class ReportDAO<T> implements java.io.Serializable{
 private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;

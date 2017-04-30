@@ -4,13 +4,9 @@ package com.jubination.controller.web;
 
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.model.pojo.admin.Admin;
-import com.jubination.model.pojo.admin.MailMessage;
 import com.jubination.service.AdminMaintainService;
 import com.jubination.service.CallMaintainService;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,54 +45,6 @@ public class AdminController {
             return new ModelAndView("adminlogin");
     }
 
-    @RequestMapping(value = "/admin/mail")
-    public  ModelAndView adminMail(HttpServletRequest request,Principal principal) {
-            ModelAndView model= new ModelAndView("adminmail");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            List<MailMessage> inbox = adminMaintain.inboxMail(new Admin(principal.getName()));
-            model.addObject("mails", inbox);
-            return model;
-    }
-
-    @RequestMapping(value = "/admin/mail/sent")
-    public  ModelAndView adminMailSent(HttpServletRequest request,Principal principal) {
-            ModelAndView model= new ModelAndView("adminsentmail");
-            model.addObject("admin",adminMaintain.checkPresence(new Admin(principal.getName())));
-            List<MailMessage> sent = adminMaintain.sentMail(new Admin(principal.getName()));
-            model.addObject("mails", sent);
-            return model;
-    }
-    @RequestMapping(value = "/admin/send/mail", method = RequestMethod.POST)
-    public  ModelAndView adminSendMail(HttpServletRequest request,Principal principal) {
-            ModelAndView model= new ModelAndView("adminmail");
-            Admin sender =adminMaintain.checkPresence(new Admin(principal.getName()));
-            List<MailMessage> inbox = adminMaintain.inboxMail(new Admin(principal.getName()));
-            model.addObject("mails", inbox);
-            String id=request.getParameter("receiver");
-            String subject=request.getParameter("subject");
-            String mail=request.getParameter("comment");
-            Admin receiver=null;
-            if(id!=null){
-                receiver = adminMaintain.checkPresence(new Admin(id));
-            }
-            System.out.println(id+":"+principal.getName()+":"+subject+":"+mail);
-            if(sender!=null&&receiver!=null){
-                if(adminMaintain.sendMail(sender,receiver,subject,mail)){
-                     model.addObject("message","Processed."); 
-                } 
-                else{
-                    model.addObject("message","Not processed. Please try again!"); 
-                } 
-                model.addObject("admin",sender);
-                sender=null;
-                receiver=null;
-                return model;
-            }
-            else{
-                model.addObject("message","Error. Please try again!"); 
-                return model; 
-            }
-     }
         
         @RequestMapping(value = "/admin/settings")
         public  ModelAndView adminSettings(HttpServletRequest request,Principal principal) {
@@ -134,7 +82,7 @@ public class AdminController {
      
      @RequestMapping(value = "/admin/assign_admin", method = RequestMethod.POST)
     public ModelAndView assignAdmin(Principal principal,HttpServletRequest request) {
-            if(adminMaintain.buildEmployee(request.getParameter("username"),request.getParameter("name"),request.getParameter("work"),principal.getName())){
+            if(adminMaintain.buildEmployee(request.getParameter("username"),request.getParameter("name"),request.getParameter("work"),principal.getName(),request.getParameter("number"))){
                 return new ModelAndView("redirect:/admin/hr?msg=true"); 
             }
             return new ModelAndView("redirect:/admin/hr?msg=false"); 

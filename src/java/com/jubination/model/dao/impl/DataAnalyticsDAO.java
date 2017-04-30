@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.jubination.model.dao;
+package com.jubination.model.dao.impl;
 
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.crm.DataAnalytics;
-import com.jubination.model.pojo.admin.MailMessage;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -30,12 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Welcome
  */
 @Repository
-public class DataAnalyticsDAOImpl<T> implements java.io.Serializable {
+public class DataAnalyticsDAO<T> implements java.io.Serializable {
     private Session session=null;
     @Autowired
     private SessionFactory sessionFactory;
 
-    public DataAnalyticsDAOImpl() {
+    public DataAnalyticsDAO() {
     }
    
     

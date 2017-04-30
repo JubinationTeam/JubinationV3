@@ -7,8 +7,9 @@ package com.jubination.service;
 
 
 import com.jubination.backend.service.thyrocare.products.ProductFetcher;
-import com.jubination.model.dao.AdminDAOImpl;
-import com.jubination.model.dao.ProductsDAOImpl;
+import com.jubination.model.dao.impl.ProductsDAO;
+import com.jubination.model.dao.impl.SettingsDAO;
+import com.jubination.model.dao.plan.AdminDAOAbstract;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.products.Campaigns;
 import com.jubination.model.pojo.products.Products;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
@@ -31,9 +33,10 @@ import org.xml.sax.SAXException;
 public class ProductService {
     
     @Autowired
-    ProductsDAOImpl pdao;    
-    @Autowired 
-    AdminDAOImpl adao;
+    ProductsDAO pdao;    
+    
+    @Autowired
+    SettingsDAO asdao;
     @Autowired
     ProductFetcher operator;
     String settings = "settings";
@@ -65,7 +68,7 @@ public class ProductService {
     
     
     public AdminSettings readSettings(String settingsName){
-        return (AdminSettings) adao.readSettingsProperty(settingsName);
+        return (AdminSettings) asdao.readProperty(settingsName);
     }
 
     

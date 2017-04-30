@@ -89,8 +89,6 @@
              
              <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/hr"><span style="font-size: 20px;"class="glyphicon glyphicon-user"></span>&nbsp;Employees</a></li>
          
-           <li><a style="color:#515151;border-bottom: #c0c0c0 0.5px solid ;border-radius: 5px" href="${pageContext.request.contextPath}/admin/mail"><span style="font-size: 20px;"class="glyphicon glyphicon-envelope"></span>&nbsp;MailBox</a></li>
-      
           </ul>
          
         </div>

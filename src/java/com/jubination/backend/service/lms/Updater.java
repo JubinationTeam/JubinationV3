@@ -83,8 +83,6 @@ public class Updater {
                             }
                         }
                          if(lead.getAdmin()!=null){
-                                lead.getAdmin().setReceivedMessageList(null);
-                                lead.getAdmin().setSentMessageList(null);
                                lead.getAdmin().setPassword(null);
                         }
                          lead.setCall(null);

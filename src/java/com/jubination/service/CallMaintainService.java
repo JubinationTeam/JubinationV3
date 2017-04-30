@@ -7,11 +7,11 @@ package com.jubination.service;
 
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
-import com.jubination.model.dao.AdminDAOImpl;
-import com.jubination.model.dao.CallAPIMessageDAOImpl;
-import com.jubination.model.dao.ClientDAOImpl;
-import com.jubination.model.dao.ProductsDAOImpl;
-import com.jubination.model.dao.ReportDAOImpl;
+import com.jubination.model.dao.impl.CallAPIMessageDAO;
+import com.jubination.model.dao.impl.ClientDAO;
+import com.jubination.model.dao.impl.ProductsDAO;
+import com.jubination.model.dao.impl.ReportDAO;
+import com.jubination.model.dao.plan.AdminDAOAbstract;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
@@ -34,6 +34,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,15 +48,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CallMaintainService {
     
     @Autowired
-    CallAPIMessageDAOImpl callDao;
+    CallAPIMessageDAO callDao;
     @Autowired
-    ClientDAOImpl clientDao;
+    ClientDAO clientDao;
     @Autowired
-    ProductsDAOImpl pDao;
+    ProductsDAO pDao;
     @Autowired
-    ReportDAOImpl rDao;
-    @Autowired 
-    AdminDAOImpl adao;
+    ReportDAO rDao; 
     @Autowired
     CallScheduler operator;
      @Autowired

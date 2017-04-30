@@ -6,7 +6,6 @@
 
 package com.jubination.backend.service.core.login;
 
-import com.jubination.model.dao.AdminDAOImpl;
 import java.io.IOException;
 import java.util.Collection;
 import javax.servlet.ServletException;

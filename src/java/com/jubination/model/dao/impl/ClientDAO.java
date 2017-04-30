@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jubination.model.dao;
+package com.jubination.model.dao.impl;
 
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Repository
-public class ClientDAOImpl<T> implements Serializable{
+public class ClientDAO<T> implements Serializable{
         
         private Session session=null;
         @Autowired
