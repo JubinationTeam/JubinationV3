@@ -8,8 +8,7 @@ package com.jubination.service;
 
 
 import com.jubination.backend.service.core.email.LoginInfoService;
-import com.jubination.model.dao.impl.SettingsDAO;
-import com.jubination.model.dao.plan.AdminDAOAbstract;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.Admin;
 import com.jubination.model.pojo.admin.AdminSettings;
 import java.util.List;
@@ -30,9 +29,10 @@ public class AdminMaintainService {
 
     @Autowired
     @Qualifier("adminDAO")
-    private AdminDAOAbstract adao;   
+    private GenericDAOAbstract adao;   
     @Autowired
-    SettingsDAO asdao;
+    @Qualifier("settingsDAO")
+    private GenericDAOAbstract asdao;
 
 String settings ="settings";
 
@@ -92,7 +92,7 @@ String settings ="settings";
     }
 
       public List<Admin> getHrList(int power){
-          return (List<Admin>) adao.fetchEntities(power);
+          return (List<Admin>) adao.fetchAll("power", null);
       }      
 
     public boolean setPassword(Admin admin, String parameter) {

@@ -6,48 +6,50 @@
 
 package com.jubination.model.dao.impl;
 
-import com.jubination.model.dao.plan.AdminDAOAbstract;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.Admin;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Welcome
  */
 @Repository
-public class AdminDAO extends AdminDAOAbstract implements java.io.Serializable{
- 
-    @Transactional(propagation = Propagation.REQUIRED)
-    @Override
-    public Admin buildEntity(Admin entity) {
-        property.setMyType(Admin.class);
-            property.setOperator(sessionFactory);
-        return (Admin) property.buildEntity(entity);
-    }
-    
-    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    @Override
-    public Admin readProperty(String paramId) {
-        property.setMyType(Admin.class);
-            property.setOperator(sessionFactory);
-     return (Admin) property.readProperty(paramId);
-    }
-@Transactional(propagation = Propagation.REQUIRED)
-    @Override
-    public boolean updateProperty(Admin entity) {
-        property.setMyType(Admin.class);
-            property.setOperator(sessionFactory);
-     return property.updateProperty(entity);
-    }
- @Transactional(propagation = Propagation.REQUIRED)
-    @Override
-    public boolean deleteEntity(Admin entity) {
-        property.setMyType(Admin.class);
-            property.setOperator(sessionFactory);
-            return property.deleteEntity(entity);
-    }
+public class AdminDAO  extends GenericDAOAbstract implements java.io.Serializable{
 
+    public AdminDAO() {
+        setClassType(Admin.class);
+    }
+ 
+   
+    
+    
+//Hibernate code
+    public Object buildInitEntity(Object entity,SessionFactory sessionFactory) {
+   Admin admin = (Admin) entity;
+        Session session=null; 
+        try{
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(admin);
+            admin = (Admin) session.get(Admin.class, session.getSessionFactory().getClassMetadata(Admin.class).getIdentifier(admin, (SessionImplementor)session));
+            session.getTransaction().commit();
+        }
+        catch(HibernateException e){
+            if(session!=null){
+                session.getTransaction().rollback();
+                System.out.println("Error in building Admin and its properties at AdminDAO "+e);
+                e.printStackTrace();
+                admin=null;
+            }
+        }
+        return  admin;
+
+    }
+    /////////////////////
     
 }

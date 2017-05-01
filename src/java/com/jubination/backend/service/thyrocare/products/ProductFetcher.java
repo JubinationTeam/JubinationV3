@@ -54,18 +54,6 @@ public class ProductFetcher {
                     System.out.println("Tests not null");
                     tList.addAll(pl.getMASTERS().getTESTS());
                 }
-//                    if(pl.getMASTERS().getOFFER()!=null){
-//                    System.out.println("Offers not null");
-//                    tList.addAll(pl.getMASTERS().getOFFER());
-//                }
-//                    if(pl.getMASTERS().getPOP()!=null){
-//                    System.out.println("Pop not null");
-//                    tList.addAll(pl.getMASTERS().getPOP());
-//                }
-//                    if(pl.getMASTERS().getPROFILE()!=null){
-//                    System.out.println("Profile not null");
-//                    tList.addAll(pl.getMASTERS().getPROFILE());
-//                }
             }
                 else{
                     

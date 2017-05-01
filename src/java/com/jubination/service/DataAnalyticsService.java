@@ -7,7 +7,8 @@ package com.jubination.service;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.model.dao.impl.CallAPIMessageDAO;
 import com.jubination.model.dao.impl.ClientDAO;
-import com.jubination.model.dao.impl.DataAnalyticsDAO;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.DataAnalytics;
@@ -19,7 +20,9 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DataAnalyticsService {
     
-    @Autowired
- private DataAnalyticsDAO daDao;
+     @Autowired
+    @Qualifier("dataAnalyticsDAO")
+    private GenericDAOAbstract daDao;
      @Autowired
  private CallAPIMessageDAO callDao;
           @Autowired
@@ -81,84 +85,6 @@ public class DataAnalyticsService {
             private final String missedSpoke="missedSpoke";
             private final String missedRequestedCallBack="missedRequestedCallBack";
             private final String missedOthers="missedOthers";
-            
-//            private final String firstTotal="firstTotal";
-//          private final String firstBusy=  "firstBusy";
-//            private final String firstFailed="firstFailed";
-//            private final String firstNoAnswer="firstNoAnswer";
-//            private final String firstGreetingsOnHangup="firstGreetingsOnHangup";
-//            private final String firstHangUpConnect="firstHangUpConnect";
-//            private final String firstMissCall="firstMissCall";
-//            private final String firstSpoke="firstSpoke";
-//            private final String firstRequestedCallBack="firstRequestedCallBack";
-//            private final String firstOthers="firstOthers";
-//            
-//            private final String secondTotal="secondTotal";
-//          private final String secondBusy=  "secondBusy";
-//            private final String secondFailed="secondFailed";
-//            private final String secondNoAnswer="secondNoAnswer";
-//            private final String secondGreetingsOnHangup="secondGreetingsOnHangup";
-//            private final String secondHangUpConnect="secondHangUpConnect";
-//            private final String secondMissCall="secondMissCall";
-//            private final String secondSpoke="secondSpoke";
-//            private final String secondRequestedCallBack="secondRequestedCallBack";
-//            private final String secondOthers="thirdOthers";
-//            
-//            private final String thirdTotal="thirdTotal";
-//          private final String thirdBusy=  "thirdBusy";
-//            private final String thirdFailed="thirdFailed";
-//            private final String thirdNoAnswer="thirdNoAnswer";
-//            private final String thirdGreetingsOnHangup="thirdGreetingsOnHangup";
-//            private final String thirdHangUpConnect="thirdHangUpConnect";
-//            private final String thirdMissCall="thirdMissCall";
-//            private final String thirdSpoke="thirdSpoke";
-//            private final String thirdRequestedCallBack="thirdRequestedCallBack";
-//            private final String thirdOthers="thirdOthers";
-//            
-//            private final String fourthTotal="fourthTotal";
-//          private final String fourthBusy=  "fourthBusy";
-//            private final String fourthFailed="fourthFailed";
-//            private final String fourthNoAnswer="fourthNoAnswer";
-//            private final String fourthGreetingsOnHangup="fourthGreetingsOnHangup";
-//            private final String fourthHangUpConnect="fourthHangUpConnect";
-//            private final String fourthMissCall="fourthMissCall";
-//            private final String fourthSpoke="fourthSpoke";
-//            private final String fourthRequestedCallBack="fourthRequestedCallBack";
-//            private final String fourthOthers="fourthOthers";
-//            
-//            private final String fiveTotal="fiveTotal";
-//          private final String fiveBusy=  "fiveBusy";
-//            private final String fiveFailed="fiveFailed";
-//            private final String fiveNoAnswer="fiveNoAnswer";
-//            private final String fiveGreetingsOnHangup="fiveGreetingsOnHangup";
-//            private final String fiveHangUpConnect="fiveHangUpConnect";
-//            private final String fiveMissCall="fiveMissCall";
-//            private final String fiveSpoke="fiveSpoke";
-//            private final String fiveRequestedCallBack="fiveRequestedCallBack";
-//            private final String fiveOthers="fiveOthers";
-//            
-//            private final String sixthTotal="sixthTotal";
-//          private final String sixthBusy=  "sixthBusy";
-//            private final String sixthFailed="sixthFailed";
-//            private final String sixthNoAnswer="sixthNoAnswer";
-//            private final String sixthGreetingsOnHangup="sixthGreetingsOnHangup";
-//            private final String sixthHangUpConnect="sixthHangUpConnect";
-//            private final String sixthMissCall="sixthMissCall";
-//            private final String sixthSpoke="sixthSpoke";
-//            private final String sixthRequestedCallBack="sixthRequestedCallBack";
-//            private final String sixthOthers="sixthOthers";
-//            
-//            private final String seventhTotal="seventhTotal";
-//          private final String seventhBusy=  "seventhBusy";
-//            private final String seventhFailed="seventhFailed";
-//            private final String seventhNoAnswer="seventhNoAnswer";
-//            private final String seventhGreetingsOnHangup="seventhGreetingsOnHangup";
-//            private final String seventhHangUpConnect="seventhHangUpConnect";
-//            private final String seventhMissCall="seventhMissCall";
-//            private final String seventhSpoke="seventhSpoke";
-//            private final String seventhRequestedCallBack="seventhRequestedCallBack";
-//            private final String seventhOthers="seventhOthers";
-            
             private final String booked="booked";
             private final String done="done";
             private final String cancelled="cancelled";
@@ -170,7 +96,7 @@ public class DataAnalyticsService {
             
 
             public List<DataAnalytics> readAnalytics(String date){
-                List<DataAnalytics> listTemp=(List<DataAnalytics>) daDao.readPropertyByDate(date);
+                List<DataAnalytics> listTemp=(List<DataAnalytics>) daDao.fetchByNative("date", date, null, null, MatchMode.START);
                 List<DataAnalytics> list= new ArrayList<>();
                 if(listTemp.size()>0){
                     list.add(listTemp.get(listTemp.size()-1));
@@ -179,21 +105,21 @@ public class DataAnalyticsService {
             }
 
             public List<DataAnalytics> readRecentAnalytics() {
-                    return (List<DataAnalytics>) daDao.readPropertyByRecency();
+                    return (List<DataAnalytics>) daDao.fetchByNativeMax("requestedTime");
               
             }
             
             
             public void doAnalytics() {
-               Long total= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Total");
-               Long busy= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Busy");
-               Long failed= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Failed");
-               Long noAnswer= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"NoAnswer");
-               Long greetingsHangUp= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"GreetingsHangUp");
-               Long hangUpOnConnect= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"HangUpOnConnect");
-               Long missCall= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"MissCall");
-               Long spoke= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"Spoke");
-               Long requestedCallBack= callDao.fetchEntitySize(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"RequestedCallBack");
+               Long total= callDao.countByNative("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START);
+               Long busy= callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"Status","busy",MatchMode.ANYWHERE);
+               Long failed= callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"Status","failed",MatchMode.ANYWHERE);
+               Long noAnswer=  callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"Status","no-answer",MatchMode.ANYWHERE);
+               Long greetingsHangUp=  callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"CallType", "trans",MatchMode.ANYWHERE);
+               Long hangUpOnConnect=  callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"CallType", "client-hangup",MatchMode.ANYWHERE);
+               Long missCall=  callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"CallType","incomplete",MatchMode.ANYWHERE);
+               Long spoke=  callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"TrackStatus","spoke",MatchMode.ANYWHERE);
+               Long requestedCallBack= callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"TrackStatus", "requested for callback",MatchMode.ANYWHERE);
                Long others = total-busy-failed-noAnswer-greetingsHangUp-hangUpOnConnect-missCall-spoke-requestedCallBack;
                DataAnalytics da= new DataAnalytics();
                da.setTotal(total);
@@ -240,16 +166,15 @@ public class DataAnalyticsService {
                 daFollowUp.setToDate(toDate);
                 daCustom.setToDate(toDate);
                 daMissed.setToDate(toDate);
-
-               Long total= callDao.fetchEntitySize(fromDate, toDate,"Total");
-               Long busy= callDao.fetchEntitySize(fromDate, toDate,"Busy");
-               Long failed= callDao.fetchEntitySize(fromDate, toDate,"Failed");
-               Long noAnswer= callDao.fetchEntitySize(fromDate, toDate,"NoAnswer");
-               Long greetingsHangUp= callDao.fetchEntitySize(fromDate, toDate,"GreetingsHangUp");
-               Long hangUpOnConnect= callDao.fetchEntitySize(fromDate, toDate,"HangUpOnConnect");
-               Long missCall= callDao.fetchEntitySize(fromDate, toDate,"MissCall");
-               Long spoke= callDao.fetchEntitySize(fromDate, toDate,"Spoke");
-               Long requestedCallBack= callDao.fetchEntitySize(fromDate, toDate,"RequestedCallBack");
+               Long total = callDao.countByNativeRange("DateCreated", fromDate,toDate);
+               Long busy= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"Status","busy",MatchMode.ANYWHERE);
+               Long failed= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"Status","failed",MatchMode.ANYWHERE);
+               Long noAnswer= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"Status","no-answer",MatchMode.ANYWHERE);
+               Long greetingsHangUp= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"CallType", "trans",MatchMode.ANYWHERE);
+               Long hangUpOnConnect= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"CallType", "client-hangup",MatchMode.ANYWHERE);
+               Long missCall= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"CallType","incomplete",MatchMode.ANYWHERE);
+               Long spoke= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"TrackStatus","spoke",MatchMode.ANYWHERE);
+               Long requestedCallBack= callDao.countByRangeWithFilter("DateCreated",fromDate, toDate,"TrackStatus", "requested for callback",MatchMode.ANYWHERE);
                Long others = total-busy-failed-noAnswer-greetingsHangUp-hangUpOnConnect-missCall-spoke-requestedCallBack;
                daCustom.setTotal(total);
                daCustom.setBusy(busy);

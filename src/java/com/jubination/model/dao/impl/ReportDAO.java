@@ -7,45 +7,21 @@ package com.jubination.model.dao.impl;
 
 
 
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.status.ReportStatus;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author MumbaiZone
  */
 @Repository
-public class ReportDAO<T> implements java.io.Serializable{
-private Session session=null;
-    @Autowired
-    private SessionFactory sessionFactory;
+public class ReportDAO extends GenericDAOAbstract<ReportStatus,Object>implements java.io.Serializable{
 
-
-    
-    
-    @Transactional(propagation = Propagation.REQUIRED)
-    public Object buildReportStatus(Object entity) {
-         ReportStatus reportStatus=(ReportStatus) entity;
-            session = getSessionFactory().getCurrentSession();
-            session.save(reportStatus);
-            reportStatus = (ReportStatus) session.get(ReportStatus.class, reportStatus.getId());
-
-        return (T) reportStatus;
+    public ReportDAO() {
+        setClassType(ReportStatus.class);
     }
 
     
     
-     
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 }

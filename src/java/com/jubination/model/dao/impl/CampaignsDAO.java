@@ -7,22 +7,18 @@ package com.jubination.model.dao.impl;
 
 import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.products.Campaigns;
-import com.jubination.model.pojo.products.Products;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author MumbaiZone
- * @param <T>
  */
 @Repository
-public class ProductsDAO extends GenericDAOAbstract<Products,Campaigns>implements java.io.Serializable{
+public class CampaignsDAO  extends GenericDAOAbstract<Campaigns,Object> implements java.io.Serializable{
 
-    public ProductsDAO() {
-        setClassType(Products.class);
+    public CampaignsDAO() {
+        setClassType(Campaigns.class);
     }
-    
-    
-   
+
     
 }

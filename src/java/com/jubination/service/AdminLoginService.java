@@ -6,7 +6,7 @@
 
 package com.jubination.service;
 
-import com.jubination.model.dao.plan.AdminDAOAbstract;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.Admin;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +29,7 @@ public class AdminLoginService implements UserDetailsService {
      
     @Autowired
     @Qualifier("adminDAO")
-    private AdminDAOAbstract adminDAO;   
+    private GenericDAOAbstract adminDAO;   
     private Admin domainUser;
     
     

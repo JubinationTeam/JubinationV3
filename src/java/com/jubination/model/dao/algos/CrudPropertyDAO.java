@@ -23,11 +23,7 @@ public class CrudPropertyDAO<T> implements CrudPropertyDAOInterface<Object,Objec
    private Class<T> type;
    private SessionFactory sessionFactory;
    
-   @Override
-   public void setMyType(Class<T> type) {
-          this.type = type;
-     }
-   
+  
 
     @Override
     public Object buildEntity(Object entity) {
@@ -66,6 +62,12 @@ public class CrudPropertyDAO<T> implements CrudPropertyDAOInterface<Object,Objec
    public Class<T> getMyType() {
          return this.type;
      }
+   
+    @Override
+   public void setMyType(Class<T> type) {
+          this.type = type;
+     }
+   
   
    @Override
     public void setOperator(SessionFactory operator){

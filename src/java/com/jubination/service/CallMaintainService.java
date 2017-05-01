@@ -7,11 +7,8 @@ package com.jubination.service;
 
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
-import com.jubination.model.dao.impl.CallAPIMessageDAO;
 import com.jubination.model.dao.impl.ClientDAO;
-import com.jubination.model.dao.impl.ProductsDAO;
-import com.jubination.model.dao.impl.ReportDAO;
-import com.jubination.model.dao.plan.AdminDAOAbstract;
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
@@ -33,6 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,14 +45,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CallMaintainService {
     
-    @Autowired
-    CallAPIMessageDAO callDao;
+    @Qualifier("callAPIMessageDAO")
+    private GenericDAOAbstract callDao;
     @Autowired
     ClientDAO clientDao;
     @Autowired
-    ProductsDAO pDao;
+    @Qualifier("campaignsDAO")
+    private GenericDAOAbstract cDao;
     @Autowired
-    ReportDAO rDao; 
+    @Qualifier("reportDAO")
+    private GenericDAOAbstract rDao;
     @Autowired
     CallScheduler operator;
      @Autowired
@@ -275,7 +275,7 @@ public class CallMaintainService {
                                 lead.setDateCreation(client.getDateUpdated());
                                 lead.setProduct(client.getCampaignName());
 
-                                Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
+                                Campaigns camp= (Campaigns) cDao.readProperty(client.getCampaignName());
                                 if(camp!=null){
                                     lead.setMargin(camp.getMargin());
                                     lead.setHandlingCharges(camp.getHc());
@@ -323,7 +323,7 @@ public class CallMaintainService {
                                 lead.setDateCreation(client.getDateCreation());
                                 lead.setDateCreation(client.getDateUpdated());
                                 lead.setProduct(client.getCampaignName());
-                                Campaigns camp= (Campaigns) pDao.readCampaignProperty(client.getCampaignName());
+                                Campaigns camp= (Campaigns) cDao.readProperty(client.getCampaignName());
                                 if(camp!=null){
                                     lead.setMargin(camp.getMargin());
                                     lead.setHandlingCharges(camp.getHc());
@@ -585,7 +585,7 @@ public class CallMaintainService {
                         lead.setMissedAppointmentStatus(rStatus.getStatus());
                         updateLeadOnly(lead);
                 }
-                return rDao.buildReportStatus(rStatus)!=null;
+                return rDao.buildEntity(rStatus)!=null;
     }
     
     public boolean addTodaysMissedAppointment(){
@@ -697,20 +697,20 @@ public class CallMaintainService {
     }
      
     public List<Call> getCallBySid(String sid){
-       return (List<Call>) callDao.getByProperty(sid, "Sid");
+       return (List<Call>) callDao.fetchByNative( "Sid",sid,null,null,MatchMode.EXACT);
     }
 
     public List<Call> getAllCallRecordsByDate(String date) {
         
-        return (List<Call>) callDao.getByProperty(date, "DateCreated");
+        return (List<Call>) callDao.fetchByNative("DateCreated",date,null,null,MatchMode.EXACT);
     }
       
     public Call getCallRecordBySid(String sid) {
-        return ((List<Call>) callDao.getByProperty(sid, "Sid")).get(0);
+        return ((List<Call>) callDao.fetchByNative("Sid",sid,null,null,MatchMode.EXACT)).get(0);
     }
 
-    public Call updateCallAPIMessage(Call call) {
-            return (Call) callDao.updateProperty(call);
+    public boolean updateCallAPIMessage(Call call) {
+            return callDao.updateProperty(call);
     }
     
     public void buildCallAPIMessage(Call call){
@@ -719,7 +719,7 @@ public class CallMaintainService {
     
     public Object getPendingCallOnDate(String date) {
         
-      return (List<Call>) callDao.getByProperty(date, "PendingOnDate");
+      return (List<Call>) callDao.fetchByNative("PendingOnDate",date,null,null,MatchMode.EXACT);
     }
     
     public List<Lead> readNotifiedLead() {
