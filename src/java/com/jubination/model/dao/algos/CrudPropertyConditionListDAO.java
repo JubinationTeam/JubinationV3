@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -118,6 +119,15 @@ public class CrudPropertyConditionListDAO<T,K> implements CrudPropertyConditionL
                       criteria.add(Restrictions.like(type2, (String) property,m));
                       criteria.setProjection(Projections.rowCount());
                       return (Long) criteria.uniqueResult();
+    }
+
+    @Override
+    public List<Object> fetchByNativeFilterByTwo(String type1, Object property1, MatchMode m1, String type2, Object property2, MatchMode m2) {
+               Session session = sessionFactory.getCurrentSession();
+             Criteria criteria=session.createCriteria(getMyType());
+            return criteria.add(Restrictions.ilike(type1, (String) property1, m1))
+                    .add(Restrictions.ilike(type2, (String) property2, m2))
+                    .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
     }
    
    

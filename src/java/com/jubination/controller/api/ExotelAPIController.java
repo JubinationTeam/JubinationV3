@@ -5,7 +5,7 @@
  */
 package com.jubination.controller.api;
 
-import com.jubination.backend.service.backupserver.ServerUpdater;
+
 import com.jubination.backend.service.core.leadcall.parallel.master.CallManager;
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.backend.service.lms.Updater;
@@ -38,8 +38,6 @@ public class ExotelAPIController {
     CallScheduler operator;
     @Autowired
     CallManager eCallHandler;
-    @Autowired
-    ServerUpdater updater;
     @Autowired
      private  AdminMaintainService adminService;
     
@@ -117,7 +115,6 @@ public class ExotelAPIController {
                    break;
            }
             
-           updater.forwardToBackupServer(request);
                     
             if(flag){
                 operator.doStageThreeCall(call);

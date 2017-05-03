@@ -5,10 +5,19 @@
  */
 package com.jubination.model.dao.impl;
 
+import com.jubination.model.dao.plan.GenericDAOAbstract;
+import com.jubination.model.pojo.crm.Lead;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author MumbaiZone
  */
-public class LeadDAO {
+@Repository
+public class LeadDAO extends GenericDAOAbstract implements java.io.Serializable{
+
+    public LeadDAO() {
+        setClassType(Lead.class);
+    }
     
 }

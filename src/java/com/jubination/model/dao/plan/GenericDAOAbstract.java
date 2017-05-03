@@ -97,7 +97,12 @@ public abstract class GenericDAOAbstract<T,K>  implements java.io.Serializable{
             propertyConditionList.setOperator(sessionFactory);
             return propertyConditionList.fetchByNativeMax(type);
     }
-    
+     @Transactional(propagation = Propagation.MANDATORY)
+    public List<Object> fetchByNativeFilterByTwo(String type1, K property1,MatchMode m1 , String type2, K property2,MatchMode m2) {
+        propertyConditionList.setMyType(getClassType());
+            propertyConditionList.setOperator(sessionFactory);
+            return propertyConditionList.fetchByNativeFilterByTwo(type1,property1,m1 ,  type2, property2, m2);
+    }
       @Transactional(propagation = Propagation.MANDATORY)
     public Long countByNativeRange(String type,Object fromValue, Object toValue) {
         propertyConditionList.setMyType(getClassType());

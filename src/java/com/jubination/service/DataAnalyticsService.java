@@ -24,6 +24,7 @@ import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +39,8 @@ public class DataAnalyticsService {
     @Qualifier("dataAnalyticsDAO")
     private GenericDAOAbstract daDao;
      @Autowired
- private CallAPIMessageDAO callDao;
+    @Qualifier("callAPIMessageDAO")
+     private GenericDAOAbstract callDao;
           @Autowired
  private ClientDAO clientDao;
              @Autowired
@@ -94,7 +96,7 @@ public class DataAnalyticsService {
              private final String appointment="appointment";
             private final String yetToAssign="yetToAssign";
             
-
+@Transactional(propagation = Propagation.REQUIRED)
             public List<DataAnalytics> readAnalytics(String date){
                 List<DataAnalytics> listTemp=(List<DataAnalytics>) daDao.fetchByNative("date", date, null, null, MatchMode.START);
                 List<DataAnalytics> list= new ArrayList<>();
@@ -103,13 +105,12 @@ public class DataAnalyticsService {
                 }
                 return list;
             }
-
+@Transactional(propagation = Propagation.REQUIRED)
             public List<DataAnalytics> readRecentAnalytics() {
                     return (List<DataAnalytics>) daDao.fetchByNativeMax("requestedTime");
               
             }
-            
-            
+           @Transactional(propagation = Propagation.REQUIRED)     
             public void doAnalytics() {
                Long total= callDao.countByNative("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()),MatchMode.START);
                Long busy= callDao.countByNativeFilterByTwo("DateCreated",new SimpleDateFormat("yyyy-MM-dd").format(new Date()), MatchMode.START,"Status","busy",MatchMode.ANYWHERE);
@@ -135,7 +136,7 @@ public class DataAnalyticsService {
                da.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                daDao.buildEntity(da);
             }
-
+           @Transactional(propagation = Propagation.REQUIRED)
             public void doCustomAnalytics(String fromDate,String toDate) {
                 DataAnalytics daFresh = new DataAnalytics();
                 daFresh.setType("fresh");
@@ -253,6 +254,7 @@ public class DataAnalyticsService {
                daDao.buildEntity(daMissed);
 
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             public Map<String, Long> doReportingOperationSize(List<Client> list){
 
                     Map<String,Long> counts =new LinkedHashMap<>();
@@ -415,6 +417,7 @@ public class DataAnalyticsService {
                     list=null;
                     return counts;
             }
+           @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setBusyToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
                 if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -435,6 +438,7 @@ public class DataAnalyticsService {
                 }
                 return counts;
             }
+           @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setFailedToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
                     if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -455,6 +459,7 @@ public class DataAnalyticsService {
                     }
                 return counts;
             }
+           @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setNoAnswerToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
                     if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -476,6 +481,7 @@ public class DataAnalyticsService {
 
                 return counts;
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setHangUpOnConnectToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
                 if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -496,6 +502,7 @@ public class DataAnalyticsService {
                 }
                 return counts;
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setGreetingsHangUpToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
                     if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -516,6 +523,7 @@ public class DataAnalyticsService {
                     }
                 return counts;
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setMissCallToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
                 if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1&&lead.getCount()<1){
@@ -536,6 +544,7 @@ public class DataAnalyticsService {
                 }
                 return counts;
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setSpokeToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                  //compareto - argument should be lexicographically greater than the comparing string
                     if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -556,6 +565,7 @@ public class DataAnalyticsService {
                     }
                 return counts;
             }
+            @Transactional(propagation = Propagation.REQUIRED)
             private Map<String, Long> setOthersToCount(Map<String, Long> counts,Lead lead, Call call, Integer i){
                 //compareto - argument should be lexicographically greater than the comparing string
                     if(lead.getFollowUpDate()!=null&&lead.getFollowUpDate().compareTo(call.getDateCreated().split(" ")[0])<=0&&lead.getCount()<1){
@@ -576,8 +586,8 @@ public class DataAnalyticsService {
                     }
                 return counts;
             }
-
-    public void mailSpokeAnalytics(String date) {
+            @Transactional(propagation = Propagation.REQUIRED)
+                public void mailSpokeAnalytics(String date) {
         String tillDate="";
         if(date==null){
             date=new SimpleDateFormat("yyyy-MM-dd").format(new Date())+" 00:00:00";
@@ -663,7 +673,8 @@ public class DataAnalyticsService {
                
     }
     
-    
+                
+@Transactional(propagation = Propagation.REQUIRED)
      private void sendEmailLeadQuality(String email,String content){
            AdminSettings adminSettings = adminService.readSettings(settings);
             new EmailService(email,"Lead quality of affiliates",
@@ -677,7 +688,7 @@ public class DataAnalyticsService {
                                                 "Regards,<br/>" + 
                                                 "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
      }
-
+@Transactional(propagation = Propagation.REQUIRED)
     private Map<String, Long> setConverstionCount(Map<String, Long> counts, Lead lead) {
           if(lead!=null&&lead.isMissedAppointment()!=null){
                                         if(lead.getMissedAppointmentStatus().contains("DONE")){

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 /**
  *
@@ -35,12 +36,12 @@ public class AdminMaintainService {
     private GenericDAOAbstract asdao;
 
 String settings ="settings";
-
+@Transactional(propagation = Propagation.REQUIRED)
     public Admin checkPresence(Admin admin){
        admin = (Admin) adao.readProperty(admin.getUsername());
        return admin;
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean buildEmployee(String username, String name, String work, String initiatorName,String number) {
         Admin creator =  checkPresence(new Admin(initiatorName));
         
@@ -90,17 +91,17 @@ String settings ="settings";
                 }
     return false;
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
       public List<Admin> getHrList(int power){
           return (List<Admin>) adao.fetchAll("power", null);
       }      
-
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean setPassword(Admin admin, String parameter) {
         String password=new Md5PasswordEncoder().encodePassword(parameter, null);
                     admin.setPassword(password);
        return adao.updateProperty(admin);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean deleteEmployee(Admin admin) {
        return adao.deleteEntity(admin);
     }

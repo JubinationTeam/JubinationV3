@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
  
 @Service
@@ -35,6 +36,7 @@ public class AdminLoginService implements UserDetailsService {
     
  
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public UserDetails loadUserByUsername(String login)throws UsernameNotFoundException, DataAccessException {
 
 

@@ -5,25 +5,21 @@
  */
 package com.jubination.model.dao.impl;
 
+import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.crm.Client;
 import com.jubination.model.pojo.crm.Lead;
-import com.jubination.model.pojo.crm.TempClient;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,104 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Repository
-public class ClientDAO<T> implements Serializable{
+public class ClientDAO<T>  extends GenericDAOAbstract implements java.io.Serializable{
         
-        private Session session=null;
-        @Autowired
-        private SessionFactory sessionFactory;
-        
-        //Building client 
-        @Transactional(propagation = Propagation.REQUIRED)
-        public Object buildEntity(Object entity) {
-            Client client=(Client) entity;
-            session = getSessionFactory().getCurrentSession();
-            session.save(client);
-            client = (Client) session.get(Client.class, client.getClientId());
-            
-                 System.out.println("BUILD CLIENT :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-            return (T) client;
-    }
-        //building temp client
-        @Transactional(propagation = Propagation.REQUIRED)
-        public Object buildBackupEntity(Object entity) {
-       TempClient client=(TempClient) entity;
-            session = getSessionFactory().getCurrentSession();
-            session.save(client);
-            client = (TempClient) session.get(TempClient.class, client.getClientId());
        
-                 System.out.println("BUILD TEMP CLIENT:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-        return (T) client;
-    }
-       //building beneficiaries 
-        @Transactional(propagation = Propagation.REQUIRED)
-        public Object buildBeneficiaryEntity(Object entity) {
-       Beneficiaries ben=(Beneficiaries) entity;
-            session = getSessionFactory().getCurrentSession();
-            session.save(ben);
-            ben = (Beneficiaries) session.get(Beneficiaries.class, ben.getId());
-       
-                 System.out.println("BUILD BENEFICIARIES:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-        return (T) ben;
-    }
-        
-         //read temp client with lead id
-        @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
-        public List<TempClient> readBackupEntity(String leadId) {
-                 List<TempClient> list=null;
-                 System.out.println("READ TEMP CLIENT FROM LEAD ID:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                      session = getSessionFactory().getCurrentSession();
-                      Criteria criteria = session.createCriteria(TempClient.class, "client");
-                      criteria.add(Restrictions.eq("tempLeadDetails", leadId));
-                      criteria.addOrder(Order.asc("clientId"));
-                      list=criteria.list();
-                     return list;
-    }
-        //read temp clients registered on a date with a phone number
-        @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
-        public List<TempClient> readBackupEntityByNumberAndDate(String number, String date) {
-                 System.out.println("READ TEMP CLIENT TODAY WITH SAME NUMBER:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                      session = getSessionFactory().getCurrentSession();
-                      return session.createCriteria(TempClient.class).add(Restrictions.and(Restrictions.eq("phoneNumber", number),Restrictions.ilike("dateCreation",date,MatchMode.START ))) .list();
-                    
-    }
-        //read temp clients wih a lead id
-        @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
-        public List<TempClient> readBackupEntityByLeadId(String leadId) {
-                 System.out.println("READ TEMP CLIENT TODAY WITH SAME LEAD ID:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                      session = getSessionFactory().getCurrentSession();
-                      return session.createCriteria(TempClient.class).add(Restrictions.eq("tempLeadDetails", leadId)) .list();
-                    
-    }
-        //read temp client with a status
-        @Transactional(propagation = Propagation.REQUIRED)  
-        public List<TempClient> readClientWithStatus(String param) {
-                    session = getSessionFactory().getCurrentSession();
-                    Criteria criteria = session.createCriteria(TempClient.class);
-                    criteria.add(Restrictions.eq("callStatus", param));
-                     criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-                  List<TempClient>  list = criteria.list();
-                 System.out.println("READ TEMP CLIENT WITH A STATUS :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                  return list;
-                    
-    }
-         //read temp client with a status
-        @Transactional(propagation = Propagation.REQUIRED)  
-        public List<TempClient> readClientOvernight() {
-                    session = getSessionFactory().getCurrentSession();
-                    Criteria criteria = session.createCriteria(TempClient.class);
-                    criteria.add(Restrictions.eq("overnight", true));
-                     criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-                  List<TempClient>  list = criteria.list();
-                 System.out.println("READ TEMP CLIENT OVERNIGHT :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                  return list;
-                    
-    }
-        
         //  read lead and its inner elements
         @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
         public Object readInnerPropertyList(Object entity) {
        Lead lead=(Lead) entity;
-            session = getSessionFactory().getCurrentSession();
+            Session session = sessionFactory.getCurrentSession();
             lead = (Lead) session.get(Lead.class, lead.getLeadId());
             
             if(lead!=null){
@@ -152,31 +58,31 @@ public class ClientDAO<T> implements Serializable{
          List<Lead> list=null;
          if(param.equals("Lead")){
              if(type.equals("NotificationOn")){
-                    session = getSessionFactory().getCurrentSession();
+                    Session session = sessionFactory.getCurrentSession();
                     list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.isNotNull("followUpDate")).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
              }
              
               if(type.equals("Pending")){
-                  session = getSessionFactory().getCurrentSession();
+                  Session session = sessionFactory.getCurrentSession();
                     list=(List<Lead>) session.createCriteria(Lead.class).add(Restrictions.ge("count", 1)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
              }
              
          }
          else if(param.equals("Number")){
-             session = getSessionFactory().getCurrentSession();
+             Session session = sessionFactory.getCurrentSession();
             list=(List<Lead>) session.createCriteria(Lead.class).createAlias("client", "c").
                    add(Restrictions.eq("c.phoneNumber", type)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
           else if(param.equals("MissedAppointmentStatusToday")){
-             session = getSessionFactory().getCurrentSession();
+             Session session = sessionFactory.getCurrentSession();
             list=(List<Lead>) session.createCriteria(Lead.class).
                    add(Restrictions.and(Restrictions.like("missedAppointmentStatus", type,MatchMode.ANYWHERE),Restrictions.eq("appointmentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
          }
          else if(param.equals("ActiveSourceLeads")){
-             session = getSessionFactory().getCurrentSession();
+             Session session = sessionFactory.getCurrentSession();
             list=(List<Lead>) session.createCriteria(Lead.class,"l").createAlias("client", "c").
                    add(Restrictions.and(Restrictions.ge("l.count", 1),Restrictions.eq("c.source", type))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
         
@@ -197,7 +103,7 @@ public class ClientDAO<T> implements Serializable{
         @Transactional(propagation = Propagation.REQUIRED, readOnly = true)  
         public Object readEntityLists(Object entity){
         Client client=(Client) entity;
-            session = getSessionFactory().getCurrentSession();
+            Session session = sessionFactory.getCurrentSession();
             client=(Client) session.merge(client);
             client.getLead().size();
             for(Lead lead:client.getLead()){
@@ -215,7 +121,7 @@ public class ClientDAO<T> implements Serializable{
         switch(listType){
             case "Email":
                     String emailId= (String) entity;
-                      session = getSessionFactory().getCurrentSession();
+                      Session session = sessionFactory.getCurrentSession();
                       Criteria criteria = session.createCriteria(Client.class, "client");
                       criteria.add(Restrictions.eq("emailId", emailId));
                       list=criteria.list();
@@ -224,7 +130,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
                 case "City":
                     String city= (String) entity;
-                      session = getSessionFactory().getCurrentSession();
+                      session = sessionFactory.getCurrentSession();
                       criteria = session.createCriteria(Client.class, "client");
                       criteria.add(Restrictions.like("city", city, MatchMode.START));
                       list=criteria.list();
@@ -233,7 +139,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
             case "Id":
                     Long orderId= (Long) entity;
-                        session = getSessionFactory().getCurrentSession();
+                        session = sessionFactory.getCurrentSession();
                         list.add((Client) session.get(Client.class, orderId));
                        
                 
@@ -241,7 +147,7 @@ public class ClientDAO<T> implements Serializable{
                 
                  case "LeadId":
                     String leadId= (String) entity;
-                        session = getSessionFactory().getCurrentSession();
+                        session = sessionFactory.getCurrentSession();
                         criteria = session.createCriteria(Client.class, "client");
                       criteria.add(Restrictions.eq("tempLeadDetails", leadId));
                       list=criteria.list();
@@ -250,7 +156,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
             case "Number":
                     String number= (String) entity;
-                    session = getSessionFactory().getCurrentSession();
+                    session = sessionFactory.getCurrentSession();
                       criteria = session.createCriteria(Client.class);
                       criteria.add(Restrictions.like("phoneNumber", number,MatchMode.ANYWHERE));
                       list= criteria.list();
@@ -266,7 +172,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
                  case "Name":
                     String name= (String) entity;
-                      session = getSessionFactory().getCurrentSession();
+                      session = sessionFactory.getCurrentSession();
                       criteria = session.createCriteria(Client.class);
                       criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
                       list= criteria.list();
@@ -274,7 +180,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
                 case "DateCreated":
                     String dateCreated= (String) entity;
-                    session = getSessionFactory().getCurrentSession();
+                    session = sessionFactory.getCurrentSession();
                       
                       criteria = session.createCriteria(Client.class);
                       criteria.add(Restrictions.like("dateCreation", dateCreated, MatchMode.START));
@@ -283,7 +189,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
                      case "DateCreatedLeadProperty":
                     dateCreated= (String) entity;
-                    session = getSessionFactory().getCurrentSession();
+                    session = sessionFactory.getCurrentSession();
                       
                       criteria = session.createCriteria(Lead.class);
                       criteria.createAlias("client", "c").add(Restrictions.like("c.dateCreation", dateCreated, MatchMode.START));
@@ -292,7 +198,7 @@ public class ClientDAO<T> implements Serializable{
                 break;
                case "DateUpdatedFull":
                     String dateUpdated= (String) entity;
-                     session = getSessionFactory().getCurrentSession();
+                     session = sessionFactory.getCurrentSession();
                       
                       criteria = session.createCriteria(Client.class,"client");
                        criteria.createAlias("client.lead", "l");
@@ -330,7 +236,7 @@ public class ClientDAO<T> implements Serializable{
                  switch (paramVal) {
                      
                      case "PendingMinusOne":
-                                            session = getSessionFactory().getCurrentSession();
+                                            Session session = sessionFactory.getCurrentSession();
                                             Criteria criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
@@ -355,7 +261,7 @@ public class ClientDAO<T> implements Serializable{
                                             }
                          break;
                          case "PendingInProgress":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.createAlias("l.call", "call");
@@ -381,7 +287,7 @@ public class ClientDAO<T> implements Serializable{
                                             }
                          break;
                       case "PendingAndNotified":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
@@ -421,7 +327,7 @@ public class ClientDAO<T> implements Serializable{
                          break;
                     
                      case "Pending":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class, "c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
@@ -449,7 +355,7 @@ public class ClientDAO<T> implements Serializable{
                                             }
                          break;
                          case "Notified":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
@@ -484,7 +390,7 @@ public class ClientDAO<T> implements Serializable{
                                             }
                          break;
                          case "PendingAndNotifiedMA":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class,"c");
                                             criteria.createAlias("c.lead", "l");
                                             criteria.add(
@@ -512,7 +418,7 @@ public class ClientDAO<T> implements Serializable{
                                             }
                          break;
                          case "NotifiedMA":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
                                             criteria.createAlias("lead", "l");
                                              criteria.add(
@@ -542,7 +448,7 @@ public class ClientDAO<T> implements Serializable{
                          break;
                          
                          case "Overnight":
-                                            session = getSessionFactory().getCurrentSession();
+                                            session = sessionFactory.getCurrentSession();
                                             criteria = session.createCriteria(Client.class);
                                             criteria.add(Restrictions.eq("overnight", true));
                                             list = criteria.list();
@@ -570,42 +476,7 @@ public class ClientDAO<T> implements Serializable{
        
     }
     
-        //update temp client
-        @Transactional(propagation = Propagation.REQUIRED)  
-        public boolean updateBackupEntity(Object entity) {
-                    TempClient tClient = (TempClient) entity;
-                    session = getSessionFactory().getCurrentSession();
-                    tClient = (TempClient) session.merge(tClient);
-                    session.update(tClient);
-                    System.out.println("UPDATE TEMP CLIENT :::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                                    session.createCriteria(TempClient.class, "client").add(Restrictions.eq("tempLeadDetails", tClient.getTempLeadDetails())).list();
-                    return true;
-        }
-        //update client only
-        @Transactional(propagation = Propagation.REQUIRED)   
-        public  Object updateProperty(Object entity) {
-                    Client client=(Client) entity;
-                    session = getSessionFactory().getCurrentSession();
-                    client=(Client) session.merge(client);
-                    System.out.println("UPDATE CLIENT ONLY:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                                    session.createCriteria(TempClient.class, "client").add(Restrictions.eq("tempLeadDetails", client.getTempLeadDetails())).list();
-                    return client;
-        }
-        //update lead only
-        @Transactional(propagation = Propagation.REQUIRED)   
-        public boolean updatePropertyOfList(Object entity,String listType){
-                    if(listType.equals("Lead")){
-                                    Lead lead=(Lead) entity;
-                                    session = getSessionFactory().getCurrentSession();
-                                    session.merge(lead);
-                                    
-                                      System.out.println("UPDATE LEAD ONLY:::::::::::::::::::::::::::::::::::::::::::::::CHECK");
-                                    
-                                    return true;
-                    }
-                                    System.out.println("UPDATE LEAD ONLY::::::::::::::::::::::::::::::::::::::::::::::FAIL");
-                    return false;
-        }
+        
         //update inner details of lead
         @Transactional(propagation = Propagation.REQUIRED)   
         public Object updateInnerPropertyList(Object entity,Object property,String listType) {
@@ -613,7 +484,7 @@ public class ClientDAO<T> implements Serializable{
                                     Lead lead=(Lead) entity;
                                     Call call= (Call) property;
                                     Call storedCall=null;
-                                    session = getSessionFactory().getCurrentSession();
+                                    Session session = sessionFactory.getCurrentSession();
                                     lead=(Lead) session.merge(lead);
                                     storedCall=(Call) session.merge(call);
                                     if(storedCall!=null){
@@ -631,7 +502,7 @@ public class ClientDAO<T> implements Serializable{
                                     Lead lead=(Lead) entity;
                                     Beneficiaries ben= (Beneficiaries) property;
                                     Beneficiaries storedBen=null;
-                                    session = getSessionFactory().getCurrentSession();
+                                    Session session = sessionFactory.getCurrentSession();
                                     lead=(Lead) session.merge(lead);
                                     storedBen=(Beneficiaries) session.merge(ben);
                                     if(storedBen!=null){
@@ -656,7 +527,7 @@ public class ClientDAO<T> implements Serializable{
                                       Client client=(Client) entity;
                                     Lead lead=(Lead) property;
                                     Lead storedLead=null;
-                                        session = getSessionFactory().getCurrentSession();
+                                        Session session = sessionFactory.getCurrentSession();
                                         client=(Client) session.merge(client);
                                         lead.setClient(client);
                                         storedLead = (Lead) session.merge(lead);
@@ -677,9 +548,9 @@ public class ClientDAO<T> implements Serializable{
         }
      
         @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public List<Object> fetchFreshCallEntity(String fromDate,String toDate) {
+        public List<Object> fetchFreshCallEntity(String fromDate,String toDate) {
         List list=null;
-                    session = getSessionFactory().getCurrentSession();
+                    Session session = sessionFactory.getCurrentSession();
                      Criteria criteria =session.createCriteria(Client.class,"client")
                               .add(Restrictions.and(
                                       Restrictions.ge("client.dateCreation",fromDate),
@@ -698,11 +569,6 @@ public class ClientDAO<T> implements Serializable{
             System.out.println("IMPORTANT:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"+list.size());
         return list;
     }
-public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-        public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+
    
 }

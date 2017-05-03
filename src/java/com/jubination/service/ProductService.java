@@ -20,6 +20,7 @@ import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
@@ -44,7 +45,7 @@ public class ProductService {
     ProductFetcher operator;
     String settings = "settings";
     
-   
+   @Transactional(propagation = Propagation.REQUIRED)
     public List<Object> fetchAllProducts() throws IOException, ParserConfigurationException, SAXException, JAXBException{
         List<Object> list =pdao.fetchAll(null,null);
         if(list!=null&&list.size()>0){
@@ -59,35 +60,35 @@ public class ProductService {
             return list;
         }
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Products buildProducts(Products p){
         return (Products) pdao.buildEntity(p);
     }
     
     
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public AdminSettings readSettings(String settingsName){
         return (AdminSettings) asdao.readProperty(settingsName);
     }
 
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Campaigns> fetchAllCampaigns() {
         
             return (List<Campaigns>) cdao.fetchAll(null, null);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Boolean buildCampaign(Campaigns campaign){
         return cdao.buildEntity(campaign)!=null;
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Campaigns readCampaign(String name){
         return (Campaigns) cdao.readProperty(name);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Boolean updateCampaign(Campaigns camp){
         return cdao.updateProperty(camp);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public List<String> autoCompleteProducts(String productsTag) {
        List<String> listP= pdao.fetchByNative("name", productsTag, null, null,MatchMode.START);
        List<String> listC= cdao.fetchByNative("name", productsTag, null, null,MatchMode.START);

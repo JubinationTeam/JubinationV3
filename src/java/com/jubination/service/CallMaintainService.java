@@ -5,11 +5,10 @@
  */
 package com.jubination.service;
 
-import com.jubination.backend.service.sendgrid.EmailService;
+
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
 import com.jubination.model.dao.impl.ClientDAO;
 import com.jubination.model.dao.plan.GenericDAOAbstract;
-import com.jubination.model.pojo.admin.AdminSettings;
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
 import com.jubination.model.pojo.products.Campaigns;
@@ -34,6 +33,7 @@ import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,8 +45,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CallMaintainService {
     
+    @Autowired
     @Qualifier("callAPIMessageDAO")
     private GenericDAOAbstract callDao;
+    @Autowired
+    @Qualifier("tempClientDAO")
+     private GenericDAOAbstract tClientDao;
+    @Autowired
+    @Qualifier("leadDAO")
+     private GenericDAOAbstract leadDao;
+    @Autowired
+    @Qualifier("beneficiaryDAO")
+     private GenericDAOAbstract benDao;
     @Autowired
     ClientDAO clientDao;
     @Autowired
@@ -60,23 +70,21 @@ public class CallMaintainService {
      @Autowired
     AdminMaintainService adminService;
      
-     String errorFlag="NA";
     
     private final  String excelOutputDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\web\\admin\\";
     
     private final  String excelOutputBuildDirectory="C:\\Users\\Administrator\\Documents\\NetBeansProjects\\JubinationV3\\build\\web\\admin\\";
   
-    private final String settings="settings";
-
     
  
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean addClientAndUnmarkBackupClient(Client client, Lead lead, Call call){
      if(addClientCall(client,lead,call)){
          return unmarkBackupClient(client);
      }
      return false;
  }
- 
+@Transactional(propagation = Propagation.REQUIRED) 
     public boolean addClientCall(Client client,Lead lead,Call message){
      List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
      
@@ -181,7 +189,7 @@ public class CallMaintainService {
             
        return false;
  }
- 
+@Transactional(propagation = Propagation.REQUIRED) 
     public boolean updateTemporaryClient(Client client,Lead lead) {
       List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
          Client storedClient=null;
@@ -252,15 +260,15 @@ public class CallMaintainService {
                  }
             return false;
     }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public List<Client> getClientDump(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
  }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public List<Client> getClientDumpForDisplay(String date){
     return (List<Client>) clientDao.getByProperty(date,"DateCreated");
  }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public TempClient buildBackupClient(Client client){
            
             String beneficiaries="";
@@ -356,23 +364,23 @@ public class CallMaintainService {
             else{
                              tempClient.setCallStatus("duplicate");
             }
-        return (TempClient) clientDao.buildBackupEntity(tempClient);
+        return (TempClient) tClientDao.buildEntity(tempClient);
        }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public void startCalling(Client client){
       
                             operator.getClients().offer(client);
                             operator.setFreshFlag(true);  
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
      public void startAutomatedCalling(Client client){
       
                             operator.getClientsAutomated().offer(client);
                             operator.setAutomatedFreshFlag(true);  
     }
-     
+@Transactional(propagation = Propagation.REQUIRED)     
     public TempClient readBackupClient(String leadId){
-       List<TempClient> list=clientDao.readBackupEntity(leadId);
+       List<TempClient> list=tClientDao.fetchByNative("tempLeadDetails",leadId,null,null,MatchMode.EXACT);
        if(list!=null){
            if(list.size()>0){
                return list.get(0);
@@ -380,30 +388,28 @@ public class CallMaintainService {
        }
        return new TempClient();
    }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public boolean updateBackupClient(TempClient client){
-       return clientDao.updateBackupEntity(client);
+       return tClientDao.updateProperty(client);
      
    }
-    
-     
-      
+@Transactional(propagation = Propagation.REQUIRED)    
        public boolean updateOvernightClient(String leadId){
-          List<TempClient> list= (List<TempClient>) clientDao.readBackupEntity(leadId);
+          List<TempClient> list= (List<TempClient>) tClientDao.fetchByNative("tempLeadDetails",leadId,null,null,MatchMode.EXACT);
           if(list!=null&&list.size()>0){
               TempClient client=list.get(0);
               client.setOvernight(true);
-                return clientDao.updateBackupEntity(client);
+               return tClientDao.updateProperty(client);
           }
                   
            return false;       
      
      
    }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public Boolean checkIfClientPresent(String number,String date, String leadId){
-       List<TempClient> list=clientDao.readBackupEntityByNumberAndDate(number,date);
-       List<TempClient> list2=clientDao.readBackupEntityByLeadId(leadId);
+       List<TempClient> list=tClientDao.fetchByNativeFilterByTwo("dateCreation", date, MatchMode.EXACT, "phoneNumber", number, MatchMode.EXACT);
+       List<TempClient> list2= tClientDao.fetchByNative("tempLeadDetails",leadId,null,null,MatchMode.EXACT);
        if(list!=null){
             if(list2!=null){
                  list.addAll(list2);
@@ -416,15 +422,15 @@ public class CallMaintainService {
        }
        return false;
    }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public boolean unmarkBackupClient(Client client){
        TempClient tempClient=readBackupClient(client.getTempLeadDetails());
        tempClient.setCallStatus(null);
        return updateBackupClient(tempClient);
    }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
     public List<Client> getMarkedClients(){
-        List<TempClient> tempClientList = clientDao.readClientWithStatus("pending");
+        List<TempClient> tempClientList =  tClientDao.fetchByNative("leadStatus","pending",null,null,MatchMode.ANYWHERE);
         List<Client> clientList = new ArrayList<>();
         for(TempClient tempClient:tempClientList){
             Client client = new Client(tempClient.getName(), tempClient.getCampaignName(), tempClient.getAge(), tempClient.getGender(), tempClient.getEmailId(), tempClient.getPhoneNumber(), tempClient.getAddress(), tempClient.getCity(), tempClient.getPincode(), tempClient.getDateCreation(), tempClient.getDateUpdated(), false, tempClient.getTempLeadDetails(), tempClient.getIpAddress(), tempClient.getInitialComments(),tempClient.getSource());
@@ -489,9 +495,9 @@ public class CallMaintainService {
         }
         return clientList;
    }
-   
+@Transactional(propagation = Propagation.REQUIRED)   
      public List<Client> getOvernightClients(){
-        List<TempClient> tempClientList = clientDao.readClientOvernight();
+        List<TempClient> tempClientList = clientDao.fetchByNative("leadStatus","pending",null,null,MatchMode.ANYWHERE);
         List<Client> clientList = new ArrayList<>();
         for(TempClient tempClient:tempClientList){
             Client client = new Client(tempClient.getName(), tempClient.getCampaignName(), tempClient.getAge(), tempClient.getGender(), tempClient.getEmailId(), tempClient.getPhoneNumber(), tempClient.getAddress(), tempClient.getCity(), tempClient.getPincode(), tempClient.getDateCreation(), tempClient.getDateUpdated(), false, tempClient.getTempLeadDetails(), tempClient.getIpAddress(), tempClient.getInitialComments(),tempClient.getSource());
@@ -556,15 +562,15 @@ public class CallMaintainService {
         }
         return clientList;
    }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public Client getClientDetailsWithList(Client client){
        return (Client) clientDao.readEntityLists(client);
    }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public Client addClient(Client client){
         return (Client) clientDao.buildEntity(client);
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public boolean addMissedAppointment(ReportStatus rStatus){
                 Lead lead=new Lead();
                 lead.setLeadId(rStatus.getLeadId());
@@ -587,7 +593,7 @@ public class CallMaintainService {
                 }
                 return rDao.buildEntity(rStatus)!=null;
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public boolean addTodaysMissedAppointment(){
                List<Lead> leads= (List<Lead>) clientDao.fetchInnerEntities("MissedAppointmentStatusToday", "YET TO ASSIGN");
                for(Lead lead:leads){
@@ -600,33 +606,34 @@ public class CallMaintainService {
                }
                return true;
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public boolean updateClientOnly(Client client) {
-            return clientDao.updateProperty(client)!=null;
+            return clientDao.updateProperty(client);
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public boolean updateLeadOfClient(Client client,Lead lead) {
             return clientDao.updatePropertyList(client,lead,"AddLead");
     }
-    
+@Transactional(propagation = Propagation.REQUIRED)    
     public List<Lead> readLeadsBySource(String source){
          return (List<Lead>) clientDao.fetchInnerEntities("ActiveSourceLeads",source);
      }
-     
+@Transactional(propagation = Propagation.REQUIRED)     
     public Lead readLead(Lead lead) {
             return (Lead) clientDao.readInnerPropertyList(lead);
     }
-     public Lead readLead(String leadId) {
+@Transactional(propagation = Propagation.REQUIRED)
+    public Lead readLead(String leadId) {
             return (Lead) clientDao.readInnerPropertyList(new Lead(leadId));
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean updateLeadOnly(Lead lead) {
         boolean saved=false;
          int  i=0;
                 while(!saved&&i<10){
                     try{
                         System.out.println("Trying to save lead for "+i+"th time ");
-                        saved=clientDao.updatePropertyOfList(lead,"Lead");
+                        saved=leadDao.updateProperty(lead);
                      
                     }
                     catch(Exception e){
@@ -638,100 +645,100 @@ public class CallMaintainService {
                 }
             return saved;
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Lead updateSavedCallOfLead(Lead lead,Call call) {
             return (Lead) clientDao.updateInnerPropertyList(lead,call,"Call");
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Lead updateSavedBenOfLead(Lead lead,Beneficiaries ben) {
             return (Lead) clientDao.updateInnerPropertyList(lead,ben,"Beneficiaries");
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByEmailId(String email){
         return (List<Client>) clientDao.getByProperty(email, "Email");
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByPhoneNumber(String number){
         return (List<Client>) clientDao.getByProperty(number, "Number");
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByName(String name){
         return (List<Client>) clientDao.getByProperty(name, "Name");
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByDateCreated(String date){
         return (List<Client>) clientDao.getByProperty(date, "DateCreated");
     }   
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByDateUpdated(String date){
         return (List<Client>) clientDao.getByProperty(date, "DateCreated");
     }  
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByCity(String city){
         return (List<Client>) clientDao.getByProperty(city, "City");
     }  
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsById(long id){
         return (List<Client>) clientDao.getByProperty(id, "Id");
     }  
-    
+    @Transactional(propagation = Propagation.REQUIRED)
      public List<Client> getClientsByLeadId(String id){
         return (List<Client>) clientDao.getByProperty(id, "LeadId");
     } 
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
         
         return (List<Client>)clientDao.fetchEntities(param);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getAllTemporaryClients() {
         return (List<Client>)clientDao.fetchEntities("Overnight");
     }
-             
+    @Transactional(propagation = Propagation.REQUIRED)         
     public Call addCallAPIMessage(Call call){
         return (Call) callDao.buildEntity(call);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public Beneficiaries addBeneficiaries(Beneficiaries ben){
-        return (Beneficiaries) clientDao.buildBeneficiaryEntity(ben);
+        return (Beneficiaries) benDao.buildEntity(ben);
     }
-     
+    @Transactional(propagation = Propagation.REQUIRED) 
     public List<Call> getCallBySid(String sid){
        return (List<Call>) callDao.fetchByNative( "Sid",sid,null,null,MatchMode.EXACT);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public List<Call> getAllCallRecordsByDate(String date) {
         
         return (List<Call>) callDao.fetchByNative("DateCreated",date,null,null,MatchMode.EXACT);
     }
-      
+    @Transactional(propagation = Propagation.REQUIRED)  
     public Call getCallRecordBySid(String sid) {
         return ((List<Call>) callDao.fetchByNative("Sid",sid,null,null,MatchMode.EXACT)).get(0);
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean updateCallAPIMessage(Call call) {
             return callDao.updateProperty(call);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public void buildCallAPIMessage(Call call){
             callDao.buildEntity(call);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Object getPendingCallOnDate(String date) {
         
       return (List<Call>) callDao.fetchByNative("PendingOnDate",date,null,null,MatchMode.EXACT);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Lead> readNotifiedLead() {
         List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Lead","Pending");
         return list;
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public List<Lead> getDuplicateLeads(String number) {
         List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Number",number);
         return list;
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public Lead getClientDetails(String leadId) {
         Lead lead=new Lead();
         lead.setLeadId(leadId);
@@ -740,11 +747,11 @@ public class CallMaintainService {
         return lead;
        // return readBackupClient(leadId);
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Lead> getLeadDumpForDisplay(String date){
     return (List<Lead>) clientDao.getByProperty(date,"DateCreatedLeadProperty");
  }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean createCallExcel(List<Call> list){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
@@ -832,7 +839,7 @@ public class CallMaintainService {
                 }
                 return flag;	
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public boolean createClientExcel(String date){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
@@ -899,7 +906,7 @@ public class CallMaintainService {
                 }
                 return flag;	
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public Map<String, Object[]> doReportingOperation(List<Client> list){
         
                                         
@@ -1105,7 +1112,7 @@ public class CallMaintainService {
                                         }
                                         return data;
     }
-    
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean createClientExcelAllLead(String date){
         FileOutputStream out=null;
         HSSFWorkbook workbook =null;
@@ -1386,35 +1393,11 @@ public class CallMaintainService {
                 }
                 return flag;	
     }
-
+@Transactional(propagation = Propagation.REQUIRED)
     public void checkFollowUp() {
         operator.followUpCustomerManual();
     }
-     private void sendEmailFollowupUpdate(String email,String content){
-           AdminSettings adminSettings = adminService.readSettings(settings);
-            new EmailService(email,"Follow up started",
-                                          "Hi,<br/>" +
-                                                "<br/>" +
-                                                "I am call Bot!<br/>" +
-                                                "<br/>" +
-                                                "Follow u  has started" +
-                                                "<br/>" +
-                                                "<br/>" +
-                                                content+
-                                                "<br/>" +
-                                                "<br/>" +
-                                                "Regards,<br/>" + 
-                                                "Call Bot ",adminSettings.getMyUsername(),adminSettings.getMyPassword(),adminSettings.getAuth(),adminSettings.getStarttls(),adminSettings.getHost(),adminSettings.getPort(),adminSettings.getSendgridApi()).start();
-     }
-
-    public String getErrorFlag() {
-        return errorFlag;
-    }
-
-    public void setErrorFlag(String errorFlag) {
-        this.errorFlag = errorFlag;
-    }
-
+    
    
     
 }

@@ -24,6 +24,7 @@ public interface CrudPropertyConditionListDAOInterface<T,K,M,N> {
      public void setMyType(N type) ;
      public N getMyType();
      public List<T> fetchByNativeMax(String type);
+      public List<T> fetchByNativeFilterByTwo(String type1, K property1,MatchMode m1 , String type2, K property2,MatchMode m2);
       public Long countByNativeFilterByTwo(String type1, K property1,MatchMode m1 , String type2, K property2,MatchMode m2);
       public Long countByNativeRange(String type,K fromValue, K toValue);
       public Long countByNative(String type, K property,MatchMode m);
