@@ -56,9 +56,9 @@ public class Updater {
                          lead.getClient().setLead(null);
                     }
                     else{
-                       List<Client> clients= service.getClientsByLeadId(lead.getLeadId());
-                       if(clients!=null&&clients.size()>0){
-                           lead.setClient(clients.get(0));
+                      Client client = service.getClientsByLeadId(lead.getLeadId());
+                       if(client!=null){
+                           lead.setClient(client);
                        }
                     }
                     

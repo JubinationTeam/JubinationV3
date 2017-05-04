@@ -7,7 +7,6 @@ package com.jubination.service;
 
 
 import com.jubination.backend.service.core.leadcall.parallel.master.CallScheduler;
-import com.jubination.model.dao.impl.ClientDAO;
 import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.crm.Beneficiaries;
 import com.jubination.model.pojo.exotel.Call;
@@ -57,8 +56,9 @@ public class CallMaintainService {
     @Autowired
     @Qualifier("beneficiaryDAO")
      private GenericDAOAbstract benDao;
-    @Autowired
-    ClientDAO clientDao;
+   @Autowired
+    @Qualifier("clientDAO")
+     private GenericDAOAbstract clientDao;
     @Autowired
     @Qualifier("campaignsDAO")
     private GenericDAOAbstract cDao;
@@ -87,7 +87,6 @@ public class CallMaintainService {
 @Transactional(propagation = Propagation.REQUIRED) 
     public boolean addClientCall(Client client,Lead lead,Call message){
      List<Client> storedClientList=getClientsByEmailId(client.getEmailId());
-     
     Client storedClient=null;
         if(storedClientList!=null&&!storedClientList.isEmpty()){
              storedClient=(Client) getClientsByEmailId(client.getEmailId()).get(0);
@@ -104,7 +103,7 @@ public class CallMaintainService {
                      client.setClientId(storedClient.getClientId());
                     
                             if(client.getAddress()==null&&storedClient.getAddress()!=null){
-                                client.setAddress(storedClient.getAddress());
+                                     client.setAddress(storedClient.getAddress());
                             }
                    
             }
@@ -113,74 +112,51 @@ public class CallMaintainService {
                 if(lead.getLeadId()==null||lead.getLeadId().isEmpty()){
                     lead.setLeadId(client.getTempLeadDetails());
                 }
-                 Lead storedLead=(Lead)clientDao.readInnerPropertyList(lead);
+                 Lead storedLead=(Lead)leadDao.readPropertyEagerly(lead.getLeadId());
                  if(storedLead==null){
                             System.out.println("Lead not present");
                            if(lead.getBeneficiaries()!=null&&lead.getBeneficiaries().size()>0){
-                                  
+                                  addCallAPIMessage(message);
+                                    message=(Call) callDao.readProperty(message.getOrderId());
+                                   List<Beneficiaries> bens= lead.getBeneficiaries();
+                                           lead = (Lead) leadDao.readPropertyEagerly(lead.getLeadId());
                                             //if ben<10 add bens
-                                            int count=9-lead.getBeneficiaries().size();
+                                            int count=9-bens.size();
                                             while(count>=0){
-                                                lead.getBeneficiaries().add(new Beneficiaries());
+                                                bens.add(new Beneficiaries());
                                                 count--;
                                             }
-                                            List<Beneficiaries> benList=lead.getBeneficiaries();
-                                            
-                                            
-//                                            lead.setClient(null);
-//                                            client.setLead(new ArrayList<Lead>());
-                                            
-                                            lead.setBeneficiaries(new ArrayList<Beneficiaries>());
-                                            
-                                           if(updateLeadOfClient(client, lead)){
-                                                for(Beneficiaries ben:benList){
-                                                            ben.setLead(null);
-                                                            if(addBeneficiaries(ben)!=null){
-                                                                 if(updateSavedBenOfLead(lead, ben)!=null){
-                                                                     lead=(Lead)clientDao.readInnerPropertyList(lead);
-                                                                      System.out.println(lead.getBeneficiaries().size()+"::::::::::::::::::::::::::::::::::::::::::::::::::::::IS MY BEN SIZE YO");
-
-                                                                 }
-                                                             }
-                                                    }
-                                                
-                                                    if(addCallAPIMessage(message)!=null){
-                                                          if(updateSavedCallOfLead(lead, message)!=null){
-                                                              lead=(Lead)clientDao.readInnerPropertyList(lead);
-                                                               System.out.println(lead.getBeneficiaries().size()+"::::::::::::::::::::::::::::::::::::::::::::::::::::::MSGIS MY BEN SIZE YO");
-                                                               
-                                                              client.getLead().add(lead);
-                                                              return lead!=null;
-                                                          }
-                                                      }
-                                            
+                                            for(Beneficiaries ben:bens){
+                                                ben.setLead(lead);
+                                                ben=(Beneficiaries) benDao.buildEntity(ben);
                                             }
-
+                                            lead.setBeneficiaries(bens);
+                                            lead.getCall().add(message);
+                                            leadDao.updateProperty(lead);
                          
                            }
                            else{
                                     System.out.println("Lead not present legacy");
-                                    if(updateLeadOfClient(client, lead)){
-                                        if(addCallAPIMessage(message)!=null){
-                                             if(updateSavedCallOfLead(lead, message)!=null){
-                                                 lead=(Lead)clientDao.readInnerPropertyList(lead);
-                                                 return lead!=null;
-                                             }
-                                         }
-                                    }
+                                    addCallAPIMessage(message); 
+                                    message=(Call) callDao.readProperty(message.getOrderId());
+                                    lead.getCall().add(message);
+                                    leadDao.updateProperty(lead);
+                                    lead= (Lead) leadDao.readPropertyEagerly(lead.getLeadId());
+                                   client = (Client) clientDao.readPropertyEagerly(client.getClientId());
+                                   client.getLead().add(lead);
+                                   clientDao.updateProperty(client);
                         }
                          
                  }
                  else{
                            System.out.println("Lead present");
-                            if(updateLeadOfClient(client, lead)){
-                           if(addCallAPIMessage(message)!=null){
-                                if(updateSavedCallOfLead(lead, message)!=null){
-                                    lead=(Lead)clientDao.readInnerPropertyList(lead);
-                                    return lead!=null;
-                                }
-                            }
-                       }
+                            addCallAPIMessage(message); 
+                            lead.getCall().add(message);
+                            leadDao.updateProperty(lead);
+                            lead= (Lead) leadDao.readPropertyEagerly(lead.getLeadId());
+                           client = (Client) clientDao.readPropertyEagerly(client.getClientId());
+                           client.getLead().add(lead);
+                           clientDao.updateProperty(client);
                  }
                  
                    
@@ -208,65 +184,46 @@ public class CallMaintainService {
                      }
                      
             }
-            
              //if new lead
-                 Lead storedLead=(Lead)clientDao.readInnerPropertyList(lead);
+                 Lead storedLead=(Lead)(Lead)leadDao.readPropertyEagerly(lead.getLeadId());
                  if(storedLead==null){
                             System.out.println("Lead not present");
                            if(lead.getBeneficiaries()!=null&&lead.getBeneficiaries().size()>0){
-                                  
+                                            List<Beneficiaries> bens= lead.getBeneficiaries();
+                                           lead = (Lead) leadDao.readPropertyEagerly(lead.getLeadId());
                                             //if ben<10 add bens
-                                            int count=9-lead.getBeneficiaries().size();
+                                            int count=9-bens.size();
                                             while(count>=0){
-                                                lead.getBeneficiaries().add(new Beneficiaries());
+                                                bens.add(new Beneficiaries());
                                                 count--;
                                             }
-                                            List<Beneficiaries> benList=lead.getBeneficiaries();
-                                            
-                                            
-//                                            lead.setClient(null);
-//                                            client.setLead(new ArrayList<Lead>());
-                                            
-                                            lead.setBeneficiaries(new ArrayList<Beneficiaries>());
-                                            
-                                           if(updateLeadOfClient(client, lead)){
-                                                for(Beneficiaries ben:benList){
-                                                            ben.setLead(null);
-                                                            if(addBeneficiaries(ben)!=null){
-                                                                 if(updateSavedBenOfLead(lead, ben)!=null){
-                                                                     lead=(Lead)clientDao.readInnerPropertyList(lead);
-                                                                      System.out.println(lead.getBeneficiaries().size()+"::::::::::::::::::::::::::::::::::::::::::::::::::::::IS MY BEN SIZE YO");
-
-                                                                 }
-                                                             }
-                                                    }
+                                            for(Beneficiaries ben:bens){
+                                                ben.setLead(lead);
+                                                ben=(Beneficiaries) benDao.buildEntity(ben);
                                             }
+                                            lead.setBeneficiaries(bens);
+                                            leadDao.updateProperty(lead);
 
-                         
                            }
                             else{
                                     System.out.println("Lead not present legacy");
-                                    if(updateLeadOfClient(client, lead)){
-                                            return true;
-                                    }
+                                    client = (Client) clientDao.readPropertyEagerly(client.getClientId());
+                                    client.getLead().add(lead);
+                                    clientDao.updateProperty(client);
                         }
                          
                  }
                  else{
                            System.out.println("Lead present");
-                            if(updateLeadOfClient(client, lead)){
-                                return true;
-                            }
+                           client = (Client) clientDao.readPropertyEagerly(client.getClientId());
+                           client.getLead().add(lead);
+                           clientDao.updateProperty(client);
                  }
             return false;
     }
-@Transactional(propagation = Propagation.REQUIRED)   
-    public List<Client> getClientDump(String date){
-    return (List<Client>) clientDao.getByProperty(date,"DateUpdatedFull");
- }
 @Transactional(propagation = Propagation.REQUIRED)    
     public List<Client> getClientDumpForDisplay(String date){
-    return (List<Client>) clientDao.getByProperty(date,"DateCreated");
+    return (List<Client>) clientDao.fetchByNative("dateCreation", date,null,null, MatchMode.START);
  }
 @Transactional(propagation = Propagation.REQUIRED)    
     public TempClient buildBackupClient(Client client){
@@ -564,7 +521,11 @@ public class CallMaintainService {
    }
 @Transactional(propagation = Propagation.REQUIRED)    
     public Client getClientDetailsWithList(Client client){
-       return (Client) clientDao.readEntityLists(client);
+       client= (Client) clientDao.readPropertyEagerly(client.getClientId());
+       for(Lead lead:client.getLead()){
+           lead=(Lead) leadDao.readPropertyEagerly(lead.getLeadId());
+       }
+       return client;
    }
 @Transactional(propagation = Propagation.REQUIRED)    
     public Client addClient(Client client){
@@ -593,38 +554,31 @@ public class CallMaintainService {
                 }
                 return rDao.buildEntity(rStatus)!=null;
     }
-@Transactional(propagation = Propagation.REQUIRED)    
-    public boolean addTodaysMissedAppointment(){
-               List<Lead> leads= (List<Lead>) clientDao.fetchInnerEntities("MissedAppointmentStatusToday", "YET TO ASSIGN");
-               for(Lead lead:leads){
-                        lead.setMissedAppointment(true);
-                        lead.setMissedAppointmentStatus("Missed Appointment on "+new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                        if(lead.getCount()<1){
-                                lead.setCount(operator.getCount());
-                        }
-                        updateLeadOnly(lead);
-               }
-               return true;
-    }
+//@Transactional(propagation = Propagation.REQUIRED)    
+//    public boolean addTodaysMissedAppointment(){
+//               List<Lead> leads= (List<Lead>) clientDao.fetchInnerEntities("MissedAppointmentStatusToday", "YET TO ASSIGN");
+//               for(Lead lead:leads){
+//                        lead.setMissedAppointment(true);
+//                        lead.setMissedAppointmentStatus("Missed Appointment on "+new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                        if(lead.getCount()<1){
+//                                lead.setCount(operator.getCount());
+//                        }
+//                        updateLeadOnly(lead);
+//               }
+//               return true;
+//    }
 @Transactional(propagation = Propagation.REQUIRED)    
     public boolean updateClientOnly(Client client) {
             return clientDao.updateProperty(client);
     }
-@Transactional(propagation = Propagation.REQUIRED)    
-    public boolean updateLeadOfClient(Client client,Lead lead) {
-            return clientDao.updatePropertyList(client,lead,"AddLead");
-    }
-@Transactional(propagation = Propagation.REQUIRED)    
-    public List<Lead> readLeadsBySource(String source){
-         return (List<Lead>) clientDao.fetchInnerEntities("ActiveSourceLeads",source);
-     }
+
 @Transactional(propagation = Propagation.REQUIRED)     
     public Lead readLead(Lead lead) {
-            return (Lead) clientDao.readInnerPropertyList(lead);
+            return (Lead) leadDao.readPropertyEagerly(lead.getLeadId());
     }
 @Transactional(propagation = Propagation.REQUIRED)
     public Lead readLead(String leadId) {
-            return (Lead) clientDao.readInnerPropertyList(new Lead(leadId));
+            return (Lead) leadDao.readPropertyEagerly(leadId);
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean updateLeadOnly(Lead lead) {
@@ -645,55 +599,37 @@ public class CallMaintainService {
                 }
             return saved;
     }
-    @Transactional(propagation = Propagation.REQUIRED)
-    public Lead updateSavedCallOfLead(Lead lead,Call call) {
-            return (Lead) clientDao.updateInnerPropertyList(lead,call,"Call");
-    }
-    @Transactional(propagation = Propagation.REQUIRED)
-    public Lead updateSavedBenOfLead(Lead lead,Beneficiaries ben) {
-            return (Lead) clientDao.updateInnerPropertyList(lead,ben,"Beneficiaries");
-    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByEmailId(String email){
-        return (List<Client>) clientDao.getByProperty(email, "Email");
+        return (List<Client>) clientDao.fetchByNative("emailId", email,null,null, MatchMode.EXACT);
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByPhoneNumber(String number){
-        return (List<Client>) clientDao.getByProperty(number, "Number");
+        return (List<Client>) clientDao.fetchByNative("phoneNumber", number,null,null, MatchMode.ANYWHERE);
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByName(String name){
-        return (List<Client>) clientDao.getByProperty(name, "Name");
+        return (List<Client>)  clientDao.fetchByNative("name", name,null,null, MatchMode.ANYWHERE);
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Client> getClientsByDateCreated(String date){
-        return (List<Client>) clientDao.getByProperty(date, "DateCreated");
+        return (List<Client>)  clientDao.fetchByNative("dateCreation", date,null,null, MatchMode.ANYWHERE);
     }   
+ 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Client> getClientsByDateUpdated(String date){
-        return (List<Client>) clientDao.getByProperty(date, "DateCreated");
+    public List<Client> getClientsById(Long id){
+        return (List<Client>) clientDao.readProperty(id);
     }  
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Client> getClientsByCity(String city){
-        return (List<Client>) clientDao.getByProperty(city, "City");
-    }  
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<Client> getClientsById(long id){
-        return (List<Client>) clientDao.getByProperty(id, "Id");
-    }  
-    @Transactional(propagation = Propagation.REQUIRED)
-     public List<Client> getClientsByLeadId(String id){
-        return (List<Client>) clientDao.getByProperty(id, "LeadId");
+     public Client getClientsByLeadId(String id){
+        Lead lead = (Lead) leadDao.readProperty(id);
+        return lead.getClient();
     } 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
-        
-        return (List<Client>)clientDao.fetchEntities(param);
-    }
-@Transactional(propagation = Propagation.REQUIRED)
-    public List<Client> getAllTemporaryClients() {
-        return (List<Client>)clientDao.fetchEntities("Overnight");
-    }
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public List<Client> getPendingCallsWithNotificationAndRecentLead(String param) {
+//        return (List<Client>)clientDao.fetchEntities(param);
+//    }
     @Transactional(propagation = Propagation.REQUIRED)         
     public Call addCallAPIMessage(Call call){
         return (Call) callDao.buildEntity(call);
@@ -730,14 +666,15 @@ public class CallMaintainService {
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Lead> readNotifiedLead() {
-        List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Lead","Pending");
+        List<Lead> list = (List<Lead>) leadDao.fetchByNativeFilterByGreaterThanOrEqual("count", "1");
+        
         return list;
     }
-@Transactional(propagation = Propagation.REQUIRED)
-    public List<Lead> getDuplicateLeads(String number) {
-        List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Number",number);
-        return list;
-    }
+//@Transactional(propagation = Propagation.REQUIRED)
+//    public List<Lead> getDuplicateLeads(String number) {
+//        List<Lead> list = (List<Lead>) clientDao.fetchInnerEntities("Number",number);
+//        return list;
+//    }
     @Transactional(propagation = Propagation.REQUIRED)
     public Lead getClientDetails(String leadId) {
         Lead lead=new Lead();
@@ -749,7 +686,7 @@ public class CallMaintainService {
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Lead> getLeadDumpForDisplay(String date){
-    return (List<Lead>) clientDao.getByProperty(date,"DateCreatedLeadProperty");
+    return (List<Lead>) leadDao.fetchByInnerNative("client", "dateCreation", date, MatchMode.START);
  }
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean createCallExcel(List<Call> list){
@@ -1396,6 +1333,10 @@ public class CallMaintainService {
 @Transactional(propagation = Propagation.REQUIRED)
     public void checkFollowUp() {
         operator.followUpCustomerManual();
+    }
+
+    public List<Lead> readLeadsBySource(String parameter) {
+        return leadDao.fetchByNative("source", parameter, null, null, MatchMode.EXACT);
     }
     
    

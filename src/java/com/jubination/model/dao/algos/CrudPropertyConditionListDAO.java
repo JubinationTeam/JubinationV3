@@ -5,16 +5,22 @@
  */
 package com.jubination.model.dao.algos;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.EntityMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.type.Type;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -129,6 +135,64 @@ public class CrudPropertyConditionListDAO<T,K> implements CrudPropertyConditionL
                     .add(Restrictions.ilike(type2, (String) property2, m2))
                     .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
     }
+
+    @Override
+    public List<Object> fetchByNativeRange(String type, Object fromValue, Object toValue) {
+        Session session = sessionFactory.getCurrentSession();
+                     Criteria criteria = session.createCriteria(getMyType());
+                      criteria.setReadOnly(true);
+                             criteria.add(
+                              Restrictions.and(
+                                      Restrictions.ge(type,fromValue),
+                                      Restrictions.le(type,toValue)
+                                              
+                              )
+                      );
+                      return criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+    }
+
+    @Override
+    public List<Object> executeDetachedCriteria(DetachedCriteria dc) {
+        Session session = sessionFactory.getCurrentSession();
+        return dc.getExecutableCriteria(session).list();
+    }
+
+    @Override
+    public Object readPropertyEagerly(Object paramId) {
+        
+            Session session = getOperator().getCurrentSession();
+            Object obj =   session.get(getMyType(), (Serializable) paramId);
+            ClassMetadata classMetadata=session.getSessionFactory().getClassMetadata(getClass());
+                for(Object objInner:classMetadata.getPropertyValues((T)obj)){
+                   if(objInner instanceof List){
+                       List list=(List) objInner;
+                       list.size();
+                   }
+                }
+            return (T)obj;
+    }
+
+    @Override
+    public List<Object> fetchByNativeFilterByGreaterThanOrEqual(String type, Object property) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(getMyType()).add(Restrictions.ge(type, property)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+        
+    }
+
+    @Override
+    public List<Object> fetchByNativeFilterByLessThanOrEqual(String type, Object property) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(getMyType()).add(Restrictions.le(type, property)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+        
+    }
+
+    @Override
+    public List<Object> fetchByInnerNative(String type,String innerType, Object innerProperty,MatchMode m) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(getMyType()).createAlias(type, "innerVal").add(Restrictions.like("innerVal."+innerType, (String) innerProperty, m)).list();
+    }
+
+    
    
    
 

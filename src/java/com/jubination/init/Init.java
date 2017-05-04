@@ -24,7 +24,6 @@ public class Init {
          Md5PasswordEncoder encoder = new Md5PasswordEncoder();
             admin.setPassword(encoder.encodePassword(admin.getPassword(), null));
         adao.buildInitEntity(admin,HibernateUtil.getSessionFactory());
-          
 
         System.err.println("Constructed:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         

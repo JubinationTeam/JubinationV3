@@ -6,6 +6,7 @@
 package com.jubination.model.dao.algos;
 
 import java.util.List;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +24,14 @@ public interface CrudPropertyConditionListDAOInterface<T,K,M,N> {
     public M getOperator();
      public void setMyType(N type) ;
      public N getMyType();
+     public T readPropertyEagerly(K paramId);
      public List<T> fetchByNativeMax(String type);
+      public List<T> fetchByInnerNative(String type,String innerType, K innerProperty,MatchMode m);
+     public List<T> fetchByNativeFilterByGreaterThanOrEqual(String type, K property);
+     public List<T> fetchByNativeFilterByLessThanOrEqual(String type, K property);
       public List<T> fetchByNativeFilterByTwo(String type1, K property1,MatchMode m1 , String type2, K property2,MatchMode m2);
+      public List<T> fetchByNativeRange(String type,K fromValue, K toValue);
+      public List<T> executeDetachedCriteria(DetachedCriteria dc);
       public Long countByNativeFilterByTwo(String type1, K property1,MatchMode m1 , String type2, K property2,MatchMode m2);
       public Long countByNativeRange(String type,K fromValue, K toValue);
       public Long countByNative(String type, K property,MatchMode m);

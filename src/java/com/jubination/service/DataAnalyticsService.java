@@ -6,7 +6,6 @@
 package com.jubination.service;
 import com.jubination.backend.service.sendgrid.EmailService;
 import com.jubination.model.dao.impl.CallAPIMessageDAO;
-import com.jubination.model.dao.impl.ClientDAO;
 import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.dao.plan.GenericDAOAbstract;
 import com.jubination.model.pojo.admin.AdminSettings;
@@ -41,8 +40,9 @@ public class DataAnalyticsService {
      @Autowired
     @Qualifier("callAPIMessageDAO")
      private GenericDAOAbstract callDao;
-          @Autowired
- private ClientDAO clientDao;
+         @Autowired
+    @Qualifier("clientDAO")
+     private GenericDAOAbstract clientDao;
              @Autowired
     private AdminMaintainService adminService;
            
@@ -189,7 +189,7 @@ public class DataAnalyticsService {
                daCustom.setOthers(others);
                daDao.buildEntity(daCustom);
 
-               Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(fromDate, toDate));
+               Map<String, Long> counts=doReportingOperationSize(clientDao.fetchByNativeRange("dateCreation",fromDate, toDate));
 
 
                //CallBack
@@ -596,8 +596,7 @@ public class DataAnalyticsService {
         else{
             tillDate=date+" 23:30:00";
         }
-        
-        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchFreshCallEntity("2016-12-01 00:00:00", date));
+        Map<String, Long> counts=doReportingOperationSize(clientDao.fetchByNativeRange("dateCreation","2016-12-01 00:00:00", date));
                 long total=8766+counts.get(freshTotal);
                 long spoke=2605+counts.get(freshSpoke);
                 long book=2330+counts.get(booked);
@@ -609,7 +608,7 @@ public class DataAnalyticsService {
                 float bookToSpokeRatio = (book*100)/spoke;
                 float bookRatio=(book*100)/total;
                 
-                counts=doReportingOperationSize(clientDao.fetchFreshCallEntity(date, tillDate));
+                counts=doReportingOperationSize(clientDao.fetchByNativeRange("dateCreation",date, tillDate));
                 total=counts.get(freshTotal);
                 spoke=counts.get(freshSpoke);
                 book=counts.get(booked);
